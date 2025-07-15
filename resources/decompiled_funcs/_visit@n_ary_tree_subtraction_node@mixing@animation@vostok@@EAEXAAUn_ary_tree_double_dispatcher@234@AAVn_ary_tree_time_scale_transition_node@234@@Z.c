@@ -1,7 +1,0 @@
-void __thiscall vostok::animation::mixing::n_ary_tree_subtraction_node::visit(
-        vostok::animation::mixing::n_ary_tree_subtraction_node *this,
-        vostok::animation::mixing::n_ary_tree_double_dispatcher *dispatcher,
-        vostok::animation::mixing::n_ary_tree_time_scale_transition_node *node)
-{
-  dispatcher->dispatch(dispatcher, node, this);
-}

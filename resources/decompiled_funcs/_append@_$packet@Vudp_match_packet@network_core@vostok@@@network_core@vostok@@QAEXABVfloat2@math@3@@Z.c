@@ -1,6 +1,0 @@
-void __usercall vostok::network_core::packet<vostok::network_core::udp_match_packet>::append(
-        vostok::network_core::packet<vostok::network_core::udp_match_packet> *this@<ecx>,
-        vostok::math::float2 *value@<eax>)
-{
-  vostok::network_core::packet<vostok::network_core::udp_match_packet>::append(8u, this, (unsigned __int8 *)value);
-}

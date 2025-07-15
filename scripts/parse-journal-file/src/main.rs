@@ -16,37 +16,6 @@ pub enum match_server_message_types_enum {
     local_player_input_discard         = 0x58,
     on_hash_mismatch                   = 0x59,
 }
-// server_player_input                = 82, // [+]
-// kill_player                        = 83, // [+]
-// spawn_player                       = 84, // [+]
-// team_base_capture_progress         = 85, // [+]
-// match_time_changed                 = 86, // [+]
-// respawn_time_changed               = 87, // [+]
-// player_kd_stats_changed            = 88, // [+]
-// hit_player                         = 89, // [+]
-// affect_damage_model                , // [+]
-// sync_response                      , // [+]
-// match_finished                     , // [+]
-// server_bullet_added                , // ??
-// server_bullet_removed              , // ??
-// server_bullet_moved                , // ??
-// server_bullet_collided             , // ??
-// player_visibility_changed          , // [+] hidden
-// player_profile_message_type        ,
-// team_bases_message_type            ,
-// initialize_victory_items           ,
-// victory_item_take_or_put           ,
-// trap_placed                        ,
-// trap_removed                       ,
-// trap_fired                         ,
-// trap_disarmed                      ,
-// game_status_changed                ,
-// match_wait_time_changed            ,
-// game_world_object_state            ,
-// world_synchronization_request      ,
-// damage_model_state                 , // [+] hidden
-// match_server_invalid_message_type  ,
-// }
 
 #[repr(u8)]
 #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
