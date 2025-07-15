@@ -4,7 +4,6 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-winnow = "0.7.12"
 
 [lints]
 workspace = true

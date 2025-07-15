@@ -27,18 +27,18 @@ clap = { version = "4.5.41", features = ["derive", "env"] }
 crc32fast = "1.4.2"
 encoding_rs = "0.8.35"
 iced-x86 = "1.21.0"
-nom = "8.0.0"
 num-derive = "0.4" # TODO: Remove
 num-traits = "0.2" # TODO: Remove
 openssl = "0.10"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = { version = "1.0.140", features = ["std"] }
-sqlx = { version = "0.8", features = [ "runtime-tokio" ] }
 thiserror = "2.0.12"
 
 actix-web = "4.10.2"
 env_logger = "0.10"
 log = "0.4"
+
+sqlx = { version = "0.8", features = [ "runtime-tokio" ] }
 
 foundation = { path = "crates/foundation" }
 binary-config-parser = { path = "crates/binary-config-parser" }

@@ -1,6 +1,9 @@
 //! The idea behind this script is to build a structure out of decompiled function names.
-//! It didn't pan out, since it is hard to parse C++ function names (with generics and all).
-//! Plus many types have generics inside.
+//! It is a pain to parse C functions, so everything is done on the best effort only:
+//! * Generics are ignored
+//! * Functions returning functions are generally skipped
+//! * Operator overloads all stored in a single file
+//! * `vector destructor iterator' and similar remove quotes and replace spaces with underscores
 
 #![feature(trim_prefix_suffix)]
 
@@ -10,7 +13,7 @@ pub mod parser;
 
 fn main() {
     let from = "D:/Projects/decompiled_funcs/decompiled_funcs";
-    let dir_name = "./resources/ida_funcs";
+    let dir_name = "./resources/ida-funcs";
 
     let mut dir = Directory::new();
     for entry in std::fs::read_dir(from).unwrap() {
@@ -50,6 +53,10 @@ impl Directory {
     }
 
     fn insert(&mut self, func_name: &str, contents: String) {
+        let func_name = match func_name.contains("::") {
+            true => func_name.to_string(),
+            false => format!("0::{func_name}"),
+        };
         let mut iter = func_name.split("::").peekable();
 
         let mut directory = self;

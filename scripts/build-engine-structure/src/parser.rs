@@ -69,7 +69,7 @@ pub fn parse_function_name(input: &str) -> String {
     let func_name = input
         .split(' ')
         // Remove calling convention specification
-        .last()
+        .next_back()
         .unwrap()
         // Remove register return type for custom calling conventions
         .trim_suffix('@')
