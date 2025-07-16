@@ -20,7 +20,7 @@ Game launch files compiled into "master gold" version. Increased productivity. D
 0.15a
 Added dependence of character's movement and drain of energy from the weight of their equipment
 Removed debug information (camera_position, crosshair_distance)
- Removed a debug display of fire points for weapons
+Removed a debug display of fire points for weapons
 
 0.15c
 Disabled building of debug information during the game, which resulted in slower performance for the client and server

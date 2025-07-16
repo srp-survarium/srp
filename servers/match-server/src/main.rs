@@ -4,15 +4,16 @@
 #![feature(slice_split_once)]
 
 mod client_message;
+mod match_server;
 mod player_profile;
 mod server_message;
 
 use crate::client_message::{ClientMessage, ClientMessageKind};
 use crate::server_message::ServerMessage;
 
-use foundation::config;
-use foundation::network_client::UdpClient;
 use foundation::serde::Deserialize;
+
+// socket -> send, recv
 
 #[repr(C)]
 struct ConnectionRequest {
@@ -26,28 +27,11 @@ struct ConnectionRequest {
 }
 
 fn main() {
-    let mut client = UdpClient::new(format!(
-        "{}:{}",
-        config::match_server::ADDRESS,
-        config::match_server::PORT
-    ))
-    .unwrap();
 
     let (addr, message) = client.recv_from::<ClientMessage>().unwrap();
     println!("recv: {message:?}");
 
-    if message.kinds.len() != 1 {
-        panic!("Unknown message!");
-    }
-    let ClientMessageKind::ConnectionRequest {
-        sent_order_id: _,
-        session_id: _,
-    } = message.kinds[0]
-    else {
-        panic!("Unknown message!");
-    };
 
-    client.connect(addr).unwrap();
 
     println!("Sending connection successful - START");
     client
@@ -76,17 +60,7 @@ fn main() {
                     local_ack_bits: 0b0100_0000_0000_0000,
                     match_packets_count:
                         client_message::raw::udp_match_packets_count_enum::single_packet,
-                    kind: server_message::ServerMessageKind::MatchOptions {
-                        order_id: 1,
-                        map_id: 0,
-                        // map_name: "level_03_evn".to_string(),
-                        map_name: "lobby_scene".to_string(),
-                        match_mode: server_message::raw::game_mode_type::gather_victory_items,
-                        player_count: 2,
-                        victory_item_count: 10,
-                        respawn_time: 10,
-                        match_time: 15 * 60,
-                    },
+                    kind: 
                 })
                 .unwrap();
 
@@ -117,14 +91,7 @@ fn main() {
                     local_ack_bits: 0b0100_0000_0000_0000,
                     match_packets_count:
                         client_message::raw::udp_match_packets_count_enum::single_packet,
-                    kind: server_message::ServerMessageKind::PlayerProfile {
-                        order_id: 2,
-                        player_profile: player_profile::raw::player_profile {
-                            team: player_profile::raw::game_team_id::team_1,
-                            is_local: true,
-                            ..player_profile::raw::player_profile::new_dummy(0, 0, "sheepy")
-                        },
-                    },
+                    kind: 
                 })
                 .unwrap();
 
@@ -135,14 +102,7 @@ fn main() {
                     local_ack_bits: 0b0100_0000_0000_0000,
                     match_packets_count:
                         client_message::raw::udp_match_packets_count_enum::single_packet,
-                    kind: server_message::ServerMessageKind::PlayerProfile {
-                        order_id: 3,
-                        player_profile: player_profile::raw::player_profile {
-                            team: player_profile::raw::game_team_id::team_2,
-                            is_local: false,
-                            ..player_profile::raw::player_profile::new_dummy(0, 0, "beauty")
-                        },
-                    },
+                    kind: 
                 })
                 .unwrap();
             println!("Sending match options - DONE");

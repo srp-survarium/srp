@@ -16,6 +16,13 @@ impl UdpClient {
         })
     }
 
+    pub fn try_clone(&self) -> std::io::Result<Self> {
+        self.socket.try_clone().map(|socket| Self {
+            socket,
+            buffer: UdpPacket::new(),
+        })
+    }
+
     pub fn connect(&self, addr: impl std::net::ToSocketAddrs) -> Result<(), NetworkError> {
         self.socket.connect(addr)?;
 
