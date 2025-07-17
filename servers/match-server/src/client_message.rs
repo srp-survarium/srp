@@ -2,13 +2,15 @@ use foundation::network_client::NetworkRequest;
 use foundation::serde::advance_buffer;
 use foundation::serde::{Deserialize, DeserializeError};
 
+use crate::sequence_number::SN16;
+
 use self::raw::*;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct UdpMessage {
-    pub sequence_id: u16,        // sequence id of the client
-    pub remote_sequence_id: u16, // sequence id of the server
-    pub remote_ack_bits: u16,    // ???
+    pub sequence_id: SN16,        // sequence id of the client
+    pub remote_sequence_id: SN16, // sequence id of the server
+    pub remote_ack_bits: u16,     // ???
     pub kinds: Vec<UdpMessageKind>,
 }
 
@@ -79,8 +81,8 @@ impl NetworkRequest for UdpMessage {}
 
 impl Deserialize for UdpMessage {
     fn deserialize(out_buffer: &mut &[u8]) -> Result<Self, DeserializeError> {
-        let sequence_id = advance_buffer::<u16>(out_buffer)?;
-        let remote_sequence_id = advance_buffer::<u16>(out_buffer)?;
+        let sequence_id = advance_buffer::<SN16>(out_buffer)?;
+        let remote_sequence_id = advance_buffer::<SN16>(out_buffer)?;
 
         let word = advance_buffer::<u16>(out_buffer)?;
         let remote_ack_bits = word >> 1;

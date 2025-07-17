@@ -1,3 +1,6 @@
+#![allow(dead_code)]
+#![allow(unused_imports)]
+
 use std::collections::BTreeSet;
 use std::thread::JoinHandle;
 use std::{collections::BTreeMap, sync::mpsc};
@@ -8,6 +11,7 @@ use foundation::network_packet::{Packet, UdpPacket};
 use foundation::serde::{Deserialize, Serialize};
 
 use crate::client_message::{GameMessage, UdpMessage, UdpMessageKind};
+use crate::sequence_number::SN16;
 use crate::server_message::{ServerMessage, ServerMessageKind};
 use crate::{client_message, player_profile, server_message};
 
@@ -28,27 +32,29 @@ use crate::{client_message, player_profile, server_message};
 //
 // 1. MatchServer -> LobbyServer { /* match end info */ }
 
-struct MatchConnection {
-    handle: std::thread::JoinHandle<()>,
+pub struct MatchConnection {
+    pub handle: std::thread::JoinHandle<()>,
 }
 
 struct MatchConnectionState {
     reader_handle: std::thread::JoinHandle<()>,
     writer_handle: std::thread::JoinHandle<()>,
 
-    server_sequence_id: u16,
+    // Last sequence_id sent to the client
+    server_sequence_id: SN16,
     server_ack_bits: u16,
 
-    client_sequence_id: u16,
+    // Last sequence_id recv from the client
+    client_sequence_id: SN16,
     client_ack_bits: u16,
 
-    server_order_id: u16,
-    client_order_id: u16,
+    server_order_id: SN16,
+    client_order_id: SN16,
 
     // server packets that weren't acknowledged
-    unacknowledged_packets: BTreeMap<u16, UdpPacket>,
+    unacknowledged_packets: BTreeMap<SN16, UdpPacket>,
     // client packets that were sent not in order
-    pendings_packets: BTreeMap<u16, Vec<UdpMessageKind>>,
+    pendings_packets: BTreeMap<SN16, Vec<UdpMessageKind>>,
 }
 
 // 1. Client sends packet
@@ -68,7 +74,7 @@ impl MatchConnection {
     pub fn run(address: &str, port: u16) -> Self {
         let mut udp_client = UdpClient::new(format!("{address}:{port}")).unwrap();
 
-        let mut unacknowledged_packets = BTreeMap::new();
+        let mut unacknowledged_packets = BTreeMap::<SN16, _>::new();
 
         //
         // We handle first connection message ourselves
@@ -91,8 +97,8 @@ impl MatchConnection {
 
         let mut packet = UdpPacket::new();
         let server_message = ServerMessage {
-            remote_sequence_id: 0,
-            local_sequence_id: 0, // ?
+            remote_sequence_id: 0.into(),
+            local_sequence_id: 0.into(), // ?
             local_ack_bits: 0,
             match_packets_count: client_message::raw::udp_match_packets_count_enum::single_packet,
             kind: server_message::ServerMessageKind::ConnectionSuccessful { order_id: 0 },
@@ -100,7 +106,11 @@ impl MatchConnection {
         .serialize(&mut packet);
 
         udp_client.send_raw(packet.get_message()).unwrap();
-        unacknowledged_packets.insert(0, packet);
+        unacknowledged_packets.insert(0.into(), packet);
+
+        //
+        // Start writer and reader
+        //
 
         // reader
         let (reader_tx, reader_rx) = mpsc::channel::<Vec<u8>>();
@@ -121,18 +131,22 @@ impl MatchConnection {
             }
         });
 
+        //
+        // Start ourselves
+        //
+
         let state = MatchConnectionState {
             reader_handle,
             writer_handle,
 
-            server_sequence_id: 1,
-            server_ack_bits: 0b0000_0000_0000_0000,
+            server_sequence_id: 0.into(),
+            server_ack_bits: 0b0000_0000_0000_0000, // TODO
 
-            client_sequence_id: 1,
-            client_ack_bits: 0b0000_0000_0000_0000,
+            client_sequence_id: 0.into(),
+            client_ack_bits: 0b0000_0000_0000_0000, // TODO
 
-            server_order_id: 1,
-            client_order_id: 1,
+            server_order_id: 0.into(),
+            client_order_id: 0.into(),
 
             unacknowledged_packets,
             pendings_packets: BTreeMap::new(),
@@ -140,7 +154,7 @@ impl MatchConnection {
 
         let handle = std::thread::spawn({
             let mut state = state;
-            move || {
+            move || loop {
                 let packet = reader_rx.recv().unwrap();
                 let mut buffer = packet.as_slice();
 
@@ -152,15 +166,26 @@ impl MatchConnection {
                 } = UdpMessage::deserialize(&mut buffer).unwrap();
                 assert!(buffer.is_empty());
 
-                // TODO: fail if already received
+                // Packet already received. Ignore
+                if sequence_id == state.client_sequence_id {
+                    continue;
+                }
+
+                // mask will confirm that first server packet was received
+                if sequence_id < state.client_sequence_id {
+                    state.update_acknowledgements(sequence_id, remote_sequence_id, remote_ack_bits);
+                } else {
+                    // why not here?
+                }
 
                 state.pendings_packets.insert(sequence_id, kinds);
 
                 // TODO: Where confirmation of acknowledged packets
-                state.update_acknowledgements(sequence_id, remote_sequence_id, remote_ack_bits);
 
                 let mut responses = Vec::new();
-                for i in sequence_id..=state.client_sequence_id {
+
+                let mut i = sequence_id;
+                while i <= state.client_sequence_id {
                     let messages = state.pendings_packets.remove(&i).unwrap();
                     for message in messages {
                         // TODO: Who handles `order_id`
@@ -174,6 +199,7 @@ impl MatchConnection {
                             }
                         }
                     }
+                    i += 1.into();
                 }
 
                 //
@@ -189,8 +215,8 @@ impl MatchConnection {
 impl MatchConnectionState {
     pub fn update_acknowledgements(
         &mut self,
-        sequence_id: u16,
-        remote_sequence_id: u16,
+        sequence_id: SN16,
+        remote_sequence_id: SN16,
         remote_ack_bits: u16,
     ) {
         todo!()

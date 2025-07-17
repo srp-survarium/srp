@@ -6,11 +6,12 @@ use foundation::serde::Serialize;
 use self::raw::*;
 use crate::client_message::raw::udp_match_packets_count_enum;
 use crate::player_profile::raw::{inventory_item_instance, player_profile, skill_booster};
+use crate::sequence_number::SN16;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct ServerMessage {
-    pub remote_sequence_id: u16,
-    pub local_sequence_id: u16,
+    pub remote_sequence_id: SN16,
+    pub local_sequence_id: SN16,
     /// TODO: Currently we only can send a single packet.
     /// So this means that the first bit in `local_ack_bits` should always be 0
     pub local_ack_bits: u16,
