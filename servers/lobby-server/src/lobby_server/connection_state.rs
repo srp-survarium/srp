@@ -1,5 +1,6 @@
-use super::client::raw::faction_id;
-use super::{player_profile, server};
+use crate::lobby_server::client::raw::faction_id;
+use crate::lobby_server::server;
+use survarium::player_profile;
 
 pub struct ConnectionState {
     pub session_id: u32,

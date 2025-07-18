@@ -1,11 +1,12 @@
 [package]
-name = "foundation"
+name = "survarium"
 version.workspace = true
 edition.workspace = true
 
-[dependencies]
-bytemuck = { workspace = true }
-thiserror = { workspace = true }
-
 [lints]
 workspace = true
+
+[dependencies]
+bytemuck = { workspace = true }
+
+vostok = { workspace = true }

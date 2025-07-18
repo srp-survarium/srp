@@ -70,11 +70,6 @@ macro_rules! sequence_number {
     };
 }
 
-sequence_number!(SN8 : u8 => u16);
-sequence_number!(SN16: u16 => u32);
-sequence_number!(SN32: u32 => u64);
-sequence_number!(SN64: u64 => u128);
-
 impl std::ops::Sub for SN16 {
     type Output = i32;
 
@@ -88,6 +83,11 @@ impl std::ops::Sub for SN16 {
         }
     }
 }
+
+sequence_number!(SN8 : u8 => u16);
+sequence_number!(SN16: u16 => u32);
+sequence_number!(SN32: u32 => u64);
+sequence_number!(SN64: u64 => u128);
 
 #[test]
 fn test_sequence_number() {

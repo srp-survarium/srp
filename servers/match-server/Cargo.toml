@@ -12,4 +12,5 @@ default = []
 [dependencies]
 bytemuck = { workspace = true }
 
-foundation = { workspace = true }
+survarium = { workspace = true }
+vostok = { workspace = true }

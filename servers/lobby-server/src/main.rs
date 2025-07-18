@@ -1,9 +1,9 @@
 mod lobby_server;
 mod messaging_server;
 
-use foundation::config;
-use foundation::network_client::{NetworkError, TcpClient};
-use foundation::serde::DeserializeError;
+use vostok::config;
+use vostok::network_client::{NetworkError, TcpClient};
+use vostok::serde::DeserializeError;
 
 use std::net::{TcpListener, TcpStream};
 use std::sync::Arc;

@@ -1,11 +1,11 @@
 use crate::lobby_server::message::client::raw::{
     faction_id, lobby_client_message_types_enum, query_info_types_enum,
 };
-use crate::lobby_server::player_profile;
-use foundation::config;
-use foundation::network_client::NetworkResponse;
-use foundation::network_packet::Packet;
-use foundation::serde::Serialize;
+use survarium::player_profile;
+use vostok::config;
+use vostok::network_client::NetworkResponse;
+use vostok::network_packet::Packet;
+use vostok::serde::Serialize;
 
 use self::raw::*;
 
@@ -298,7 +298,7 @@ impl Serialize for ClientStatus {
                 }
             }
 
-            Self::ProfileContents(player_profile) => packet.write_ref(player_profile.as_ref()),
+            Self::ProfileContents(player_profile) => player_profile.serialize_tcp(packet),
 
             Self::EnumerateInventory(items) => {
                 packet.write_vec::<u32, _, _>(items);

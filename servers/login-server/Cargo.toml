@@ -12,4 +12,4 @@ default = []
 [dependencies]
 openssl = { workspace = true }
 
-foundation = { workspace = true }
+vostok = { workspace = true }

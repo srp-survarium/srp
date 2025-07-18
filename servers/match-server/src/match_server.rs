@@ -1,44 +1,31 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
+use std::sync::mpsc;
 use std::thread::JoinHandle;
-use std::{collections::BTreeMap, sync::mpsc};
 
-use foundation::config;
-use foundation::network_client::UdpClient;
-use foundation::network_packet::{Packet, UdpPacket};
-use foundation::serde::{Deserialize, Serialize};
+use survarium::player_profile;
+use vostok::config;
+use vostok::network_client::UdpClient;
+use vostok::network_packet::{Packet, UdpPacket};
+use vostok::serde::{Deserialize, Serialize};
 
-use crate::client_message::{GameMessage, UdpMessage, UdpMessageKind};
+use crate::game_server::Game;
+use crate::message;
+use crate::message::raw::low_level_message_type_enum;
 use crate::sequence_number::SN16;
-use crate::server_message::{ServerMessage, ServerMessageKind};
-use crate::{client_message, player_profile, server_message};
-
-/// Currently server can only run a single match
-/// ```ignore
-/// struct MatchServer {
-///     connections: Vec<MatchConnection>,
-/// }
-///
-/// impl MatchServer {
-///     fn recv(MatchServerMessage) { .. }
-/// }
-/// ```
-//
-// 1. LobbyServer -> MatchServer { port, session_id }
-// 2. wait for response
-// 3. LobbyServer -> LobbyClient { ready }
-//
-// 1. MatchServer -> LobbyServer { /* match end info */ }
 
 pub struct MatchConnection {
     pub handle: std::thread::JoinHandle<()>,
 }
 
 struct MatchConnectionState {
-    reader_handle: std::thread::JoinHandle<()>,
-    writer_handle: std::thread::JoinHandle<()>,
+    reader_rx: mpsc::Receiver<Vec<u8>>,
+    writer_tx: mpsc::Sender<Vec<u8>>,
+
+    reader_handle: Option<std::thread::JoinHandle<()>>,
+    writer_handle: Option<std::thread::JoinHandle<()>>,
 
     // Last sequence_id sent to the client
     server_sequence_id: SN16,
@@ -54,7 +41,7 @@ struct MatchConnectionState {
     // server packets that weren't acknowledged
     unacknowledged_packets: BTreeMap<SN16, UdpPacket>,
     // client packets that were sent not in order
-    pendings_packets: BTreeMap<SN16, Vec<UdpMessageKind>>,
+    pendings_packets: BTreeMap<SN16, message::ClientMessage>,
 }
 
 // 1. Client sends packet
@@ -72,147 +59,195 @@ struct MatchConnectionState {
 //
 impl MatchConnection {
     pub fn run(address: &str, port: u16) -> Self {
-        let mut udp_client = UdpClient::new(format!("{address}:{port}")).unwrap();
+        let (reader_tx, reader_rx) = mpsc::channel::<Vec<u8>>();
+        let (writer_tx, writer_rx) = mpsc::channel::<Vec<u8>>();
 
-        let mut unacknowledged_packets = BTreeMap::<SN16, _>::new();
+        let mut state = MatchConnectionState {
+            reader_rx,
+            writer_tx,
 
-        //
-        // We handle first connection message ourselves
-        //
+            reader_handle: None,
+            writer_handle: None,
 
-        let (addr, message) = udp_client.recv_from::<UdpMessage>().unwrap();
-        if message.kinds.len() != 1 {
-            panic!("Expected a single 'ConnectionRequest' message");
-        }
-        let UdpMessageKind::Message {
-            order_id,
-            game_message: GameMessage::ConnectionRequest { session_id: _ },
-        } = message.kinds[0]
-        else {
-            panic!("Received a message which is not 'ConnectionRequest': {message:?}");
+            server_sequence_id: 0xFFFF.into(),
+            server_ack_bits: 0b0000_0000_0000_0000,
+
+            client_sequence_id: 0xFFFF.into(),
+            client_ack_bits: 0b0000_0000_0000_0000,
+
+            server_order_id: 0.into(),
+            client_order_id: 0.into(),
+
+            unacknowledged_packets: BTreeMap::<SN16, _>::new(),
+            pendings_packets: BTreeMap::new(),
         };
-        assert_eq!(order_id, 0);
 
-        udp_client.connect(addr).unwrap();
-
-        let mut packet = UdpPacket::new();
-        let server_message = ServerMessage {
-            remote_sequence_id: 0.into(),
-            local_sequence_id: 0.into(), // ?
-            local_ack_bits: 0,
-            match_packets_count: client_message::raw::udp_match_packets_count_enum::single_packet,
-            kind: server_message::ServerMessageKind::ConnectionSuccessful { order_id: 0 },
-        }
-        .serialize(&mut packet);
-
-        udp_client.send_raw(packet.get_message()).unwrap();
-        unacknowledged_packets.insert(0.into(), packet);
+        let udp_client = state.init_connection(address, port);
 
         //
         // Start writer and reader
         //
 
-        // reader
-        let (reader_tx, reader_rx) = mpsc::channel::<Vec<u8>>();
         let reader_handle = std::thread::spawn({
             let mut udp_client = udp_client.try_clone().unwrap();
-            move || {
+            move || loop {
                 let packet = udp_client.recv_raw().unwrap();
                 reader_tx.send(packet).unwrap();
             }
         });
+        state.reader_handle = Some(reader_handle);
 
-        // writer
-        let (writer_tx, writer_rx) = mpsc::channel::<Vec<u8>>();
         let writer_handle = std::thread::spawn({
-            move || {
+            move || loop {
                 let packet = writer_rx.recv().unwrap();
+                println!("send -- START");
                 udp_client.send_raw(&packet).unwrap();
+                println!("send -- DONE");
             }
         });
+        state.writer_handle = Some(writer_handle);
 
         //
         // Start ourselves
         //
 
-        let state = MatchConnectionState {
-            reader_handle,
-            writer_handle,
-
-            server_sequence_id: 0.into(),
-            server_ack_bits: 0b0000_0000_0000_0000, // TODO
-
-            client_sequence_id: 0.into(),
-            client_ack_bits: 0b0000_0000_0000_0000, // TODO
-
-            server_order_id: 0.into(),
-            client_order_id: 0.into(),
-
-            unacknowledged_packets,
-            pendings_packets: BTreeMap::new(),
-        };
-
-        let handle = std::thread::spawn({
-            let mut state = state;
-            move || loop {
-                let packet = reader_rx.recv().unwrap();
-                let mut buffer = packet.as_slice();
-
-                let UdpMessage {
-                    sequence_id,
-                    remote_sequence_id,
-                    remote_ack_bits,
-                    kinds,
-                } = UdpMessage::deserialize(&mut buffer).unwrap();
-                assert!(buffer.is_empty());
-
-                // Packet already received. Ignore
-                if sequence_id == state.client_sequence_id {
-                    continue;
-                }
-
-                // mask will confirm that first server packet was received
-                if sequence_id < state.client_sequence_id {
-                    state.update_acknowledgements(sequence_id, remote_sequence_id, remote_ack_bits);
-                } else {
-                    // why not here?
-                }
-
-                state.pendings_packets.insert(sequence_id, kinds);
-
-                // TODO: Where confirmation of acknowledged packets
-
-                let mut responses = Vec::new();
-
-                let mut i = sequence_id;
-                while i <= state.client_sequence_id {
-                    let messages = state.pendings_packets.remove(&i).unwrap();
-                    for message in messages {
-                        // TODO: Who handles `order_id`
-                        match message {
-                            UdpMessageKind::Low(_) => (),
-                            UdpMessageKind::Message {
-                                order_id,
-                                game_message,
-                            } => {
-                                responses.extend(Game::handle_message(game_message));
-                            }
-                        }
-                    }
-                    i += 1.into();
-                }
-
-                //
-                // send resposnes
-                //
-            }
-        });
-
-        Self { handle }
+        Self {
+            handle: std::thread::spawn(move || state.run_match_server()),
+        }
     }
 }
 
 impl MatchConnectionState {
+    pub fn init_connection(&mut self, address: &str, port: u16) -> UdpClient {
+        let mut udp_client = UdpClient::new(format!("{address}:{port}")).unwrap();
+
+        //
+        // We handle first connection message ourselves
+        //
+
+        println!("connect -- START");
+        let (addr, message) = udp_client.recv_from::<message::ClientMessage>().unwrap();
+        if message.kinds.len() != 1 {
+            panic!("Expected a single 'ConnectionRequest' message");
+        }
+        assert_eq!(message.local_sequence_id, 0x0000.into());
+        assert_eq!(message.remote_sequence_id, 0xFFFF.into());
+        assert_eq!(message.remote_ack_bits, 0b0000_0000_0000_0000);
+        let message::ClientMessageKind::Message {
+            order_id: 0,
+            game_message: message::ClientGameMessage::ConnectionRequest { session_id: _ },
+        } = message.kinds[0]
+        else {
+            panic!("Received a message which is not 'ConnectionRequest': {message:?}");
+        };
+
+        udp_client.connect(addr).unwrap();
+        println!("connect -- DONE");
+
+        // @NOTE: Currently is faked
+        self.server_sequence_id = 0.into();
+        self.client_sequence_id = 0.into();
+        self.server_order_id = 0.into();
+        self.client_order_id = 0.into();
+
+        let mut packet = UdpPacket::new();
+        message::ServerMessage {
+            remote_sequence_id: self.server_sequence_id,
+            local_sequence_id: self.client_sequence_id,
+            local_ack_bits: self.client_ack_bits,
+            kinds: vec![message::ServerMessageKind::Message {
+                order_id: self.server_order_id,
+                game_message: message::ServerGameMessage::ConnectionSuccessful,
+            }],
+        }
+        .serialize(&mut packet);
+
+        udp_client.send_raw(packet.get_message()).unwrap();
+        self.unacknowledged_packets.insert(0.into(), packet);
+
+        udp_client
+    }
+
+    pub fn run_match_server(mut self) -> ! {
+        let game = Game {};
+
+        loop {
+            let packet = self.reader_rx.recv().unwrap();
+            let mut buffer = packet.as_slice();
+
+            let packet = message::ClientMessage::deserialize(&mut buffer).unwrap();
+            let message::ClientMessage {
+                local_sequence_id,
+                remote_sequence_id,
+                remote_ack_bits,
+                ..
+            } = packet.clone();
+            assert!(buffer.is_empty());
+
+            // Packet already received. Ignore
+            if local_sequence_id == self.client_sequence_id {
+                continue;
+            }
+
+            // mask will confirm that first server packet was received
+            if local_sequence_id < self.client_sequence_id {
+                self.update_acknowledgements(
+                    local_sequence_id,
+                    remote_sequence_id,
+                    remote_ack_bits,
+                );
+            } else {
+                self.client_sequence_id = local_sequence_id;
+                self.client_ack_bits = 0b0100_0000_0000_0000;
+                // why not here?
+            }
+
+            self.pendings_packets.insert(local_sequence_id, packet);
+
+            // TODO: Where confirmation of acknowledged packets
+
+            let mut responses = Vec::new();
+
+            let mut i = local_sequence_id;
+            while i <= self.client_sequence_id {
+                let packet = self.pendings_packets.remove(&i).unwrap();
+                for message in packet.kinds {
+                    // TODO: Who handles `order_id`
+                    match message {
+                        message::ClientMessageKind::Low(_) => (),
+                        message::ClientMessageKind::Message {
+                            order_id: _,
+                            game_message,
+                        } => {
+                            responses.extend(game.handle_message(game_message));
+                        }
+                    }
+                }
+                i += 1.into();
+            }
+
+            //
+            // send resposnes
+            //
+
+            if !responses.is_empty() {
+                let mut packet = UdpPacket::new();
+                message::ServerMessage {
+                    remote_sequence_id: self.server_sequence_id,
+                    local_sequence_id: self.client_sequence_id,
+                    local_ack_bits: self.client_ack_bits,
+                    kinds: vec![message::ServerMessageKind::Low(
+                        low_level_message_type_enum::continuous_flow,
+                    )],
+                }
+                .serialize(&mut packet);
+                println!("Sending continuous_flow");
+                self.writer_tx.send(packet.get_message().to_vec()).unwrap();
+            }
+            // todo!()
+        }
+    }
+
     pub fn update_acknowledgements(
         &mut self,
         sequence_id: SN16,
@@ -220,48 +255,5 @@ impl MatchConnectionState {
         remote_ack_bits: u16,
     ) {
         todo!()
-    }
-}
-
-struct Game {}
-
-impl Game {
-    pub fn handle_message(message: GameMessage) -> Vec<ServerMessageKind> {
-        match message {
-            GameMessage::ConnectionRequest { .. } => panic!(),
-            GameMessage::GetStartupInfo => {
-                // @TODO: remove order id
-                vec![
-                    server_message::ServerMessageKind::MatchOptions {
-                        order_id: 1,
-                        map_id: 0,
-                        // map_name: "level_03_evn".to_string(),
-                        map_name: "lobby_scene".to_string(),
-                        match_mode: server_message::raw::game_mode_type::gather_victory_items,
-                        player_count: 2,
-                        victory_item_count: 10,
-                        respawn_time: 10,
-                        match_time: 15 * 60,
-                    },
-                    server_message::ServerMessageKind::PlayerProfile {
-                        order_id: 2,
-                        player_profile: player_profile::raw::player_profile {
-                            team: player_profile::raw::game_team_id::team_1,
-                            is_local: true,
-                            ..player_profile::raw::player_profile::new_dummy(0, 0, "sheepy")
-                        },
-                    },
-                    server_message::ServerMessageKind::PlayerProfile {
-                        order_id: 3,
-                        player_profile: player_profile::raw::player_profile {
-                            team: player_profile::raw::game_team_id::team_2,
-                            is_local: false,
-                            ..player_profile::raw::player_profile::new_dummy(0, 0, "beauty")
-                        },
-                    },
-                ]
-            }
-            GameMessage::ClientPlayerUpdate { unknown } => vec![],
-        }
     }
 }

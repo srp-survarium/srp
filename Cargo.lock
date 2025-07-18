@@ -372,9 +372,9 @@ version = "0.1.0"
 dependencies = [
  "actix-web",
  "env_logger",
- "foundation",
  "log",
  "serde",
+ "vostok",
 ]
 
 [[package]]
@@ -641,14 +641,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e13624c2627564efccf4934284bdd98cbaa14e79b0b5a141218e507b3a823456"
 dependencies = [
  "percent-encoding",
-]
-
-[[package]]
-name = "foundation"
-version = "0.1.0"
-dependencies = [
- "bytemuck",
- "thiserror",
 ]
 
 [[package]]
@@ -1001,9 +993,10 @@ name = "lobby-server"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
- "foundation",
  "openssl",
+ "survarium",
  "thiserror",
+ "vostok",
 ]
 
 [[package]]
@@ -1043,8 +1036,8 @@ checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 name = "login-server"
 version = "0.1.0"
 dependencies = [
- "foundation",
  "openssl",
+ "vostok",
 ]
 
 [[package]]
@@ -1052,7 +1045,8 @@ name = "match-server"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
- "foundation",
+ "survarium",
+ "vostok",
 ]
 
 [[package]]
@@ -1468,6 +1462,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
+name = "survarium"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "vostok",
+]
+
+[[package]]
 name = "syn"
 version = "2.0.100"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1679,6 +1681,14 @@ name = "version_check"
 version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
+
+[[package]]
+name = "vostok"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "thiserror",
+]
 
 [[package]]
 name = "wasi"
