@@ -100,9 +100,7 @@ impl MatchConnection {
         let writer_handle = std::thread::spawn({
             move || loop {
                 let packet = writer_rx.recv().unwrap();
-                println!("send -- START");
                 udp_client.send_raw(&packet).unwrap();
-                println!("send -- DONE");
             }
         });
         state.writer_handle = Some(writer_handle);
@@ -127,6 +125,7 @@ impl MatchConnectionState {
 
         println!("connect -- START");
         let (addr, message) = udp_client.recv_from::<message::ClientMessage>().unwrap();
+        message.print_debug();
         if message.kinds.len() != 1 {
             panic!("Expected a single 'ConnectionRequest' message");
         }
@@ -134,7 +133,7 @@ impl MatchConnectionState {
         assert_eq!(message.remote_sequence_id, 0xFFFF.into());
         assert_eq!(message.remote_ack_bits, 0b0000_0000_0000_0000);
         let message::ClientMessageKind::Message {
-            order_id: 0,
+            order_id: SN16(0),
             game_message: message::ClientGameMessage::ConnectionRequest { session_id: _ },
         } = message.kinds[0]
         else {
@@ -145,13 +144,14 @@ impl MatchConnectionState {
         println!("connect -- DONE");
 
         // @NOTE: Currently is faked
-        self.server_sequence_id = 0.into();
-        self.client_sequence_id = 0.into();
-        self.server_order_id = 0.into();
-        self.client_order_id = 0.into();
+        self.server_sequence_id = 0x00.into();
+        self.client_sequence_id = 0x00.into();
+        self.client_ack_bits = 0b0000_0000_0000_0000; // @FIXME !!!!
+        self.server_order_id = 0x00.into();
+        self.client_order_id = 0x00.into();
 
         let mut packet = UdpPacket::new();
-        message::ServerMessage {
+        let message = message::ServerMessage {
             remote_sequence_id: self.server_sequence_id,
             local_sequence_id: self.client_sequence_id,
             local_ack_bits: self.client_ack_bits,
@@ -159,8 +159,9 @@ impl MatchConnectionState {
                 order_id: self.server_order_id,
                 game_message: message::ServerGameMessage::ConnectionSuccessful,
             }],
-        }
-        .serialize(&mut packet);
+        };
+        message.print_debug(); // @TODO: Rename
+        message.serialize(&mut packet);
 
         udp_client.send_raw(packet.get_message()).unwrap();
         self.unacknowledged_packets.insert(0.into(), packet);
@@ -175,14 +176,18 @@ impl MatchConnectionState {
             let packet = self.reader_rx.recv().unwrap();
             let mut buffer = packet.as_slice();
 
-            let packet = message::ClientMessage::deserialize(&mut buffer).unwrap();
+            let Ok(packet) = message::ClientMessage::deserialize(&mut buffer) else {
+                println!("<<< {buffer:?}");
+                continue;
+            };
+            packet.print_debug();
+            // @TODO: Rename to ClientPacket
             let message::ClientMessage {
                 local_sequence_id,
                 remote_sequence_id,
                 remote_ack_bits,
                 ..
             } = packet.clone();
-            assert!(buffer.is_empty());
 
             // Packet already received. Ignore
             if local_sequence_id == self.client_sequence_id {
@@ -198,7 +203,8 @@ impl MatchConnectionState {
                 );
             } else {
                 self.client_sequence_id = local_sequence_id;
-                self.client_ack_bits = 0b0100_0000_0000_0000;
+                self.client_ack_bits = 0b0100_0000_0000_0000; // @FIXME
+
                 // why not here?
             }
 
@@ -230,20 +236,93 @@ impl MatchConnectionState {
             // send resposnes
             //
 
+            // Single packet, low level
             if !responses.is_empty() {
+                self.server_sequence_id += 1.into();
+
                 let mut packet = UdpPacket::new();
-                message::ServerMessage {
+                let message = message::ServerMessage {
                     remote_sequence_id: self.server_sequence_id,
                     local_sequence_id: self.client_sequence_id,
                     local_ack_bits: self.client_ack_bits,
                     kinds: vec![message::ServerMessageKind::Low(
                         low_level_message_type_enum::continuous_flow,
                     )],
-                }
-                .serialize(&mut packet);
-                println!("Sending continuous_flow");
+                };
+                message.print_debug(); // @TODO
+                message.serialize(&mut packet);
                 self.writer_tx.send(packet.get_message().to_vec()).unwrap();
             }
+
+            // // Single packet, 3 messages
+            // if !responses.is_empty() {
+            //     self.server_sequence_id += 1.into();
+
+            //     let mut packet = UdpPacket::new();
+            //     let responses_len = responses.len();
+
+            //     let mut kinds = responses
+            //         .into_iter()
+            //         .enumerate()
+            //         .map(|(i, game_message)| message::ServerMessageKind::Message {
+            //             order_id: self.server_order_id + (i as u16).into() + 1.into(),
+            //             game_message,
+            //         })
+            //         .collect::<Vec<_>>();
+            //     kinds.reverse();
+
+            //     let message = message::ServerMessage {
+            //         remote_sequence_id: self.server_sequence_id,
+            //         local_sequence_id: self.client_sequence_id,
+            //         local_ack_bits: self.client_ack_bits,
+            //         kinds,
+            //     };
+
+            //     self.server_order_id += (responses_len as u16).into();
+
+            //     message.print_debug(); // @TODO
+            //     message.serialize(&mut packet);
+            //     self.writer_tx.send(packet.get_message().to_vec()).unwrap();
+            // }
+
+            // // 3 packets, 1 messages
+            // if !responses.is_empty() {
+            //     // self.server_sequence_id += 1.into();
+
+            //     let responses_len = responses.len();
+            //     let packets = responses
+            //         .into_iter()
+            //         .enumerate()
+            //         .map(|(i, game_message)| {
+            //             let mut packet = UdpPacket::new();
+
+            //             let remote_sequence_id =
+            //                 self.server_sequence_id + (i as u16).into() + 1.into();
+            //             let order_id = self.server_order_id + (i as u16).into() + 1.into();
+
+            //             let message = message::ServerMessage {
+            //                 remote_sequence_id,
+            //                 local_sequence_id: self.client_sequence_id,
+            //                 local_ack_bits: self.client_ack_bits,
+            //                 kinds: vec![message::ServerMessageKind::Message {
+            //                     order_id,
+            //                     game_message,
+            //                 }],
+            //             };
+            //             message.print_debug(); // @TODO
+            //             message.serialize(&mut packet);
+            //             packet
+            //         })
+            //         .collect::<Vec<_>>();
+
+            //     self.server_sequence_id += (responses_len as u16).into();
+            //     self.server_order_id += (responses_len as u16).into();
+
+            //     for packet in packets {
+            //         self.writer_tx.send(packet.get_message().to_vec()).unwrap();
+            //     }
+            // }
+
             // todo!()
         }
     }
@@ -255,5 +334,69 @@ impl MatchConnectionState {
         remote_ack_bits: u16,
     ) {
         todo!()
+    }
+}
+
+impl message::ClientMessage {
+    pub fn print_debug(&self) {
+        let Self {
+            local_sequence_id,
+            remote_sequence_id,
+            remote_ack_bits,
+            kinds,
+        } = self;
+
+        let local_sequence_id = local_sequence_id.0;
+        let remote_sequence_id = remote_sequence_id.0;
+
+        let kinds = kinds
+            .iter()
+            .map(|kind| match &kind {
+                message::ClientMessageKind::Low(low_level_message_type_enum) => {
+                    format!("{low_level_message_type_enum:?}")
+                }
+                &message::ClientMessageKind::Message {
+                    order_id,
+                    game_message,
+                } => format!("0x{:04X}:{:?}", order_id.0, game_message.message_type()),
+            })
+            .intersperse_with(|| ", ".to_string())
+            .collect::<String>();
+
+        println!(
+            "<<< local : 0x{local_sequence_id:04X} | remote: 0x{remote_sequence_id:04X} | remote: 0b{remote_ack_bits:016b} | {kinds}"
+        );
+    }
+}
+
+impl message::ServerMessage {
+    pub fn print_debug(&self) {
+        let Self {
+            remote_sequence_id,
+            local_sequence_id,
+            local_ack_bits,
+            kinds,
+        } = self;
+
+        let remote_sequence_id = remote_sequence_id.0;
+        let local_sequence_id = local_sequence_id.0;
+
+        let kinds = kinds
+            .iter()
+            .map(|kind| match &kind {
+                message::ServerMessageKind::Low(low_level_message_type_enum) => {
+                    format!("{low_level_message_type_enum:?}")
+                }
+                &message::ServerMessageKind::Message {
+                    order_id,
+                    game_message,
+                } => format!("0x{:04X}:{:?}", order_id.0, game_message.message_type()),
+            })
+            .intersperse_with(|| ", ".to_string())
+            .collect::<String>();
+
+        println!(
+            ">>> remote: 0x{remote_sequence_id:04X} | local : 0x{local_sequence_id:04X} | local : 0b{local_ack_bits:016b} | {kinds}"
+        );
     }
 }

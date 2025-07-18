@@ -11,8 +11,8 @@ pub mod raw {
         pub profile_name: [u8; 32],
         pub boosters: [skill_booster; 11],
         pub slots: [inventory_item_instance; 19],
-        pub padding_1: [u8; 3],
         pub team: game_team_id,
+        pub padding_1: [u8; 3],
         pub is_local: bool,
         pub padding_2: [u8; 3],
     }
@@ -244,17 +244,17 @@ impl player_profile {
         {
             use profile_slot_enum::*;
             slots[boots_slot]   = i(1, 24, 100);
-            slots[gloves_slot]  = i(2, 40, 20);
-            slots[pants_slot]   = i(3, 46, 30);
-            slots[helmet_slot]  = i(4, 27, 40);
-            slots[mask_slot]    = i(5, 43, 50);
-            slots[torso_slot]   = i(6, 48, 60);
-            slots[back_slot]    = i(7, 9,  70);
-            slots[weapon1_slot] = i(12, 55, 120);
-            slots[weapon2_slot] = i(12, 55, 130);
+            // slots[gloves_slot]  = i(2, 40, 20);
+            // slots[pants_slot]   = i(3, 46, 30);
+            // slots[helmet_slot]  = i(4, 27, 40);
+            // slots[mask_slot]    = i(5, 43, 50);
+            // slots[torso_slot]   = i(6, 48, 60);
+            // slots[back_slot]    = i(7, 9,  70);
+            // slots[weapon1_slot] = i(12, 55, 120);
+            // slots[weapon2_slot] = i(12, 55, 130);
 
-            slots[ammo1_weapon1_slot] = i(33, 53, 500);
-            slots[ammo2_weapon1_slot] = i(33, 53, 500);
+            // slots[ammo1_weapon1_slot] = i(33, 53, 500);
+            // slots[ammo2_weapon1_slot] = i(33, 53, 500);
             // slots[ammo2_weapon1_slot] = i(...);
             // slots[ammo1_weapon2_slot] = i(...);
             // slots[ammo2_weapon2_slot] = i(...);

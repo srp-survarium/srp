@@ -12,12 +12,11 @@ impl Game {
                 unreachable!("Should already be handled")
             }
             ClientGameMessage::GetStartupInfo => {
-                // @TODO: remove order id
                 vec![
                     ServerGameMessage::MatchOptions {
                         map_id: 0,
-                        // map_name: "level_03_evn".to_string(),
-                        map_name: "lobby_scene".to_string(),
+                        map_name: "level_03_evn".to_string(),
+                        // map_name: "lobby_scene".to_string(),
                         match_mode: game_mode_type::gather_victory_items,
                         player_count: 2,
                         victory_item_count: 10,

@@ -127,6 +127,7 @@ impl Serialize for ServerMessage {
                 } => {
                     packet.write(game_message.message_type());
                     packet.write(order_id);
+                    game_message.serialize(packet);
                 }
             }
         }
@@ -135,12 +136,12 @@ impl Serialize for ServerMessage {
 
 impl ServerGameMessage {
     #[rustfmt::skip]
-    fn message_type(&self) -> match_server_message_types_enum {
+    pub fn message_type(&self) -> match_server_message_types_enum {
         match self {
             Self::ConnectionSuccessful { .. } => match_server_message_types_enum::match_server_connection_successful,
             Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
             Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
-            Self::PlayerProfile { .. }       => match_server_message_types_enum::player_profile_message_type,
+            Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
         }
     }
 }

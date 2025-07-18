@@ -12,7 +12,7 @@ macro_rules! sequence_number {
             Copy,
         )]
         #[repr(transparent)]
-        pub struct $name($ty);
+        pub struct $name(pub $ty);
 
         impl $name {
             const fn new(value: $ty) -> Self {

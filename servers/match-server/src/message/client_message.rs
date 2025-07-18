@@ -23,7 +23,7 @@ pub struct ClientMessage {
 pub enum ClientMessageKind {
     Low(low_level_message_type_enum),
     Message {
-        order_id: u16,
+        order_id: SN16,
         game_message: ClientGameMessage,
     },
 }
@@ -109,7 +109,7 @@ impl ClientMessageKind {
             Self::Low(msg_type)
         } else {
             let msg_type = advance_buffer::<match_client_message_types_enum>(out_buffer)?;
-            let order_id = advance_buffer::<u16>(out_buffer)?;
+            let order_id = advance_buffer::<SN16>(out_buffer)?;
             let game_message = ClientGameMessage::parse(msg_type, out_buffer)?;
             Self::Message {
                 order_id,
@@ -148,6 +148,17 @@ impl ClientGameMessage {
     }
 }
 
+impl ClientGameMessage {
+    #[rustfmt::skip]
+    pub fn message_type(&self) -> match_client_message_types_enum {
+        match self {
+            Self::GetStartupInfo  { .. }    => match_client_message_types_enum::get_startup_info,
+            Self::ConnectionRequest { .. }  => match_client_message_types_enum::connection_request,
+            Self::ClientPlayerUpdate { .. } => match_client_message_types_enum::client_player_update,
+        }
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -161,7 +172,7 @@ mod test {
             remote_sequence_id: 0xFFFF.into(),
             remote_ack_bits: 0,
             kinds: vec![ClientMessageKind::Message {
-                order_id: 0,
+                order_id: SN16(0),
                 game_message: ClientGameMessage::ConnectionRequest { session_id: 56576 },
             }],
         };

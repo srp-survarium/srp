@@ -1,3 +1,7 @@
+#![feature(iter_intersperse)]
+#![allow(dead_code)]
+#![allow(unused_variables)]
+
 mod game_server;
 mod match_server;
 mod message;
