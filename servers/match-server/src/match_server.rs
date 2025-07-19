@@ -1,8 +1,10 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
+use std::cell::RefCell;
 use std::collections::{BTreeMap, BTreeSet};
-use std::sync::mpsc;
+use std::io::Write;
+use std::sync::{mpsc, LazyLock, Mutex};
 use std::thread::JoinHandle;
 
 use survarium::player_profile;
@@ -144,21 +146,21 @@ impl MatchConnectionState {
         println!("connect -- DONE");
 
         // @NOTE: Currently is faked
-        self.server_sequence_id = 0x00.into();
-        self.client_sequence_id = 0x00.into();
+        self.server_sequence_id = 0x00_00.into();
+        self.client_sequence_id = 0x00_00.into();
         self.client_ack_bits = 0b0000_0000_0000_0000; // @FIXME !!!!
-        self.server_order_id = 0x00.into();
-        self.client_order_id = 0x00.into();
+        self.server_order_id = 0x00_00.into();
+        self.client_order_id = 0x00_00.into();
 
         let mut packet = UdpPacket::new();
         let message = message::ServerMessage {
             remote_sequence_id: self.server_sequence_id,
             local_sequence_id: self.client_sequence_id,
             local_ack_bits: self.client_ack_bits,
-            kinds: vec![message::ServerMessageKind::Message {
+            kind: message::ServerMessageKind::Messages(vec![message::ServerGameMessage {
                 order_id: self.server_order_id,
-                game_message: message::ServerGameMessage::ConnectionSuccessful,
-            }],
+                game_message: message::ServerGameMessageKind::ConnectionSuccessful,
+            }]),
         };
         message.print_debug(); // @TODO: Rename
         message.serialize(&mut packet);
@@ -177,9 +179,10 @@ impl MatchConnectionState {
             let mut buffer = packet.as_slice();
 
             let Ok(packet) = message::ClientMessage::deserialize(&mut buffer) else {
-                println!("<<< {buffer:?}");
+                print_debug(buffer);
                 continue;
             };
+
             packet.print_debug();
             // @TODO: Rename to ClientPacket
             let message::ClientMessage {
@@ -236,92 +239,50 @@ impl MatchConnectionState {
             // send resposnes
             //
 
-            // Single packet, low level
+            // // 3 packets, 1 messages
             if !responses.is_empty() {
                 self.server_sequence_id += 1.into();
 
                 let mut packet = UdpPacket::new();
+                let responses_len = responses.len();
+
+                let game_messages = responses
+                    .into_iter()
+                    .enumerate()
+                    .map(|(i, game_message)| message::ServerGameMessage {
+                        order_id: self.server_order_id + (i as u16).into() + 1.into(),
+                        game_message,
+                    })
+                    .collect::<Vec<_>>();
+
                 let message = message::ServerMessage {
                     remote_sequence_id: self.server_sequence_id,
                     local_sequence_id: self.client_sequence_id,
                     local_ack_bits: self.client_ack_bits,
-                    kinds: vec![message::ServerMessageKind::Low(
-                        low_level_message_type_enum::continuous_flow,
-                    )],
+                    kind: message::ServerMessageKind::Messages(game_messages),
                 };
-                message.print_debug(); // @TODO
+
+                self.server_order_id += (responses_len as u16).into();
+
+                message.print_debug();
                 message.serialize(&mut packet);
                 self.writer_tx.send(packet.get_message().to_vec()).unwrap();
+            } else {
+                // self.server_sequence_id += 1.into();
+
+                // let mut packet = UdpPacket::new();
+                // let message = message::ServerMessage {
+                //     remote_sequence_id: self.server_sequence_id,
+                //     local_sequence_id: self.client_sequence_id,
+                //     local_ack_bits: self.client_ack_bits,
+                //     kind: message::ServerMessageKind::Low(
+                //         low_level_message_type_enum::continuous_flow,
+                //     ),
+                // };
+                // message.print_debug(); // @TODO
+                // message.serialize(&mut packet);
+                // self.writer_tx.send(packet.get_message().to_vec()).unwrap();
             }
-
-            // // Single packet, 3 messages
-            // if !responses.is_empty() {
-            //     self.server_sequence_id += 1.into();
-
-            //     let mut packet = UdpPacket::new();
-            //     let responses_len = responses.len();
-
-            //     let mut kinds = responses
-            //         .into_iter()
-            //         .enumerate()
-            //         .map(|(i, game_message)| message::ServerMessageKind::Message {
-            //             order_id: self.server_order_id + (i as u16).into() + 1.into(),
-            //             game_message,
-            //         })
-            //         .collect::<Vec<_>>();
-            //     kinds.reverse();
-
-            //     let message = message::ServerMessage {
-            //         remote_sequence_id: self.server_sequence_id,
-            //         local_sequence_id: self.client_sequence_id,
-            //         local_ack_bits: self.client_ack_bits,
-            //         kinds,
-            //     };
-
-            //     self.server_order_id += (responses_len as u16).into();
-
-            //     message.print_debug(); // @TODO
-            //     message.serialize(&mut packet);
-            //     self.writer_tx.send(packet.get_message().to_vec()).unwrap();
-            // }
-
-            // // 3 packets, 1 messages
-            // if !responses.is_empty() {
-            //     // self.server_sequence_id += 1.into();
-
-            //     let responses_len = responses.len();
-            //     let packets = responses
-            //         .into_iter()
-            //         .enumerate()
-            //         .map(|(i, game_message)| {
-            //             let mut packet = UdpPacket::new();
-
-            //             let remote_sequence_id =
-            //                 self.server_sequence_id + (i as u16).into() + 1.into();
-            //             let order_id = self.server_order_id + (i as u16).into() + 1.into();
-
-            //             let message = message::ServerMessage {
-            //                 remote_sequence_id,
-            //                 local_sequence_id: self.client_sequence_id,
-            //                 local_ack_bits: self.client_ack_bits,
-            //                 kinds: vec![message::ServerMessageKind::Message {
-            //                     order_id,
-            //                     game_message,
-            //                 }],
-            //             };
-            //             message.print_debug(); // @TODO
-            //             message.serialize(&mut packet);
-            //             packet
-            //         })
-            //         .collect::<Vec<_>>();
-
-            //     self.server_sequence_id += (responses_len as u16).into();
-            //     self.server_order_id += (responses_len as u16).into();
-
-            //     for packet in packets {
-            //         self.writer_tx.send(packet.get_message().to_vec()).unwrap();
-            //     }
-            // }
 
             // todo!()
         }
@@ -335,6 +296,25 @@ impl MatchConnectionState {
     ) {
         todo!()
     }
+}
+
+static LOG_FILE: LazyLock<Mutex<std::fs::File>> = LazyLock::new(log_file);
+
+fn log_file() -> Mutex<std::fs::File> {
+    fn get_current_time() -> u64 {
+        use std::time::{SystemTime, UNIX_EPOCH};
+        let start = SystemTime::now();
+        let since_the_epoch = start
+            .duration_since(UNIX_EPOCH)
+            .expect("time should go forward");
+        since_the_epoch.as_secs()
+    }
+
+    let file_name = format!(
+        "./target/debug/match-server-{time}.log",
+        time = get_current_time()
+    );
+    Mutex::new(std::fs::File::create(file_name).unwrap())
 }
 
 impl message::ClientMessage {
@@ -363,9 +343,11 @@ impl message::ClientMessage {
             .intersperse_with(|| ", ".to_string())
             .collect::<String>();
 
-        println!(
-            "<<< local : 0x{local_sequence_id:04X} | remote: 0x{remote_sequence_id:04X} | remote: 0b{remote_ack_bits:016b} | {kinds}"
+        let log_line = format!(
+            "<<< local : 0x{local_sequence_id:04X} | remote: 0x{remote_sequence_id:04X} | remote: 0b{remote_ack_bits:016b} | {kinds}\n"
         );
+        LOG_FILE.lock().unwrap().write(log_line.as_bytes()).unwrap();
+        print!("{log_line}");
     }
 }
 
@@ -375,28 +357,75 @@ impl message::ServerMessage {
             remote_sequence_id,
             local_sequence_id,
             local_ack_bits,
-            kinds,
+            kind,
         } = self;
 
         let remote_sequence_id = remote_sequence_id.0;
         let local_sequence_id = local_sequence_id.0;
 
-        let kinds = kinds
-            .iter()
-            .map(|kind| match &kind {
-                message::ServerMessageKind::Low(low_level_message_type_enum) => {
-                    format!("{low_level_message_type_enum:?}")
-                }
-                &message::ServerMessageKind::Message {
-                    order_id,
-                    game_message,
-                } => format!("0x{:04X}:{:?}", order_id.0, game_message.message_type()),
-            })
-            .intersperse_with(|| ", ".to_string())
-            .collect::<String>();
+        let kinds = match &kind {
+            message::ServerMessageKind::Low(low_level_message_type_enum) => {
+                format!("{low_level_message_type_enum:?}")
+            }
+            message::ServerMessageKind::Messages(messages) => messages
+                .iter()
+                .map(|message| {
+                    let message::ServerGameMessage {
+                        order_id,
+                        game_message,
+                    } = message;
+                    format!("0x{:04X}:{:?}", order_id.0, game_message.message_type())
+                })
+                .intersperse_with(|| ", ".to_string())
+                .collect::<String>(),
+        };
 
-        println!(
-            ">>> remote: 0x{remote_sequence_id:04X} | local : 0x{local_sequence_id:04X} | local : 0b{local_ack_bits:016b} | {kinds}"
+        let log_line = format!(
+            ">>> remote: 0x{remote_sequence_id:04X} | local : 0x{local_sequence_id:04X} | local : 0b{local_ack_bits:016b} | {kinds}\n"
         );
+        LOG_FILE.lock().unwrap().write(log_line.as_bytes()).unwrap();
+        print!("{log_line}");
     }
 }
+
+pub fn print_debug(incoming_bytes: &[u8]) {
+    let log_line = format!("<<< {incoming_bytes:?}\n");
+    LOG_FILE.lock().unwrap().write(log_line.as_bytes()).unwrap();
+    print!("{log_line}");
+}
+
+// // Single packet, 3 messages
+// let responses_len = responses.len();
+// let packets = responses
+//     .into_iter()
+//     .enumerate()
+//     .map(|(i, game_message)| {
+//         let mut packet = UdpPacket::new();
+
+//         let remote_sequence_id =
+//             self.server_sequence_id + (i as u16).into() + 1.into();
+//         let order_id = self.server_order_id + (i as u16).into() + 1.into();
+
+//         let message = message::ServerMessage {
+//             remote_sequence_id,
+//             local_sequence_id: self.client_sequence_id,
+//             local_ack_bits: self.client_ack_bits,
+//             kind: message::ServerMessageKind::Messages(vec![
+//                 message::ServerGameMessage {
+//                     order_id,
+//                     game_message,
+//                 },
+//             ]),
+//         };
+//         message.print_debug(); // @TODO
+//         message.serialize(&mut packet);
+//         packet
+//     })
+//     .collect::<Vec<_>>();
+
+// self.server_sequence_id += (responses_len as u16).into();
+// self.server_order_id += (responses_len as u16).into();
+
+// for packet in packets {
+//     self.writer_tx.send(packet.get_message().to_vec()).unwrap();
+// }

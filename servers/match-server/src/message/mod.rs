@@ -2,7 +2,9 @@ pub mod client_message;
 pub mod server_message;
 
 pub use client_message::{ClientGameMessage, ClientMessage, ClientMessageKind};
-pub use server_message::{ServerGameMessage, ServerMessage, ServerMessageKind};
+pub use server_message::{
+    ServerGameMessage, ServerGameMessageKind, ServerMessage, ServerMessageKind,
+};
 
 // #[derive(Debug, PartialEq, Clone)]
 // pub enum LowLevelMessage {

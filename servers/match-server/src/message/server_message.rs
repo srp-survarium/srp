@@ -17,20 +17,23 @@ pub struct ServerMessage {
     /// So this means that the first bit in `local_ack_bits` should always be 0
     pub local_ack_bits: u16,
 
-    pub kinds: Vec<ServerMessageKind>,
+    pub kind: ServerMessageKind,
 }
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum ServerMessageKind {
     Low(low_level_message_type_enum),
-    Message {
-        order_id: SN16,
-        game_message: ServerGameMessage,
-    },
+    Messages(Vec<ServerGameMessage>),
 }
 
 #[derive(Debug, PartialEq, Clone)]
-pub enum ServerGameMessage {
+pub struct ServerGameMessage {
+    pub order_id: SN16,
+    pub game_message: ServerGameMessageKind,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub enum ServerGameMessageKind {
     ConnectionSuccessful,
     MatchOptions {
         map_id: u8,
@@ -110,31 +113,62 @@ impl Serialize for ServerMessage {
         packet.write(self.remote_sequence_id);
         packet.write(self.local_sequence_id);
 
-        let match_packets_count = match self.kinds.len() {
-            0 => unreachable!(),
-            1 => udp_match_packets_count_enum::single_packet,
+        let match_packets_count = match &self.kind {
+            ServerMessageKind::Low(_) => udp_match_packets_count_enum::multiple_packets,
+            ServerMessageKind::Messages(messages) if messages.len() == 1 => {
+                udp_match_packets_count_enum::single_packet
+            }
             _ => udp_match_packets_count_enum::multiple_packets,
         } as u16;
-
         packet.write(self.local_ack_bits << 1 | match_packets_count);
 
-        for kind in self.kinds {
-            match kind {
-                ServerMessageKind::Low(message_type) => packet.write(message_type),
-                ServerMessageKind::Message {
-                    order_id,
-                    game_message,
-                } => {
-                    packet.write(game_message.message_type());
-                    packet.write(order_id);
-                    game_message.serialize(packet);
+        self.kind.serialize(packet);
+    }
+}
+
+impl Serialize for ServerMessageKind {
+    fn serialize(self, packet: &mut impl Packet) {
+        match self {
+            Self::Low(message_type) => {
+                packet.write(1_u8); // low level message type size
+                packet.write(message_type)
+            }
+            Self::Messages(messages) => {
+                for message in messages {
+                    packet.write(0_u8);
+                    let len_index = packet.cursor_index();
+
+                    message.serialize(packet);
+
+                    let end_packet_idx = packet.cursor_index();
+                    let packet_len = end_packet_idx - len_index;
+
+                    // len     packet
+                    // [0] [1, 2, 3, 4, 5]
+                    //  ^               ^
+
+                    let packet_len: u8 = packet_len.try_into().unwrap();
+                    packet.rewrite_bytes(len_index, &[packet_len]);
                 }
             }
         }
     }
 }
 
-impl ServerGameMessage {
+impl Serialize for ServerGameMessage {
+    fn serialize(self, packet: &mut impl Packet) {
+        let Self {
+            order_id,
+            game_message,
+        } = self;
+
+        packet.write(game_message.message_type());
+        packet.write(order_id);
+        game_message.serialize(packet);
+    }
+}
+
+impl ServerGameMessageKind {
     #[rustfmt::skip]
     pub fn message_type(&self) -> match_server_message_types_enum {
         match self {
@@ -146,7 +180,7 @@ impl ServerGameMessage {
     }
 }
 
-impl Serialize for ServerGameMessage {
+impl Serialize for ServerGameMessageKind {
     fn serialize(self, packet: &mut impl Packet) {
         // Note that tag is written before `order_id`, which is not part of the message
         match self {
