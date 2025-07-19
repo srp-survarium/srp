@@ -178,6 +178,7 @@ impl MatchConnectionState {
             let packet = self.reader_rx.recv().unwrap();
             let mut buffer = packet.as_slice();
 
+            print_debug(buffer);
             let Ok(packet) = message::ClientMessage::deserialize(&mut buffer) else {
                 print_debug(buffer);
                 continue;
@@ -246,7 +247,7 @@ impl MatchConnectionState {
                 let mut packet = UdpPacket::new();
                 let responses_len = responses.len();
 
-                let game_messages = responses
+                let mut game_messages = responses
                     .into_iter()
                     .enumerate()
                     .map(|(i, game_message)| message::ServerGameMessage {
@@ -254,6 +255,7 @@ impl MatchConnectionState {
                         game_message,
                     })
                     .collect::<Vec<_>>();
+                // game_messages.reverse();
 
                 let message = message::ServerMessage {
                     remote_sequence_id: self.server_sequence_id,
@@ -268,23 +270,21 @@ impl MatchConnectionState {
                 message.serialize(&mut packet);
                 self.writer_tx.send(packet.get_message().to_vec()).unwrap();
             } else {
-                // self.server_sequence_id += 1.into();
+                self.server_sequence_id += 1.into();
 
-                // let mut packet = UdpPacket::new();
-                // let message = message::ServerMessage {
-                //     remote_sequence_id: self.server_sequence_id,
-                //     local_sequence_id: self.client_sequence_id,
-                //     local_ack_bits: self.client_ack_bits,
-                //     kind: message::ServerMessageKind::Low(
-                //         low_level_message_type_enum::continuous_flow,
-                //     ),
-                // };
-                // message.print_debug(); // @TODO
-                // message.serialize(&mut packet);
-                // self.writer_tx.send(packet.get_message().to_vec()).unwrap();
+                let mut packet = UdpPacket::new();
+                let message = message::ServerMessage {
+                    remote_sequence_id: self.server_sequence_id,
+                    local_sequence_id: self.client_sequence_id,
+                    local_ack_bits: self.client_ack_bits,
+                    kind: message::ServerMessageKind::Low(
+                        low_level_message_type_enum::continuous_flow,
+                    ),
+                };
+                message.print_debug(); // @TODO
+                message.serialize(&mut packet);
+                self.writer_tx.send(packet.get_message().to_vec()).unwrap();
             }
-
-            // todo!()
         }
     }
 
@@ -393,6 +393,10 @@ pub fn print_debug(incoming_bytes: &[u8]) {
     LOG_FILE.lock().unwrap().write(log_line.as_bytes()).unwrap();
     print!("{log_line}");
 }
+
+//
+//
+//
 
 // // Single packet, 3 messages
 // let responses_len = responses.len();

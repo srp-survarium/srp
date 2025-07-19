@@ -133,6 +133,11 @@ impl Serialize for ServerMessageKind {
                 packet.write(1_u8); // low level message type size
                 packet.write(message_type)
             }
+            Self::Messages(mut messages) if messages.len() == 1 => {
+                let message = messages.pop().unwrap();
+                message.serialize(packet);
+            }
+
             Self::Messages(messages) => {
                 for message in messages {
                     packet.write(0_u8);
@@ -145,10 +150,10 @@ impl Serialize for ServerMessageKind {
 
                     // len     packet
                     // [0] [1, 2, 3, 4, 5]
-                    //  ^               ^
+                    //      ^             ^
 
                     let packet_len: u8 = packet_len.try_into().unwrap();
-                    packet.rewrite_bytes(len_index, &[packet_len]);
+                    packet.rewrite_bytes(len_index - 1, &[packet_len]);
                 }
             }
         }

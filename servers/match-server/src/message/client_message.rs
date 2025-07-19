@@ -152,7 +152,7 @@ impl ClientGameMessage {
     #[rustfmt::skip]
     pub fn message_type(&self) -> match_client_message_types_enum {
         match self {
-            Self::GetStartupInfo  { .. }    => match_client_message_types_enum::get_startup_info,
+            Self::GetStartupInfo { .. }     => match_client_message_types_enum::get_startup_info,
             Self::ConnectionRequest { .. }  => match_client_message_types_enum::connection_request,
             Self::ClientPlayerUpdate { .. } => match_client_message_types_enum::client_player_update,
         }
