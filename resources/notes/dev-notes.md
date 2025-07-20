@@ -4,6 +4,31 @@ Survarium client 2: server -> { w w w }
 
 Survarium client 3: server -> { w w w }
 
+0.20e : no such message | March 21, 2014
+15.12.2014
+
+game <info> [14:55:19.980] create network client
+render_pc_dx11 <ERROR> [14:55:49.312] cook(before erasing)
+render_pc_dx11 <info> [14:55:49.434] atmosphere recalculated ( scene_changed:true, parameters_changed:false, window_resized:true )
+render_pc_dx11 <info> [14:55:50.725] atmosphere recalculated ( scene_changed:false, parameters_changed:true, window_resized:false )
+    network_core <Warning> [14:56:16.342] QOS_CONTROLLER ENABLED
+    network_core <Warning> [14:56:16.342] QOS_CONTROLLER ENABLED
+game <info> [14:56:28.096] PlayBtn disabled reason is: state=4 place=0 maintenance=0
+animation <Warning> [14:56:28.108] big time lag (38.783) => skipping animation events
+game <info> [14:56:28.512] LOBBY: try reconnect
+network_core <info> [14:56:28.513] connecting from 0.0.0.0:63049 to 188.93.23.27:65001
+network_core <info> [14:56:28.513] --udp_match_connection::connect (70.111s)
+render_pc_dx11 <info> [14:56:28.531] atmosphere recalculated ( scene_changed:true, parameters_changed:false, window_resized:true )
+game <info> [14:56:30.694] eating time: 2.181, but max frame delta is 2.000
+render_pc_dx11 <info> [14:56:30.699] atmosphere recalculated ( scene_changed:false, parameters_changed:true, window_resized:false )
+game <ERROR> [14:56:31.241] Unknown Client status received. type = 155
+
+
+// NOTES:
+// * UDP: 25100 port is open for something
+// * happens after error log
+//      game <ERROR>	[20:17:47:613]	[R] connect_to_game_server: 127.0.0.1: 1236 game time is 230496
+
 
 file.exe => file.o
 

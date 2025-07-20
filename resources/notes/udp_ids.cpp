@@ -16,7 +16,7 @@ struct __cppobj vostok::network_core::udp_match_connection : boost::noncopyable_
 
     vostok::intrusive_list<
         vostok::network_core::udp_match_packet,
-    >                                                                      m_outgoing_packets;
+    >                                                                      m_outgoing_packets; // ?
 
     vostok::intrusive_list<
         vostok::network_core::udp_match_packet,

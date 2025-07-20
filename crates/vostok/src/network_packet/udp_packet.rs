@@ -10,6 +10,15 @@ impl Packet for UdpPacket {
         self.buffer[self.idx..self.idx + data.len()].copy_from_slice(data);
         self.idx += data.len();
     }
+
+    fn rewrite_bytes(&mut self, index: usize, data: impl AsRef<[u8]>) {
+        let data = data.as_ref();
+        self.buffer[index..index + data.len()].copy_from_slice(data);
+    }
+
+    fn cursor_index(&self) -> usize {
+        self.idx
+    }
 }
 
 impl Default for UdpPacket {

@@ -1,12 +1,11 @@
 mod connection_state;
 mod message;
-mod player_profile;
 
 use self::connection_state::ConnectionState;
 pub use self::message::client::raw::faction_id;
 pub use self::message::{client, server};
 
-use foundation::network_client::TcpClient;
+use vostok::network_client::TcpClient;
 
 use std::ffi::CStr;
 use std::sync::Arc;
@@ -93,7 +92,7 @@ impl ServerState {
                     match kind {
                         client::EquipKind::Equip { to_slot } => {
                             profile_contents.slots[to_slot] =
-                                player_profile::raw::inventory_item_instance {
+                                survarium::player_profile::raw::inventory_item_instance {
                                     condition_or_stack: amount as u32,
                                     amount_in_inventory: amount as u32,
                                     id,
@@ -103,7 +102,7 @@ impl ServerState {
                         }
                         client::EquipKind::Unequip { from_slot } => {
                             profile_contents.slots[from_slot] =
-                                player_profile::raw::inventory_item_instance::default();
+                                survarium::player_profile::raw::inventory_item_instance::default();
                         }
                         _ => {
                             return Some(server::Message::OperationDenied(

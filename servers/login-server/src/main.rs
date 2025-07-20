@@ -4,7 +4,7 @@ use openssl::ssl::{Ssl, SslContext, SslFiletype, SslMethod};
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 
-use foundation::config;
+use vostok::config;
 
 const PKEY_PATH: &str = "./certs/survarium_login_server.key";
 const CERT_PATH: &str = "./certs/survarium_login_server.crt";

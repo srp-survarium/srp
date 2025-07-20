@@ -6,6 +6,8 @@ pub use udp_packet::UdpPacket;
 
 pub trait Packet {
     fn append_bytes(&mut self, data: impl AsRef<[u8]>);
+    fn rewrite_bytes(&mut self, index: usize, data: impl AsRef<[u8]>);
+    fn cursor_index(&self) -> usize;
 
     fn write<T: bytemuck::NoUninit>(&mut self, value: T) {
         self.append_bytes(bytemuck::bytes_of(&value))

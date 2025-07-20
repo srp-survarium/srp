@@ -15,4 +15,4 @@ env_logger = { workspace = true }
 log = { workspace = true }
 serde = { workspace = true }
 
-foundation = { workspace = true }
+vostok = { workspace = true }

@@ -8,6 +8,15 @@ impl Packet for TcpPacket {
     fn append_bytes(&mut self, data: impl AsRef<[u8]>) {
         self.buffer.extend_from_slice(data.as_ref());
     }
+
+    fn rewrite_bytes(&mut self, index: usize, data: impl AsRef<[u8]>) {
+        let data = data.as_ref();
+        self.buffer[index..index + data.len()].copy_from_slice(data);
+    }
+
+    fn cursor_index(&self) -> usize {
+        self.buffer.len() - 3
+    }
 }
 
 impl Default for TcpPacket {

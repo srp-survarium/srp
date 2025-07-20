@@ -1,6 +1,8 @@
 #![expect(dead_code)]
 #![expect(non_camel_case_types)]
 
+mod server_packet;
+
 #[repr(u8)]
 #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
 #[rustfmt::skip]
@@ -33,6 +35,7 @@ enum data_chunk_type_enum {
     data_chunk_types_count  = 0x9,
 }
 
+/// 0.19c
 const JOURNAL_FILE: &[u8] = include_bytes!("../Survarium-#763_140222-075828.journal");
 
 fn main() {

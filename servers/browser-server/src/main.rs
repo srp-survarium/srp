@@ -2,7 +2,7 @@ use actix_web::{
     get, middleware::Logger, web, App, HttpRequest, HttpResponse, HttpServer, Responder,
 };
 
-use foundation::config;
+use vostok::config;
 
 #[derive(serde::Deserialize, Debug)]
 #[expect(dead_code)]

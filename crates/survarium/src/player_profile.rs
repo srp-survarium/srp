@@ -1,7 +1,6 @@
-#![expect(non_camel_case_types)]
-#![expect(dead_code)]
-
+use bytemuck::Zeroable;
 use raw::*;
+use vostok::network_packet::Packet;
 
 pub mod raw {
     #[repr(C)]
@@ -13,12 +12,13 @@ pub mod raw {
         pub boosters: [skill_booster; 11],
         pub slots: [inventory_item_instance; 19],
         pub team: game_team_id,
+        pub padding_1: [u8; 3],
         pub is_local: bool,
-        pub padding: [u8; 3],
+        pub padding_2: [u8; 3],
     }
     const _: () = assert!(std::mem::size_of::<player_profile>() == 0x1B8);
 
-    #[repr(u32)]
+    #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
     pub enum game_team_id {
         team_1 = 0x0,
@@ -119,6 +119,116 @@ impl<T, const N: usize> std::ops::IndexMut<profile_slot_enum> for [T; N] {
 }
 
 impl player_profile {
+    pub fn serialize_tcp(self, packet: &mut impl Packet) {
+        packet.write(self)
+    }
+
+    pub fn serialize_udp(self, packet: &mut impl Packet) {
+        let player_profile {
+            account_id: _,
+            profile_id: _,
+            profile_name,
+            boosters,
+            slots,
+            padding_1: _,
+            team,
+            is_local,
+            padding_2: _,
+        } = self;
+
+        packet.write(team);
+        packet.write(is_local);
+
+        let profile_name = profile_name
+            .split_once(|&c| c == 0)
+            .map(|(name, _)| name)
+            .unwrap_or(profile_name.as_ref());
+        packet.write_slice::<u8, _, _>(profile_name);
+
+        //
+        //
+        //
+
+        let mut bitmask = 0b0000_0000_0000_0000;
+        let mut compact_boosters = [skill_booster::zeroed(); 11];
+        let mut no = 0;
+        for (i, booster) in boosters.into_iter().enumerate() {
+            if booster == skill_booster::zeroed() {
+                continue;
+            }
+            bitmask |= 1_u16 << i;
+            compact_boosters[no] = booster;
+            no += 1;
+        }
+        packet.write(bitmask);
+        for booster in &compact_boosters[0..no] {
+            packet.write(booster.id);
+            packet.write(booster.value);
+        }
+
+        //
+        //
+        //
+
+        #[rustfmt::skip]
+        #[expect(non_camel_case_types)]
+        #[derive(Copy, Clone)]
+        enum slot_serialize_mode_enum {
+            serialize_just_condition_stack_values = 0x0,
+            #[expect(dead_code)]
+            serialize_just_amount_values          = 0x1,
+            serialize_both_values                 = 0x2,
+        }
+        use slot_serialize_mode_enum::*;
+
+        const TABLE: [slot_serialize_mode_enum; 19] = [
+            serialize_just_condition_stack_values,
+            serialize_just_condition_stack_values,
+            serialize_just_condition_stack_values,
+            serialize_just_condition_stack_values,
+            serialize_just_condition_stack_values,
+            serialize_just_condition_stack_values,
+            serialize_just_condition_stack_values,
+            serialize_just_condition_stack_values,
+            serialize_both_values,
+            serialize_both_values,
+            serialize_just_condition_stack_values,
+            serialize_both_values,
+            serialize_both_values,
+            serialize_both_values,
+            serialize_both_values,
+            serialize_both_values,
+            serialize_both_values,
+            serialize_both_values,
+            serialize_both_values,
+        ];
+
+        for (i, slot) in slots.into_iter().enumerate() {
+            if slot == inventory_item_instance::zeroed() {
+                continue;
+            }
+
+            packet.write(i as u8);
+            packet.write(slot.dict_id);
+            packet.write(slot.id);
+            if matches!(
+                TABLE[i],
+                serialize_both_values | serialize_just_condition_stack_values
+            ) {
+                packet.write(slot.condition_or_stack as u16)
+            }
+
+            if matches!(
+                TABLE[i],
+                serialize_both_values | serialize_just_amount_values
+            ) {
+                packet.write(slot.amount_in_inventory)
+            }
+        }
+    }
+}
+
+impl player_profile {
     pub fn new_dummy(account_id: u32, profile_id: u32, profile_name: &str) -> Self {
         let i = |id, dict_id, condition_or_stack| inventory_item_instance {
             condition_or_stack,
@@ -133,18 +243,18 @@ impl player_profile {
         #[rustfmt::skip]
         {
             use profile_slot_enum::*;
-            slots[boots_slot]   = i(1, 24, 10);
-            slots[gloves_slot]  = i(2, 40, 20);
-            slots[pants_slot]   = i(3, 46, 30);
-            slots[helmet_slot]  = i(4, 27, 40);
-            slots[mask_slot]    = i(5, 43, 50);
-            slots[torso_slot]   = i(6, 48, 60);
-            slots[back_slot]    = i(7, 9,  70);
-            slots[weapon1_slot] = i(12, 55, 120);
-            slots[weapon2_slot] = i(12, 55, 130);
+            slots[boots_slot]   = i(1, 24, 100);
+            // slots[gloves_slot]  = i(2, 40, 20);
+            // slots[pants_slot]   = i(3, 46, 30);
+            // slots[helmet_slot]  = i(4, 27, 40);
+            // slots[mask_slot]    = i(5, 43, 50);
+            // slots[torso_slot]   = i(6, 48, 60);
+            // slots[back_slot]    = i(7, 9,  70);
+            // slots[weapon1_slot] = i(12, 55, 120);
+            // slots[weapon2_slot] = i(12, 55, 130);
 
-            slots[ammo1_weapon1_slot] = i(33, 53, 500);
-            slots[ammo2_weapon1_slot] = i(33, 53, 500);
+            // slots[ammo1_weapon1_slot] = i(33, 53, 500);
+            // slots[ammo2_weapon1_slot] = i(33, 53, 500);
             // slots[ammo2_weapon1_slot] = i(...);
             // slots[ammo1_weapon2_slot] = i(...);
             // slots[ammo2_weapon2_slot] = i(...);
@@ -166,9 +276,10 @@ impl player_profile {
             profile_name,
             boosters: [skill_booster::default(); 11],
             slots,
+            padding_1: Default::default(),
             team: game_team_id::team_neutral,
             is_local: true,
-            padding: Default::default(),
+            padding_2: Default::default(),
         }
     }
 }

@@ -1,7 +1,7 @@
-use crate::lobby_server::player_profile::raw::profile_slot_enum;
-use foundation::network_client::NetworkRequest;
-use foundation::serde::{advance_buffer, advance_by, advance_padding};
-use foundation::serde::{Deserialize, DeserializeError};
+use survarium::player_profile::raw::profile_slot_enum;
+use vostok::network_client::NetworkRequest;
+use vostok::serde::{advance_buffer, advance_by, advance_padding};
+use vostok::serde::{Deserialize, DeserializeError};
 
 use self::raw::*;
 
@@ -92,7 +92,7 @@ pub mod raw {
         shop_action                       = 0x24,
         skills_tree_action                = 0x25,
         lobby_client_sign_in_info         = 0x26,
-        discard_playing_order             = 0x27,
+        discard_playing_order             = 0x27, // when disconnected from match (manually)
         ping_server                       = 0x28,
         lobby_client_invalid_message_type = 0x2F,
     }

@@ -1,7 +1,8 @@
 [workspace]
 members = [
-  "crates/foundation",
   "crates/binary-config-parser",
+  "crates/survarium",
+  "crates/vostok",
 
   "servers/browser-server",
   "servers/lobby-server",
@@ -11,7 +12,7 @@ members = [
   "scripts/binary-config-cli",
   "scripts/build-engine-structure",
   "scripts/nasm-decompiler",
-  "scripts/parse-journal-file",
+  "scripts/parse-journal-file", 
 ]
 exclude = []
 resolver = "3"
@@ -19,6 +20,8 @@ resolver = "3"
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
+
+[workspace.lints.clippy]
 
 [workspace.dependencies]
 arrayref = "0.3.9" # TODO: Remove
@@ -37,10 +40,8 @@ thiserror = "2.0.12"
 actix-web = "4.10.2"
 env_logger = "0.10"
 log = "0.4"
-
 sqlx = { version = "0.8", features = [ "runtime-tokio" ] }
 
-foundation = { path = "crates/foundation" }
 binary-config-parser = { path = "crates/binary-config-parser" }
-
-[workspace.lints.clippy]
+survarium = { path = "crates/survarium" }
+vostok = { path = "crates/vostok" }

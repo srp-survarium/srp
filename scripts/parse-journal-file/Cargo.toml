@@ -3,8 +3,11 @@ name = "parse-journal-file"
 version.workspace = true
 edition.workspace = true
 
+[lints]
+workspace = true
+
 [dependencies]
 bytemuck = { workspace = true }
 
-[lints]
-workspace = true
+survarium = { workspace = true }
+vostok = { workspace = true }
