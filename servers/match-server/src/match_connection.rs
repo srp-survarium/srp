@@ -291,7 +291,8 @@ impl MatchConnection {
         }
 
         if server_sequence_id == self.server_received_sequence_id {
-            // The packet was duplicated. Ignore return;
+            // The packet was duplicated. Ignore
+            return;
         }
 
         if server_sequence_id < self.server_received_sequence_id {
@@ -305,7 +306,7 @@ impl MatchConnection {
 
             self.unacknowledged_packets.remove(&server_sequence_id);
         } else {
-            // This is the most recent packet from the client(?)
+            // This is the most recent state about the server from the client
 
             let diff = server_sequence_id - self.server_received_sequence_id;
 
@@ -362,6 +363,9 @@ impl MatchConnection {
 
         message.print_debug();
         message.serialize(&mut packet);
+
+        self.unacknowledged_packets
+            .insert(self.server_sequence_id, packet);
 
         self.writer_tx.send(packet.get_message().to_vec()).unwrap();
     }

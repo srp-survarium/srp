@@ -1,5 +1,6 @@
 use crate::network_packet::Packet;
 
+#[derive(Copy, Clone)]
 pub struct UdpPacket {
     buffer: [u8; 256],
     idx: usize,
