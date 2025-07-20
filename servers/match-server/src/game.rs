@@ -73,7 +73,7 @@ impl Game {
                     },
                 ]
             }
-            ClientGameMessageKind::ClientPlayerUpdate { unknown: _ } => vec![],
+            ClientGameMessageKind::ClientPlayerUpdate { .. } => vec![],
         }
     }
 }

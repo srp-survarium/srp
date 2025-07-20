@@ -1,3 +1,4 @@
+use survarium::player_input::{player_input, player_state};
 use vostok::network_client::NetworkRequest;
 use vostok::serde::advance_buffer;
 use vostok::serde::{Deserialize, DeserializeError};
@@ -33,10 +34,23 @@ pub struct ClientGameMessage {
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum ClientGameMessageKind {
-    ConnectionRequest { session_id: u32 },
+    ConnectionRequest {
+        session_id: u32,
+    },
     GetStartupInfo,
-    ClientPlayerUpdate { unknown: Box<[u8; 44]> },
+    ClientPlayerUpdate {
+        player_input: player_input,
+        player_state: player_state,
+        time_in_ms: u32,
+    },
 }
+
+const _: () = assert!(
+    std::mem::size_of::<player_input>()
+        + std::mem::size_of::<player_state>()
+        + std::mem::size_of::<u32>()
+        == 44
+);
 
 pub mod raw {
     #![expect(non_camel_case_types)]
@@ -154,9 +168,13 @@ impl ClientGameMessageKind {
             }
             match_client_message_types_enum::get_startup_info => Self::GetStartupInfo,
             match_client_message_types_enum::client_player_update => {
-                let unknown = advance_buffer::<[u8; 44]>(out_buffer)?;
+                let player_input = advance_buffer::<player_input>(out_buffer)?;
+                let player_state = advance_buffer::<player_state>(out_buffer)?;
+                let time_in_ms = advance_buffer::<u32>(out_buffer)?;
                 Self::ClientPlayerUpdate {
-                    unknown: Box::new(unknown),
+                    player_input,
+                    player_state,
+                    time_in_ms,
                 }
             }
             _ => return Err(DeserializeError::UnknownMessageType(msg_type as u8)),
@@ -187,7 +205,7 @@ mod test {
         let dejure = ClientMessage {
             local_sequence_id: 15.into(),
             remote_sequence_id: 0xFFFF.into(),
-            remote_ack_bits: 0,
+            remote_ack_bits: 0x8000,
             kind: ClientMessageKind::Messages(vec![ClientGameMessage {
                 order_id: SN16(0),
                 game_message: ClientGameMessageKind::ConnectionRequest { session_id: 56576 },
@@ -203,7 +221,7 @@ mod test {
         let dejure = ClientMessage {
             local_sequence_id: 14.into(),
             remote_sequence_id: 0xFFFF.into(),
-            remote_ack_bits: 0,
+            remote_ack_bits: 0x8000,
             kind: ClientMessageKind::Low(low_level_message_type_enum::continuous_flow),
         };
         assert_eq!(defacto, dejure);
@@ -229,7 +247,7 @@ mod test {
         let message = ClientMessage::deserialize(&mut buffer.as_ref()).unwrap();
         assert_eq!(message.local_sequence_id, 1532.into());
         assert_eq!(message.remote_sequence_id, 0.into());
-        assert_eq!(message.remote_ack_bits, 0);
+        assert_eq!(message.remote_ack_bits, 0x8000);
         let ClientMessageKind::Messages(messages) = message.kind else {
             panic!();
         };

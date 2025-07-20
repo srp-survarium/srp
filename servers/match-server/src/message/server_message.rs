@@ -1,3 +1,4 @@
+use survarium::player_input::{player_input, player_state, weapon_state};
 use survarium::player_profile::raw::player_profile;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
@@ -32,6 +33,7 @@ pub struct ServerGameMessage {
     pub game_message: ServerGameMessageKind,
 }
 
+#[expect(dead_code)]
 #[derive(Debug, PartialEq, Clone)]
 pub enum ServerGameMessageKind {
     ConnectionSuccessful,
@@ -45,10 +47,17 @@ pub enum ServerGameMessageKind {
         respawn_time: u8,
         match_time: u16,
     },
-    #[expect(dead_code)]
+
+    ServerPlayerInput {
+        player_id: u8,
+        player_input: player_input,
+        player_state: player_state,
+        weapon_state: weapon_state,
+    },
     MatchTimeChanged {
         match_time: u32,
     },
+
     PlayerProfile {
         player_profile: Box<player_profile>,
     },
@@ -180,6 +189,7 @@ impl ServerGameMessageKind {
         match self {
             Self::ConnectionSuccessful { .. } => match_server_message_types_enum::match_server_connection_successful,
             Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
+            Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
             Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
         }
@@ -209,9 +219,14 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(respawn_time);
                 packet.write(match_time);
             }
+
+            Self::ServerPlayerInput { .. } => {
+                todo!()
+            }
             Self::MatchTimeChanged { match_time } => {
                 packet.write(match_time);
             }
+
             Self::PlayerProfile { player_profile } => {
                 player_profile.serialize_udp(packet);
             }
