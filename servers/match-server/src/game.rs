@@ -48,7 +48,8 @@ impl Game {
                 vec![
                     ServerGameMessageKind::MatchOptions {
                         map_id: 0,
-                        map_name: "level_03_evn".to_string(),
+                        map_name: "level_04".to_string(),
+                        // map_name: "level_03_evn".to_string(),
                         // map_name: "lobby_scene".to_string(),
                         match_mode: game_mode_type::gather_victory_items,
                         player_count: 2,

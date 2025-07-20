@@ -1197,6 +1197,8 @@ name = "parse-journal-file"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
+ "survarium",
+ "vostok",
 ]
 
 [[package]]

@@ -32,9 +32,12 @@
 0.16b	
 * 10 vs. 10 gameplay implemented
 
-0.18a	
+0.18a: December 20, 2013 | beta
 * Poisoning “thermometer" was removed from the interface
 * Temporarily disable all the perks of the character
+
+0.19c: February 7, 2014 
+0.20a: March 17, 2014
 
 0.21a
 * Changed the algorithm for sending network messages about user : now the information about other users can only be sent at no more than 20 times per second. This change reduces the network traffic
