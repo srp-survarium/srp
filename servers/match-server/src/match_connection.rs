@@ -1,7 +1,6 @@
 // @TODO:
 // * Proper packet splitter
 // * Retries
-// * update_acknowledgements
 // * error handling
 
 use std::collections::BTreeMap;
@@ -30,8 +29,8 @@ pub struct MatchConnection {
 
     // Last sequence_id sent to the client
     server_sequence_id: SN16,
-    #[expect(dead_code)]
-    server_ack_bits: u16,
+    server_received_sequence_id: SN16,
+    server_received_ack_bits: u16,
 
     // Last sequence_id recv from the client
     client_sequence_id: SN16,
@@ -86,7 +85,8 @@ impl MatchConnection {
             writer_handle: None,
 
             server_sequence_id: 0xFFFF.into(),
-            server_ack_bits: 0b0000_0000_0000_0000,
+            server_received_sequence_id: 0xFFFF.into(),
+            server_received_ack_bits: 0b0000_0000_0000_0000,
 
             client_sequence_id: 0xFFFF.into(),
             client_ack_bits: 0b0000_0000_0000_0000,
@@ -163,7 +163,7 @@ impl MatchConnection {
 
         assert_eq!(message.local_sequence_id, 0x0000.into());
         assert_eq!(message.remote_sequence_id, 0xFFFF.into());
-        assert_eq!(message.remote_ack_bits, 0b0000_0000_0000_0000);
+        assert_eq!(message.remote_ack_bits, 0b1000_0000_0000_0000);
         let message::ClientMessageKind::Messages(messages) = message.kind else {
             panic!()
         };
@@ -178,11 +178,16 @@ impl MatchConnection {
         udp_client.connect(addr).unwrap();
 
         // @TODO: First values are currently set manually
-        self.server_sequence_id = 0x00_00.into();
+        self.server_sequence_id = 0x0000.into();
+        self.server_received_sequence_id = 0xFFFF.into();
+        self.server_received_ack_bits = 0b0000_0000_0000_0000;
+
         self.client_sequence_id = 0x00_00.into();
-        self.client_ack_bits = 0b0000_0000_0000_0000;
-        self.server_order_id = 0x00_00.into();
-        self.client_order_id = 0x00_00.into();
+        self.client_ack_bits = 0b1000_0000_0000_0000;
+
+        self.server_order_id = 0x0000.into();
+        self.client_order_id = 0x0000.into();
+
         self.last_send_time = Instant::now();
 
         let mut packet = UdpPacket::new();
@@ -227,11 +232,10 @@ impl MatchConnection {
             return;
         }
 
-        if local_sequence_id < self.client_sequence_id {
+        if self.client_sequence_id < local_sequence_id {
+            // 1. Check remote_ack_bits on which packets were received and delete ones we don't
+            //    need to retry anymore
             self.update_acknowledgements(local_sequence_id, remote_sequence_id, remote_ack_bits);
-        } else {
-            self.client_sequence_id = 0x00_01.into();
-            self.client_ack_bits = 0b0100_0000_0000_0000; // @FIXME
         }
 
         match kind {
@@ -259,11 +263,78 @@ impl MatchConnection {
 
     pub fn update_acknowledgements(
         &mut self,
-        _sequence_id: SN16,
-        _remote_sequence_id: SN16,
-        _remote_ack_bits: u16,
+        client_sequence_id: SN16, // local here means client
+        server_sequence_id: SN16,
+        server_ack_bits: u16, // server packets which were acknowledged by the client
     ) {
-        todo!()
+        //
+        // Updates info on the client packages received
+        //
+        let diff = client_sequence_id - self.client_sequence_id;
+
+        let mut client_ack_bits = 0;
+        if diff < 0x10 {
+            client_ack_bits = self.client_ack_bits >> diff;
+        }
+        client_ack_bits |= 0x8000;
+
+        self.client_ack_bits = client_ack_bits;
+        self.client_sequence_id = client_sequence_id;
+
+        //
+        // Given what client knows about our packets,
+        // remove already received unacknowledged packets
+        //
+
+        if server_sequence_id > self.server_sequence_id {
+            panic!("Packet we didn't send");
+        }
+
+        if server_sequence_id == self.server_received_sequence_id {
+            // The packet was duplicated. Ignore return;
+        }
+
+        if server_sequence_id < self.server_received_sequence_id {
+            // Packet came out of order, and we already handled a more recent packet.
+            // Simply mark this packet as acknowledged.
+
+            let diff = self.server_received_sequence_id - server_sequence_id;
+            if diff <= 15 {
+                self.server_received_ack_bits |= 1 << (15 - diff);
+            }
+
+            self.unacknowledged_packets.remove(&server_sequence_id);
+        } else {
+            // This is the most recent packet from the client(?)
+
+            let diff = server_sequence_id - self.server_received_sequence_id;
+
+            let last_server_received_ack_bits = if diff < 16 {
+                self.server_received_ack_bits >> diff
+            } else {
+                0
+            };
+
+            if server_ack_bits & last_server_received_ack_bits != last_server_received_ack_bits {
+                // Packet is inconsistent with what the client told us previously
+                // Some packet which was told that it was acknowledged is no longer acknowledged
+                return;
+            }
+
+            self.server_received_ack_bits = server_ack_bits;
+            self.server_received_sequence_id = server_sequence_id;
+
+            let mut acknowledgment_bits = server_ack_bits ^ last_server_received_ack_bits;
+            let mut sequence_id = server_sequence_id.0;
+
+            while acknowledgment_bits != 0 {
+                if (acknowledgment_bits & 0x8000) != 0 {
+                    self.unacknowledged_packets.remove(&sequence_id.into());
+                }
+                sequence_id -= 1;
+                acknowledgment_bits <<= 1;
+            }
+        }
     }
 
     fn handle_low_level_message(&mut self, msg_type: low_level_message_type_enum) {

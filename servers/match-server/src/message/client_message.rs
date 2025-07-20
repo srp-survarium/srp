@@ -69,7 +69,7 @@ impl Deserialize for ClientMessage {
         let remote_sequence_id = advance_buffer::<SN16>(out_buffer)?;
 
         let word = advance_buffer::<u16>(out_buffer)?;
-        let remote_ack_bits = word >> 1;
+        let remote_ack_bits = word >> 1 | 0x8000;
 
         let match_packets_count = (word & 1) as u8;
         let match_packets_count =

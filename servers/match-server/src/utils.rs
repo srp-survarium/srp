@@ -111,16 +111,14 @@ impl message::ServerMessage {
 }
 
 pub fn print_debug(incoming_bytes: &[u8]) {
-    let result = panic::catch_unwind(|| try_print_debug(incoming_bytes));
-    if result.is_err() {
-        let log_line = format!("<!! {incoming_bytes:?}\n");
-        LOG_FILE
-            .lock()
-            .unwrap()
-            .write_all(log_line.as_bytes())
-            .unwrap();
-        print!("{log_line}");
-    }
+    let _result = panic::catch_unwind(|| try_print_debug(incoming_bytes));
+    let log_line = format!("<!! {incoming_bytes:?}\n");
+    LOG_FILE
+        .lock()
+        .unwrap()
+        .write_all(log_line.as_bytes())
+        .unwrap();
+    print!("{log_line}");
 }
 
 pub fn try_print_debug(mut incoming_bytes: &[u8]) {
@@ -129,7 +127,7 @@ pub fn try_print_debug(mut incoming_bytes: &[u8]) {
     let remote_sequence_id = advance_buffer::<SN16>(out_buffer).unwrap().0;
 
     let word = advance_buffer::<u16>(out_buffer).unwrap();
-    let remote_ack_bits = word >> 1;
+    let remote_ack_bits = word >> 1 | 0x8000;
 
     let match_packets_count = (word & 1) as u8;
     let match_packets_count =
