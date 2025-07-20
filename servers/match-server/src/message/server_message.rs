@@ -45,11 +45,12 @@ pub enum ServerGameMessageKind {
         respawn_time: u8,
         match_time: u16,
     },
+    #[expect(dead_code)]
     MatchTimeChanged {
         match_time: u32,
     },
     PlayerProfile {
-        player_profile: player_profile,
+        player_profile: Box<player_profile>,
     },
 }
 
@@ -153,7 +154,7 @@ impl Serialize for ServerMessageKind {
                     //      ^             ^
 
                     let packet_len: u8 = packet_len.try_into().unwrap();
-                    packet.rewrite_bytes(len_index - 1, &[packet_len]);
+                    packet.rewrite_bytes(len_index - 1, [packet_len]);
                 }
             }
         }

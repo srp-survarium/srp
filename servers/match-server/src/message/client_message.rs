@@ -16,20 +16,23 @@ pub struct ClientMessage {
     pub remote_sequence_id: SN16,
     /// @TODO: Understand exactly what it means
     pub remote_ack_bits: u16,
-    pub kinds: Vec<ClientMessageKind>,
+    pub kind: ClientMessageKind,
 }
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum ClientMessageKind {
     Low(low_level_message_type_enum),
-    Message {
-        order_id: SN16,
-        game_message: ClientGameMessage,
-    },
+    Messages(Vec<ClientGameMessage>),
 }
 
 #[derive(Debug, PartialEq, Clone)]
-pub enum ClientGameMessage {
+pub struct ClientGameMessage {
+    pub order_id: SN16,
+    pub game_message: ClientGameMessageKind,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub enum ClientGameMessageKind {
     ConnectionRequest { session_id: u32 },
     GetStartupInfo,
     ClientPlayerUpdate { unknown: Box<[u8; 44]> },
@@ -72,23 +75,7 @@ impl Deserialize for ClientMessage {
         let match_packets_count =
             bytemuck::checked::cast::<_, udp_match_packets_count_enum>(match_packets_count);
 
-        let mut kinds = vec![];
-        match match_packets_count {
-            udp_match_packets_count_enum::single_packet => {
-                let kind = ClientMessageKind::parse(out_buffer)?;
-                kinds.push(kind);
-            }
-            udp_match_packets_count_enum::multiple_packets => loop {
-                let kind_len = advance_buffer::<u8>(out_buffer)? as usize;
-                let kind = ClientMessageKind::parse(&mut out_buffer[0..kind_len].as_ref())?;
-                kinds.push(kind);
-
-                *out_buffer = out_buffer[kind_len..].as_ref();
-                if out_buffer.is_empty() {
-                    break;
-                }
-            },
-        }
+        let kind = ClientMessageKind::parse(match_packets_count, out_buffer)?;
 
         if !out_buffer.is_empty() {
             return Err(DeserializeError::incorrect_input());
@@ -98,34 +85,64 @@ impl Deserialize for ClientMessage {
             local_sequence_id,
             remote_sequence_id,
             remote_ack_bits,
-            kinds,
+            kind,
         })
     }
 }
 
 impl ClientMessageKind {
-    fn parse(out_buffer: &mut &[u8]) -> Result<Self, DeserializeError> {
-        let kind = if let Ok(msg_type) = advance_buffer::<low_level_message_type_enum>(out_buffer) {
-            Self::Low(msg_type)
-        } else {
-            let msg_type = advance_buffer::<match_client_message_types_enum>(out_buffer)?;
-            let order_id = advance_buffer::<SN16>(out_buffer)?;
-            let game_message = ClientGameMessage::parse(msg_type, out_buffer)?;
-            Self::Message {
-                order_id,
-                game_message,
+    fn parse(
+        match_packets_count: udp_match_packets_count_enum,
+        out_buffer: &mut &[u8],
+    ) -> Result<Self, DeserializeError> {
+        let kind = match match_packets_count {
+            udp_match_packets_count_enum::single_packet => {
+                let message = ClientGameMessage::parse(out_buffer)?;
+                Self::Messages(vec![message])
+            }
+            udp_match_packets_count_enum::multiple_packets => {
+                let mut messages = vec![];
+                let message_len = advance_buffer::<u8>(out_buffer)? as usize;
+                if let Ok(msg_type) = advance_buffer::<low_level_message_type_enum>(out_buffer) {
+                    Self::Low(msg_type)
+                } else {
+                    let message =
+                        ClientGameMessage::parse(&mut out_buffer[0..message_len].as_ref())?;
+                    messages.push(message);
+                    *out_buffer = out_buffer[message_len..].as_ref();
+
+                    loop {
+                        if out_buffer.is_empty() {
+                            break;
+                        }
+                        let message_len = advance_buffer::<u8>(out_buffer)? as usize;
+                        let message =
+                            ClientGameMessage::parse(&mut out_buffer[0..message_len].as_ref())?;
+                        messages.push(message);
+                        *out_buffer = out_buffer[message_len..].as_ref();
+                    }
+
+                    Self::Messages(messages)
+                }
             }
         };
-
-        if !out_buffer.is_empty() {
-            return Err(DeserializeError::incorrect_input());
-        }
-
         Ok(kind)
     }
 }
 
 impl ClientGameMessage {
+    fn parse(out_buffer: &mut &[u8]) -> Result<Self, DeserializeError> {
+        let msg_type = advance_buffer::<match_client_message_types_enum>(out_buffer)?;
+        let order_id = advance_buffer::<SN16>(out_buffer)?;
+        let game_message = ClientGameMessageKind::parse(msg_type, out_buffer)?;
+        Ok(Self {
+            order_id,
+            game_message,
+        })
+    }
+}
+
+impl ClientGameMessageKind {
     fn parse(
         msg_type: match_client_message_types_enum,
         out_buffer: &mut &[u8],
@@ -148,7 +165,7 @@ impl ClientGameMessage {
     }
 }
 
-impl ClientGameMessage {
+impl ClientGameMessageKind {
     #[rustfmt::skip]
     pub fn message_type(&self) -> match_client_message_types_enum {
         match self {
@@ -171,10 +188,10 @@ mod test {
             local_sequence_id: 15.into(),
             remote_sequence_id: 0xFFFF.into(),
             remote_ack_bits: 0,
-            kinds: vec![ClientMessageKind::Message {
+            kind: ClientMessageKind::Messages(vec![ClientGameMessage {
                 order_id: SN16(0),
-                game_message: ClientGameMessage::ConnectionRequest { session_id: 56576 },
-            }],
+                game_message: ClientGameMessageKind::ConnectionRequest { session_id: 56576 },
+            }]),
         };
         assert_eq!(defacto, dejure);
     }
@@ -187,9 +204,7 @@ mod test {
             local_sequence_id: 14.into(),
             remote_sequence_id: 0xFFFF.into(),
             remote_ack_bits: 0,
-            kinds: vec![ClientMessageKind::Low(
-                low_level_message_type_enum::continuous_flow,
-            )],
+            kind: ClientMessageKind::Low(low_level_message_type_enum::continuous_flow),
         };
         assert_eq!(defacto, dejure);
     }
@@ -215,6 +230,29 @@ mod test {
         assert_eq!(message.local_sequence_id, 1532.into());
         assert_eq!(message.remote_sequence_id, 0.into());
         assert_eq!(message.remote_ack_bits, 0);
-        assert_eq!(message.kinds.len(), 5);
+        let ClientMessageKind::Messages(messages) = message.kind else {
+            panic!();
+        };
+        assert_eq!(messages.len(), 5);
+    }
+
+    #[test]
+    fn fails_to_parse_new_message_types() {
+        #[rustfmt::skip]
+        let buffer: &[u8] = &[
+            186, 2,
+            5, 0,
+            1, 248,
+            47, 67, 235, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 210, 112, 50, 39, 128, 155, 196, 59, 231, 52, 1, 167, 218, 15, 73, 192, 0, 0, 0, 0, 109, 47, 0, 0,
+            47, 67, 236, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 210, 112, 50, 39, 128, 155, 196, 59, 231, 52, 1, 167, 218, 15, 73, 192, 0, 0, 0, 0, 121, 47, 0, 0,
+            47, 67, 22, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 210, 112, 50, 39, 128, 155, 196, 59, 231, 52, 1, 167, 218, 15, 73, 192, 0, 0, 0, 0, 94, 49, 0, 0,
+            47, 67, 21, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 210, 112, 50, 39, 128, 155, 196, 59, 231, 52, 1, 167, 218, 15, 73, 192, 0, 0, 0, 0, 81, 49, 0, 0,
+            47, 67, 225, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 210, 112, 50, 39, 128, 155, 196, 59, 231, 52, 1, 167, 218, 15, 73, 192, 0, 0, 0, 0, 252, 46, 0, 0,
+            3, 72, 52, 1,
+            3, 66, 53, 1
+        ];
+
+        let message = ClientMessage::deserialize(&mut buffer.as_ref()).unwrap_err();
+        assert!(matches!(message, DeserializeError::UnknownMessageType(_)));
     }
 }
