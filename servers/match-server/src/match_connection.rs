@@ -332,7 +332,7 @@ impl MatchConnection {
                 if (acknowledgment_bits & 0x8000) != 0 {
                     self.unacknowledged_packets.remove(&sequence_id.into());
                 }
-                sequence_id -= 1;
+                sequence_id = sequence_id.wrapping_sub(1);
                 acknowledgment_bits <<= 1;
             }
         }

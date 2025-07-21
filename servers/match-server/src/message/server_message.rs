@@ -1,4 +1,4 @@
-use survarium::player_input::{player_input, player_state, weapon_state};
+use survarium::player_input::{player, player_input, player_state, weapon_state};
 use survarium::player_profile::raw::player_profile;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
@@ -47,7 +47,10 @@ pub enum ServerGameMessageKind {
         respawn_time: u8,
         match_time: u16,
     },
-
+    SpawnPlayer {
+        player_id: u8,
+        player: player,
+    },
     ServerPlayerInput {
         player_id: u8,
         player_input: player_input,
@@ -73,22 +76,22 @@ pub mod raw {
     pub enum match_server_message_types_enum {
         match_server_connection_successful = 0x80, // changes connection_type to connected
         match_options_message_type         = 0x81, // [+] - survarium::network_client::on_match_packet_received
-        server_player_input                = 0x82, // 
-        kill_player                        = 0x83, // 
-        spawn_player                       = 0x84, // 
-        team_base_capture_progress         = 0x85, // 
-        match_time_changed                 = 0x86, // 
-        respawn_time_changed               = 0x87, // 
-        player_kd_stats_changed            = 0x88, // 
-        hit_player                         = 0x89, // 
-        affect_damage_model                = 0x8A, // 
-        sync_response                      = 0x8B, // 
-        match_finished                     = 0x8C, // 
-        server_bullet_added                = 0x8D, // 
-        server_bullet_removed              = 0x8E, // 
-        server_bullet_moved                = 0x8F, // 
-        server_bullet_collided             = 0x90, // 
-        player_visibility_changed          = 0x91, // 
+        server_player_input                = 0x82, //
+        kill_player                        = 0x83, //
+        spawn_player                       = 0x84, //
+        team_base_capture_progress         = 0x85, //
+        match_time_changed                 = 0x86, //
+        respawn_time_changed               = 0x87, //
+        player_kd_stats_changed            = 0x88, //
+        hit_player                         = 0x89, //
+        affect_damage_model                = 0x8A, //
+        sync_response                      = 0x8B, //
+        match_finished                     = 0x8C, //
+        server_bullet_added                = 0x8D, //
+        server_bullet_removed              = 0x8E, //
+        server_bullet_moved                = 0x8F, //
+        server_bullet_collided             = 0x90, //
+        player_visibility_changed          = 0x91, //
         player_profile_message_type        = 0x92,
         team_bases_message_type            = 0x93,
         initialize_victory_items           = 0x94,
@@ -189,6 +192,7 @@ impl ServerGameMessageKind {
         match self {
             Self::ConnectionSuccessful { .. } => match_server_message_types_enum::match_server_connection_successful,
             Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
+            Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
             Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
             Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
@@ -218,6 +222,25 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(victory_item_count);
                 packet.write(respawn_time);
                 packet.write(match_time);
+            }
+
+            Self::SpawnPlayer { player_id, player } => {
+                packet.write(player_id);
+                let player {
+                    position,
+                    orientation,
+                    look_pitch,
+                    is_alive,
+                    slot_id,
+                    server_target_active_slot,
+                } = player;
+
+                packet.write(position);
+                packet.write(orientation);
+                packet.write(look_pitch);
+                packet.write(is_alive);
+                packet.write(slot_id);
+                packet.write(server_target_active_slot);
             }
 
             Self::ServerPlayerInput { .. } => {

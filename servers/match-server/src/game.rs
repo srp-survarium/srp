@@ -2,6 +2,8 @@ use std::sync::mpsc;
 use std::sync::mpsc::TryRecvError;
 
 use survarium::player_profile;
+use survarium::player_profile::raw::profile_slot_enum;
+use vostok::math::float3;
 
 use crate::message;
 use crate::message::server_message::raw::game_mode_type;
@@ -48,8 +50,8 @@ impl Game {
                 vec![
                     ServerGameMessageKind::MatchOptions {
                         map_id: 0,
-                        map_name: "level_04".to_string(),
-                        // map_name: "level_03_evn".to_string(),
+                        map_name: "level_03_evn".to_string(),
+                        // map_name: "level_04".to_string(),
                         // map_name: "lobby_scene".to_string(),
                         match_mode: game_mode_type::gather_victory_items,
                         player_count: 2,
@@ -73,7 +75,25 @@ impl Game {
                     },
                 ]
             }
+            ClientGameMessageKind::JoinMatch { .. } => {
+                vec![ServerGameMessageKind::SpawnPlayer {
+                    player_id: 0,
+                    player: survarium::player_input::player {
+                        position: float3 {
+                            x: -10.33856,
+                            y: 47.47741,
+                            z: -25.15140,
+                        },
+                        orientation: 10.,
+                        look_pitch: 10.,
+                        is_alive: true,
+                        slot_id: profile_slot_enum::weapon1_slot,
+                        server_target_active_slot: profile_slot_enum::weapon1_slot,
+                    },
+                }]
+            }
             ClientGameMessageKind::ClientPlayerUpdate { .. } => vec![],
+            ClientGameMessageKind::TeamBasesInitializeInfo { .. } => vec![],
         }
     }
 }

@@ -38,11 +38,13 @@ pub enum ClientGameMessageKind {
         session_id: u32,
     },
     GetStartupInfo,
+    JoinMatch,
     ClientPlayerUpdate {
         player_input: player_input,
         player_state: player_state,
         time_in_ms: u32,
     },
+    TeamBasesInitializeInfo,
 }
 
 const _: () = assert!(
@@ -167,6 +169,7 @@ impl ClientGameMessageKind {
                 Self::ConnectionRequest { session_id }
             }
             match_client_message_types_enum::get_startup_info => Self::GetStartupInfo,
+            match_client_message_types_enum::join_match => Self::JoinMatch,
             match_client_message_types_enum::client_player_update => {
                 let player_input = advance_buffer::<player_input>(out_buffer)?;
                 let player_state = advance_buffer::<player_state>(out_buffer)?;
@@ -176,6 +179,9 @@ impl ClientGameMessageKind {
                     player_state,
                     time_in_ms,
                 }
+            }
+            match_client_message_types_enum::team_bases_initialize_info => {
+                Self::TeamBasesInitializeInfo
             }
             _ => return Err(DeserializeError::UnknownMessageType(msg_type as u8)),
         };
@@ -187,9 +193,11 @@ impl ClientGameMessageKind {
     #[rustfmt::skip]
     pub fn message_type(&self) -> match_client_message_types_enum {
         match self {
-            Self::GetStartupInfo { .. }     => match_client_message_types_enum::get_startup_info,
-            Self::ConnectionRequest { .. }  => match_client_message_types_enum::connection_request,
-            Self::ClientPlayerUpdate { .. } => match_client_message_types_enum::client_player_update,
+            Self::ConnectionRequest { .. }       => match_client_message_types_enum::connection_request,
+            Self::GetStartupInfo { .. }          => match_client_message_types_enum::get_startup_info,
+            Self::JoinMatch { .. }               => match_client_message_types_enum::join_match,
+            Self::ClientPlayerUpdate { .. }      => match_client_message_types_enum::client_player_update,
+            Self::TeamBasesInitializeInfo { .. } => match_client_message_types_enum::team_bases_initialize_info,
         }
     }
 }
