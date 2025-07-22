@@ -1,4 +1,4 @@
-use survarium::player_input::{player, player_input, player_state, weapon_state};
+use survarium::player_input::{player, player_input, player_stamina, player_state, weapon_state};
 use survarium::player_profile::raw::player_profile;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
@@ -233,6 +233,8 @@ impl Serialize for ServerGameMessageKind {
                     is_alive,
                     slot_id,
                     server_target_active_slot,
+                    player_stamina,
+                    player_inventory,
                 } = player;
 
                 packet.write(position);
@@ -241,6 +243,17 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(is_alive);
                 packet.write(slot_id);
                 packet.write(server_target_active_slot);
+
+                let player_stamina {
+                    value,
+                    last_spending_time_in_ms,
+                    last_tick_time_in_ms,
+                    lower_threshold_was_reached,
+                } = player_stamina;
+                packet.write(value);
+                packet.write(last_spending_time_in_ms);
+                packet.write(last_tick_time_in_ms);
+                packet.write(lower_threshold_was_reached);
             }
 
             Self::ServerPlayerInput { .. } => {
