@@ -55,7 +55,7 @@ impl Game {
                         // map_name: "lobby_scene".to_string(),
                         match_mode: game_mode_type::gather_victory_items,
                         player_count: 2,
-                        victory_item_count: 10,
+                        victory_item_count: 10, // batteries
                         respawn_time: 10,
                         match_time: 15 * 60,
                     },
@@ -80,6 +80,9 @@ impl Game {
                     player_id: 0,
                     player: survarium::player_input::player {
                         position: float3 {
+                            // x: 10.,
+                            // y: 10.,
+                            // z: 25.,
                             x: -10.33856,
                             y: 47.47741,
                             z: -25.15140,
@@ -93,7 +96,26 @@ impl Game {
                 }]
             }
             ClientGameMessageKind::ClientPlayerUpdate { .. } => vec![],
-            ClientGameMessageKind::TeamBasesInitializeInfo { .. } => vec![],
+            ClientGameMessageKind::TeamBasesInitializeInfo { .. } => {
+                vec![ServerGameMessageKind::SpawnPlayer {
+                    player_id: 1,
+                    player: survarium::player_input::player {
+                        position: float3 {
+                            // x: 12.,
+                            // y: 10.,
+                            // z: 27.,
+                            x: -9.33856,
+                            y: 47.47741,
+                            z: -25.15140,
+                        },
+                        orientation: 10.,
+                        look_pitch: 0.2,
+                        is_alive: true,
+                        slot_id: profile_slot_enum::weapon1_slot,
+                        server_target_active_slot: profile_slot_enum::weapon1_slot,
+                    },
+                }]
+            }
         }
     }
 }

@@ -246,9 +246,9 @@ impl player_profile {
             slots[boots_slot]   = i(1, 24, 100);
             // slots[gloves_slot]  = i(2, 40, 20);
             // slots[pants_slot]   = i(3, 46, 30);
-            // slots[helmet_slot]  = i(4, 27, 40);
-            // slots[mask_slot]    = i(5, 43, 50);
-            // slots[torso_slot]   = i(6, 48, 60);
+            slots[helmet_slot]  = i(4, 27, 40);
+            slots[mask_slot]    = i(5, 43, 50);
+            slots[torso_slot]   = i(6, 48, 60);
             // slots[back_slot]    = i(7, 9,  70);
             slots[weapon1_slot] = i(12, 55, 120);
             // slots[weapon2_slot] = i(12, 55, 130);

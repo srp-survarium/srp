@@ -121,12 +121,12 @@ fn main() {
             /* network_packet */
             data_chunk_type_enum::network_packet => {
                 // vostok::journaling::match_client::write_packet
-                let msg_type = bytes[i];
+                let msg_type_ = bytes[i];
                 let msg_type = bytemuck::checked::try_pod_read_unaligned::<
                     match_server_message_types_enum,
                 >(&bytes[i..i + 1])
                 .map(|msg_type| format!("{msg_type:?}"))
-                .unwrap_or_else(|_| format!("{msg_type}"));
+                .unwrap_or_else(|_| format!("{msg_type_}"));
                 i += 1;
 
                 let len = u32::from_le_bytes(bytes[i..i + 4].try_into().unwrap()) as usize;
@@ -135,8 +135,16 @@ fn main() {
                 let msg = &bytes[i..i + len];
                 i += len;
 
-                eprintln!("{:?}: {}", kind, msg_type);
-                println!("{:?}: {}", kind, msg_type);
+                match msg_type_ {
+                    0x54 => {
+                        eprintln!("{:?}: {}: player_id: {}", kind, msg_type, msg[0]);
+                        println!("{:?}: {}: player_id: {}", kind, msg_type, msg[0]);
+                    }
+                    _ => {
+                        eprintln!("{:?}: {}", kind, msg_type);
+                        println!("{:?}: {}", kind, msg_type);
+                    }
+                }
             }
             /* version_chunk */
             data_chunk_type_enum::version_chunk => {

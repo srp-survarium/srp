@@ -100,8 +100,8 @@ enum vostok::match_server_message_types_enum : __int32
   match_server_connection_successful = 0x80, // --//--
   match_options_message_type         = 0x81, // --//--
   server_player_input                = 0x82, // +
-  kill_player                        = 0x83,
-  spawn_player                       = 0x84,
+  kill_player                        = 0x83, // +
+  spawn_player                       = 0x84, // +
   team_base_capture_progress         = 0x85,
   match_time_changed                 = 0x86,
   respawn_time_changed               = 0x87,
@@ -141,8 +141,8 @@ server_player_input: survarium::network_client::process_player_action()
 
 kill_player: survarium::network_client::process_player_kill()
   > survarium::network_client::get_player(i)
-  > survarium::game_world_ui::on_player_killed
-  > survarium::player::kill
+  > survarium::game_world_ui::on_player_killed()
+  > survarium::player::kill()
 
 
 spawn_player: survarium::network_client::process_player_respawn()
