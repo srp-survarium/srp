@@ -1,4 +1,7 @@
-use survarium::player_input::{player, player_input, player_stamina, player_state, weapon_state};
+use survarium::player_input::{
+    player, player_input, player_inventory_slot, player_stamina, player_state, weapon_core,
+    weapon_core_state, weapon_state,
+};
 use survarium::player_profile::raw::player_profile;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
@@ -231,7 +234,7 @@ impl Serialize for ServerGameMessageKind {
                     orientation,
                     look_pitch,
                     is_alive,
-                    slot_id,
+                    server_current_active_slot,
                     server_target_active_slot,
                     player_stamina,
                     player_inventory,
@@ -241,7 +244,7 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(orientation);
                 packet.write(look_pitch);
                 packet.write(is_alive);
-                packet.write(slot_id);
+                packet.write(server_current_active_slot);
                 packet.write(server_target_active_slot);
 
                 let player_stamina {
@@ -254,6 +257,68 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(last_spending_time_in_ms);
                 packet.write(last_tick_time_in_ms);
                 packet.write(lower_threshold_was_reached);
+
+                for item in player_inventory {
+                    match item {
+                        player_inventory_slot::weapon_slot(weapon_core) => {
+                            let weapon_core {
+                                inventory_item,
+                                random_seed,
+                                normal_random_seed,
+                                weapon_target,
+                                old_actions_mask,
+                                ammo_in_magazine,
+                                bullets_in_queue,
+                                fire_queue_type,
+                                ammo_slot,
+                                is_there_chamber_a_round_state,
+                                weapon_core_state,
+                            } = weapon_core;
+
+                            packet.write(inventory_item);
+                            packet.write(random_seed);
+                            packet.write(normal_random_seed);
+                            packet.write(weapon_target);
+                            packet.write(old_actions_mask);
+                            packet.write(ammo_in_magazine);
+                            packet.write(bullets_in_queue);
+                            packet.write(fire_queue_type);
+                            packet.write(ammo_slot);
+                            if let Some(is_there_chamber_a_round_state) =
+                                is_there_chamber_a_round_state
+                            {
+                                packet.write(is_there_chamber_a_round_state);
+                            }
+                            if let Some(weapon_core_state) = weapon_core_state {
+                                let weapon_core_state {
+                                    is_shown,
+                                    active_hands,
+                                    start_transition_time_in_ms_lhs,
+                                    start_transition_time_in_ms_rhs,
+                                    target_state_id,
+                                    interval_id,
+                                    interval_time,
+                                    weapon_user_animations_selector_target_state_id,
+                                    interval_id_2,
+                                    interval_time_2,
+                                } = weapon_core_state;
+                                packet.write(is_shown);
+                                packet.write(active_hands);
+                                packet.write(start_transition_time_in_ms_lhs);
+                                packet.write(start_transition_time_in_ms_rhs);
+                                packet.write(target_state_id);
+                                packet.write(interval_id);
+                                packet.write(interval_time);
+                                packet.write(weapon_user_animations_selector_target_state_id);
+                                packet.write(interval_id_2);
+                                packet.write(interval_time_2);
+                            }
+                        }
+                        player_inventory_slot::item_amount(amount) => {
+                            packet.write(amount);
+                        }
+                    }
+                }
             }
 
             Self::ServerPlayerInput { .. } => {
