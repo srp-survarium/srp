@@ -1,6 +1,7 @@
 use std::sync::mpsc;
 use std::sync::mpsc::TryRecvError;
 
+use survarium::player_input::player_stamina;
 use survarium::player_profile;
 use survarium::player_profile::raw::profile_slot_enum;
 use vostok::math::float3;
@@ -92,6 +93,12 @@ impl Game {
                         is_alive: true,
                         slot_id: profile_slot_enum::weapon1_slot,
                         server_target_active_slot: profile_slot_enum::weapon1_slot,
+                        player_stamina: player_stamina {
+                            value: 100.,
+                            last_spending_time_in_ms: 10,
+                            last_tick_time_in_ms: 10,
+                            lower_threshold_was_reached: false,
+                        },
                     },
                 }]
             }
@@ -113,6 +120,12 @@ impl Game {
                         is_alive: true,
                         slot_id: profile_slot_enum::weapon1_slot,
                         server_target_active_slot: profile_slot_enum::weapon1_slot,
+                        player_stamina: player_stamina {
+                            value: 100.,
+                            last_spending_time_in_ms: 10,
+                            last_tick_time_in_ms: 10,
+                            lower_threshold_was_reached: false,
+                        },
                     },
                 }]
             }
