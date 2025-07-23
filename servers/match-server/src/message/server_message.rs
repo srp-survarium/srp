@@ -63,6 +63,9 @@ pub enum ServerGameMessageKind {
     MatchTimeChanged {
         match_time: u32,
     },
+    GameStatusChanged {
+        game_status: game_status,
+    },
 
     PlayerProfile {
         player_profile: Box<player_profile>,
@@ -119,6 +122,17 @@ pub mod raw {
         capture_neutral_base = 0x1,
         gather_victory_items = 0x2,
         invalid_game_mode    = 0xFF,
+    }
+
+    #[repr(u32)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    #[rustfmt::skip]
+    pub enum game_status {
+        inactive                 = 0x0,
+        waiting_for_first_player = 0x1,
+        waiting_for_players      = 0x2,
+        final_countdown          = 0x3,
+        inprocess                = 0x4,
     }
 }
 
@@ -198,6 +212,7 @@ impl ServerGameMessageKind {
             Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
             Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
             Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
+            Self::GameStatusChanged { .. }    => match_server_message_types_enum::game_status_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
         }
     }
@@ -295,23 +310,29 @@ impl Serialize for ServerGameMessageKind {
                                     active_hands,
                                     start_transition_time_in_ms_lhs,
                                     start_transition_time_in_ms_rhs,
-                                    target_state_id,
-                                    interval_id,
-                                    interval_time,
-                                    weapon_user_animations_selector_target_state_id,
-                                    interval_id_2,
-                                    interval_time_2,
+                                    weapon_sound_target_state,
+                                    logic_sprint_target_state,
                                 } = weapon_core_state;
                                 packet.write(is_shown);
                                 packet.write(active_hands);
                                 packet.write(start_transition_time_in_ms_lhs);
                                 packet.write(start_transition_time_in_ms_rhs);
-                                packet.write(target_state_id);
-                                packet.write(interval_id);
-                                packet.write(interval_time);
-                                packet.write(weapon_user_animations_selector_target_state_id);
-                                packet.write(interval_id_2);
-                                packet.write(interval_time_2);
+
+                                packet.write(weapon_sound_target_state.0);
+                                if let Some((interval_id, interval_time)) =
+                                    weapon_sound_target_state.1
+                                {
+                                    packet.write(interval_id);
+                                    packet.write(interval_time);
+                                }
+
+                                packet.write(logic_sprint_target_state.0);
+                                if let Some((interval_id, interval_time)) =
+                                    logic_sprint_target_state.1
+                                {
+                                    packet.write(interval_id);
+                                    packet.write(interval_time);
+                                }
                             }
                         }
                         player_inventory_slot::item_amount(amount) => {
@@ -326,6 +347,9 @@ impl Serialize for ServerGameMessageKind {
             }
             Self::MatchTimeChanged { match_time } => {
                 packet.write(match_time);
+            }
+            Self::GameStatusChanged { game_status } => {
+                packet.write(game_status);
             }
 
             Self::PlayerProfile { player_profile } => {
