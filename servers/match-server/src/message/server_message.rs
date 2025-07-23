@@ -63,6 +63,9 @@ pub enum ServerGameMessageKind {
     MatchTimeChanged {
         match_time: u32,
     },
+    SyncResponse {
+        is_connected_bitmask: u32,
+    },
     GameStatusChanged {
         game_status: game_status,
     },
@@ -212,6 +215,7 @@ impl ServerGameMessageKind {
             Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
             Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
             Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
+            Self::SyncResponse { .. }         => match_server_message_types_enum::sync_response,
             Self::GameStatusChanged { .. }    => match_server_message_types_enum::game_status_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
         }
@@ -348,6 +352,11 @@ impl Serialize for ServerGameMessageKind {
             Self::MatchTimeChanged { match_time } => {
                 packet.write(match_time);
             }
+
+            Self::SyncResponse {
+                is_connected_bitmask,
+            } => packet.write(is_connected_bitmask),
+
             Self::GameStatusChanged { game_status } => {
                 packet.write(game_status);
             }
