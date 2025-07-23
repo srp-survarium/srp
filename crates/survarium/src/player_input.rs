@@ -80,15 +80,10 @@ pub struct weapon_core_state {
     pub active_hands: u8, // 0 - None, 1 - left, 2 - right, 3 - left & right
     pub start_transition_time_in_ms_lhs: u32,
     pub start_transition_time_in_ms_rhs: u32,
-    pub target_state_id: u8,
-    // for state  2
-    pub interval_id: u32,
-    pub interval_time: f32,
-    // survarium::weapon_core_base_state::deserialize
-    pub weapon_user_animations_selector_target_state_id: u8,
-    // for state  2
-    pub interval_id_2: u32,
-    pub interval_time_2: f32,
+
+    // (target_state_id, (interval_id, interval_time)
+    pub weapon_sound_target_state: (u8, Option<(u32, f32)>),
+    pub logic_sprint_target_state: (u8, Option<(u32, f32)>),
 }
 
 #[repr(u8)]
