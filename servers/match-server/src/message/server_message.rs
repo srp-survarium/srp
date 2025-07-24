@@ -3,6 +3,7 @@ use survarium::player_input::{
     weapon_core_state, weapon_state,
 };
 use survarium::player_profile::raw::player_profile;
+use vostok::math::float3;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
 use vostok::serde::Serialize;
@@ -50,28 +51,55 @@ pub enum ServerGameMessageKind {
         respawn_time: u8,
         match_time: u16,
     },
-    SpawnPlayer {
-        player_id: u8,
-        player: player,
-    },
+
     ServerPlayerInput {
         player_id: u8,
         player_input: player_input,
         player_state: player_state,
         weapon_state: weapon_state,
     },
+
+    SpawnPlayer {
+        player_id: u8,
+        player: player,
+    },
+
     MatchTimeChanged {
         match_time: u32,
     },
+
+    RespawnTimeChanged {
+        respawn_time: u32,
+    },
+
+    HitPlayer {
+        hit_initiator_id: u8,     // id of player making hit | or 0xFF
+        being_hit_id: u8,         // id of player being hit
+        body_part_name: String,   // len up to 16
+        damage_type_info: String, // len up to 16
+        amount: f32,
+        armor_piercing: f32,
+    },
+
     SyncResponse {
         is_connected_bitmask: u32,
     },
-    GameStatusChanged {
-        game_status: game_status,
+
+    PlayerVisibilityChange {
+        player_id: u8,
+        player_visibility: bool,
     },
 
     PlayerProfile {
         player_profile: Box<player_profile>,
+    },
+
+    InitializeVictoryItems {
+        position: float3,
+    },
+
+    GameStatusChanged {
+        game_status: game_status,
     },
 }
 
@@ -87,31 +115,31 @@ pub mod raw {
         match_options_message_type         = 0x81, // [+] - survarium::network_client::on_match_packet_received
         server_player_input                = 0x82, //
         kill_player                        = 0x83, //
-        spawn_player                       = 0x84, //
+        spawn_player                       = 0x84, // [=]
         team_base_capture_progress         = 0x85, //
-        match_time_changed                 = 0x86, //
-        respawn_time_changed               = 0x87, //
+        match_time_changed                 = 0x86, // [?] Should be sent each second, only UI, only from packets !!! NO, has some kind of callback
+        respawn_time_changed               = 0x87, // [?] Same thing
         player_kd_stats_changed            = 0x88, //
-        hit_player                         = 0x89, //
+        hit_player                         = 0x89, // [?]
         affect_damage_model                = 0x8A, //
-        sync_response                      = 0x8B, //
+        sync_response                      = 0x8B, // [=] @TODO: Figure out that timer
         match_finished                     = 0x8C, //
-        server_bullet_added                = 0x8D, //
-        server_bullet_removed              = 0x8E, //
-        server_bullet_moved                = 0x8F, //
-        server_bullet_collided             = 0x90, //
-        player_visibility_changed          = 0x91, //
-        player_profile_message_type        = 0x92,
+        server_bullet_added                = 0x8D, // -
+        server_bullet_removed              = 0x8E, // -
+        server_bullet_moved                = 0x8F, // -
+        server_bullet_collided             = 0x90, // -
+        player_visibility_changed          = 0x91, // [=]
+        player_profile_message_type        = 0x92, // [=] @TODO: Statemachines :3
         team_bases_message_type            = 0x93,
-        initialize_victory_items           = 0x94,
+        initialize_victory_items           = 0x94, // !!!
         victory_item_take_or_put           = 0x95,
         trap_placed                        = 0x96,
         trap_removed                       = 0x97,
         trap_fired                         = 0x98,
         trap_disarmed                      = 0x99,
-        game_status_changed                = 0x9A,
-        match_wait_time_changed            = 0x9B,
-        game_world_object_state            = 0x9C,
+        game_status_changed                = 0x9A, // !!!
+        match_wait_time_changed            = 0x9B, // [-] @TODO: Seems like waiting_for_first_player and waiting_for_players wasn't used anywhere
+        game_world_object_state            = 0x9C, // !!!
         world_synchronization_request      = 0x9D,
         damage_model_state                 = 0x9E, // [+] hidden
         match_server_invalid_message_type  = 0xC0,
@@ -210,14 +238,25 @@ impl ServerGameMessageKind {
     #[rustfmt::skip]
     pub fn message_type(&self) -> match_server_message_types_enum {
         match self {
-            Self::ConnectionSuccessful { .. } => match_server_message_types_enum::match_server_connection_successful,
-            Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
-            Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
-            Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
-            Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
-            Self::SyncResponse { .. }         => match_server_message_types_enum::sync_response,
-            Self::GameStatusChanged { .. }    => match_server_message_types_enum::game_status_changed,
-            Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
+            Self::ConnectionSuccessful { .. }   => match_server_message_types_enum::match_server_connection_successful,
+            Self::MatchOptions { .. }           => match_server_message_types_enum::match_options_message_type,
+            Self::ServerPlayerInput { .. }      => match_server_message_types_enum::server_player_input,
+
+            Self::SpawnPlayer { .. }            => match_server_message_types_enum::spawn_player,
+
+            Self::MatchTimeChanged { .. }       => match_server_message_types_enum::match_time_changed,
+            Self::RespawnTimeChanged { .. }     => match_server_message_types_enum::respawn_time_changed,
+
+            Self::HitPlayer { .. }              => match_server_message_types_enum::hit_player,
+
+            Self::SyncResponse { .. }           => match_server_message_types_enum::sync_response,
+
+            Self::PlayerVisibilityChange { .. } => match_server_message_types_enum::player_visibility_changed,
+            Self::PlayerProfile { .. }          => match_server_message_types_enum::player_profile_message_type,
+
+            Self::InitializeVictoryItems { .. } => match_server_message_types_enum::initialize_victory_items,
+
+            Self::GameStatusChanged { .. }      => match_server_message_types_enum::game_status_changed,
         }
     }
 }
@@ -349,20 +388,64 @@ impl Serialize for ServerGameMessageKind {
             Self::ServerPlayerInput { .. } => {
                 todo!()
             }
+
             Self::MatchTimeChanged { match_time } => {
                 packet.write(match_time);
+            }
+
+            Self::RespawnTimeChanged { respawn_time } => {
+                packet.write(respawn_time);
+            }
+
+            Self::HitPlayer {
+                hit_initiator_id,
+                being_hit_id,
+                body_part_name,
+                damage_type_info,
+                amount,
+                armor_piercing,
+            } => {
+                packet.write(hit_initiator_id);
+                packet.write(being_hit_id);
+
+                assert!(body_part_name.len() <= 16);
+                packet.write_str(&body_part_name);
+
+                assert!(damage_type_info.len() <= 16);
+                packet.write_str(&damage_type_info);
+
+                packet.write(amount);
+                packet.write(armor_piercing);
             }
 
             Self::SyncResponse {
                 is_connected_bitmask,
             } => packet.write(is_connected_bitmask),
 
-            Self::GameStatusChanged { game_status } => {
-                packet.write(game_status);
+            Self::PlayerVisibilityChange {
+                player_id,
+                player_visibility,
+            } => {
+                packet.write(player_id);
+                packet.write(player_visibility);
             }
 
             Self::PlayerProfile { player_profile } => {
                 player_profile.serialize_udp(packet);
+            }
+
+            Self::InitializeVictoryItems { position } => {
+                packet.write(0_u8); // team_1_points
+                packet.write(0_u8); // team_2_points
+                packet.write(1_u8); // maybe_battery_count
+                packet.write(0xFF_u8); // player_id
+                packet.write(0x0_u8); // item_id
+                packet.write(position);
+                packet.write(0_u8); // ??? maybe which batteries in which containers
+            }
+
+            Self::GameStatusChanged { game_status } => {
+                packet.write(game_status);
             }
         }
     }

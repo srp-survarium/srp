@@ -1,5 +1,6 @@
 use std::sync::mpsc;
 use std::sync::mpsc::TryRecvError;
+use std::time::{self, Duration};
 
 use survarium::player_input::{
     player_inventory_slot, player_stamina, weapon_core, weapon_core_state, weapon_targets,
@@ -15,6 +16,10 @@ use crate::message::{ClientGameMessageKind, ServerGameMessageKind};
 pub struct Game {
     client_game_message_rx: mpsc::Receiver<message::ClientGameMessageKind>,
     server_game_message_tx: mpsc::Sender<message::ServerGameMessageKind>,
+
+    is_match_running: bool,
+    match_countdown_secs: u32,
+    match_timer: time::Instant,
 }
 
 impl Game {
@@ -25,6 +30,10 @@ impl Game {
         Self {
             client_game_message_rx,
             server_game_message_tx,
+
+            is_match_running: false,
+            match_countdown_secs: 15 * 60,
+            match_timer: time::Instant::now(),
         }
     }
 
@@ -40,11 +49,79 @@ impl Game {
                 Err(TryRecvError::Disconnected) => panic!("Channel disconnected"),
             }
         }
+
+        if self.is_match_running {
+            let now = time::Instant::now();
+            if now - self.match_timer >= Duration::from_secs(1) {
+                self.match_timer = now;
+                self.match_countdown_secs -= 1;
+
+                // I hate this timer
+                self.server_game_message_tx
+                    .send(ServerGameMessageKind::MatchTimeChanged {
+                        match_time: self.match_countdown_secs * 1000,
+                    })
+                    .unwrap();
+
+                if self.match_countdown_secs == 14 * 60 + 40 {
+                    self.server_game_message_tx
+                        .send(ServerGameMessageKind::InitializeVictoryItems {
+                            position: float3 {
+                                x: -5.11952,
+                                y: 6.98356,
+                                z: -35.21231,
+                            },
+                        })
+                        .unwrap();
+                }
+
+                if 14 * 60 < self.match_countdown_secs && self.match_countdown_secs <= 14 * 60 + 30
+                {
+                    // name: "body"
+                    // name: "back"
+                    // name: "head"
+                    // name: "face"
+                    // name: "right_leg"
+                    // name: "left_leg"
+                    // name: "right_foot"
+                    // name: "left_foot"
+                    // name: "right_arm"
+                    // name: "left_arm"
+                    // name: "right_hand"
+                    // name: "left_hand"
+                    // name: "pain"
+                    // name: "infection"
+                    // name: "radiation"
+
+                    // hit_types[5]:
+                    //       electric_shock[4]
+                    //       intoxication[4]
+                    //       irradiation[4]
+                    //       injury[4]
+                    //       ambustion[4]
+
+                    self.server_game_message_tx
+                        .send(ServerGameMessageKind::HitPlayer {
+                            hit_initiator_id: 1,
+                            being_hit_id: 0,
+                            body_part_name: "infection".to_string(),
+                            damage_type_info: "intoxication".to_string(),
+                            amount: 10.,
+                            armor_piercing: 10.,
+                        })
+                        .unwrap();
+                }
+
+                if self.match_countdown_secs == 0 {
+                    self.is_match_running = false;
+                }
+            }
+        }
     }
 }
 
 impl Game {
-    pub fn handle_message(&self, message: ClientGameMessageKind) -> Vec<ServerGameMessageKind> {
+    pub fn handle_message(&mut self, message: ClientGameMessageKind) -> Vec<ServerGameMessageKind> {
         match message {
             ClientGameMessageKind::ConnectionRequest { .. } => {
                 unreachable!("Should already be handled")
@@ -78,7 +155,9 @@ impl Game {
                     },
                 ]
             }
-            ClientGameMessageKind::JoinMatch { .. } => {
+            ClientGameMessageKind::JoinMatch => {
+                self.is_match_running = true;
+
                 vec![
                     ServerGameMessageKind::GameStatusChanged {
                         game_status: game_status::inprocess,
@@ -180,11 +259,22 @@ impl Game {
                             ],
                         },
                     },
-                    ServerGameMessageKind::SyncResponse {
-                        is_connected_bitmask: 0b0011,
+                    ServerGameMessageKind::PlayerVisibilityChange {
+                        player_id: 0,
+                        player_visibility: true,
+                    },
+                    ServerGameMessageKind::PlayerVisibilityChange {
+                        player_id: 1,
+                        player_visibility: true,
                     },
                 ]
             }
+            ClientGameMessageKind::TimeSynchronizationRequest { .. } => {
+                vec![ServerGameMessageKind::SyncResponse {
+                    is_connected_bitmask: 0b0011,
+                }]
+            }
+            ClientGameMessageKind::TimeSynchronizationConfirmation => vec![],
         }
     }
 }

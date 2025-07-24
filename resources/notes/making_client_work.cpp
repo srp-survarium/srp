@@ -188,3 +188,50 @@ struct __cppobj vostok::intrusive_ptr<
 > {
   vostok::resources::unmanaged_resource *m_object;
 };
+
+sync_response: survarium::network_client::process_sync_response()
+1. What increments m_game->m_permanent_timer
+2. Attaches camera to player
+3. Sends confirmation so that server knows latency
+4. Also from this we know all connected players
+
+
+//
+// Requests
+//
+sync request is sent every 4000 ms (4 secs)
+
+survarium::network_client::tick():
+if ( v23 > 4000 )
+  (survarium::network_client::send_sync_request)(v23);
+
+survarium::network_client::tick()
+survarium::network_client::on_world_sync_request()
+#TODO: Document everything this does
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

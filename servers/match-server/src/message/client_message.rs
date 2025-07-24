@@ -44,6 +44,10 @@ pub enum ClientGameMessageKind {
         player_state: player_state,
         time_in_ms: u32,
     },
+    TimeSynchronizationRequest {
+        dunno: u32,
+    },
+    TimeSynchronizationConfirmation,
     TeamBasesInitializeInfo,
 }
 
@@ -180,6 +184,14 @@ impl ClientGameMessageKind {
                     time_in_ms,
                 }
             }
+            match_client_message_types_enum::time_synchronization_request => {
+                let dunno = advance_buffer::<u32>(out_buffer)?;
+                Self::TimeSynchronizationRequest { dunno }
+            }
+            match_client_message_types_enum::time_synchronization_confirmation => {
+                Self::TimeSynchronizationConfirmation
+            }
+
             match_client_message_types_enum::team_bases_initialize_info => {
                 Self::TeamBasesInitializeInfo
             }
@@ -193,11 +205,13 @@ impl ClientGameMessageKind {
     #[rustfmt::skip]
     pub fn message_type(&self) -> match_client_message_types_enum {
         match self {
-            Self::ConnectionRequest { .. }       => match_client_message_types_enum::connection_request,
-            Self::GetStartupInfo { .. }          => match_client_message_types_enum::get_startup_info,
-            Self::JoinMatch { .. }               => match_client_message_types_enum::join_match,
-            Self::ClientPlayerUpdate { .. }      => match_client_message_types_enum::client_player_update,
-            Self::TeamBasesInitializeInfo { .. } => match_client_message_types_enum::team_bases_initialize_info,
+            Self::ConnectionRequest { .. }               => match_client_message_types_enum::connection_request,
+            Self::GetStartupInfo { .. }                  => match_client_message_types_enum::get_startup_info,
+            Self::JoinMatch { .. }                       => match_client_message_types_enum::join_match,
+            Self::ClientPlayerUpdate { .. }              => match_client_message_types_enum::client_player_update,
+            Self::TimeSynchronizationRequest { .. }      => match_client_message_types_enum::time_synchronization_request,
+            Self::TimeSynchronizationConfirmation { .. } => match_client_message_types_enum::time_synchronization_confirmation,
+            Self::TeamBasesInitializeInfo { .. }         => match_client_message_types_enum::team_bases_initialize_info,
         }
     }
 }
