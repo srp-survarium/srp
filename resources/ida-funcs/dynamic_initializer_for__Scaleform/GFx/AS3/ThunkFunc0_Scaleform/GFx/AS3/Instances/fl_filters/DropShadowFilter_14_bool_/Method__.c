@@ -1,9 +1,0 @@
-void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter_14_bool_::Method__())(Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter *this, bool *result)
-{
-  void (__thiscall *result)(Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter *, bool *); // eax
-
-  result = Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter::innerGet;
-  LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_filters::DropShadowFilter,14,bool>::Method) = Scaleform::GFx::AS3::Instances::fl_filters::GlowFilter::innerGet;
-  dword_AADF9C = 0;
-  return result;
-}

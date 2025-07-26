@@ -1,9 +1,0 @@
-vostok::sound::ogg_encoded_sound_interface *__thiscall vostok::sound::ogg_encoded_sound_interface::`scalar deleting destructor'(
-        vostok::sound::ogg_encoded_sound_interface *this,
-        char a2)
-{
-  vostok::sound::ogg_encoded_sound_interface::~ogg_encoded_sound_interface(this);
-  if ( (a2 & 1) != 0 )
-    operator delete(this);
-  return this;
-}

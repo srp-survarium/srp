@@ -251,8 +251,11 @@ impl player_profile {
             slots[torso_slot]   = i(6, 48, 60);
             // slots[back_slot]    = i(7, 9,  70);
 
-            slots[weapon1_slot] = i(12, 13, 120);
-            slots[ammo1_weapon1_slot] = i(33, 51, 300);
+            // slots[weapon1_slot] = i(12, 13, 120);
+            // slots[ammo1_weapon1_slot] = i(33, 51, 300);
+
+            slots[weapon1_slot] = i(12, 18, 120);
+            slots[ammo1_weapon1_slot] = i(33, 50, 300);
         };
 
         if !(3 < profile_name.len() && profile_name.len() < 30) {

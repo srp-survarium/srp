@@ -1,9 +1,0 @@
-void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scaleform::GFx::AS3::Instances::fl_text::TextField_16_bool_::Method__())(Scaleform::GFx::AS3::Instances::fl_text::TextField *this, bool *result)
-{
-  void (__thiscall *result)(Scaleform::GFx::AS3::Instances::fl_text::TextField *, bool *); // eax
-
-  result = Scaleform::GFx::AS3::Instances::fl_text::TextField::condenseWhiteGet;
-  LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_text::TextField,16,bool>::Method) = Scaleform::GFx::AS3::Instances::fl_text::TextField::condenseWhiteGet;
-  dword_AACF5C = 0;
-  return result;
-}

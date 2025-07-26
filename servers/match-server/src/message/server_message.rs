@@ -1,8 +1,8 @@
 use survarium::player_input::{
-    player, player_input, player_inventory_slot, player_stamina, player_state, weapon_core,
-    weapon_core_state, weapon_state,
+    affect_event_type_enum, hit_affects_type_enum, player, player_input, player_inventory_slot,
+    player_stamina, player_state, weapon_core, weapon_core_state, weapon_state,
 };
-use survarium::player_profile::raw::player_profile;
+use survarium::player_profile::raw::{player_profile, profile_slot_enum};
 use vostok::math::float3;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
@@ -59,6 +59,14 @@ pub enum ServerGameMessageKind {
         weapon_state: weapon_state,
     },
 
+    // both victim and killer must be players
+    KillPlayer {
+        victim_id: u8,
+        killer_id: u8,
+        is_headshot: bool,
+        item_dict_id: u32,
+    },
+
     SpawnPlayer {
         player_id: u8,
         player: player,
@@ -72,6 +80,12 @@ pub enum ServerGameMessageKind {
         respawn_time: u32,
     },
 
+    PlayerKdStatsChanged {
+        player_id: u8,
+        kills: u32,
+        deaths: u32,
+    },
+
     HitPlayer {
         hit_initiator_id: u8,     // id of player making hit | or 0xFF
         being_hit_id: u8,         // id of player being hit
@@ -81,9 +95,22 @@ pub enum ServerGameMessageKind {
         armor_piercing: f32,
     },
 
+    AffectDamageModel {
+        played_id: u8,
+        body_part_name: String,
+        hits_affects_type_enum: hit_affects_type_enum,
+        affect_event_type: affect_event_type_enum,
+    },
+
     SyncResponse {
         is_connected_bitmask: u32,
     },
+
+    // Will crash on reconnect
+    // Will also crash when exiting manually
+    // No end game credits or anything
+    // Just exits
+    MatchFinished,
 
     PlayerVisibilityChange {
         player_id: u8,
@@ -101,6 +128,18 @@ pub enum ServerGameMessageKind {
     GameStatusChanged {
         game_status: game_status,
     },
+
+    // Crashes on empty slot : survarium::inventory::item_in_slot
+    // Crashes on weapon     : JUMP TO GARBAGE ADDRESS
+    // Should only work on `booby_trap_core`, which should be present
+    GameWorldObjectState {
+        player_id: u8,
+        profile_slot: profile_slot_enum,
+        survarium_booby_trap_state: u8,
+        position: float3,
+        angles: float3,
+    },
+    WorldSynchronizationRequest,
 }
 
 pub mod raw {
@@ -114,16 +153,16 @@ pub mod raw {
         match_server_connection_successful = 0x80, // changes connection_type to connected
         match_options_message_type         = 0x81, // [+] - survarium::network_client::on_match_packet_received
         server_player_input                = 0x82, //
-        kill_player                        = 0x83, //
+        kill_player                        = 0x83, // [+]
         spawn_player                       = 0x84, // [=]
         team_base_capture_progress         = 0x85, //
         match_time_changed                 = 0x86, // [?] Should be sent each second, only UI, only from packets !!! NO, has some kind of callback
         respawn_time_changed               = 0x87, // [?] Same thing
-        player_kd_stats_changed            = 0x88, //
+        player_kd_stats_changed            = 0x88, // [+]
         hit_player                         = 0x89, // [?]
-        affect_damage_model                = 0x8A, //
+        affect_damage_model                = 0x8A, // !!!
         sync_response                      = 0x8B, // [=] @TODO: Figure out that timer
-        match_finished                     = 0x8C, //
+        match_finished                     = 0x8C, // [=]
         server_bullet_added                = 0x8D, // -
         server_bullet_removed              = 0x8E, // -
         server_bullet_moved                = 0x8F, // -
@@ -131,15 +170,15 @@ pub mod raw {
         player_visibility_changed          = 0x91, // [=]
         player_profile_message_type        = 0x92, // [=] @TODO: Statemachines :3
         team_bases_message_type            = 0x93,
-        initialize_victory_items           = 0x94, // !!!
-        victory_item_take_or_put           = 0x95,
+        initialize_victory_items           = 0x94, // [-]
+        victory_item_take_or_put           = 0x95, // !!!
         trap_placed                        = 0x96,
         trap_removed                       = 0x97,
         trap_fired                         = 0x98,
         trap_disarmed                      = 0x99,
-        game_status_changed                = 0x9A, // !!!
+        game_status_changed                = 0x9A, // [-]
         match_wait_time_changed            = 0x9B, // [-] @TODO: Seems like waiting_for_first_player and waiting_for_players wasn't used anywhere
-        game_world_object_state            = 0x9C, // !!!
+        game_world_object_state            = 0x9C, // [-]
         world_synchronization_request      = 0x9D,
         damage_model_state                 = 0x9E, // [+] hidden
         match_server_invalid_message_type  = 0xC0,
@@ -241,22 +280,34 @@ impl ServerGameMessageKind {
             Self::ConnectionSuccessful { .. }   => match_server_message_types_enum::match_server_connection_successful,
             Self::MatchOptions { .. }           => match_server_message_types_enum::match_options_message_type,
             Self::ServerPlayerInput { .. }      => match_server_message_types_enum::server_player_input,
-
+            Self::KillPlayer { .. }             => match_server_message_types_enum::kill_player,
             Self::SpawnPlayer { .. }            => match_server_message_types_enum::spawn_player,
-
+            // Self::TeamBaseCaptureProgress { .. }
             Self::MatchTimeChanged { .. }       => match_server_message_types_enum::match_time_changed,
             Self::RespawnTimeChanged { .. }     => match_server_message_types_enum::respawn_time_changed,
-
+            Self::PlayerKdStatsChanged { .. }   => match_server_message_types_enum::player_kd_stats_changed,
             Self::HitPlayer { .. }              => match_server_message_types_enum::hit_player,
-
+            Self::AffectDamageModel { .. }      => match_server_message_types_enum::affect_damage_model,
             Self::SyncResponse { .. }           => match_server_message_types_enum::sync_response,
-
+            Self::MatchFinished { .. }          => match_server_message_types_enum::match_finished,
+            // 4x bullets
+            // 4x bullets
+            // 4x bullets
+            // 4x bullets
             Self::PlayerVisibilityChange { .. } => match_server_message_types_enum::player_visibility_changed,
             Self::PlayerProfile { .. }          => match_server_message_types_enum::player_profile_message_type,
-
+            // Self::TeamBases
             Self::InitializeVictoryItems { .. } => match_server_message_types_enum::initialize_victory_items,
-
+            // Self::VictoryItemTakeOrPut
+            // Self::TrapPlaced
+            // Self::TrapRemoved
+            // Self::TrapFired
+            // Self::TrapDisarmed
             Self::GameStatusChanged { .. }      => match_server_message_types_enum::game_status_changed,
+            // Self::MatchWaitTimeChanged
+            Self::GameWorldObjectState { .. }   => match_server_message_types_enum::game_world_object_state,
+            Self::WorldSynchronizationRequest   => match_server_message_types_enum::world_synchronization_request,
+            // Self::DamageModelState
         }
     }
 }
@@ -283,6 +334,18 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(victory_item_count);
                 packet.write(respawn_time);
                 packet.write(match_time);
+            }
+
+            Self::KillPlayer {
+                victim_id,
+                killer_id,
+                is_headshot,
+                item_dict_id,
+            } => {
+                packet.write(victim_id);
+                packet.write(killer_id);
+                packet.write(is_headshot);
+                packet.write(item_dict_id);
             }
 
             Self::SpawnPlayer { player_id, player } => {
@@ -397,6 +460,16 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(respawn_time);
             }
 
+            Self::PlayerKdStatsChanged {
+                player_id,
+                kills,
+                deaths,
+            } => {
+                packet.write(player_id);
+                packet.write(kills);
+                packet.write(deaths);
+            }
+
             Self::HitPlayer {
                 hit_initiator_id,
                 being_hit_id,
@@ -416,6 +489,18 @@ impl Serialize for ServerGameMessageKind {
 
                 packet.write(amount);
                 packet.write(armor_piercing);
+            }
+
+            Self::AffectDamageModel {
+                played_id,
+                body_part_name,
+                hits_affects_type_enum,
+                affect_event_type,
+            } => {
+                packet.write(played_id);
+                packet.write_str(&body_part_name);
+                packet.write(hits_affects_type_enum);
+                packet.write(affect_event_type);
             }
 
             Self::SyncResponse {
@@ -447,6 +532,23 @@ impl Serialize for ServerGameMessageKind {
             Self::GameStatusChanged { game_status } => {
                 packet.write(game_status);
             }
+
+            Self::GameWorldObjectState {
+                player_id,
+                profile_slot,
+                survarium_booby_trap_state,
+                position,
+                angles,
+            } => {
+                packet.write(player_id);
+                packet.write(profile_slot);
+                packet.write(survarium_booby_trap_state);
+                packet.write(position);
+                packet.write(angles);
+            }
+
+            Self::MatchFinished => {}
+            Self::WorldSynchronizationRequest => {}
         }
     }
 }

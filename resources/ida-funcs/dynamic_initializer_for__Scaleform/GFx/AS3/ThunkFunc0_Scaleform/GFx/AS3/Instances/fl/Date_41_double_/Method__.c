@@ -1,9 +1,0 @@
-void (__thiscall *dynamic_initializer_for__Scaleform::GFx::AS3::ThunkFunc0_Scaleform::GFx::AS3::Instances::fl::Date_41_double_::Method__())(Scaleform::GFx::AS3::Instances::fl::Date *this, long double *result)
-{
-  void (__thiscall *result)(Scaleform::GFx::AS3::Instances::fl::Date *, long double *); // eax
-
-  result = Scaleform::GFx::AS3::Instances::fl::Date::fullYearGet;
-  LODWORD(Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl::Date,41,double>::Method) = Scaleform::GFx::AS3::Instances::fl::Date::fullYearGet;
-  dword_AAD6B4 = 0;
-  return result;
-}

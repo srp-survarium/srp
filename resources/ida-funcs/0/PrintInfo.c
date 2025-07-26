@@ -1,4 +1,0 @@
-void __stdcall PrintInfo()
-{
-  ;
-}

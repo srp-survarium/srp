@@ -158,3 +158,32 @@ pub enum weapon_targets {
 //
 // TODO: There are already serialize functions.
 // Try to call them manually
+
+//
+//
+//
+
+#[repr(u32)]
+#[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+#[rustfmt::skip]
+pub enum affect_event_type_enum {
+  applying  = 0x0,
+  recalling = 0x1,
+  canceling = 0x2,
+}
+
+#[repr(u32)]
+#[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+#[rustfmt::skip]
+pub enum hit_affects_type_enum {
+  death              = 0x0,
+  bleeding           = 0x1,
+  concussion         = 0x2,
+  hand_damage        = 0x3,
+  leg_damage         = 0x4,
+  critical_poisoning = 0x5,
+  poisoning          = 0x6,
+  radiation_sickness = 0x7,
+  blindness          = 0x8,
+  count              = 0x9,
+}
