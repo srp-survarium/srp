@@ -1,4 +1,0 @@
-float __usercall btAngularLimit::getHigh@<st0>(btAngularLimit *this@<ecx>, float *a2@<eax>)
-{
-  return fmod(a2[1] + *a2, 6.283185482025146);
-}

@@ -1,4 +1,0 @@
-int dynamic_initializer_for__s_ui_commands_adapted_allocator__()
-{
-  return atexit(dynamic_atexit_destructor_for__s_ui_commands_adapted_allocator__);
-}

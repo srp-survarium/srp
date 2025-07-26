@@ -1,4 +1,0 @@
-void dynamic_atexit_destructor_for__cc_victory_item_icon_size__()
-{
-  vostok::console_commands::console_command::~console_command(&cc_victory_item_icon_size);
-}
