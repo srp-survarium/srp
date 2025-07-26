@@ -1,8 +1,0 @@
-void __usercall survarium::match_client::send_queued_packets(
-        survarium::match_client *this@<ecx>,
-        unsigned int current_time_in_ms@<eax>)
-{
-  this->m_last_send_queed_packets_time_in_ms = current_time_in_ms;
-  this->m_are_there_any_packets_to_send = 0;
-  vostok::network::match_client::send_queued_packets(&this->m_client, current_time_in_ms);
-}
