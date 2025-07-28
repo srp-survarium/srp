@@ -2,7 +2,7 @@ survarium::network_client {
   boost::array<survarium::player_desc,20> m_net_players;
 }
 
-struct survarium::player_desc {                            
+struct survarium::player_desc {
     vostok::resources::resource_ptr<
       vostok::resources::unmanaged_resource,
       vostok::resources::unmanaged_intrusive_base
@@ -16,7 +16,7 @@ survarium::network_client::process_player_profile()
   match_client->m_match_options.player_profiles[received_players_count]
 
 
-   if (p_m_match_options->received_players_count 
+   if (p_m_match_options->received_players_count
     == p_m_match_options->players_count)
       survarium::network_client::query_players:
         -> this_->m_net_players.elems[player_id].is_connected = 0;
@@ -148,10 +148,10 @@ kill_player: survarium::network_client::process_player_kill()
 spawn_player: survarium::network_client::process_player_respawn()
   > survarium::network_client::get_player(i)
   > (this->__vftable[1].disconnect)(this, packet); // ???
-  > if (v2->m_is_time_synchronized_first_time) { 
+  > if (v2->m_is_time_synchronized_first_time) {
       survarium::base_network_client::attach_to_player()
     }
-  > 
+  >
 
 // Figure out how player is initialized
 
@@ -208,30 +208,3 @@ if ( v23 > 4000 )
 survarium::network_client::tick()
 survarium::network_client::on_world_sync_request()
 #TODO: Document everything this does
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

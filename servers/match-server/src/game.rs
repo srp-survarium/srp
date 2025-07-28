@@ -94,12 +94,13 @@ impl Game {
                             affect_event_type: affect_event_type_enum::applying,
                         })
                         .unwrap();
-                    self.server_game_message_tx
-                        .send(ServerGameMessageKind::PlayerVisibilityChange {
-                            player_id: 1,
-                            player_visibility: false,
-                        })
-                        .unwrap();
+
+                    // self.server_game_message_tx
+                    //     .send(ServerGameMessageKind::PlayerVisibilityChange {
+                    //         player_id: 1,
+                    //         player_visibility: false,
+                    //     })
+                    //     .unwrap();
                 }
 
                 if self.match_countdown_secs == 14 * 60 + 40 {
@@ -169,9 +170,9 @@ impl Game {
                         })
                         .unwrap();
 
-                    self.server_game_message_tx
-                        .send(ServerGameMessageKind::WorldSynchronizationRequest)
-                        .unwrap();
+                    // self.server_game_message_tx
+                    //     .send(ServerGameMessageKind::WorldSynchronizationRequest)
+                    //     .unwrap();
 
                     // self.server_game_message_tx
                     //     .send(ServerGameMessageKind::MatchFinished)
