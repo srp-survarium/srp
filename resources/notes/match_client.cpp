@@ -497,7 +497,7 @@ struct __cppobj __declspec(align(2)) vostok::network_core::udp_match_packet
  *
 
 
-Questions: 
+Questions:
 
 1. Why have multiple channels inside a connection?
 2. How c

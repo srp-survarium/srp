@@ -1,22 +1,13 @@
 [package]
-name = "match-server"
+name = "match-server-boot"
 version.workspace = true
 edition.workspace = true
-
-[lib]
-crate-type = ["cdylib"]
 
 [lints]
 workspace = true
 
-[features]
-default = []
-
 [dependencies]
-bytemuck = { workspace = true }
-
-survarium = { workspace = true }
-vostok = { workspace = true }
+windows-link = "0.1.3"
 
 [dependencies.windows]
 version = "0.61"

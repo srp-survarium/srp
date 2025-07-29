@@ -1,21 +1,13 @@
-#![feature(iter_intersperse)]
-#![feature(generic_atomic)]
-
-mod game;
-mod match_connection;
-mod message;
-mod sequence_number;
-mod utils;
-
 use std::sync::mpsc;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
 
 use crate::game::Game;
 use crate::match_connection::MatchConnection;
+use crate::message;
 use vostok::config;
 
-fn main() {
+pub(crate) fn run() {
     loop {
         println!("\n\nStarting a match server");
         _ = std::panic::catch_unwind(run_match_server);

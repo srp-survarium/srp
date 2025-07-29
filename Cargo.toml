@@ -8,11 +8,12 @@ members = [
   "servers/lobby-server",
   "servers/login-server",
   "servers/match-server",
+  "servers/match-server-boot",
 
   "scripts/binary-config-cli",
   "scripts/build-engine-structure",
   "scripts/nasm-decompiler",
-  "scripts/parse-journal-file", 
+  "scripts/parse-journal-file",
 ]
 exclude = []
 resolver = "3"

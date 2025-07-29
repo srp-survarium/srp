@@ -1,5 +1,9 @@
-use survarium::player_input::{player, player_input, player_state, weapon_state};
-use survarium::player_profile::raw::player_profile;
+use survarium::player_input::{
+    affect_event_type_enum, hit_affects_type_enum, player, player_input, player_inventory_slot,
+    player_stamina, player_state, weapon_core, weapon_core_state, weapon_state,
+};
+use survarium::player_profile::raw::{player_profile, profile_slot_enum};
+use vostok::math::float3;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
 use vostok::serde::Serialize;
@@ -47,23 +51,95 @@ pub enum ServerGameMessageKind {
         respawn_time: u8,
         match_time: u16,
     },
-    SpawnPlayer {
-        player_id: u8,
-        player: player,
-    },
+
     ServerPlayerInput {
         player_id: u8,
         player_input: player_input,
         player_state: player_state,
         weapon_state: weapon_state,
     },
+
+    // both victim and killer must be players
+    KillPlayer {
+        victim_id: u8,
+        killer_id: u8,
+        is_headshot: bool,
+        item_dict_id: u32,
+    },
+
+    SpawnPlayer {
+        player_id: u8,
+        player: player,
+    },
+
     MatchTimeChanged {
         match_time: u32,
+    },
+
+    RespawnTimeChanged {
+        respawn_time: u32,
+    },
+
+    PlayerKdStatsChanged {
+        player_id: u8,
+        kills: u32,
+        deaths: u32,
+    },
+
+    HitPlayer {
+        hit_initiator_id: u8,     // id of player making hit | or 0xFF
+        being_hit_id: u8,         // id of player being hit
+        body_part_name: String,   // len up to 16
+        damage_type_info: String, // len up to 16
+        amount: f32,
+        armor_piercing: f32,
+    },
+
+    AffectDamageModel {
+        played_id: u8,
+        body_part_name: String,
+        hits_affects_type_enum: hit_affects_type_enum,
+        affect_event_type: affect_event_type_enum,
+    },
+
+    SyncResponse {
+        is_connected_bitmask: u32,
+    },
+
+    // Will crash on reconnect
+    // Will also crash when exiting manually
+    // No end game credits or anything
+    // Just exits
+    MatchFinished,
+
+    PlayerVisibilityChange {
+        player_id: u8,
+        player_visibility: bool,
     },
 
     PlayerProfile {
         player_profile: Box<player_profile>,
     },
+
+    InitializeVictoryItems {
+        position: float3,
+    },
+
+    GameStatusChanged {
+        game_status: game_status,
+    },
+
+    // Crashes on empty slot : survarium::inventory::item_in_slot
+    // Crashes on weapon     : JUMP TO GARBAGE ADDRESS
+    // Should only work on `booby_trap_core`, which should be present
+    GameWorldObjectState {
+        player_id: u8,
+        profile_slot: profile_slot_enum,
+        survarium_booby_trap_state: u8,
+        position: float3,
+        angles: float3,
+    },
+    WorldSynchronizationRequest,
 }
 
 pub mod raw {
@@ -77,32 +153,32 @@ pub mod raw {
         match_server_connection_successful = 0x80, // changes connection_type to connected
         match_options_message_type         = 0x81, // [+] - survarium::network_client::on_match_packet_received
         server_player_input                = 0x82, //
-        kill_player                        = 0x83, //
-        spawn_player                       = 0x84, //
+        kill_player                        = 0x83, // [+]
+        spawn_player                       = 0x84, // [=]
         team_base_capture_progress         = 0x85, //
-        match_time_changed                 = 0x86, //
-        respawn_time_changed               = 0x87, //
-        player_kd_stats_changed            = 0x88, //
-        hit_player                         = 0x89, //
-        affect_damage_model                = 0x8A, //
-        sync_response                      = 0x8B, //
-        match_finished                     = 0x8C, //
-        server_bullet_added                = 0x8D, //
-        server_bullet_removed              = 0x8E, //
-        server_bullet_moved                = 0x8F, //
-        server_bullet_collided             = 0x90, //
-        player_visibility_changed          = 0x91, //
-        player_profile_message_type        = 0x92,
+        match_time_changed                 = 0x86, // [?] Should be sent each second, only UI, only from packets !!! NO, has some kind of callback
+        respawn_time_changed               = 0x87, // [?] Same thing
+        player_kd_stats_changed            = 0x88, // [+]
+        hit_player                         = 0x89, // [?]
+        affect_damage_model                = 0x8A, // !!!
+        sync_response                      = 0x8B, // [=] @TODO: Figure out that timer
+        match_finished                     = 0x8C, // [=]
+        server_bullet_added                = 0x8D, // -
+        server_bullet_removed              = 0x8E, // -
+        server_bullet_moved                = 0x8F, // -
+        server_bullet_collided             = 0x90, // -
+        player_visibility_changed          = 0x91, // [=]
+        player_profile_message_type        = 0x92, // [=] @TODO: Statemachines :3
         team_bases_message_type            = 0x93,
-        initialize_victory_items           = 0x94,
-        victory_item_take_or_put           = 0x95,
+        initialize_victory_items           = 0x94, // [-]
+        victory_item_take_or_put           = 0x95, // !!!
         trap_placed                        = 0x96,
         trap_removed                       = 0x97,
         trap_fired                         = 0x98,
         trap_disarmed                      = 0x99,
-        game_status_changed                = 0x9A,
-        match_wait_time_changed            = 0x9B,
-        game_world_object_state            = 0x9C,
+        game_status_changed                = 0x9A, // [-]
+        match_wait_time_changed            = 0x9B, // [-] @TODO: Seems like waiting_for_first_player and waiting_for_players wasn't used anywhere
+        game_world_object_state            = 0x9C, // [-]
         world_synchronization_request      = 0x9D,
         damage_model_state                 = 0x9E, // [+] hidden
         match_server_invalid_message_type  = 0xC0,
@@ -116,6 +192,17 @@ pub mod raw {
         capture_neutral_base = 0x1,
         gather_victory_items = 0x2,
         invalid_game_mode    = 0xFF,
+    }
+
+    #[repr(u32)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    #[rustfmt::skip]
+    pub enum game_status {
+        inactive                 = 0x0,
+        waiting_for_first_player = 0x1,
+        waiting_for_players      = 0x2,
+        final_countdown          = 0x3,
+        inprocess                = 0x4,
     }
 }
 
@@ -190,12 +277,37 @@ impl ServerGameMessageKind {
     #[rustfmt::skip]
     pub fn message_type(&self) -> match_server_message_types_enum {
         match self {
-            Self::ConnectionSuccessful { .. } => match_server_message_types_enum::match_server_connection_successful,
-            Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
-            Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
-            Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
-            Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
-            Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
+            Self::ConnectionSuccessful { .. }   => match_server_message_types_enum::match_server_connection_successful,
+            Self::MatchOptions { .. }           => match_server_message_types_enum::match_options_message_type,
+            Self::ServerPlayerInput { .. }      => match_server_message_types_enum::server_player_input,
+            Self::KillPlayer { .. }             => match_server_message_types_enum::kill_player,
+            Self::SpawnPlayer { .. }            => match_server_message_types_enum::spawn_player,
+            // Self::TeamBaseCaptureProgress { .. }
+            Self::MatchTimeChanged { .. }       => match_server_message_types_enum::match_time_changed,
+            Self::RespawnTimeChanged { .. }     => match_server_message_types_enum::respawn_time_changed,
+            Self::PlayerKdStatsChanged { .. }   => match_server_message_types_enum::player_kd_stats_changed,
+            Self::HitPlayer { .. }              => match_server_message_types_enum::hit_player,
+            Self::AffectDamageModel { .. }      => match_server_message_types_enum::affect_damage_model,
+            Self::SyncResponse { .. }           => match_server_message_types_enum::sync_response,
+            Self::MatchFinished { .. }          => match_server_message_types_enum::match_finished,
+            // 4x bullets
+            // 4x bullets
+            // 4x bullets
+            // 4x bullets
+            Self::PlayerVisibilityChange { .. } => match_server_message_types_enum::player_visibility_changed,
+            Self::PlayerProfile { .. }          => match_server_message_types_enum::player_profile_message_type,
+            // Self::TeamBases
+            Self::InitializeVictoryItems { .. } => match_server_message_types_enum::initialize_victory_items,
+            // Self::VictoryItemTakeOrPut
+            // Self::TrapPlaced
+            // Self::TrapRemoved
+            // Self::TrapFired
+            // Self::TrapDisarmed
+            Self::GameStatusChanged { .. }      => match_server_message_types_enum::game_status_changed,
+            // Self::MatchWaitTimeChanged
+            Self::GameWorldObjectState { .. }   => match_server_message_types_enum::game_world_object_state,
+            Self::WorldSynchronizationRequest   => match_server_message_types_enum::world_synchronization_request,
+            // Self::DamageModelState
         }
     }
 }
@@ -224,6 +336,18 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(match_time);
             }
 
+            Self::KillPlayer {
+                victim_id,
+                killer_id,
+                is_headshot,
+                item_dict_id,
+            } => {
+                packet.write(victim_id);
+                packet.write(killer_id);
+                packet.write(is_headshot);
+                packet.write(item_dict_id);
+            }
+
             Self::SpawnPlayer { player_id, player } => {
                 packet.write(player_id);
                 let player {
@@ -231,28 +355,200 @@ impl Serialize for ServerGameMessageKind {
                     orientation,
                     look_pitch,
                     is_alive,
-                    slot_id,
+                    server_current_active_slot,
                     server_target_active_slot,
+                    player_stamina,
+                    player_inventory,
                 } = player;
 
                 packet.write(position);
                 packet.write(orientation);
                 packet.write(look_pitch);
                 packet.write(is_alive);
-                packet.write(slot_id);
+                packet.write(server_current_active_slot);
                 packet.write(server_target_active_slot);
+
+                let player_stamina {
+                    value,
+                    last_spending_time_in_ms,
+                    last_tick_time_in_ms,
+                    lower_threshold_was_reached,
+                } = player_stamina;
+                packet.write(value);
+                packet.write(last_spending_time_in_ms);
+                packet.write(last_tick_time_in_ms);
+                packet.write(lower_threshold_was_reached);
+
+                for item in player_inventory {
+                    match item {
+                        player_inventory_slot::weapon_slot(weapon_core) => {
+                            let weapon_core {
+                                inventory_item,
+                                random_seed,
+                                normal_random_seed,
+                                weapon_target,
+                                old_actions_mask,
+                                ammo_in_magazine,
+                                bullets_in_queue,
+                                fire_queue_type,
+                                ammo_slot,
+                                is_there_chamber_a_round_state,
+                                weapon_core_state,
+                            } = weapon_core;
+
+                            packet.write(inventory_item);
+                            packet.write(random_seed);
+                            packet.write(normal_random_seed);
+                            packet.write(weapon_target);
+                            packet.write(old_actions_mask);
+                            packet.write(ammo_in_magazine);
+                            packet.write(bullets_in_queue);
+                            packet.write(fire_queue_type);
+                            packet.write(ammo_slot);
+                            if let Some(is_there_chamber_a_round_state) =
+                                is_there_chamber_a_round_state
+                            {
+                                packet.write(is_there_chamber_a_round_state);
+                            }
+                            if let Some(weapon_core_state) = weapon_core_state {
+                                let weapon_core_state {
+                                    is_shown,
+                                    active_hands,
+                                    start_transition_time_in_ms_lhs,
+                                    start_transition_time_in_ms_rhs,
+                                    weapon_sound_target_state,
+                                    logic_sprint_target_state,
+                                } = weapon_core_state;
+                                packet.write(is_shown);
+                                packet.write(active_hands);
+                                packet.write(start_transition_time_in_ms_lhs);
+                                packet.write(start_transition_time_in_ms_rhs);
+
+                                packet.write(weapon_sound_target_state.0);
+                                if let Some((interval_id, interval_time)) =
+                                    weapon_sound_target_state.1
+                                {
+                                    packet.write(interval_id);
+                                    packet.write(interval_time);
+                                }
+
+                                packet.write(logic_sprint_target_state.0);
+                                if let Some((interval_id, interval_time)) =
+                                    logic_sprint_target_state.1
+                                {
+                                    packet.write(interval_id);
+                                    packet.write(interval_time);
+                                }
+                            }
+                        }
+                        player_inventory_slot::item_amount(amount) => {
+                            packet.write(amount);
+                        }
+                    }
+                }
             }
 
             Self::ServerPlayerInput { .. } => {
                 todo!()
             }
+
             Self::MatchTimeChanged { match_time } => {
                 packet.write(match_time);
+            }
+
+            Self::RespawnTimeChanged { respawn_time } => {
+                packet.write(respawn_time);
+            }
+
+            Self::PlayerKdStatsChanged {
+                player_id,
+                kills,
+                deaths,
+            } => {
+                packet.write(player_id);
+                packet.write(kills);
+                packet.write(deaths);
+            }
+
+            Self::HitPlayer {
+                hit_initiator_id,
+                being_hit_id,
+                body_part_name,
+                damage_type_info,
+                amount,
+                armor_piercing,
+            } => {
+                packet.write(hit_initiator_id);
+                packet.write(being_hit_id);
+
+                assert!(body_part_name.len() <= 16);
+                packet.write_str(&body_part_name);
+
+                assert!(damage_type_info.len() <= 16);
+                packet.write_str(&damage_type_info);
+
+                packet.write(amount);
+                packet.write(armor_piercing);
+            }
+
+            Self::AffectDamageModel {
+                played_id,
+                body_part_name,
+                hits_affects_type_enum,
+                affect_event_type,
+            } => {
+                packet.write(played_id);
+                packet.write_str(&body_part_name);
+                packet.write(hits_affects_type_enum);
+                packet.write(affect_event_type);
+            }
+
+            Self::SyncResponse {
+                is_connected_bitmask,
+            } => packet.write(is_connected_bitmask),
+
+            Self::PlayerVisibilityChange {
+                player_id,
+                player_visibility,
+            } => {
+                packet.write(player_id);
+                packet.write(player_visibility);
             }
 
             Self::PlayerProfile { player_profile } => {
                 player_profile.serialize_udp(packet);
             }
+
+            Self::InitializeVictoryItems { position } => {
+                packet.write(0_u8); // team_1_points
+                packet.write(0_u8); // team_2_points
+                packet.write(1_u8); // maybe_battery_count
+                packet.write(0xFF_u8); // player_id
+                packet.write(0x0_u8); // item_id
+                packet.write(position);
+                packet.write(0_u8); // ??? maybe which batteries in which containers
+            }
+
+            Self::GameStatusChanged { game_status } => {
+                packet.write(game_status);
+            }
+
+            Self::GameWorldObjectState {
+                player_id,
+                profile_slot,
+                survarium_booby_trap_state,
+                position,
+                angles,
+            } => {
+                packet.write(player_id);
+                packet.write(profile_slot);
+                packet.write(survarium_booby_trap_state);
+                packet.write(position);
+                packet.write(angles);
+            }
+
+            Self::MatchFinished => {}
+            Self::WorldSynchronizationRequest => {}
         }
     }
 }

@@ -128,7 +128,10 @@ fn main() {
             if game_bytes.len() == patch_bytes.len() {
                 println!("Original length matches patch length!\n")
             } else {
-                println!("Original length DOES NOT match patch length!\n")
+                println!("Original length DOES NOT match patch length!");
+                println!("Patch length   : {}", patch_bytes.len());
+                println!("Original length: {}", game_bytes.len());
+                println!();
             }
 
             match binary {
