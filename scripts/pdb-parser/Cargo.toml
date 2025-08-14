@@ -6,8 +6,10 @@ edition.workspace = true
 [dependencies]
 clap = { workspace = true }
 
-pdb = { package = "pdb2", git = "https://github.com/afranchuk/pdb", branch = "master", commit = "384c165" }
-pdb-addr2line = { git = "https://github.com/srp-survarium/pdb-addr2line", branch = "mkpub", commit = "d90438b" }
+pdb = { package = "pdb2", git = "https://github.com/afranchuk/pdb", rev = "384c165" }
+
+pdb-addr2line-orig = { package = "pdb-addr2line", version = "0.11.2" }
+pdb-addr2line = { git = "https://github.com/srp-survarium/pdb-addr2line", rev = "cfe5fab" }
 
 [lints]
 workspace = true

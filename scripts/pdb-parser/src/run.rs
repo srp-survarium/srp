@@ -24,23 +24,17 @@ fn dump_pdb(
     output_path: &std::path::Path,
     test_on_bullet: bool,
 ) -> crate::Result<()> {
-    addr2line::with_formatter(pdb_path, |formatter, formatter_with_args| {
+    addr2line::with_formatter(pdb_path, |formatter, formatter_orig| {
         let file = std::fs::File::open(pdb_path)?;
         let pdb = PDB::open(file)?;
-        format_functions(
-            pdb,
-            formatter,
-            formatter_with_args,
-            output_path,
-            test_on_bullet,
-        )
+        format_functions(pdb, formatter, formatter_orig, output_path, test_on_bullet)
     })
 }
 
 pub fn format_functions(
     mut pdb: pdb::PDB<std::fs::File>,
     formatter: pdb_addr2line::TypeFormatter,
-    formatter_with_args: pdb_addr2line::TypeFormatter,
+    formatter_orig: pdb_addr2line_orig::TypeFormatter,
     output_path: &std::path::Path,
     test_on_bullet: bool,
 ) -> crate::Result<()> {
@@ -66,7 +60,7 @@ pub fn format_functions(
     while let Some(module) = modules.next()? {
         module_id = module_id.wrapping_add(1);
 
-        if test_on_bullet && !module.module_name().ends_with("bullet.obj") {
+        if test_on_bullet && !module.module_name().ends_with("damage_model.obj") {
             continue;
         }
 
@@ -147,8 +141,8 @@ pub fn format_functions(
 
                     filename = file_name.to_string();
 
-                    let name_with_args = addr2line::emit_function(
-                        &formatter_with_args,
+                    let name_orig = addr2line::emit_function_orig(
+                        &formatter_orig,
                         &proc.name,
                         module_id,
                         proc.type_index,
@@ -163,7 +157,7 @@ pub fn format_functions(
 
                     function = Function {
                         name: Type::new(&name),
-                        name_with_args: Type::new(&name_with_args),
+                        name_orig,
                         proc_start,
                         proc_end,
                         statements: breakpoints,
@@ -316,28 +310,31 @@ pub fn format_functions(
 }
 
 mod addr2line {
-    use pdb_addr2line::{ContextPdbData, TypeFormatter, TypeFormatterFlags};
-
     /// Run a closure with two formatters initialized.
     /// The first one will skip printing the function arguments, the second one wont.
     pub fn with_formatter(
         filename: &std::path::Path,
-        format: impl FnOnce(TypeFormatter, TypeFormatter) -> crate::Result<()>,
+        format: impl FnOnce(
+            pdb_addr2line::TypeFormatter,
+            pdb_addr2line_orig::TypeFormatter,
+        ) -> crate::Result<()>,
     ) -> crate::Result<()> {
+        use pdb_addr2line::{ContextPdbData as Data, TypeFormatterFlags as Flags};
+        use pdb_addr2line_orig::{ContextPdbData as DataOrig, TypeFormatterFlags as FlagsOrig};
+
         let file = std::fs::File::open(filename)?;
-        let data = ContextPdbData::try_from_pdb(pdb_addr2line::pdb::PDB::open(file)?)?;
+
+        let data = Data::try_from_pdb(pdb_addr2line::pdb::PDB::open(&file)?)?;
 
         let formatter = data.make_type_formatter_with_flags(
-            TypeFormatterFlags::SPACE_AFTER_COMMA
-                | TypeFormatterFlags::NO_ARGUMENTS
-                | TypeFormatterFlags::NAME_ONLY,
+            Flags::SPACE_AFTER_COMMA | Flags::NO_ARGUMENTS | Flags::NAME_ONLY,
         )?;
 
-        let formatter_with_args = data.make_type_formatter_with_flags(
-            TypeFormatterFlags::SPACE_AFTER_COMMA | TypeFormatterFlags::NAME_ONLY,
-        )?;
+        let data_orig = DataOrig::try_from_pdb(pdb_addr2line::pdb::PDB::open(&file)?)?;
+        let formatter_orig = data_orig
+            .make_type_formatter_with_flags(FlagsOrig::SPACE_AFTER_COMMA | FlagsOrig::NAME_ONLY)?;
 
-        format(formatter, formatter_with_args)?;
+        format(formatter, formatter_orig)?;
 
         Ok(())
     }
@@ -347,7 +344,7 @@ mod addr2line {
     }
 
     pub fn emit_function(
-        formatter: &TypeFormatter,
+        formatter: &pdb_addr2line::TypeFormatter,
         proc_name: &pdb::RawString,
         module_id: usize,
         type_index: pdb::TypeIndex,
@@ -363,7 +360,7 @@ mod addr2line {
     }
 
     pub fn emit_type(
-        formatter: &TypeFormatter,
+        formatter: &pdb_addr2line::TypeFormatter,
         module_id: usize,
         type_index: pdb::TypeIndex,
     ) -> crate::Result<String> {
@@ -373,6 +370,22 @@ mod addr2line {
         })?;
         Ok(type_name)
     }
+
+    pub fn emit_function_orig(
+        formatter: &pdb_addr2line_orig::TypeFormatter,
+        proc_name: &pdb::RawString,
+        module_id: usize,
+        type_index: pdb::TypeIndex,
+    ) -> crate::Result<String> {
+        let mut name = String::new();
+        formatter.emit_function(
+            &mut name,
+            proc_name.to_string().as_str(),
+            module_id,
+            ti(type_index),
+        )?;
+        Ok(name)
+    }
 }
 
 //
@@ -381,7 +394,7 @@ mod addr2line {
 
 #[derive(Default)]
 struct Function<'a> {
-    name_with_args: Type,
+    name_orig: String,
     name: Type,
 
     args: Vec<(pdb::RawString<'a>, Type)>,
@@ -401,7 +414,7 @@ struct Function<'a> {
 impl<'a> Function<'a> {
     pub fn write(self, mut w: impl std::io::Write) -> crate::Result<()> {
         let Self {
-            name_with_args,
+            name_orig,
             name,
             args,
             locals,
@@ -414,7 +427,7 @@ impl<'a> Function<'a> {
             symbols,
         } = self;
 
-        writeln!(w, "// {name_with_args}")?;
+        writeln!(w, "// {name_orig}")?;
         write!(w, "{name}(")?;
 
         if !args.is_empty() {
@@ -538,6 +551,15 @@ impl Type {
         let ty = ty
             .replace("survarium", "stalker2")
             .replace("vostok", "xray");
+
+        let ty = if ty.contains(" const*") {
+            format!("const {}", ty.replace(" const*", "*"))
+        } else if ty.contains(" const&") {
+            format!("const {}", ty.replace(" const&", "&"))
+        } else {
+            ty
+        };
+
         Self(ty)
     }
 
