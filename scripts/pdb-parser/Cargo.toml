@@ -1,0 +1,16 @@
+[package]
+name = "pdb-parser"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow = { version = "1", features = ["backtrace"] }
+getopts = "0.2.23"
+
+pdb = { package = "pdb2", git = "https://github.com/afranchuk/pdb", branch = "master" }
+pdb-addr2line = { path = "../../../../Devel/pdb-addr2line" }
+
+# path = "../../../../Devel/pdb" }
+
+[lints]
+workspace = true
