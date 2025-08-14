@@ -1,0 +1,13 @@
+[package]
+name = "pdb-parser"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+clap = { workspace = true }
+
+pdb = { package = "pdb2", git = "https://github.com/afranchuk/pdb", branch = "master", commit = "384c165" }
+pdb-addr2line = { git = "https://github.com/srp-survarium/pdb-addr2line", branch = "mkpub", commit = "d90438b" }
+
+[lints]
+workspace = true
