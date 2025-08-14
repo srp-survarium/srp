@@ -4,13 +4,10 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-anyhow = { version = "1", features = ["backtrace"] }
-getopts = "0.2.23"
+clap = { workspace = true }
 
-pdb = { package = "pdb2", git = "https://github.com/afranchuk/pdb", branch = "master" }
-pdb-addr2line = { path = "../../../../Devel/pdb-addr2line" }
-
-# path = "../../../../Devel/pdb" }
+pdb = { package = "pdb2", git = "https://github.com/afranchuk/pdb", branch = "master", commit = "384c165" }
+pdb-addr2line = { git = "https://github.com/srp-survarium/pdb-addr2line", branch = "mkpub", commit = "d90438b" }
 
 [lints]
 workspace = true
