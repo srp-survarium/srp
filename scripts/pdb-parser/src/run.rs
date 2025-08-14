@@ -162,8 +162,8 @@ pub fn format_functions(
                     )?;
 
                     function = Function {
-                        name,
-                        name_with_args,
+                        name: Type::new(&name),
+                        name_with_args: Type::new(&name_with_args),
                         proc_start,
                         proc_end,
                         statements: breakpoints,
@@ -201,11 +201,11 @@ pub fn format_functions(
                     // we do have thanks to linker optimizations
                     if function.locals.is_empty() && local_name.as_bytes() == b"this" {
                     } else if offset > 0 {
-                        function.args.push((local_name, local_type));
+                        function.args.push((local_name, Type::new(&local_type)));
                     } else {
                         function
                             .locals
-                            .push((local_name, local_type, depth as usize));
+                            .push((local_name, Type::new(&local_type), depth as usize));
                     }
                 }
 
@@ -221,7 +221,7 @@ pub fn format_functions(
 
                     function
                         .constants
-                        .push((const_name, const_type, const_value));
+                        .push((const_name, Type::new(&const_type), const_value));
                 }
 
                 SymbolData::Data(DataSymbol {
@@ -235,7 +235,7 @@ pub fn format_functions(
                     let static_type = addr2line::emit_type(&formatter, module_id, type_index)?;
                     function.statics.push((
                         static_name,
-                        static_type,
+                        Type::new(&static_type),
                         offset.to_rva(&address_map).unwrap_or(pdb::Rva(0)),
                     ));
                 }
@@ -287,24 +287,28 @@ pub fn format_functions(
             let mut source_path = output_path.to_path_buf();
             source_path.push(path_to_file);
 
-            match test_on_bullet {
+            let mut file: Box<dyn std::io::Write> = match test_on_bullet {
                 false => {
                     std::fs::create_dir_all(source_path.parent().unwrap())?;
 
-                    let file = std::fs::File::create(source_path)?;
-                    let mut file = std::io::BufWriter::new(file);
+                    let file = std::fs::File::create(&source_path)?;
+                    let file = std::io::BufWriter::new(file);
 
-                    for function in funs.into_values() {
-                        function.write(&mut file)?;
-                    }
+                    Box::new(file)
                 }
-
                 true => {
-                    for function in funs.into_values() {
-                        function.write(std::io::stdout())?;
-                    }
+                    println!("\nFile: {source_path:?}\n");
+                    Box::new(std::io::stdout())
                 }
             };
+
+            write_header(&mut file, &source_path)?;
+
+            for function in funs.into_values() {
+                function.write(&mut file)?;
+            }
+
+            write_footer(&mut file, &source_path)?;
         }
     }
 
@@ -377,27 +381,22 @@ mod addr2line {
 
 #[derive(Default)]
 struct Function<'a> {
-    name_with_args: String,
-    name: String,
+    name_with_args: Type,
+    name: Type,
 
-    args: Vec<(pdb::RawString<'a>, String)>,
-    locals: Vec<(pdb::RawString<'a>, String, usize)>,
+    args: Vec<(pdb::RawString<'a>, Type)>,
+    locals: Vec<(pdb::RawString<'a>, Type, usize)>,
 
     proc_start: u32,
     proc_end: u32,
     statements: Vec<(pdb::Rva, u32, bool)>,
 
-    constants: Vec<(pdb::RawString<'a>, String, pdb::Variant)>,
-    statics: Vec<(pdb::RawString<'a>, String, pdb::Rva)>,
+    constants: Vec<(pdb::RawString<'a>, Type, pdb::Variant)>,
+    statics: Vec<(pdb::RawString<'a>, Type, pdb::Rva)>,
 
     blocks: Vec<pdb::Rva>,
     symbols: Vec<pdb::SymbolData<'a>>,
 }
-
-// @TODO:
-// let name = name
-//     .replace("survarium", "stalker2")
-//     .replace("vostok", "xray");
 
 impl<'a> Function<'a> {
     pub fn write(self, mut w: impl std::io::Write) -> crate::Result<()> {
@@ -523,6 +522,71 @@ impl<'a> Function<'a> {
 
         Ok(())
     }
+}
+
+#[derive(Default)]
+struct Type(String);
+
+impl std::fmt::Display for Type {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl Type {
+    pub fn new(ty: &str) -> Self {
+        let ty = ty
+            .replace("survarium", "stalker2")
+            .replace("vostok", "xray");
+        Self(ty)
+    }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+}
+
+pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate::Result<()> {
+    #[rustfmt::skip]
+    {
+        writeln!(w, "////////////////////////////////////////////////////////////////////////////")?;
+        writeln!(w, "//	Created 	: 14.08.2025")?;
+        writeln!(w, "////////////////////////////////////////////////////////////////////////////")?;
+        writeln!(w)?;
+    };
+
+    let file_name = path
+        .file_name()
+        .expect("no filename")
+        .to_string_lossy()
+        .to_string();
+    if let Some(module_name) = file_name.strip_suffix(".cpp") {
+        writeln!(w, "#include \"pch.h\"")?;
+        writeln!(w, "#include \"{module_name}.h\"")?;
+        writeln!(w)?;
+    } else if let Some(module_name) = file_name.strip_suffix(".h") {
+        let ifdef = format!("{}_H_INCLUDED", module_name.to_uppercase());
+
+        writeln!(w, "#ifndef {ifdef}")?;
+        writeln!(w, "#define {ifdef}")?;
+        writeln!(w)?;
+    }
+    Ok(())
+}
+
+pub fn write_footer(mut w: impl std::io::Write, path: &std::path::Path) -> crate::Result<()> {
+    let file_name = path
+        .file_name()
+        .expect("no filename")
+        .to_string_lossy()
+        .to_string();
+
+    if let Some(module_name) = file_name.strip_suffix(".h") {
+        let ifdef = format!("{}_H_INCLUDED", module_name.to_uppercase());
+
+        writeln!(w, "#endif // #ifndef {ifdef}")?;
+    }
+    Ok(())
 }
 
 fn pad_spaces(mut w: impl std::io::Write, prefix_len: usize) -> std::io::Result<()> {
