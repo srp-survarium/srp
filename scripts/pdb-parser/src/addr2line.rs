@@ -124,7 +124,8 @@ impl Type {
             .replace("vostok", "xray")
             .replace("char const*", "pcstr")
             .replace("xray::math::", "")
-            .replace("xray::resources::", "resources::");
+            .replace("xray::resources::", "resources::")
+            .replace("boost::noncopyable_::noncopyable", "boost::noncopyable");
 
         Self(ty)
     }

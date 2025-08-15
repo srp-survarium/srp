@@ -13,7 +13,7 @@ type TypeSet = BTreeSet<pdb::TypeIndex>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Data<'p> {
-    forward_references: Vec<ForwardReference<'p>>,
+    forward_references: Vec<ForwardReference>,
     classes: Vec<Class<'p>>,
     enums: Vec<Enum<'p>>,
 }
@@ -61,9 +61,9 @@ struct EnumValue<'p> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-struct ForwardReference<'p> {
+struct ForwardReference {
     kind: pdb::ClassKind,
-    name: pdb::RawString<'p>,
+    name: Type,
 }
 
 //
@@ -276,7 +276,7 @@ impl fmt::Display for Class<'_> {
             for method in &self.instance_methods {
                 writeln!(
                     f,
-                    "\t{} {};",
+                    "\t{}{};",
                     if method.is_virtual { "virtual " } else { "" },
                     method.method,
                 )?;
@@ -317,7 +317,7 @@ impl fmt::Display for Class<'_> {
             writeln!(f, " {};", field.name.to_string())?;
         }
 
-        writeln!(f, "}} // {kind} {name}")?;
+        writeln!(f, "}}; // {kind} {name}")?;
 
         Ok(())
     }
@@ -434,7 +434,7 @@ impl fmt::Display for Enum<'_> {
     }
 }
 
-impl fmt::Display for ForwardReference<'_> {
+impl fmt::Display for ForwardReference {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(
             f,
@@ -444,7 +444,7 @@ impl fmt::Display for ForwardReference<'_> {
                 pdb::ClassKind::Struct => "struct",
                 pdb::ClassKind::Interface => "interface", // when can this happen?
             },
-            self.name.to_string()
+            self.name,
         )
     }
 }
@@ -493,7 +493,7 @@ impl<'p> Data<'p> {
                 if data.properties.forward_reference() {
                     self.forward_references.push(ForwardReference {
                         kind: data.kind,
-                        name: data.name,
+                        name: Type::new(&data.name.to_string()),
                     });
 
                     return Ok(());
