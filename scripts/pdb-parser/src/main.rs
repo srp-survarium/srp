@@ -1,4 +1,5 @@
 #![feature(str_as_str)]
+#![expect(clippy::len_without_is_empty)]
 
 //! Builds a project structure out of the provided PDB file.
 //!
@@ -9,7 +10,7 @@
 //! the same folder `srp` was):
 //!
 //! ```ignore
-//! cargo run --bin pdb-parser --release -- --pdb_path="D:/Projects/Survarium/binaries/win32/survarium.pdb" --output_path="../vostok-structure/vostok"
+//! cargo run --bin pdb-parser --release -- --pdb_path="D:/Projects/Survarium/binaries/win32/survarium.pdb" --output_path="../vostok-structure"
 //! ```
 //!
 //! The values are hardocded for ease of use by me, so if your paths are the same as in the example
@@ -19,8 +20,10 @@
 //! cargo run --bin pdb-parser --release
 //! ```
 
-mod error;
-mod run;
+pub mod addr2line;
+pub mod error;
+pub mod gen_classes;
+pub mod gen_headers;
 
 pub use error::{Error, Result};
 
@@ -40,7 +43,7 @@ pub struct Cli {
         short,
         long,
         value_hint = clap::ValueHint::FilePath,
-        default_value = "..\\vostok-structure\\vostok\\",
+        default_value = "..\\vostok-structure",
     )]
     output_path: std::path::PathBuf,
 
@@ -55,5 +58,5 @@ fn main() {
         output_path,
         test_on_bullet,
     } = Cli::parse();
-    run::run(pdb_path, output_path, test_on_bullet)
+    gen_classes::run(pdb_path, output_path, test_on_bullet)
 }

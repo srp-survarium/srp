@@ -4,13 +4,17 @@ use pdb::ConstantSymbol;
 use pdb::DataSymbol;
 use pdb::{BasePointerRelativeSymbol, BlockSymbol, FallibleIterator, SymbolData, PDB};
 
+use crate::addr2line::Formatter;
+use crate::addr2line::Type;
+use crate::gen_headers;
+
 const FILE_PREFIX: &str = "c:\\survarium\\sources\\vostok\\";
 const GAME_IB: u32 = 0x10000;
 
 /// Padding between a type and name. Used for arguments, constants & statics.
 ///
 /// @TODO: Generate in format used by GSC.
-const PAD_LENGTH: usize = 35;
+pub const PAD_LENGTH: usize = 35;
 
 pub fn run(pdb_path: std::path::PathBuf, output_path: std::path::PathBuf, test_on_bullet: bool) {
     if let Err(error) = dump_pdb(&pdb_path, &output_path, test_on_bullet) {
@@ -22,19 +26,18 @@ pub fn run(pdb_path: std::path::PathBuf, output_path: std::path::PathBuf, test_o
 fn dump_pdb(
     pdb_path: &std::path::Path,
     output_path: &std::path::Path,
-    test_on_bullet: bool,
+    test_on_bullet: bool, // @TODO: Use flags
 ) -> crate::Result<()> {
-    addr2line::with_formatter(pdb_path, |formatter, formatter_orig| {
+    Formatter::with(pdb_path, |formatter| {
         let file = std::fs::File::open(pdb_path)?;
         let pdb = PDB::open(file)?;
-        format_functions(pdb, formatter, formatter_orig, output_path, test_on_bullet)
+        format_functions(pdb, formatter, output_path, test_on_bullet)
     })
 }
 
 pub fn format_functions(
     mut pdb: pdb::PDB<std::fs::File>,
-    formatter: pdb_addr2line::TypeFormatter,
-    formatter_orig: pdb_addr2line_orig::TypeFormatter,
+    formatter: Formatter,
     output_path: &std::path::Path,
     test_on_bullet: bool,
 ) -> crate::Result<()> {
@@ -43,7 +46,6 @@ pub fn format_functions(
 
     let type_information = pdb.type_information()?;
 
-    #[expect(unused_variables)]
     let type_finder = {
         let mut type_finder = type_information.finder();
 
@@ -53,6 +55,13 @@ pub fn format_functions(
         }
         type_finder
     };
+
+    if !test_on_bullet {
+        gen_headers::write_classes(&mut pdb, &formatter, &type_finder, output_path)?;
+    }
+
+    let mut output_path = output_path.to_path_buf();
+    output_path.push("sources");
 
     let dbi = pdb.debug_information()?;
     let mut modules = dbi.modules()?;
@@ -141,22 +150,13 @@ pub fn format_functions(
 
                     filename = file_name.to_string();
 
-                    let name_orig = addr2line::emit_function_orig(
-                        &formatter_orig,
-                        &proc.name,
-                        module_id,
-                        proc.type_index,
-                    )?;
+                    let name_orig =
+                        formatter.emit_function_orig(&proc.name, module_id, proc.type_index)?;
 
-                    let name = addr2line::emit_function(
-                        &formatter,
-                        &proc.name,
-                        module_id,
-                        proc.type_index,
-                    )?;
+                    let name = formatter.emit_function(&proc.name, module_id, proc.type_index)?;
 
                     function = Function {
-                        name: Type::new(&name),
+                        name,
                         name_orig,
                         proc_start,
                         proc_end,
@@ -189,17 +189,17 @@ pub fn format_functions(
                     slot: _,
                 }) if depth >= 1 => {
                     let local_name = name;
-                    let local_type = addr2line::emit_type(&formatter, module_id, type_index)?;
+                    let local_type = formatter.emit_type(module_id, type_index)?;
 
                     // @TODO: This is incorrect in present of arguments passed by registers, which
                     // we do have thanks to linker optimizations
                     if function.locals.is_empty() && local_name.as_bytes() == b"this" {
                     } else if offset > 0 {
-                        function.args.push((local_name, Type::new(&local_type)));
+                        function.args.push((local_name, local_type));
                     } else {
                         function
                             .locals
-                            .push((local_name, Type::new(&local_type), depth as usize));
+                            .push((local_name, local_type, depth as usize));
                     }
                 }
 
@@ -210,12 +210,12 @@ pub fn format_functions(
                     name,
                 }) if depth >= 1 => {
                     let const_name = name;
-                    let const_type = addr2line::emit_type(&formatter, module_id, type_index)?;
+                    let const_type = formatter.emit_type(module_id, type_index)?;
                     let const_value = value;
 
                     function
                         .constants
-                        .push((const_name, Type::new(&const_type), const_value));
+                        .push((const_name, const_type, const_value));
                 }
 
                 SymbolData::Data(DataSymbol {
@@ -226,10 +226,10 @@ pub fn format_functions(
                     name,
                 }) if depth >= 1 => {
                     let static_name = name;
-                    let static_type = addr2line::emit_type(&formatter, module_id, type_index)?;
+                    let static_type = formatter.emit_type(module_id, type_index)?;
                     function.statics.push((
                         static_name,
-                        Type::new(&static_type),
+                        static_type,
                         offset.to_rva(&address_map).unwrap_or(pdb::Rva(0)),
                     ));
                 }
@@ -262,6 +262,8 @@ pub fn format_functions(
                 SymbolData::ScopeEnd => {
                     depth = (depth - 1).max(0);
                 }
+
+                // SymbolData::DefRangeRegisterRelative())
 
                 // Keep everything that we missed but is inside functions
                 symbol if depth != 0 => {
@@ -308,89 +310,6 @@ pub fn format_functions(
 
     Ok(())
 }
-
-mod addr2line {
-    /// Run a closure with two formatters initialized.
-    /// The first one will skip printing the function arguments, the second one wont.
-    pub fn with_formatter(
-        filename: &std::path::Path,
-        format: impl FnOnce(
-            pdb_addr2line::TypeFormatter,
-            pdb_addr2line_orig::TypeFormatter,
-        ) -> crate::Result<()>,
-    ) -> crate::Result<()> {
-        use pdb_addr2line::{ContextPdbData as Data, TypeFormatterFlags as Flags};
-        use pdb_addr2line_orig::{ContextPdbData as DataOrig, TypeFormatterFlags as FlagsOrig};
-
-        let file = std::fs::File::open(filename)?;
-
-        let data = Data::try_from_pdb(pdb_addr2line::pdb::PDB::open(&file)?)?;
-
-        let formatter = data.make_type_formatter_with_flags(
-            Flags::SPACE_AFTER_COMMA | Flags::NO_ARGUMENTS | Flags::NAME_ONLY,
-        )?;
-
-        let data_orig = DataOrig::try_from_pdb(pdb_addr2line::pdb::PDB::open(&file)?)?;
-        let formatter_orig = data_orig
-            .make_type_formatter_with_flags(FlagsOrig::SPACE_AFTER_COMMA | FlagsOrig::NAME_ONLY)?;
-
-        format(formatter, formatter_orig)?;
-
-        Ok(())
-    }
-
-    pub fn ti(type_index: pdb::TypeIndex) -> pdb_addr2line::pdb::TypeIndex {
-        pdb_addr2line::pdb::TypeIndex(type_index.0)
-    }
-
-    pub fn emit_function(
-        formatter: &pdb_addr2line::TypeFormatter,
-        proc_name: &pdb::RawString,
-        module_id: usize,
-        type_index: pdb::TypeIndex,
-    ) -> crate::Result<String> {
-        let mut name = String::new();
-        formatter.emit_function(
-            &mut name,
-            proc_name.to_string().as_str(),
-            module_id,
-            ti(type_index),
-        )?;
-        Ok(name)
-    }
-
-    pub fn emit_type(
-        formatter: &pdb_addr2line::TypeFormatter,
-        module_id: usize,
-        type_index: pdb::TypeIndex,
-    ) -> crate::Result<String> {
-        let mut type_name = String::new();
-        formatter.for_module(module_id, |tf| {
-            tf.emit_type_index(&mut type_name, ti(type_index))
-        })?;
-        Ok(type_name)
-    }
-
-    pub fn emit_function_orig(
-        formatter: &pdb_addr2line_orig::TypeFormatter,
-        proc_name: &pdb::RawString,
-        module_id: usize,
-        type_index: pdb::TypeIndex,
-    ) -> crate::Result<String> {
-        let mut name = String::new();
-        formatter.emit_function(
-            &mut name,
-            proc_name.to_string().as_str(),
-            module_id,
-            ti(type_index),
-        )?;
-        Ok(name)
-    }
-}
-
-//
-//
-//
 
 #[derive(Default)]
 struct Function<'a> {
@@ -537,30 +456,6 @@ impl<'a> Function<'a> {
     }
 }
 
-#[derive(Default)]
-struct Type(String);
-
-impl std::fmt::Display for Type {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        self.0.fmt(f)
-    }
-}
-
-impl Type {
-    pub fn new(ty: &str) -> Self {
-        let ty = ty
-            .replace("survarium::", "")
-            .replace("vostok", "xray")
-            .replace("char const*", "pcstr");
-
-        Self(ty)
-    }
-
-    pub fn len(&self) -> usize {
-        self.0.len()
-    }
-}
-
 pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate::Result<()> {
     #[rustfmt::skip]
     {
@@ -616,7 +511,7 @@ pub fn write_footer(mut w: impl std::io::Write, path: &std::path::Path) -> crate
     Ok(())
 }
 
-fn pad_spaces(mut w: impl std::io::Write, prefix_len: usize) -> std::io::Result<()> {
+pub fn pad_spaces(mut w: impl std::io::Write, prefix_len: usize) -> std::io::Result<()> {
     let no = PAD_LENGTH.saturating_sub(prefix_len);
     for _ in 0..no {
         write!(w, " ")?;
