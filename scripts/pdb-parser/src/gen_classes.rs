@@ -129,7 +129,7 @@ pub fn format_functions(
                         }
 
                         let rva = line_info.offset.to_rva(&address_map).expect("invalid rva");
-                        breakpoints.push((rva, line_info.line_start, false));
+                        breakpoints.push((rva, line_info.line_start, 0));
                     }
 
                     //
@@ -199,7 +199,7 @@ pub fn format_functions(
                     } else {
                         function
                             .locals
-                            .push((local_name, local_type, depth as usize));
+                            .push((local_name, local_type, depth as usize - 1));
                     }
                 }
 
@@ -247,9 +247,9 @@ pub fn format_functions(
                 }) if depth >= 1 => {
                     let rva = offset.to_rva(&address_map).expect("invalid rva");
                     if let Some(st) = function.statements.iter_mut().find(|st| st.0 == rva) {
-                        st.2 = true
+                        st.2 = depth;
                     } else {
-                        function.blocks.push(rva);
+                        function.blocks.push((rva, depth));
                     }
 
                     depth += 1;
@@ -321,12 +321,12 @@ struct Function<'a> {
 
     proc_start: u32,
     proc_end: u32,
-    statements: Vec<(pdb::Rva, u32, bool)>,
+    statements: Vec<(pdb::Rva, u32, i32)>,
 
     constants: Vec<(pdb::RawString<'a>, Type, pdb::Variant)>,
     statics: Vec<(pdb::RawString<'a>, Type, pdb::Rva)>,
 
-    blocks: Vec<pdb::Rva>,
+    blocks: Vec<(pdb::Rva, i32)>,
     symbols: Vec<pdb::SymbolData<'a>>,
 }
 
@@ -377,8 +377,7 @@ impl<'a> Function<'a> {
                 pad_spaces(&mut w, local_prefix_len)?;
                 write!(w, "{local_name}")?;
 
-                if local_scope != 1 {
-                    let local_scope = local_scope - 1;
+                if local_scope != 0 {
                     write!(w, "<{local_scope}>")?;
                 }
                 writeln!(w)?;
@@ -417,7 +416,12 @@ impl<'a> Function<'a> {
         if !blocks.is_empty() {
             writeln!(w, "\t// SKIPPED BLOCKS")?;
             for rva in blocks {
-                writeln!(w, "\t// <{offset}>", offset = rva.saturating_add(GAME_IB))?;
+                writeln!(
+                    w,
+                    "\t// <{offset}><{depth}>",
+                    offset = rva.0.saturating_add(GAME_IB),
+                    depth = rva.1,
+                )?;
             }
             writeln!(w, "\t// ******\n")?;
         }
@@ -439,7 +443,11 @@ impl<'a> Function<'a> {
                         w,
                         "\t// <{offset}>{block}",
                         offset = rva.saturating_add(GAME_IB),
-                        block = if *starts_block { " <block>" } else { "" },
+                        block = if *starts_block != 0 {
+                            format!(" <block><{starts_block}>")
+                        } else {
+                            String::new()
+                        },
                     )?,
                     None => writeln!(w,)?,
                 }
