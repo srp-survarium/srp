@@ -10,7 +10,7 @@ const GAME_IB: u32 = 0x10000;
 /// Padding between a type and name. Used for arguments, constants & statics.
 ///
 /// @TODO: Generate in format used by GSC.
-const PAD_LENGTH: usize = 40;
+const PAD_LENGTH: usize = 35;
 
 pub fn run(pdb_path: std::path::PathBuf, output_path: std::path::PathBuf, test_on_bullet: bool) {
     if let Err(error) = dump_pdb(&pdb_path, &output_path, test_on_bullet) {
@@ -550,15 +550,8 @@ impl Type {
     pub fn new(ty: &str) -> Self {
         let ty = ty
             .replace("survarium", "stalker2")
-            .replace("vostok", "xray");
-
-        let ty = if ty.contains(" const*") {
-            format!("const {}", ty.replace(" const*", "*"))
-        } else if ty.contains(" const&") {
-            format!("const {}", ty.replace(" const&", "&"))
-        } else {
-            ty
-        };
+            .replace("vostok", "xray")
+            .replace("char const*", "pcstr");
 
         Self(ty)
     }
