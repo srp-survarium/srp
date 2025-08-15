@@ -549,7 +549,7 @@ impl std::fmt::Display for Type {
 impl Type {
     pub fn new(ty: &str) -> Self {
         let ty = ty
-            .replace("survarium", "stalker2")
+            .replace("survarium::", "")
             .replace("vostok", "xray")
             .replace("char const*", "pcstr");
 
@@ -586,6 +586,12 @@ pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate
         writeln!(w, "#define {ifdef}")?;
         writeln!(w)?;
     }
+
+    #[rustfmt::skip]
+    {
+        writeln!(w, "namespace stalker2 {{")?;
+        writeln!(w)?;
+    };
     Ok(())
 }
 
@@ -595,6 +601,12 @@ pub fn write_footer(mut w: impl std::io::Write, path: &std::path::Path) -> crate
         .expect("no filename")
         .to_string_lossy()
         .to_string();
+
+    #[rustfmt::skip]
+    {
+        writeln!(w, "}} // namespace stalker2")?;
+        writeln!(w)?;
+    };
 
     if let Some(module_name) = file_name.strip_suffix(".h") {
         let ifdef = format!("{}_H_INCLUDED", module_name.to_uppercase());
