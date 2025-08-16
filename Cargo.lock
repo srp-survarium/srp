@@ -338,9 +338,9 @@ checksum = "597bb81c80a54b6a4381b23faba8d7774b144c94cbd1d6fe3f1329bd776554ab"
 
 [[package]]
 name = "bitflags"
-version = "2.9.1"
+version = "2.9.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b8e56985ec62d17e9c1001dc89c88ecd7dc08e47eba5ec7c29c7b5eeecde967"
+checksum = "6a65b545ab31d687cff52899d4890855fec459eb6afe0da6417b8a18da87aa29"
 
 [[package]]
 name = "block-buffer"
@@ -1269,6 +1269,7 @@ dependencies = [
 name = "pdb-parser"
 version = "0.1.0"
 dependencies = [
+ "bitflags",
  "clap",
  "pdb-addr2line 0.11.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "pdb-addr2line 0.11.2 (git+https://github.com/srp-survarium/pdb-addr2line?rev=e25a612)",

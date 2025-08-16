@@ -6,8 +6,126 @@ use pdb::{FallibleIterator, ItemIndex};
 
 use crate::addr2line::Formatter;
 use crate::addr2line::Type;
-use crate::gen_classes;
-use crate::gen_classes::PAD_LENGTH;
+
+use crate::gen_sources;
+use crate::gen_sources::FunctionCache;
+use crate::gen_sources::FunctionSignature;
+use crate::gen_sources::PAD_LENGTH;
+use crate::GenFlags;
+
+pub fn dump_headers(
+    pdb: &mut pdb::PDB<std::fs::File>,
+    formatter: &Formatter,
+    cache: FunctionCache,
+    output_path: &std::path::Path,
+    _flags: GenFlags,
+) -> crate::Result<()> {
+    let type_information = pdb.type_information()?;
+    let type_finder = {
+        let mut type_finder = type_information.finder();
+
+        let mut type_iter = type_information.iter();
+        while type_iter.next()?.is_some() {
+            type_finder.update(&type_iter);
+        }
+        type_finder
+    };
+
+    let mut header_path = output_path.to_path_buf();
+    header_path.push("headers");
+    std::fs::create_dir_all(&header_path)?;
+
+    for path in ["vostok", "survarium", "others"] {
+        header_path.push(path);
+        std::fs::create_dir_all(&header_path)?;
+        header_path.pop();
+    }
+
+    let type_information = pdb.type_information()?;
+
+    let mut type_iter = type_information.iter();
+    while let Some(type_index) = type_iter.next()? {
+        let Ok(pdb::TypeData::Class(class)) = type_index.parse() else {
+            continue;
+        };
+        if class.properties.forward_reference() {
+            continue;
+        }
+        let class_name = class.name.to_string().to_string();
+
+        if class_name != "survarium::bullet_manager" {
+            continue;
+        }
+
+        let Ok(header) = build_header(formatter, &cache, &type_finder, type_index.index()) else {
+            continue;
+        };
+
+        const MAX_CLASS_LEN: usize = 180;
+
+        let header_name = match class_name.len() > MAX_CLASS_LEN {
+            false => class_name.clone(),
+            true => {
+                let mut class_name = class_name.clone();
+                _ = class_name.split_off(MAX_CLASS_LEN);
+                class_name
+            }
+        };
+
+        let header_name = header_name
+            .replace(":", "∶")
+            .replace("*", "٭")
+            .replace("<", "＜")
+            .replace(">", "＞");
+
+        let mut header_path = header_path.clone();
+        if class_name.starts_with("vostok") {
+            header_path.push("vostok");
+        } else if class_name.starts_with("survarium") {
+            header_path.push("survarium");
+        } else {
+            header_path.push("others");
+        }
+
+        header_path.push(format!("{header_name}.hpp"));
+
+        let mut file = std::fs::File::create(&header_path)?;
+
+        gen_sources::write_header(&mut file, std::path::Path::new("ignore/ignore"))?;
+        writeln!(&mut file, "/* {class_name} */")?;
+        write!(&mut file, "{header}")?;
+        gen_sources::write_footer(&mut file, std::path::Path::new("ignore/ignore"))?;
+    }
+
+    Ok(())
+}
+
+fn build_header<'a>(
+    formatter: &Formatter,
+    cache: &FunctionCache,
+    type_finder: &pdb::TypeFinder<'a>,
+    class: pdb::TypeIndex,
+) -> crate::Result<Data<'a>> {
+    let mut needed_types = TypeSet::new();
+    let mut data = Data::new();
+
+    data.add(formatter, cache, type_finder, class, &mut needed_types)?;
+
+    // add all the needed types iteratively until we're done
+    while let Some(type_index) = needed_types.iter().next_back().copied() {
+        // remove it
+        needed_types.remove(&type_index);
+
+        // add the type
+        data.add(formatter, cache, type_finder, type_index, &mut needed_types)?;
+    }
+
+    Ok(data)
+}
+
+//
+//
+//
 
 type TypeSet = BTreeSet<pdb::TypeIndex>;
 
@@ -21,6 +139,7 @@ struct Data<'p> {
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Class<'p> {
     kind: pdb::ClassKind,
+    orig_name: String,
     name: Type,
     base_classes: Vec<BaseClass>,
     fields: Vec<Field<'p>>,
@@ -43,8 +162,14 @@ struct Field<'p> {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Method {
-    method: Type,
-    is_virtual: bool,
+    kind: MethodKind,
+    attributes: pdb::FieldAttributes,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum MethodKind {
+    NoArgNames { signature: Type },
+    FromSourceFile { signature: FunctionSignature },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -64,6 +189,282 @@ struct EnumValue<'p> {
 struct ForwardReference {
     kind: pdb::ClassKind,
     name: Type,
+}
+
+//
+//
+//
+
+impl<'p> Data<'p> {
+    fn new() -> Data<'p> {
+        Data {
+            forward_references: Vec::new(),
+            classes: Vec::new(),
+            enums: Vec::new(),
+        }
+    }
+
+    fn add(
+        &mut self,
+        formatter: &Formatter,
+        cache: &FunctionCache,
+        type_finder: &pdb::TypeFinder<'p>,
+        type_index: pdb::TypeIndex,
+        needed_types: &mut TypeSet,
+    ) -> crate::Result<()> {
+        match type_finder.find(type_index)?.parse()? {
+            pdb::TypeData::Class(data) => {
+                if data.properties.forward_reference() {
+                    self.forward_references.push(ForwardReference {
+                        kind: data.kind,
+                        name: Type::new(&data.name.to_string()),
+                    });
+
+                    return Ok(());
+                }
+
+                let mut class = Class {
+                    kind: data.kind,
+                    name: Type::new(&data.name.to_string()),
+                    orig_name: data.name.to_string().to_string(),
+                    fields: Vec::new(),
+                    base_classes: Vec::new(),
+                    instance_methods: Vec::new(),
+                    static_methods: Vec::new(),
+                };
+
+                if let Some(fields) = data.fields {
+                    class.add_fields(formatter, cache, type_finder, fields, needed_types)?;
+                }
+
+                self.classes.insert(0, class);
+            }
+
+            pdb::TypeData::Enumeration(data) => {
+                let mut e = Enum {
+                    name: data.name,
+                    underlying_type_name: type_name(
+                        formatter,
+                        type_finder,
+                        data.underlying_type,
+                        needed_types,
+                    )?,
+                    values: Vec::new(),
+                };
+
+                e.add_fields(type_finder, data.fields, needed_types)?;
+
+                self.enums.insert(0, e);
+            }
+
+            pdb::TypeData::Union(_) => (/* TODO */),
+
+            // ignore
+            other => eprintln!("warning: don't know how to add {other:?}"),
+        }
+
+        Ok(())
+    }
+}
+
+impl<'p> Class<'p> {
+    fn add_fields(
+        &mut self,
+        formatter: &Formatter,
+        cache: &FunctionCache,
+        type_finder: &pdb::TypeFinder<'p>,
+        type_index: pdb::TypeIndex,
+        needed_types: &mut TypeSet,
+    ) -> crate::Result<()> {
+        match type_finder.find(type_index)?.parse()? {
+            pdb::TypeData::FieldList(data) => {
+                for field in &data.fields {
+                    self.add_field(formatter, cache, type_finder, field, needed_types)?;
+                }
+
+                if let Some(continuation) = data.continuation {
+                    // recurse
+                    self.add_fields(formatter, cache, type_finder, continuation, needed_types)?;
+                }
+            }
+            other => {
+                eprintln!("trying to Class::add_fields() got {type_index} -> {other:?}");
+                panic!("unexpected type in Class::add_fields()");
+            }
+        }
+
+        Ok(())
+    }
+
+    fn add_field(
+        &mut self,
+        formatter: &Formatter,
+        cache: &FunctionCache,
+        type_finder: &pdb::TypeFinder<'p>,
+        field: &pdb::TypeData<'p>,
+        needed_types: &mut TypeSet,
+    ) -> crate::Result<()> {
+        match *field {
+            pdb::TypeData::Member(ref data) => {
+                // TODO: attributes (static, virtual, etc.)
+                self.fields.push(Field {
+                    type_name: type_name(formatter, type_finder, data.field_type, needed_types)?,
+                    name: data.name,
+                    offset: data.offset,
+                });
+            }
+
+            pdb::TypeData::Method(ref data) => {
+                let method = Method::find(
+                    &self.orig_name,
+                    data.name,
+                    data.attributes,
+                    formatter,
+                    cache,
+                    type_finder,
+                    data.method_type,
+                )?;
+                if data.attributes.is_static() {
+                    self.static_methods.push(method);
+                } else {
+                    self.instance_methods.push(method);
+                }
+            }
+
+            pdb::TypeData::OverloadedMethod(ref data) => {
+                // this just means we have more than one method with the same name
+                // find the method list
+                match type_finder.find(data.method_list)?.parse()? {
+                    pdb::TypeData::MethodList(method_list) => {
+                        for pdb::MethodListEntry {
+                            attributes,
+                            method_type,
+                            ..
+                        } in method_list.methods
+                        {
+                            // hooray
+                            let method = Method::find(
+                                &self.orig_name,
+                                data.name,
+                                attributes,
+                                formatter,
+                                cache,
+                                type_finder,
+                                method_type,
+                            )?;
+
+                            if attributes.is_static() {
+                                self.static_methods.push(method);
+                            } else {
+                                self.instance_methods.push(method);
+                            }
+                        }
+                    }
+                    other => {
+                        eprintln!(
+                            "processing OverloadedMethod, expected MethodList, got {} -> {other:?}",
+                            data.method_list,
+                        );
+                        panic!("unexpected type in Class::add_field()");
+                    }
+                }
+            }
+
+            pdb::TypeData::BaseClass(ref data) => self.base_classes.push(BaseClass {
+                type_name: type_name(formatter, type_finder, data.base_class, needed_types)?,
+                offset: data.offset,
+            }),
+
+            pdb::TypeData::VirtualBaseClass(ref data) => self.base_classes.push(BaseClass {
+                type_name: type_name(formatter, type_finder, data.base_class, needed_types)?,
+                offset: data.base_pointer_offset,
+            }),
+
+            _ => {
+                // ignore everything else even though that's sad
+            }
+        }
+
+        Ok(())
+    }
+}
+
+impl Method {
+    fn find(
+        class_name: &str,
+        name: pdb::RawString,
+        attributes: pdb::FieldAttributes,
+        formatter: &Formatter,
+        cache: &FunctionCache,
+        type_finder: &pdb::TypeFinder,
+        type_index: pdb::TypeIndex,
+    ) -> crate::Result<Method> {
+        match type_finder.find(type_index)?.parse()? {
+            pdb::TypeData::MemberFunction(_) => {
+                assert!(!type_index.is_cross_module());
+
+                let kind = match cache.get_from_header(class_name, &name, formatter, type_index)? {
+                    None => MethodKind::NoArgNames {
+                        signature: formatter.emit_function_with_args(&name, 0, type_index)?,
+                    },
+                    Some(function_sig) => MethodKind::FromSourceFile {
+                        signature: function_sig.clone(),
+                    },
+                };
+
+                Ok(Self { kind, attributes })
+            }
+
+            other => {
+                eprintln!("other: {other:?}");
+                Err(pdb::Error::UnimplementedFeature("that").into())
+            }
+        }
+    }
+}
+
+impl<'p> Enum<'p> {
+    fn add_fields(
+        &mut self,
+        type_finder: &pdb::TypeFinder<'p>,
+        type_index: pdb::TypeIndex,
+        needed_types: &mut TypeSet,
+    ) -> crate::Result<()> {
+        match type_finder.find(type_index)?.parse()? {
+            pdb::TypeData::FieldList(data) => {
+                for field in &data.fields {
+                    self.add_field(type_finder, field, needed_types);
+                }
+
+                if let Some(continuation) = data.continuation {
+                    // recurse
+                    self.add_fields(type_finder, continuation, needed_types)?;
+                }
+            }
+
+            pdb::TypeData::Primitive(pdb::PrimitiveType {
+                kind: pdb::PrimitiveKind::NoType,
+                ..
+            }) => (),
+
+            other => {
+                println!("trying to Enum::add_fields() got {type_index} -> {other:?}");
+                panic!("unexpected type in Enum::add_fields()");
+            }
+        }
+
+        Ok(())
+    }
+
+    fn add_field(&mut self, _: &pdb::TypeFinder<'p>, field: &pdb::TypeData<'p>, _: &mut TypeSet) {
+        // ignore everything else even though that's sad
+        if let pdb::TypeData::Enumerate(data) = &field {
+            self.values.push(EnumValue {
+                name: data.name,
+                value: data.value,
+            });
+        }
+    }
 }
 
 //
@@ -120,127 +521,27 @@ pub fn update_referenced_types(
     Ok(())
 }
 
-impl<'p> Class<'p> {
-    #[allow(clippy::unnecessary_wraps)]
-    fn add_derived_from(
-        &mut self,
-        _: &pdb::TypeFinder<'p>,
-        _: pdb::TypeIndex,
-        _: &mut TypeSet,
-    ) -> crate::Result<()> {
-        // TODO
-        Ok(())
-    }
+//
+// Display
+//
 
-    fn add_fields(
-        &mut self,
-        formatter: &Formatter,
-        type_finder: &pdb::TypeFinder<'p>,
-        type_index: pdb::TypeIndex,
-        needed_types: &mut TypeSet,
-    ) -> crate::Result<()> {
-        match type_finder.find(type_index)?.parse()? {
-            pdb::TypeData::FieldList(data) => {
-                for field in &data.fields {
-                    self.add_field(formatter, type_finder, field, needed_types)?;
-                }
-
-                if let Some(continuation) = data.continuation {
-                    // recurse
-                    self.add_fields(formatter, type_finder, continuation, needed_types)?;
-                }
-            }
-            other => {
-                println!("trying to Class::add_fields() got {type_index} -> {other:?}");
-                panic!("unexpected type in Class::add_fields()");
+impl fmt::Display for Data<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if !self.forward_references.is_empty() {
+            writeln!(f)?;
+            for e in &self.forward_references {
+                e.fmt(f)?;
             }
         }
 
-        Ok(())
-    }
+        for e in &self.enums {
+            writeln!(f)?;
+            e.fmt(f)?;
+        }
 
-    fn add_field(
-        &mut self,
-        formatter: &Formatter,
-        type_finder: &pdb::TypeFinder<'p>,
-        field: &pdb::TypeData<'p>,
-        needed_types: &mut TypeSet,
-    ) -> crate::Result<()> {
-        match *field {
-            pdb::TypeData::Member(ref data) => {
-                // TODO: attributes (static, virtual, etc.)
-                self.fields.push(Field {
-                    type_name: type_name(formatter, type_finder, data.field_type, needed_types)?,
-                    name: data.name,
-                    offset: data.offset,
-                });
-            }
-
-            pdb::TypeData::Method(ref data) => {
-                let method = Method::find(
-                    data.name,
-                    data.attributes,
-                    formatter,
-                    type_finder,
-                    data.method_type,
-                )?;
-                if data.attributes.is_static() {
-                    self.static_methods.push(method);
-                } else {
-                    self.instance_methods.push(method);
-                }
-            }
-
-            pdb::TypeData::OverloadedMethod(ref data) => {
-                // this just means we have more than one method with the same name
-                // find the method list
-                match type_finder.find(data.method_list)?.parse()? {
-                    pdb::TypeData::MethodList(method_list) => {
-                        for pdb::MethodListEntry {
-                            attributes,
-                            method_type,
-                            ..
-                        } in method_list.methods
-                        {
-                            // hooray
-                            let method = Method::find(
-                                data.name,
-                                attributes,
-                                formatter,
-                                type_finder,
-                                method_type,
-                            )?;
-
-                            if attributes.is_static() {
-                                self.static_methods.push(method);
-                            } else {
-                                self.instance_methods.push(method);
-                            }
-                        }
-                    }
-                    other => {
-                        println!(
-                            "processing OverloadedMethod, expected MethodList, got {} -> {other:?}",
-                            data.method_list,
-                        );
-                        panic!("unexpected type in Class::add_field()");
-                    }
-                }
-            }
-
-            pdb::TypeData::BaseClass(ref data) => self.base_classes.push(BaseClass {
-                type_name: type_name(formatter, type_finder, data.base_class, needed_types)?,
-                offset: data.offset,
-            }),
-
-            pdb::TypeData::VirtualBaseClass(ref data) => self.base_classes.push(BaseClass {
-                type_name: type_name(formatter, type_finder, data.base_class, needed_types)?,
-                offset: data.base_pointer_offset,
-            }),
-
-            _ => {
-                // ignore everything else even though that's sad
-            }
+        for class in &self.classes {
+            writeln!(f)?;
+            class.fmt(f)?;
         }
 
         Ok(())
@@ -272,26 +573,16 @@ impl fmt::Display for Class<'_> {
         writeln!(f, "public:")?;
 
         if !self.instance_methods.is_empty() {
-            // writeln!(f, "\t")?;
             for method in &self.instance_methods {
-                writeln!(
-                    f,
-                    "\t{}{};",
-                    if method.is_virtual { "virtual " } else { "" },
-                    method.method,
-                )?;
+                writeln!(f, "{method}",)?;
             }
         }
 
         if !self.static_methods.is_empty() {
-            writeln!(f, "\t")?;
+            writeln!(f)?;
+
             for method in &self.static_methods {
-                writeln!(
-                    f,
-                    "\t{}static {};",
-                    if method.is_virtual { "virtual " } else { "" },
-                    method.method,
-                )?;
+                writeln!(f, "{method}")?;
             }
         }
 
@@ -323,82 +614,56 @@ impl fmt::Display for Class<'_> {
     }
 }
 
-pub fn pad_spaces(w: &mut fmt::Formatter, prefix_len: usize) -> std::fmt::Result {
-    let no = PAD_LENGTH.saturating_sub(prefix_len);
-    for _ in 0..no {
-        write!(w, " ")?;
+impl fmt::Display for Method {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self { kind, attributes } = self;
+
+        let specifier = match () {
+            () if attributes.is_static() => "static ",
+            () if attributes.is_virtual() || attributes.is_pure_virtual() => "virtual ",
+            () => "",
+        };
+        let pure = match () {
+            () if attributes.is_pure_virtual() => "= 0",
+            () => "",
+        };
+
+        writeln!(f, "\t{specifier}{kind}{pure};")
     }
-    Ok(())
 }
 
-impl Method {
-    fn find<'p>(
-        name: pdb::RawString<'p>,
-        attributes: pdb::FieldAttributes,
-        formatter: &Formatter,
-        type_finder: &pdb::TypeFinder<'p>,
-        type_index: pdb::TypeIndex,
-    ) -> crate::Result<Method> {
-        match type_finder.find(type_index)?.parse()? {
-            pdb::TypeData::MemberFunction(_) => {
-                assert!(!type_index.is_cross_module());
-                let method = formatter.emit_function_with_args(&name, 0, type_index)?;
-
-                Ok(Method {
-                    method,
-                    is_virtual: attributes.is_virtual(),
-                })
-            }
-
-            other => {
-                println!("other: {other:?}");
-                Err(pdb::Error::UnimplementedFeature("that").into())
-            }
+impl fmt::Display for MethodKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::NoArgNames { signature } => write!(f, "{signature} /* no source */"),
+            Self::FromSourceFile { signature } => write!(f, "{signature}"),
         }
     }
 }
 
-impl<'p> Enum<'p> {
-    fn add_fields(
-        &mut self,
-        type_finder: &pdb::TypeFinder<'p>,
-        type_index: pdb::TypeIndex,
-        needed_types: &mut TypeSet,
-    ) -> crate::Result<()> {
-        match type_finder.find(type_index)?.parse()? {
-            pdb::TypeData::FieldList(data) => {
-                for field in &data.fields {
-                    self.add_field(type_finder, field, needed_types);
-                }
+impl fmt::Display for FunctionSignature {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let Self { name, args } = self;
+        write!(f, "{name}(")?;
 
-                if let Some(continuation) = data.continuation {
-                    // recurse
-                    self.add_fields(type_finder, continuation, needed_types)?;
-                }
+        if !args.is_empty() {
+            writeln!(f)?;
+
+            let len = args.len();
+            for (idx, (arg_name, arg_type)) in args.iter().enumerate() {
+                let last = idx == len - 1;
+
+                let arg_prefix_len = arg_type.len() + " ".len();
+
+                write!(f, "\t\t{arg_type} ")?;
+                pad_spaces(f, arg_prefix_len)?;
+                write!(f, "{arg_name}{n}", n = if last { ")" } else { ",\n" })?;
             }
-
-            pdb::TypeData::Primitive(pdb::PrimitiveType {
-                kind: pdb::PrimitiveKind::NoType,
-                ..
-            }) => (),
-
-            other => {
-                println!("trying to Enum::add_fields() got {type_index} -> {other:?}");
-                panic!("unexpected type in Enum::add_fields()");
-            }
+        } else {
+            write!(f, " )")?;
         }
 
         Ok(())
-    }
-
-    fn add_field(&mut self, _: &pdb::TypeFinder<'p>, field: &pdb::TypeData<'p>, _: &mut TypeSet) {
-        // ignore everything else even though that's sad
-        if let pdb::TypeData::Enumerate(data) = &field {
-            self.values.push(EnumValue {
-                name: data.name,
-                value: data.value,
-            });
-        }
     }
 }
 
@@ -449,192 +714,14 @@ impl fmt::Display for ForwardReference {
     }
 }
 
-impl fmt::Display for Data<'_> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if !self.forward_references.is_empty() {
-            writeln!(f)?;
-            for e in &self.forward_references {
-                e.fmt(f)?;
-            }
-        }
+//
+// Helpers
+//
 
-        for e in &self.enums {
-            writeln!(f)?;
-            e.fmt(f)?;
-        }
-
-        for class in &self.classes {
-            writeln!(f)?;
-            class.fmt(f)?;
-        }
-
-        Ok(())
+pub fn pad_spaces(w: &mut fmt::Formatter, prefix_len: usize) -> std::fmt::Result {
+    let no = PAD_LENGTH.saturating_sub(prefix_len);
+    for _ in 0..no {
+        write!(w, " ")?;
     }
-}
-
-impl<'p> Data<'p> {
-    fn new() -> Data<'p> {
-        Data {
-            forward_references: Vec::new(),
-            classes: Vec::new(),
-            enums: Vec::new(),
-        }
-    }
-
-    fn add(
-        &mut self,
-        formatter: &Formatter,
-        type_finder: &pdb::TypeFinder<'p>,
-        type_index: pdb::TypeIndex,
-        needed_types: &mut TypeSet,
-    ) -> crate::Result<()> {
-        match type_finder.find(type_index)?.parse()? {
-            pdb::TypeData::Class(data) => {
-                if data.properties.forward_reference() {
-                    self.forward_references.push(ForwardReference {
-                        kind: data.kind,
-                        name: Type::new(&data.name.to_string()),
-                    });
-
-                    return Ok(());
-                }
-
-                let mut class = Class {
-                    kind: data.kind,
-                    name: Type::new(&data.name.to_string()),
-                    fields: Vec::new(),
-                    base_classes: Vec::new(),
-                    instance_methods: Vec::new(),
-                    static_methods: Vec::new(),
-                };
-
-                if let Some(derived_from) = data.derived_from {
-                    class.add_derived_from(type_finder, derived_from, needed_types)?;
-                }
-
-                if let Some(fields) = data.fields {
-                    class.add_fields(formatter, type_finder, fields, needed_types)?;
-                }
-
-                self.classes.insert(0, class);
-            }
-
-            pdb::TypeData::Enumeration(data) => {
-                let mut e = Enum {
-                    name: data.name,
-                    underlying_type_name: type_name(
-                        formatter,
-                        type_finder,
-                        data.underlying_type,
-                        needed_types,
-                    )?,
-                    values: Vec::new(),
-                };
-
-                e.add_fields(type_finder, data.fields, needed_types)?;
-
-                self.enums.insert(0, e);
-            }
-
-            pdb::TypeData::Union(_) => (/* TODO */),
-
-            // ignore
-            other => eprintln!("warning: don't know how to add {other:?}"),
-        }
-
-        Ok(())
-    }
-}
-
-pub fn write_classes(
-    pdb: &mut pdb::PDB<std::fs::File>,
-    formatter: &Formatter,
-    type_finder: &pdb::TypeFinder<'_>,
-    output_path: &std::path::Path,
-) -> crate::Result<()> {
-    let mut header_path = output_path.to_path_buf();
-
-    header_path.push("headers");
-    std::fs::create_dir_all(&header_path)?;
-
-    for path in ["vostok", "survarium", "others"] {
-        header_path.push(path);
-        std::fs::create_dir_all(&header_path)?;
-        header_path.pop();
-    }
-
-    let type_information = pdb.type_information()?;
-
-    let mut type_iter = type_information.iter();
-    while let Some(type_index) = type_iter.next()? {
-        let Ok(pdb::TypeData::Class(class)) = type_index.parse() else {
-            continue;
-        };
-        if class.properties.forward_reference() {
-            continue;
-        }
-        let class_name = class.name.to_string().to_string();
-        let Ok(header) = build_header(formatter, type_finder, type_index.index()) else {
-            continue;
-        };
-
-        const MAX_CLASS_LEN: usize = 180;
-
-        let header_name = match class_name.len() > MAX_CLASS_LEN {
-            false => class_name.clone(),
-            true => {
-                let mut class_name = class_name.clone();
-                _ = class_name.split_off(MAX_CLASS_LEN);
-                class_name
-            }
-        };
-
-        let header_name = header_name
-            .replace(":", "∶")
-            .replace("*", "٭")
-            .replace("<", "＜")
-            .replace(">", "＞");
-
-        let mut header_path = header_path.clone();
-        if class_name.starts_with("vostok") {
-            header_path.push("vostok");
-        } else if class_name.starts_with("survarium") {
-            header_path.push("survarium");
-        } else {
-            header_path.push("others");
-        }
-
-        header_path.push(format!("{header_name}.hpp"));
-
-        let mut file = std::fs::File::create(&header_path)?;
-
-        gen_classes::write_header(&mut file, std::path::Path::new("ignore/ignore"))?;
-        writeln!(&mut file, "/* {class_name} */")?;
-        write!(&mut file, "{header}")?;
-        gen_classes::write_footer(&mut file, std::path::Path::new("ignore/ignore"))?;
-    }
-
     Ok(())
-}
-
-fn build_header<'a>(
-    formatter: &Formatter,
-    type_finder: &pdb::TypeFinder<'a>,
-    class: pdb::TypeIndex,
-) -> crate::Result<Data<'a>> {
-    let mut needed_types = TypeSet::new();
-    let mut data = Data::new();
-
-    data.add(formatter, type_finder, class, &mut needed_types)?;
-
-    // add all the needed types iteratively until we're done
-    while let Some(type_index) = needed_types.iter().next_back().copied() {
-        // remove it
-        needed_types.remove(&type_index);
-
-        // add the type
-        data.add(formatter, type_finder, type_index, &mut needed_types)?;
-    }
-
-    Ok(data)
 }

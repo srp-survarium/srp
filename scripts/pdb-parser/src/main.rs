@@ -22,8 +22,10 @@
 
 pub mod addr2line;
 pub mod error;
-pub mod gen_classes;
+
+pub mod dump_pdb;
 pub mod gen_headers;
+pub mod gen_sources;
 
 pub use error::{Error, Result};
 
@@ -47,16 +49,36 @@ pub struct Cli {
     )]
     output_path: std::path::PathBuf,
 
-    // cargo run --bin pdb-parser --release -- --test-on-bullet > ./target/survarium.txt ; if ($?) { nvim ./target/survarium.txt }
+    // cargo run --bin pdb-parser --release -- --test-run > ./target/survarium.txt ; if ($?) { nvim ./target/survarium.txt }
     #[arg(long, action)]
-    test_on_bullet: bool,
+    test_run: bool,
 }
+
+bitflags::bitflags! {
+    #[derive(Copy, Clone)]
+    pub struct GenFlags: u32 {
+        /// Do not generate file structure.
+        /// Print to `stdout` source file for `TEST_MODULE` instead.
+        const TEST_RUN  = 0b0000_0001;
+    }
+}
+
+pub const TEST_MODULE: &str = "bullet_manager.obj";
 
 fn main() {
     let Cli {
         pdb_path,
         output_path,
-        test_on_bullet,
+        test_run,
     } = Cli::parse();
-    gen_classes::run(pdb_path, output_path, test_on_bullet)
+
+    let mut flags = GenFlags::empty();
+    if test_run {
+        flags |= GenFlags::TEST_RUN;
+    }
+
+    if let Err(error) = dump_pdb::dump_pdb(&pdb_path, &output_path, flags) {
+        eprintln!("{error}");
+        std::process::exit(1);
+    }
 }

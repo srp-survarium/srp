@@ -4,6 +4,7 @@ use pdb_addr2line_orig::{
 };
 use std::cell::RefCell;
 
+/// Formatter for types and functions.
 // A hacky way to store different types of formatters.
 // This is bad, since this will keep 2 versions of the `pdb` file in memory.
 // The proper solution would update `pdb_addr2line` crate to allow passing flags into functions
@@ -45,6 +46,10 @@ impl<'a, 's> Formatter<'a, 's> {
         Ok(())
     }
 
+    /// The name will have:
+    /// * `survarium` replaced with `stalker2`.
+    /// * `vostok` replaced with `xray`.
+    /// * primitive types replaced to `s{n}` & `u{n}` .
     pub fn emit_function(
         &self,
         proc_name: &pdb::RawString,
