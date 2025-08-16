@@ -113,8 +113,8 @@ fn ti(type_index: pdb::TypeIndex) -> pdb_addr2line::pdb::TypeIndex {
     pdb_addr2line::pdb::TypeIndex(type_index.0)
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Eq)]
-pub struct Type(String);
+#[derive(Default, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Type(pub String);
 
 impl std::fmt::Display for Type {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -128,9 +128,13 @@ impl Type {
             .replace("survarium::", "")
             .replace("vostok", "xray")
             .replace("char const*", "pcstr")
+            .replace("char const *", "pcstr")
             .replace("xray::math::", "")
             .replace("xray::resources::", "resources::")
-            .replace("boost::noncopyable_::noncopyable", "boost::noncopyable");
+            .replace("boost::noncopyable_::noncopyable", "boost::noncopyable")
+            .replace("unsigned int", "u32")
+            .replace("unsigned short", "u16")
+            .replace("unsigned char", "u8");
 
         Self(ty)
     }

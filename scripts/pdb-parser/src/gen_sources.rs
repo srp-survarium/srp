@@ -1,5 +1,8 @@
 use std::collections::BTreeMap;
+use std::collections::BTreeSet;
 use std::collections::HashMap;
+use std::collections::HashSet;
+use std::sync::LazyLock;
 
 use pdb::ConstantSymbol;
 use pdb::DataSymbol;
@@ -103,7 +106,7 @@ pub fn dump_sources(
             continue;
         };
 
-        let files = build_module(
+        let module = Module::build(
             &module_info,
             module_id,
             formatter,
@@ -111,221 +114,306 @@ pub fn dump_sources(
             &string_table,
         )?;
 
-        for funs in files.values() {
-            for fun in funs.values() {
-                cache.insert_from_source(fun);
-            }
-        }
-
-        write_modules(files, &output_path, flags)?;
+        module.update_cache(&mut cache);
+        module.write(&output_path, flags)?;
     }
 
     Ok(cache)
 }
 
-// Returns a mapping for a module: filename -> proc_start -> Function
-fn build_module<'a>(
-    module_info: &'a pdb::ModuleInfo,
-    module_id: usize,
+struct Module<'a> {
+    files: BTreeMap<String, BTreeMap<u32, Function<'a>>>,
+    // typedef void* ptr;
+    //         ^     ^
+    //         type  name
+    typedefs: BTreeSet<(Type, Type)>,
+    //                  type  name
+}
 
-    formatter: &Formatter,
-    address_map: &pdb::AddressMap,
-    string_table: &pdb::StringTable,
-) -> crate::Result<BTreeMap<String, BTreeMap<u32, Function<'a>>>> {
-    let program = module_info.line_program()?;
-    let mut symbols = module_info.symbols()?;
+impl<'a> Module<'a> {
+    // Returns a mapping for a module: filename -> proc_start -> Function
+    fn build(
+        module_info: &'a pdb::ModuleInfo,
+        module_id: usize,
 
-    let mut files: BTreeMap<String, BTreeMap<u32, Function>> = BTreeMap::new();
+        formatter: &Formatter,
+        address_map: &pdb::AddressMap,
+        string_table: &pdb::StringTable,
+    ) -> crate::Result<Self> {
+        let program = module_info.line_program()?;
+        let mut symbols = module_info.symbols()?;
 
-    let mut filename: String = String::new();
-    let mut function: Function = Function::default();
-    let mut depth: i32 = 0;
+        let mut files: BTreeMap<String, BTreeMap<u32, Function>> = BTreeMap::new();
 
-    while let Some(symbol) = symbols.next()? {
-        match symbol.parse()? {
-            // FunctionStart
-            SymbolData::Procedure(proc) => {
-                assert_eq!(
-                    depth, 0,
-                    "Function cannot be defined inside another function"
-                );
-                depth += 1;
+        let mut typedefs: BTreeSet<(Type, Type)> = BTreeSet::new();
 
-                let mut m_proc_start = None;
-                let mut m_proc_end = None;
+        let mut filename: String = String::new();
+        let mut function: Function = Function::default();
+        let mut depth: i32 = 0;
 
-                let mut m_file_name = None;
+        while let Some(symbol) = symbols.next()? {
+            match symbol.parse()? {
+                // FunctionStart
+                SymbolData::Procedure(proc) => {
+                    assert_eq!(
+                        depth, 0,
+                        "Function cannot be defined inside another function"
+                    );
+                    depth += 1;
 
-                let mut breakpoints = Vec::new();
+                    let mut m_proc_start = None;
+                    let mut m_proc_end = None;
 
-                //
-                //
-                //
+                    let mut m_file_name = None;
 
-                let mut lines = program.lines_for_symbol(proc.offset);
-                while let Some(line_info) = lines.next()? {
-                    if m_proc_start.is_none() {
-                        m_proc_start = Some(line_info.line_start);
+                    let mut breakpoints = Vec::new();
+
+                    //
+                    //
+                    //
+
+                    let mut lines = program.lines_for_symbol(proc.offset);
+                    while let Some(line_info) = lines.next()? {
+                        if m_proc_start.is_none() {
+                            m_proc_start = Some(line_info.line_start);
+                        }
+                        m_proc_end = Some(line_info.line_start);
+
+                        let file_name = {
+                            let file_info = program.get_file_info(line_info.file_index)?;
+                            file_info.name.to_string_lossy(string_table)?
+                        };
+                        match &m_file_name {
+                            None => m_file_name = Some(file_name),
+                            Some(m_file_name) => assert_eq!(*m_file_name, file_name),
+                        }
+
+                        let rva = line_info.offset.to_rva(address_map).expect("invalid rva");
+                        breakpoints.push((rva, line_info.line_start, 0));
                     }
-                    m_proc_end = Some(line_info.line_start);
 
-                    let file_name = {
-                        let file_info = program.get_file_info(line_info.file_index)?;
-                        file_info.name.to_string_lossy(string_table)?
+                    //
+                    //
+                    //
+
+                    let Some(proc_start) = m_proc_start else {
+                        continue;
                     };
-                    match &m_file_name {
-                        None => m_file_name = Some(file_name),
-                        Some(m_file_name) => assert_eq!(*m_file_name, file_name),
+
+                    let Some(proc_end) = m_proc_end else {
+                        continue;
+                    };
+
+                    let Some(file_name) = m_file_name else {
+                        continue;
+                    };
+
+                    filename = file_name.to_string();
+
+                    let name_orig =
+                        formatter.emit_function_orig(&proc.name, module_id, proc.type_index)?;
+
+                    let name = formatter.emit_function(&proc.name, module_id, proc.type_index)?;
+
+                    function = Function {
+                        name,
+                        name_orig,
+                        proc_start,
+                        proc_end,
+                        statements: breakpoints,
+                        ..function
+                    };
+                }
+
+                // FunctionEnd
+                SymbolData::ScopeEnd if depth == 1 => {
+                    let mut take_filename = String::new();
+                    std::mem::swap(&mut take_filename, &mut filename);
+
+                    let mut take_function = Function::default();
+                    std::mem::swap(&mut take_function, &mut function);
+
+                    files
+                        .entry(take_filename)
+                        .or_default()
+                        .insert(take_function.proc_start, take_function);
+
+                    depth -= 1;
+                }
+
+                // Arguments & Locals
+                SymbolData::BasePointerRelative(BasePointerRelativeSymbol {
+                    offset,
+                    type_index,
+                    name,
+                    slot: _,
+                }) if depth >= 1 => {
+                    let local_name = name;
+                    let local_type = formatter.emit_type(module_id, type_index)?;
+
+                    // @TODO: This is incorrect in present of arguments passed by registers, which
+                    // we do have thanks to linker optimizations
+                    if function.locals.is_empty() && local_name.as_bytes() == b"this" {
+                    } else if offset > 0 {
+                        function.args.push((local_name, local_type));
+                    } else {
+                        function
+                            .locals
+                            .push((local_name, local_type, depth as usize - 1));
+                    }
+                }
+
+                SymbolData::Constant(ConstantSymbol {
+                    managed: _,
+                    type_index,
+                    value,
+                    name,
+                }) if depth >= 1 => {
+                    let const_name = name;
+                    let const_type = formatter.emit_type(module_id, type_index)?;
+                    let const_value = value;
+
+                    function
+                        .constants
+                        .push((const_name, const_type, const_value));
+                }
+
+                SymbolData::Data(DataSymbol {
+                    global: _,
+                    managed: _,
+                    type_index,
+                    offset,
+                    name,
+                }) if depth >= 1 => {
+                    let static_name = name;
+                    let static_type = formatter.emit_type(module_id, type_index)?;
+                    function.statics.push((
+                        static_name,
+                        static_type,
+                        offset.to_rva(address_map).unwrap_or(pdb::Rva(0)),
+                    ));
+                }
+
+                // Skip
+                SymbolData::FrameProcedure(_) => (),
+
+                // Blocks inside functions
+                SymbolData::Block(BlockSymbol {
+                    parent: _,
+                    end: _,
+                    len: _,
+                    offset,
+                    name: _,
+                }) if depth >= 1 => {
+                    let rva = offset.to_rva(address_map).expect("invalid rva");
+                    if let Some(st) = function.statements.iter_mut().find(|st| st.0 == rva) {
+                        st.2 = depth;
+                    } else {
+                        function.blocks.push((rva, depth));
                     }
 
-                    let rva = line_info.offset.to_rva(address_map).expect("invalid rva");
-                    breakpoints.push((rva, line_info.line_start, 0));
+                    depth += 1;
                 }
 
+                // Blocks end
                 //
-                //
-                //
-
-                let Some(proc_start) = m_proc_start else {
-                    continue;
-                };
-
-                let Some(proc_end) = m_proc_end else {
-                    continue;
-                };
-
-                let Some(file_name) = m_file_name else {
-                    continue;
-                };
-
-                filename = file_name.to_string();
-
-                let name_orig =
-                    formatter.emit_function_orig(&proc.name, module_id, proc.type_index)?;
-
-                let name = formatter.emit_function(&proc.name, module_id, proc.type_index)?;
-
-                function = Function {
-                    name,
-                    name_orig,
-                    proc_start,
-                    proc_end,
-                    statements: breakpoints,
-                    ..function
-                };
-            }
-
-            // FunctionEnd
-            SymbolData::ScopeEnd if depth == 1 => {
-                let mut take_filename = String::new();
-                std::mem::swap(&mut take_filename, &mut filename);
-
-                let mut take_function = Function::default();
-                std::mem::swap(&mut take_function, &mut function);
-
-                files
-                    .entry(take_filename)
-                    .or_default()
-                    .insert(take_function.proc_start, take_function);
-
-                depth -= 1;
-            }
-
-            // Arguments & Locals
-            SymbolData::BasePointerRelative(BasePointerRelativeSymbol {
-                offset,
-                type_index,
-                name,
-                slot: _,
-            }) if depth >= 1 => {
-                let local_name = name;
-                let local_type = formatter.emit_type(module_id, type_index)?;
-
-                // @TODO: This is incorrect in present of arguments passed by registers, which
-                // we do have thanks to linker optimizations
-                if function.locals.is_empty() && local_name.as_bytes() == b"this" {
-                } else if offset > 0 {
-                    function.args.push((local_name, local_type));
-                } else {
-                    function
-                        .locals
-                        .push((local_name, local_type, depth as usize - 1));
-                }
-            }
-
-            SymbolData::Constant(ConstantSymbol {
-                managed: _,
-                type_index,
-                value,
-                name,
-            }) if depth >= 1 => {
-                let const_name = name;
-                let const_type = formatter.emit_type(module_id, type_index)?;
-                let const_value = value;
-
-                function
-                    .constants
-                    .push((const_name, const_type, const_value));
-            }
-
-            SymbolData::Data(DataSymbol {
-                global: _,
-                managed: _,
-                type_index,
-                offset,
-                name,
-            }) if depth >= 1 => {
-                let static_name = name;
-                let static_type = formatter.emit_type(module_id, type_index)?;
-                function.statics.push((
-                    static_name,
-                    static_type,
-                    offset.to_rva(address_map).unwrap_or(pdb::Rva(0)),
-                ));
-            }
-
-            // Skip
-            SymbolData::FrameProcedure(_) => (),
-
-            // Blocks inside functions
-            SymbolData::Block(BlockSymbol {
-                parent: _,
-                end: _,
-                len: _,
-                offset,
-                name: _,
-            }) if depth >= 1 => {
-                let rva = offset.to_rva(address_map).expect("invalid rva");
-                if let Some(st) = function.statements.iter_mut().find(|st| st.0 == rva) {
-                    st.2 = depth;
-                } else {
-                    function.blocks.push((rva, depth));
+                // TODO: Not only functions and blocks can create scopes.
+                // As a crutch, this can do, though some functions will be generated incorrectly.
+                SymbolData::ScopeEnd => {
+                    depth = (depth - 1).max(0);
                 }
 
-                depth += 1;
+                // SymbolData::DefRangeRegisterRelative())
+
+                // Keep everything that we missed but is inside functions
+                symbol if depth != 0 => {
+                    function.symbols.push(symbol);
+                }
+
+                SymbolData::UserDefinedType(udts) => {
+                    static PREDEFINED_TYPEDEFS: LazyLock<HashSet<&[u8]>> = LazyLock::new(|| {
+                        [
+                            // boost
+                            "this_type",
+                            "self_type",
+                            "unspecified_bool_type",
+                            "unqualified_type",
+                            "allocator_type",
+                            // vostok
+                            "free_list_type",
+                            "counter_type",
+                            // ???
+                            "vtable_type",
+                            "functor_type",
+                            "object_type",
+                            "policy_type",
+                            "value_type",
+                            "base_type",
+                            "callback_type",
+                            "create_resource_if_no_file_delegate_type",
+                            "first_type",
+                            "graph_wrapper_type",
+                            "implementation_type",
+                            "indices_type",
+                            "invoker_type",
+                            "is_POD_type",
+                            "iterator_type",
+                            "key_type",
+                            "mapped_type",
+                            "objects_type",
+                            "orders_channel_type",
+                            "parameters_type",
+                            "pod_type",
+                            "point_ptr_type",
+                            "point_type",
+                            "pointer_type",
+                            "responses_channel_type",
+                            "result_type",
+                            "reverse_iterator",
+                            "service_impl_type",
+                            "size_type",
+                            "storage_type",
+                            "subscribers_type",
+                            "void_type",
+                            "void_cv_type",
+                        ]
+                        .into_iter()
+                        .map(|t| t.as_bytes())
+                        .collect()
+                    });
+
+                    let name = udts.name.as_bytes();
+                    let c = name[0];
+
+                    // Most of the typedefs are completely useless, since they come from templates
+                    // of different libraries and constantly repeat each other.
+                    if !PREDEFINED_TYPEDEFS.contains(name)
+                        && c != b'_'
+                        && c.is_ascii_lowercase()
+                        && name.ends_with(b"_type")
+                    {
+                        let udts_name = Type::new(&udts.name.to_string());
+                        let udts_type = formatter.emit_type(module_id, udts.type_index)?;
+
+                        typedefs.insert((udts_type, udts_name));
+                    }
+                }
+
+                // Ignore everything outside function scope
+                _symbol => (),
             }
-
-            // Blocks end
-            //
-            // TODO: Not only functions and blocks can create scopes.
-            // As a crutch, this can do, though some functions will be generated incorrectly.
-            SymbolData::ScopeEnd => {
-                depth = (depth - 1).max(0);
-            }
-
-            // SymbolData::DefRangeRegisterRelative())
-
-            // Keep everything that we missed but is inside functions
-            symbol if depth != 0 => {
-                function.symbols.push(symbol);
-            }
-
-            // Ignore everything outside function scope
-            _ => (),
         }
+
+        Ok(Module { files, typedefs })
     }
 
-    Ok(files)
+    fn update_cache(&self, cache: &mut FunctionCache) {
+        for funs in self.files.values() {
+            for fun in funs.values() {
+                cache.insert_from_source(fun);
+            }
+        }
+    }
 }
 
 impl FunctionCache {
@@ -383,44 +471,55 @@ impl FunctionCache {
 // Writing to disk
 //
 
-fn write_modules(
-    modules: BTreeMap<String, BTreeMap<u32, Function<'_>>>,
-    output_path: &std::path::Path,
-    flags: GenFlags,
-) -> crate::Result<()> {
-    for (file, funs) in modules {
-        let Some(path_to_file) = file.strip_prefix(FILE_PREFIX) else {
-            continue;
-        };
+impl<'a> Module<'a> {
+    fn write(self, output_path: &std::path::Path, flags: GenFlags) -> crate::Result<()> {
+        for (file, funs) in self.files {
+            let Some(path_to_file) = file.strip_prefix(FILE_PREFIX) else {
+                continue;
+            };
 
-        let mut source_path = output_path.to_path_buf();
-        source_path.push(path_to_file);
+            let mut source_path = output_path.to_path_buf();
+            source_path.push(path_to_file);
 
-        let mut file: Box<dyn std::io::Write> = match flags.contains(GenFlags::TEST_RUN) {
-            false => {
-                std::fs::create_dir_all(source_path.parent().unwrap())?;
+            let mut file: Box<dyn std::io::Write> = match flags.contains(GenFlags::TEST_RUN) {
+                false => {
+                    std::fs::create_dir_all(source_path.parent().unwrap())?;
 
-                let file = std::fs::File::create(&source_path)?;
-                let file = std::io::BufWriter::new(file);
+                    let file = std::fs::File::create(&source_path)?;
+                    let file = std::io::BufWriter::new(file);
 
-                Box::new(file)
+                    Box::new(file)
+                }
+                true => {
+                    println!("\nFile: {source_path:?}\n");
+                    Box::new(std::io::stdout())
+                }
+            };
+
+            write_header(&mut file, &source_path)?;
+
+            for function in funs.into_values() {
+                function.write(&mut file)?;
             }
-            true => {
-                println!("\nFile: {source_path:?}\n");
-                Box::new(std::io::stdout())
+
+            if !self.typedefs.is_empty() {
+                writeln!(file, "\t/* TYPEDEFS")?;
+                writeln!(file)?;
+                for (ty, name) in &self.typedefs {
+                    writeln!(file, "\ttypedef")?;
+                    writeln!(file, "\t\t{ty}")?;
+                    writeln!(file, "\t\t{name};")?;
+                    writeln!(file)?;
+                }
             }
-        };
 
-        write_header(&mut file, &source_path)?;
+            writeln!(file, "\t*/")?;
 
-        for function in funs.into_values() {
-            function.write(&mut file)?;
+            write_footer(&mut file, &source_path)?;
         }
 
-        write_footer(&mut file, &source_path)?;
+        Ok(())
     }
-
-    Ok(())
 }
 
 impl<'a> Function<'a> {

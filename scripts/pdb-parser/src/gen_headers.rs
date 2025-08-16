@@ -18,8 +18,12 @@ pub fn dump_headers(
     formatter: &Formatter,
     cache: FunctionCache,
     output_path: &std::path::Path,
-    _flags: GenFlags,
+    flags: GenFlags,
 ) -> crate::Result<()> {
+    if flags.contains(GenFlags::TEST_RUN) {
+        return Ok(());
+    }
+
     let type_information = pdb.type_information()?;
     let type_finder = {
         let mut type_finder = type_information.finder();
@@ -52,10 +56,6 @@ pub fn dump_headers(
             continue;
         }
         let class_name = class.name.to_string().to_string();
-
-        if class_name != "survarium::bullet_manager" {
-            continue;
-        }
 
         let Ok(header) = build_header(formatter, &cache, &type_finder, type_index.index()) else {
             continue;
