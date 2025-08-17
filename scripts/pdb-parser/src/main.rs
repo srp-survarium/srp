@@ -22,6 +22,7 @@
 
 pub mod addr2line;
 pub mod error;
+pub mod utils;
 
 pub mod dump_pdb;
 pub mod gen_headers;

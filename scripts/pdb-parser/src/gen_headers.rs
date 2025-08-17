@@ -11,6 +11,7 @@ use crate::gen_sources;
 use crate::gen_sources::FunctionCache;
 use crate::gen_sources::FunctionSignature;
 use crate::gen_sources::PAD_LENGTH;
+use crate::utils;
 use crate::GenFlags;
 
 pub fn dump_headers(
@@ -642,18 +643,24 @@ impl fmt::Display for Class<'_> {
 impl fmt::Display for Method {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let Self { kind, attributes } = self;
+        let attributes = utils::MyFieldAttributes::extract(*attributes);
 
         let specifier = match () {
             () if attributes.is_static() => "static ",
-            () if attributes.is_virtual() || attributes.is_pure_virtual() => "virtual ",
+            () if attributes.is_virtual() => "virtual ",
+            () => "",
+        };
+        let overrid = match () {
+            () if attributes.is_override() => " override",
             () => "",
         };
         let pure = match () {
-            () if attributes.is_pure_virtual() => "= 0",
+            () if attributes.is_pure() => " = 0",
+            () if attributes.sealed() => " final",
             () => "",
         };
 
-        writeln!(f, "\t{specifier}{kind}{pure};")
+        writeln!(f, "\t{specifier}{kind}{overrid}{pure};")
     }
 }
 
