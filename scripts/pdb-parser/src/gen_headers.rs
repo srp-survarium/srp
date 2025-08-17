@@ -167,6 +167,7 @@ struct Class<'p> {
     kind: pdb::ClassKind,
     orig_name: String,
     name: Type,
+    size: u64,
     base_classes: Vec<BaseClass>,
     fields: Vec<Field<'p>>,
     instance_methods: Vec<Method>,
@@ -253,6 +254,7 @@ impl<'p> Data<'p> {
                     kind: data.kind,
                     name: Type::new(&data.name.to_string()),
                     orig_name: data.name.to_string().to_string(),
+                    size: data.size,
                     fields: Vec::new(),
                     base_classes: Vec::new(),
                     instance_methods: Vec::new(),
@@ -555,14 +557,33 @@ impl fmt::Display for Data<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if !self.forward_references.is_empty() {
             writeln!(f)?;
+            writeln!(f, "//////////////////////////")?;
+            writeln!(f, "// FORWARD DECLARATIONS //")?;
+            writeln!(f, "//////////////////////////")?;
+            writeln!(f)?;
+
             for e in &self.forward_references {
                 e.fmt(f)?;
             }
         }
 
+        if self.classes.is_empty() {
+            writeln!(f)?;
+            writeln!(f, "//////////////////////////")?;
+            writeln!(f, "//     DEFINITIONS      //")?;
+            writeln!(f, "//////////////////////////")?;
+        }
+
         for e in &self.enums {
             writeln!(f)?;
             e.fmt(f)?;
+        }
+
+        if !self.classes.is_empty() {
+            writeln!(f)?;
+            writeln!(f, "//////////////////////////")?;
+            writeln!(f, "//     DEFINITIONS      //")?;
+            writeln!(f, "//////////////////////////")?;
         }
 
         for class in &self.classes {
@@ -635,6 +656,15 @@ impl fmt::Display for Class<'_> {
         }
 
         writeln!(f, "}}; // {kind} {name}")?;
+
+        let size = self.size;
+        writeln!(f)?;
+        writeln!(f, "namespace {{")?;
+        writeln!(f, "\ttypedef char size_assert[")?;
+        writeln!(f, "\t\tsizeof({name}) == 0x{size:X} ? 1 : -1")?;
+        writeln!(f, "\t];")?;
+        writeln!(f, "}}")?;
+        writeln!(f)?;
 
         Ok(())
     }

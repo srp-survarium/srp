@@ -127,6 +127,7 @@ impl Type {
         let ty = ty
             .replace("survarium::", "")
             .replace("vostok", "xray")
+            .replace("stlp_std", "std")
             .replace("char const*", "pcstr")
             .replace("char const *", "pcstr")
             .replace("xray::math::", "")
