@@ -38,6 +38,7 @@ struct Function<'a> {
     statics: Vec<(pdb::RawString<'a>, Type, pdb::Rva)>,
 
     blocks: Vec<(pdb::Rva, i32)>,
+    typedefs: Vec<(Type, Type)>,
     symbols: Vec<pdb::SymbolData<'a>>,
 }
 
@@ -324,12 +325,6 @@ impl<'a> Module<'a> {
                 }
 
                 // SymbolData::DefRangeRegisterRelative())
-
-                // Keep everything that we missed but is inside functions
-                symbol if depth != 0 => {
-                    function.symbols.push(symbol);
-                }
-
                 SymbolData::UserDefinedType(udts) => {
                     static PREDEFINED_TYPEDEFS: LazyLock<HashSet<&[u8]>> = LazyLock::new(|| {
                         [
@@ -385,18 +380,29 @@ impl<'a> Module<'a> {
                     let name = udts.name.as_bytes();
                     let c = name[0];
 
-                    // Most of the typedefs are completely useless, since they come from templates
-                    // of different libraries and constantly repeat each other.
-                    if !PREDEFINED_TYPEDEFS.contains(name)
-                        && c != b'_'
-                        && c.is_ascii_lowercase()
-                        && name.ends_with(b"_type")
-                    {
+                    if depth != 0 {
                         let udts_name = Type::new(&udts.name.to_string());
                         let udts_type = formatter.emit_type(module_id, udts.type_index)?;
+                        function.typedefs.push((udts_type, udts_name));
+                    } else {
+                        // Most of the typedefs are completely useless, since they come from templates
+                        // of different libraries and constantly repeat each other.
+                        if !PREDEFINED_TYPEDEFS.contains(name)
+                            && c != b'_'
+                            && c.is_ascii_lowercase()
+                            && name.ends_with(b"_type")
+                        {
+                            let udts_name = Type::new(&udts.name.to_string());
+                            let udts_type = formatter.emit_type(module_id, udts.type_index)?;
 
-                        typedefs.insert((udts_type, udts_name));
+                            typedefs.insert((udts_type, udts_name));
+                        }
                     }
+                }
+
+                // Keep everything that we missed but is inside functions
+                symbol if depth != 0 => {
+                    function.symbols.push(symbol);
                 }
 
                 // Ignore everything outside function scope
@@ -535,9 +541,11 @@ impl<'a> Function<'a> {
             constants,
             statics,
             blocks,
+            typedefs,
             symbols,
         } = self;
 
+        writeln!(w, "// STATE[STUB]")?;
         writeln!(w, "// {name_orig}")?;
         write!(w, "{name}(")?;
 
@@ -616,6 +624,16 @@ impl<'a> Function<'a> {
                 )?;
             }
             writeln!(w, "\t// ******\n")?;
+        }
+
+        if !typedefs.is_empty() {
+            writeln!(w, "\t// TYPEDEFS")?;
+            for (ty, name) in typedefs {
+                writeln!(w, "\t// typedef")?;
+                writeln!(w, "\t// \t{ty}")?;
+                writeln!(w, "\t// \t{name};")?;
+                writeln!(w)?;
+            }
         }
 
         if !symbols.is_empty() {

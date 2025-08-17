@@ -72,7 +72,32 @@ pub fn dump_headers(
             }
         };
 
-        let header_name = header_name
+        let ifdef_name = {
+            let mut depth = 0;
+
+            let header_name = class_name.chars().filter(|c| match c {
+                '<' => {
+                    depth += 1;
+                    false
+                }
+                '>' => {
+                    depth -= 1;
+                    false
+                }
+                _ => depth == 0,
+            });
+
+            "ignore/"
+                .chars()
+                .chain(header_name)
+                .chain(".h".chars())
+                .collect::<String>()
+                .replace("survarium::", "")
+                .replace("vostok::", "")
+        };
+        let ifdef_name = std::path::Path::new(&ifdef_name);
+
+        let header_name_on_disk = header_name
             .replace(":", "∶")
             .replace("*", "٭")
             .replace("<", "＜")
@@ -87,14 +112,14 @@ pub fn dump_headers(
             header_path.push("others");
         }
 
-        header_path.push(format!("{header_name}.hpp"));
+        header_path.push(format!("{header_name_on_disk}.hpp"));
 
         let mut file = std::fs::File::create(&header_path)?;
 
-        gen_sources::write_header(&mut file, std::path::Path::new("ignore/ignore"))?;
+        gen_sources::write_header(&mut file, ifdef_name)?;
         writeln!(&mut file, "/* {class_name} */")?;
         write!(&mut file, "{header}")?;
-        gen_sources::write_footer(&mut file, std::path::Path::new("ignore/ignore"))?;
+        gen_sources::write_footer(&mut file, ifdef_name)?;
     }
 
     Ok(())
