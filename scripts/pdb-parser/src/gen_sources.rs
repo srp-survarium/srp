@@ -519,8 +519,6 @@ impl<'a> Module<'a> {
                 }
             }
 
-            writeln!(file, "\t*/")?;
-
             write_footer(&mut file, &source_path)?;
         }
 
