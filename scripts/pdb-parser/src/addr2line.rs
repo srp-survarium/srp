@@ -126,12 +126,11 @@ impl Type {
     pub fn new(ty: &str) -> Self {
         let ty = ty
             .replace("survarium::", "")
-            .replace("vostok", "xray")
             .replace("stlp_std", "std")
             .replace("char const*", "pcstr")
             .replace("char const *", "pcstr")
-            .replace("xray::math::", "")
-            .replace("xray::resources::", "resources::")
+            .replace("vostok::math::", "")
+            .replace("vostok::resources::", "resources::")
             .replace("boost::noncopyable_::noncopyable", "boost::noncopyable")
             .replace("unsigned int", "u32")
             .replace("unsigned short", "u16")
