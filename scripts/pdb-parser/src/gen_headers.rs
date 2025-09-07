@@ -113,7 +113,7 @@ pub fn dump_headers(
             header_path.push("others");
         }
 
-        header_path.push(format!("{header_name_on_disk}.hpp"));
+        header_path.push(format!("{header_name_on_disk}.h"));
 
         let mut file = std::fs::File::create(&header_path)?;
 

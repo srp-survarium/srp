@@ -7,6 +7,8 @@ use std::sync::LazyLock;
 use pdb::ConstantSymbol;
 use pdb::DataSymbol;
 use pdb::ItemIndex;
+use pdb::RegisterRelativeSymbol;
+use pdb::RegisterVariableSymbol;
 use pdb::{BasePointerRelativeSymbol, BlockSymbol, FallibleIterator, SymbolData};
 
 use crate::addr2line::Formatter;
@@ -14,7 +16,8 @@ use crate::addr2line::Type;
 use crate::GenFlags;
 use crate::TEST_MODULE;
 
-const FILE_PREFIX: &str = "c:\\survarium\\sources\\vostok\\";
+// const FILE_PREFIX: &str = "c:\\survarium\\sources\\vostok\\";
+const FILE_PREFIX: &str = "e:\\projects\\vostok\\sources\\vostok\\";
 const GAME_IB: u32 = 0x10000;
 
 /// Padding between a type and name. Used for arguments, constants & statics.
@@ -261,6 +264,28 @@ impl<'a> Module<'a> {
                         function
                             .locals
                             .push((local_name, local_type, depth as usize - 1));
+                    }
+                }
+
+                SymbolData::RegisterRelative(RegisterRelativeSymbol {
+                    offset: _,
+                    type_index,
+                    register: _,
+                    name,
+                    slot: _,
+                })
+                | SymbolData::RegisterVariable(RegisterVariableSymbol {
+                    type_index,
+                    register: _,
+                    name,
+                    slot: _,
+                }) if depth >= 1 => {
+                    let local_name = name;
+                    let local_type = formatter.emit_type(module_id, type_index)?;
+
+                    if function.locals.is_empty() && local_name.as_bytes() == b"this" {
+                    } else {
+                        function.args.push((local_name, local_type));
                     }
                 }
 
@@ -676,7 +701,7 @@ pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate
     #[rustfmt::skip]
     {
         writeln!(w, "////////////////////////////////////////////////////////////////////////////")?;
-        writeln!(w, "//	Created 	: 14.08.2025")?;
+        writeln!(w, "//	Created 	: 28.08.2025")?;
         writeln!(w, "////////////////////////////////////////////////////////////////////////////")?;
         writeln!(w)?;
     };
@@ -700,7 +725,8 @@ pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate
 
     #[rustfmt::skip]
     {
-        writeln!(w, "namespace stalker2 {{")?;
+        writeln!(w, "namespace xray {{")?;
+        writeln!(w, "namespace collision {{")?;
         writeln!(w)?;
     };
     Ok(())
@@ -715,7 +741,8 @@ pub fn write_footer(mut w: impl std::io::Write, path: &std::path::Path) -> crate
 
     #[rustfmt::skip]
     {
-        writeln!(w, "}} // namespace stalker2")?;
+        writeln!(w, "}} // namespace collision")?;
+        writeln!(w, "}} // namespace xray")?;
         writeln!(w)?;
     };
 
