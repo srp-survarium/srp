@@ -20,6 +20,9 @@
 //! cargo run --bin pdb-parser --release
 //! ```
 
+// @TODO: `FILE_PREFIX_BASE` shouldn't be hardcoded.
+// @TODO: Would be nice to write breakpoints with the source code.
+
 pub mod addr2line;
 pub mod error;
 pub mod utils;
@@ -53,14 +56,24 @@ pub struct Cli {
     // cargo run --bin pdb-parser --release -- --test-run > ./target/survarium.txt ; if ($?) { nvim ./target/survarium.txt }
     #[arg(long, action)]
     test_run: bool,
+
+    #[arg(long, action)]
+    as_base: bool,
 }
 
 bitflags::bitflags! {
-    #[derive(Copy, Clone)]
+    #[derive(Default, Copy, Clone)]
     pub struct GenFlags: u32 {
         /// Do not generate file structure.
         /// Print to `stdout` source file for `TEST_MODULE` instead.
         const TEST_RUN  = 0b0000_0001;
+
+        /// Generating for `BASE`.
+        /// i.e. the stub is generated for the `xray` code being modified
+        /// as opposed to `TARGET`, to which the code is being matched.
+        ///
+        /// This will cause comments to be slightly different with another prefix used for files.
+        const AS_BASE = 0b0000_0010;
     }
 }
 
@@ -71,11 +84,15 @@ fn main() {
         pdb_path,
         output_path,
         test_run,
+        as_base,
     } = Cli::parse();
 
     let mut flags = GenFlags::empty();
     if test_run {
         flags |= GenFlags::TEST_RUN;
+    }
+    if as_base {
+        flags |= GenFlags::AS_BASE;
     }
 
     if let Err(error) = dump_pdb::dump_pdb(&pdb_path, &output_path, flags) {

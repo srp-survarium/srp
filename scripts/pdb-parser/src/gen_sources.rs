@@ -16,8 +16,8 @@ use crate::addr2line::Type;
 use crate::GenFlags;
 use crate::TEST_MODULE;
 
-// const FILE_PREFIX: &str = "c:\\survarium\\sources\\vostok\\";
-const FILE_PREFIX: &str = "e:\\projects\\vostok\\sources\\vostok\\";
+const FILE_PREFIX_TARGET: &str = "c:\\survarium\\sources\\vostok\\";
+const FILE_PREFIX_BASE: &str = "e:\\projects\\vostok\\sources\\vostok\\";
 const GAME_IB: u32 = 0x10000;
 
 /// Padding between a type and name. Used for arguments, constants & statics.
@@ -25,8 +25,10 @@ const GAME_IB: u32 = 0x10000;
 /// @TODO: Generate in format used by GSC.
 pub const PAD_LENGTH: usize = 35;
 
-#[derive(Default, Clone)]
+#[derive(Clone)]
 struct Function<'a> {
+    flags: GenFlags,
+
     name_orig: String,
     name: Type,
 
@@ -35,7 +37,7 @@ struct Function<'a> {
 
     proc_start: u32,
     proc_end: u32,
-    statements: Vec<(pdb::Rva, u32, i32)>,
+    statements: Vec<Statement>,
 
     constants: Vec<(pdb::RawString<'a>, Type, pdb::Variant)>,
     statics: Vec<(pdb::RawString<'a>, Type, pdb::Rva)>,
@@ -49,6 +51,13 @@ struct Function<'a> {
 pub struct FunctionSignature {
     pub name: Type,
     pub args: Vec<(String, Type)>,
+}
+
+#[derive(Default, Clone)]
+pub struct Statement {
+    rva: pdb::Rva,
+    line_start: u32,
+    depth: i32,
 }
 
 /// Iterating through modules gives me names of the arguments.
@@ -116,6 +125,7 @@ pub fn dump_sources(
             formatter,
             &address_map,
             &string_table,
+            flags,
         )?;
 
         module.update_cache(&mut cache);
@@ -143,6 +153,8 @@ impl<'a> Module<'a> {
         formatter: &Formatter,
         address_map: &pdb::AddressMap,
         string_table: &pdb::StringTable,
+
+        flags: GenFlags,
     ) -> crate::Result<Self> {
         let program = module_info.line_program()?;
         let mut symbols = module_info.symbols()?;
@@ -152,7 +164,7 @@ impl<'a> Module<'a> {
         let mut typedefs: BTreeSet<(Type, Type)> = BTreeSet::new();
 
         let mut filename: String = String::new();
-        let mut function: Function = Function::default();
+        let mut function: Function = Function::new(flags);
         let mut depth: i32 = 0;
 
         while let Some(symbol) = symbols.next()? {
@@ -193,7 +205,11 @@ impl<'a> Module<'a> {
                         }
 
                         let rva = line_info.offset.to_rva(address_map).expect("invalid rva");
-                        breakpoints.push((rva, line_info.line_start, 0));
+                        breakpoints.push(Statement {
+                            rva,
+                            line_start: line_info.line_start,
+                            depth: 0,
+                        });
                     }
 
                     //
@@ -234,7 +250,7 @@ impl<'a> Module<'a> {
                     let mut take_filename = String::new();
                     std::mem::swap(&mut take_filename, &mut filename);
 
-                    let mut take_function = Function::default();
+                    let mut take_function = Function::new(function.flags);
                     std::mem::swap(&mut take_function, &mut function);
 
                     files
@@ -332,8 +348,8 @@ impl<'a> Module<'a> {
                     name: _,
                 }) if depth >= 1 => {
                     let rva = offset.to_rva(address_map).expect("invalid rva");
-                    if let Some(st) = function.statements.iter_mut().find(|st| st.0 == rva) {
-                        st.2 = depth;
+                    if let Some(st) = function.statements.iter_mut().find(|st| st.rva == rva) {
+                        st.depth = depth;
                     } else {
                         function.blocks.push((rva, depth));
                     }
@@ -360,34 +376,24 @@ impl<'a> Module<'a> {
                             "unqualified_type",
                             "allocator_type",
                             // vostok
-                            "free_list_type",
-                            "counter_type",
                             // ???
                             "vtable_type",
                             "functor_type",
-                            "object_type",
                             "policy_type",
-                            "value_type",
                             "base_type",
                             "callback_type",
                             "create_resource_if_no_file_delegate_type",
                             "first_type",
                             "graph_wrapper_type",
                             "implementation_type",
-                            "indices_type",
                             "invoker_type",
                             "is_POD_type",
-                            "iterator_type",
                             "key_type",
                             "mapped_type",
-                            "objects_type",
-                            "orders_channel_type",
-                            "parameters_type",
                             "pod_type",
                             "point_ptr_type",
                             "point_type",
                             "pointer_type",
-                            "responses_channel_type",
                             "result_type",
                             "reverse_iterator",
                             "service_impl_type",
@@ -443,6 +449,26 @@ impl<'a> Module<'a> {
             for fun in funs.values() {
                 cache.insert_from_source(fun);
             }
+        }
+    }
+}
+
+impl<'a> Function<'a> {
+    pub fn new(flags: GenFlags) -> Self {
+        Self {
+            flags,
+            name_orig: Default::default(),
+            name: Default::default(),
+            args: Default::default(),
+            locals: Default::default(),
+            proc_start: Default::default(),
+            proc_end: Default::default(),
+            statements: Default::default(),
+            constants: Default::default(),
+            statics: Default::default(),
+            blocks: Default::default(),
+            typedefs: Default::default(),
+            symbols: Default::default(),
         }
     }
 }
@@ -505,7 +531,11 @@ impl FunctionCache {
 impl<'a> Module<'a> {
     fn write(self, output_path: &std::path::Path, flags: GenFlags) -> crate::Result<()> {
         for (file, funs) in self.files {
-            let Some(path_to_file) = file.strip_prefix(FILE_PREFIX) else {
+            let prefix = match flags.contains(GenFlags::AS_BASE) {
+                true => FILE_PREFIX_BASE,
+                false => FILE_PREFIX_TARGET,
+            };
+            let Some(path_to_file) = file.strip_prefix(prefix) else {
                 continue;
             };
 
@@ -554,6 +584,7 @@ impl<'a> Module<'a> {
 impl<'a> Function<'a> {
     pub fn write(self, mut w: impl std::io::Write) -> crate::Result<()> {
         let Self {
+            flags,
             name_orig,
             name,
             args,
@@ -568,7 +599,10 @@ impl<'a> Function<'a> {
             symbols,
         } = self;
 
-        writeln!(w, "// STATE[STUB]")?;
+        match flags.contains(GenFlags::AS_BASE) {
+            true => writeln!(w, "// STUB GENERATED FOR BASE CODE")?,
+            false => writeln!(w, "// STATE[STUB]")?,
+        }
         writeln!(w, "// {name_orig}")?;
         write!(w, "{name}(")?;
 
@@ -670,19 +704,31 @@ impl<'a> Function<'a> {
         if proc_start + 1 < proc_end {
             writeln!(w, "\t// FUNCTION BODY")?;
 
+            let mut prev_statement_rva = None;
             for i in proc_start + 1..proc_end {
-                match statements.iter().find(|bp| bp.1 == i) {
-                    Some((rva, _, starts_block)) => writeln!(
-                        w,
-                        "\t// <{offset}>{block}",
-                        offset = rva.saturating_add(GAME_IB),
-                        block = if *starts_block != 0 {
-                            format!(" <block><{starts_block}>")
-                        } else {
-                            String::new()
-                        },
-                    )?,
-                    None => writeln!(w,)?,
+                match statements.iter().find(|bp| bp.line_start == i) {
+                    Some(Statement {
+                        rva,
+                        line_start: _,
+                        depth,
+                    }) => {
+                        let prev_statement_rva = match prev_statement_rva {
+                            None => {
+                                prev_statement_rva = Some(rva);
+                                rva
+                            }
+                            Some(rva) => rva,
+                        };
+
+                        let offset = rva.saturating_add(GAME_IB);
+                        let diff = rva.0 - prev_statement_rva.0;
+                        match depth {
+                            0 => writeln!(w, "\t// <{offset}>|0x{diff:02X}|"),
+                            _ => writeln!(w, "\t// <{offset}>|0x{diff:02X}|[{depth}]"),
+                        }?;
+                    }
+
+                    None => writeln!(w)?,
                 }
             }
 
