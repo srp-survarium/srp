@@ -704,6 +704,7 @@ impl<'a> Function<'a> {
         if proc_start + 1 < proc_end {
             writeln!(w, "\t// FUNCTION BODY")?;
 
+            let mut first_statement_rva = None;
             let mut prev_statement_rva = None;
             for i in proc_start + 1..proc_end {
                 match statements.iter().find(|bp| bp.line_start == i) {
@@ -714,17 +715,24 @@ impl<'a> Function<'a> {
                     }) => {
                         let prev_statement_rva = match prev_statement_rva {
                             None => {
+                                first_statement_rva = Some(rva);
                                 prev_statement_rva = Some(rva);
                                 rva
                             }
-                            Some(rva) => rva,
+                            Some(prev_rva) => {
+                                prev_statement_rva = Some(rva);
+                                prev_rva
+                            }
                         };
+                        let first_statement_rva = first_statement_rva.unwrap();
 
                         let offset = rva.saturating_add(GAME_IB);
+                        let diff_start = rva.0 - first_statement_rva.0;
                         let diff = rva.0 - prev_statement_rva.0;
+                        #[rustfmt::skip]
                         match depth {
-                            0 => writeln!(w, "\t// <{offset}>|0x{diff:02X}|"),
-                            _ => writeln!(w, "\t// <{offset}>|0x{diff:02X}|[{depth}]"),
+                            0 => writeln!(w, "\t// <{offset}>|0x{diff_start:03x}|0x{diff:02x}|"),
+                            _ => writeln!(w, "\t// <{offset}>|0x{diff_start:03x}|0x{diff:02x}|[{depth}]"),
                         }?;
                     }
 
