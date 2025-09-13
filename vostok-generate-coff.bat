@@ -2,8 +2,10 @@
 :: Generate COFF files for all classes in the executable
 ::
 
-if not defined SRP_DIR        set      "SRP_DIR=E:\Projects\srp"
-if not defined COFF_DIR       set     "COFF_DIR=%SRP_DIR%\..\vostok-coff-delinker"
+if not defined SRP_DIR  set "SRP_DIR=%~dp0"
+if "%SRP_DIR:~-1%"=="\" set "SRP_DIR=%SRP_DIR:~0,-1%"
+
+if not defined COFF_DIR set "COFF_DIR=%SRP_DIR%\..\vostok-coff-delinker"
 
 if not defined GHIDRA_HOME    set  "GHIDRA_HOME=C:\Program Files\ghidra_11.4_PUBLIC"
 if not defined PROJECTS_DIR   set "PROJECTS_DIR=D:\Projects\ghidra"

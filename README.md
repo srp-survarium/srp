@@ -20,6 +20,5 @@
 3. Highly recommended to set global environment variables:
     * `GHIDRA_HOME` - Path to installed Ghidra
     * `IDA_HOME` - Path to installed IDA
-    * `SRP_DIR` - Path to this repository
     * `SURVARIUM_BIN` - Path to installed survarium.exe
     * Otherwise default paths will be used (matching my machine).
