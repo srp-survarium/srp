@@ -53,6 +53,14 @@ pub struct Cli {
     )]
     output_path: std::path::PathBuf,
 
+    #[arg(
+        short,
+        long,
+        value_hint = clap::ValueHint::FilePath,
+        default_value = "c:\\survarium\\sources\\vostok\\",
+    )]
+    engine_path: String,
+
     // cargo run --bin pdb-parser --release -- --test-run > ./target/survarium.txt ; if ($?) { nvim ./target/survarium.txt }
     #[arg(long, action)]
     test_run: bool,
@@ -83,6 +91,7 @@ fn main() {
     let Cli {
         pdb_path,
         output_path,
+        engine_path,
         test_run,
         as_base,
     } = Cli::parse();
@@ -95,7 +104,12 @@ fn main() {
         flags |= GenFlags::AS_BASE;
     }
 
-    if let Err(error) = dump_pdb::dump_pdb(&pdb_path, &output_path, flags) {
+    let mut engine_path = engine_path.to_lowercase().replace('/', "\\");
+    if !engine_path.ends_with('\\') {
+        engine_path.push('\\');
+    }
+
+    if let Err(error) = dump_pdb::dump_pdb(&pdb_path, &output_path, &engine_path, flags) {
         eprintln!("{error}");
         std::process::exit(1);
     }

@@ -16,8 +16,6 @@ use crate::addr2line::Type;
 use crate::GenFlags;
 use crate::TEST_MODULE;
 
-const FILE_PREFIX_TARGET: &str = "c:\\survarium\\sources\\vostok\\";
-const FILE_PREFIX_BASE: &str = "e:\\projects\\vostok\\sources\\vostok\\";
 const GAME_IB: u32 = 0x10000;
 
 /// Padding between a type and name. Used for arguments, constants & statics.
@@ -90,6 +88,7 @@ pub fn dump_sources(
     pdb: &mut pdb::PDB<std::fs::File>,
     formatter: &Formatter,
     output_path: &std::path::Path,
+    engine_path: &str,
     flags: GenFlags,
 ) -> crate::Result<FunctionCache> {
     let address_map = pdb.address_map()?;
@@ -129,7 +128,7 @@ pub fn dump_sources(
         )?;
 
         module.update_cache(&mut cache);
-        module.write(&output_path, flags)?;
+        module.write(&output_path, engine_path, flags)?;
     }
 
     Ok(cache)
@@ -529,13 +528,14 @@ impl FunctionCache {
 //
 
 impl<'a> Module<'a> {
-    fn write(self, output_path: &std::path::Path, flags: GenFlags) -> crate::Result<()> {
+    fn write(
+        self,
+        output_path: &std::path::Path,
+        engine_path: &str,
+        flags: GenFlags,
+    ) -> crate::Result<()> {
         for (file, funs) in self.files {
-            let prefix = match flags.contains(GenFlags::AS_BASE) {
-                true => FILE_PREFIX_BASE,
-                false => FILE_PREFIX_TARGET,
-            };
-            let Some(path_to_file) = file.strip_prefix(prefix) else {
+            let Some(path_to_file) = file.strip_prefix(engine_path) else {
                 continue;
             };
 
@@ -706,6 +706,12 @@ impl<'a> Function<'a> {
 
             let mut first_statement_rva = None;
             let mut prev_statement_rva = None;
+
+            let n = |num: i32| match num >= 0 {
+                true => format!("0x{num:02x}"),
+                false => format!("-0x{num:02x}", num = num.abs()),
+            };
+
             for i in proc_start + 1..proc_end {
                 match statements.iter().find(|bp| bp.line_start == i) {
                     Some(Statement {
@@ -727,12 +733,14 @@ impl<'a> Function<'a> {
                         let first_statement_rva = first_statement_rva.unwrap();
 
                         let offset = rva.saturating_add(GAME_IB);
-                        let diff_start = rva.0 - first_statement_rva.0;
-                        let diff = rva.0 - prev_statement_rva.0;
+
+                        let diff_start = n(rva.0 as i32 - first_statement_rva.0 as i32);
+                        let diff_prev = n(rva.0 as i32 - prev_statement_rva.0 as i32);
+
                         #[rustfmt::skip]
                         match depth {
-                            0 => writeln!(w, "\t// <{offset}>|0x{diff_start:03x}|0x{diff:02x}|"),
-                            _ => writeln!(w, "\t// <{offset}>|0x{diff_start:03x}|0x{diff:02x}|[{depth}]"),
+                            0  => writeln!(w, "\t// <{offset}>|{diff_start}|{diff_prev}|"         ),
+                            _  => writeln!(w, "\t// <{offset}>|{diff_start}|{diff_prev}|[{depth}]"),
                         }?;
                     }
 

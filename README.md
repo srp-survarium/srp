@@ -1,7 +1,25 @@
 # SRP - Survarium Restoration Project
 
-0. Document how UDP low level networking works.
-1. Write data structures for messages on 0.001b and 0.20e.
-2. Completely parse .journal file for all messages expected by the server.
-3. By that, figure out what the client excepts from us after sending `get_startup_info` and `team_bases_initialize_info`.
+### Prerequisites
 
+1. `rustc`
+    * Install nightly version from `rustup`: `rustup default nightly`
+
+2. `openssl`
+    * Install newest version from here: https://openssl-library.org/source/
+    * Set environment variables so that `rust` could find it:
+    ```
+    # For example in `$PROFILE` for PS.
+    # Requires: `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` to be executed with administrator privileges
+
+    $env:OPENSSL_DIR     = "C:\Program Files\OpenSSL-Win64";
+    $env:OPENSSL_STATIC  = "true";
+    $env:OPENSSL_LIB_DIR = 'C:\Program Files\OpenSSL-Win64\lib\VC\x64\MD';
+    ```
+
+3. Highly recommended to set global environment variables:
+    * `GHIDRA_HOME` - Path to installed Ghidra
+    * `IDA_HOME` - Path to installed IDA
+    * `SRP_DIR` - Path to this repository
+    * `SURVARIUM_BIN` - Path to installed survarium.exe
+    * Otherwise default paths will be used (matching my machine).

@@ -352,7 +352,10 @@ impl ServerState {
                     // Scopes and artefacts: 54, 57, 69
                 ]
             },
-            skills_tree: include_bytes!("../../../../resources/skills_tree.bin").to_vec(),
+            skills_tree: include_bytes!(
+                "../../../../resources/binary-config-examples/skills_tree.bin"
+            )
+            .to_vec(),
 
             reroll_cost: 100,
             add_profile_cost: 200,
