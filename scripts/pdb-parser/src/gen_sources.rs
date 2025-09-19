@@ -257,9 +257,15 @@ impl<'a> Module<'a> {
                     let mut take_function = Function::new(function.flags);
                     std::mem::swap(&mut take_function, &mut function);
 
-                    take_function.args.truncate(
-                        formatter.args_count(take_function.module_id, take_function.type_index)?,
-                    );
+                    let args_count =
+                        formatter.args_count(take_function.module_id, take_function.type_index)?;
+
+                    let locals = take_function
+                        .args
+                        .split_off(args_count.min(take_function.args.len()))
+                        .into_iter()
+                        .map(|(local_name, local_type)| (local_name, local_type, 0));
+                    take_function.locals.extend(locals);
 
                     files
                         .entry(take_filename)
