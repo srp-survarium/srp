@@ -56,71 +56,13 @@ pub fn dump_headers(
         if class.properties.forward_reference() {
             continue;
         }
-        let class_name = class.name.to_string().to_string();
 
         let Ok(header) = build_header(formatter, &cache, &type_finder, type_index.index()) else {
             continue;
         };
 
-        const MAX_CLASS_LEN: usize = 180;
-
-        let header_name = match class_name.len() > MAX_CLASS_LEN {
-            false => class_name.clone(),
-            true => {
-                let mut class_name = class_name.clone();
-                _ = class_name.split_off(MAX_CLASS_LEN);
-                class_name
-            }
-        };
-
-        let ifdef_name = {
-            let mut depth = 0;
-
-            let header_name = class_name.chars().filter(|c| match c {
-                '<' => {
-                    depth += 1;
-                    false
-                }
-                '>' => {
-                    depth -= 1;
-                    false
-                }
-                _ => depth == 0,
-            });
-
-            "ignore/"
-                .chars()
-                .chain(header_name)
-                .chain(".h".chars())
-                .collect::<String>()
-                .replace("survarium::", "")
-                .replace("vostok::", "")
-        };
-        let ifdef_name = std::path::Path::new(&ifdef_name);
-
-        let header_name_on_disk = header_name
-            .replace(":", "∶")
-            .replace("*", "٭")
-            .replace("<", "＜")
-            .replace(">", "＞");
-
-        let mut header_path = header_path.clone();
-        if class_name.starts_with("vostok") {
-            header_path.push("vostok");
-        } else if class_name.starts_with("survarium") {
-            header_path.push("survarium");
-        } else {
-            header_path.push("others");
-        }
-
-        header_path.push(format!("{header_name_on_disk}.h"));
-
-        let mut file = std::fs::File::create(&header_path)?;
-
-        gen_sources::write_header(&mut file, ifdef_name)?;
-        writeln!(&mut file, "/* {class_name} */")?;
-        write!(&mut file, "{header}")?;
-        gen_sources::write_footer(&mut file, ifdef_name)?;
+        let file = create_header_file(&class, header_path.clone())?;
+        write_header_file(&class, header, file)?;
     }
 
     Ok(())
@@ -785,5 +727,93 @@ pub fn pad_spaces(w: &mut fmt::Formatter, prefix_len: usize) -> std::fmt::Result
     for _ in 0..no {
         write!(w, " ")?;
     }
+    Ok(())
+}
+
+fn create_header_file(
+    class: &pdb::ClassType,
+    mut header_path: std::path::PathBuf,
+) -> crate::Result<std::fs::File> {
+    const MAX_CLASS_LEN: usize = 140;
+
+    let header_name = {
+        let mut class_name = class.name.to_string().to_string();
+        class_name.truncate(MAX_CLASS_LEN);
+        class_name
+    };
+
+    let header_name = if let Some(class_name) = header_name.strip_prefix("vostok::") {
+        header_path.push("vostok");
+        class_name
+    } else if let Some(class_name) = header_name.strip_prefix("survarium::") {
+        header_path.push("survarium");
+        class_name
+    } else {
+        header_path.push("others");
+        &header_name
+    };
+
+    let header_name = match header_name.find("::") {
+        None => header_name,
+        Some(pos) if header_name.split_at(pos).0.contains('<') => header_name,
+        Some(pos) => {
+            let namespace = header_name.split_at(pos).0;
+            let header_name = header_name.split_at(pos + "::".len()).1;
+
+            header_path.push(namespace);
+            header_name
+        }
+    };
+
+    let header_name = header_name
+        .replace(":", "∶")
+        .replace("*", "٭")
+        .replace("<", "＜")
+        .replace(">", "＞");
+
+    std::fs::create_dir_all(&header_path)?;
+
+    header_path.push(format!("{header_name}.h"));
+
+    let file = std::fs::File::create(&header_path)?;
+    Ok(file)
+}
+
+fn write_header_file(
+    class: &pdb::ClassType,
+    header: Data,
+    mut file: std::fs::File,
+) -> crate::Result<()> {
+    let class_name = class.name.to_string();
+    let ifdef_name = {
+        let mut depth = 0;
+
+        let header_name = class_name.chars().filter(|c| match c {
+            '<' => {
+                depth += 1;
+                false
+            }
+            '>' => {
+                depth -= 1;
+                false
+            }
+            _ => depth == 0,
+        });
+
+        "ignore/"
+            .chars()
+            .chain(header_name)
+            .chain(".h".chars())
+            .collect::<String>()
+            .replace("survarium::", "")
+            .replace("vostok::", "")
+    };
+    let ifdef_name = std::path::Path::new(&ifdef_name);
+
+    gen_sources::write_header(&mut file, ifdef_name)?;
+    writeln!(&mut file, "/* {class_name} */")?;
+    write!(&mut file, "{header}")?;
+    gen_sources::write_footer(&mut file, ifdef_name)?;
+
     Ok(())
 }
