@@ -25,6 +25,9 @@ pub const PAD_LENGTH: usize = 35;
 
 #[derive(Clone)]
 struct Function<'a> {
+    module_id: usize,
+    type_index: pdb::TypeIndex,
+
     flags: GenFlags,
 
     name_orig: String,
@@ -235,6 +238,8 @@ impl<'a> Module<'a> {
                     let name = formatter.emit_function(&proc.name, module_id, proc.type_index)?;
 
                     function = Function {
+                        module_id,
+                        type_index: proc.type_index,
                         name,
                         name_orig,
                         proc_start,
@@ -251,6 +256,10 @@ impl<'a> Module<'a> {
 
                     let mut take_function = Function::new(function.flags);
                     std::mem::swap(&mut take_function, &mut function);
+
+                    take_function.args.truncate(
+                        formatter.args_count(take_function.module_id, take_function.type_index)?,
+                    );
 
                     files
                         .entry(take_filename)
@@ -456,6 +465,8 @@ impl<'a> Function<'a> {
     pub fn new(flags: GenFlags) -> Self {
         Self {
             flags,
+            module_id: Default::default(),
+            type_index: Default::default(),
             name_orig: Default::default(),
             name: Default::default(),
             args: Default::default(),
@@ -584,6 +595,8 @@ impl<'a> Module<'a> {
 impl<'a> Function<'a> {
     pub fn write(self, mut w: impl std::io::Write) -> crate::Result<()> {
         let Self {
+            module_id: _,
+            type_index: _,
             flags,
             name_orig,
             name,

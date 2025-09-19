@@ -107,6 +107,16 @@ impl<'a, 's> Formatter<'a, 's> {
         )?;
         Ok(name)
     }
+
+    pub fn args_count(
+        &self,
+        module_id: usize,
+        type_index: pdb::TypeIndex,
+    ) -> pdb_addr2line::Result<usize> {
+        self.formatter
+            .borrow()
+            .args_count(module_id, ti(type_index))
+    }
 }
 
 fn ti(type_index: pdb::TypeIndex) -> pdb_addr2line::pdb::TypeIndex {

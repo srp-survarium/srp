@@ -9,7 +9,11 @@ clap = { workspace = true }
 pdb = { package = "pdb2", git = "https://github.com/afranchuk/pdb", rev = "384c165" }
 
 pdb-addr2line-orig = { package = "pdb-addr2line", version = "0.11.2" }
-pdb-addr2line = { git = "https://github.com/srp-survarium/pdb-addr2line", rev = "e25a612" }
+
+# Modified version which:
+# 1. Prints arguments in the way `xray` expects: u32, i32, pcstr, etc.
+# 2. Adds `args_count` helper function
+pdb-addr2line = { git = "https://github.com/srp-survarium/pdb-addr2line", rev = "3d0fe1683365ddc1b97618f9e840a7fc8cd7cb6e" }
 
 bitflags = "2.9.2"
 
