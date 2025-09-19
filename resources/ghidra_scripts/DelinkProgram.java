@@ -73,7 +73,7 @@ public class DelinkProgram extends HeadlessScript {
 				GhidraClass engineClass = it.next();
 
 				var namespace = engineClass.getParentNamespace().getName(true);
-				if (!(namespace.startsWith("vostok::") || namespace.startsWith("survarium::"))) {
+				if (!(namespace.startsWith("vostok") || namespace.startsWith("survarium"))) {
 					continue;
 				}
 
