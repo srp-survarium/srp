@@ -10,11 +10,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
 import ghidra.app.plugin.core.analysis.AutoAnalysisManager;
 import ghidra.app.services.Analyzer;
@@ -43,9 +46,12 @@ import ghidra.program.model.symbol.SymbolTable;
 import ghidra.program.model.symbol.SymbolType;
 import ghidra.util.classfinder.ClassSearcher;
 
+import ghidra.program.model.listing.Variable;
+import ghidra.program.model.listing.FunctionManager;
+import ghidra.program.model.listing.FunctionIterator;
+
 import ghidra.app.util.exporter.CoffRelocatableObjectExporter;
 
-// * Add support for functions
 // * Deal with exceptions (not generate those .obj files at all and log stats instead)
 // * Parallelize
 public class DelinkProgram extends HeadlessScript {
@@ -61,12 +67,89 @@ public class DelinkProgram extends HeadlessScript {
 		// The second (optional) argument is a filter for classes
 		Optional<String> filter = args.length > 1 ? Optional.ofNullable(args[1]) : Optional.empty();
 
+		//
+		//
+		//
+
 		AutoAnalysisManager aam = AutoAnalysisManager.getAnalysisManager(currentProgram);
 		Analyzer analyzer = aam.getAnalyzer("Relocation table synthesizer");
 
+		var exporter = new CoffRelocatableObjectExporter();
+
+		//
+		//
+		//
+
+		exportClasses(filter, outputDir, aam, analyzer, exporter);
+		exportFunctions(filter, outputDir, aam, analyzer, exporter);
+	}
+
+	void exportFunctions(
+		Optional<String> filter,
+		String outputDir,
+
+		AutoAnalysisManager aam,
+		Analyzer analyzer,
+		Exporter exporter
+	) throws Exception {
+		FunctionManager fm = currentProgram.getFunctionManager();
+		Map<String, AddressSet> map = new HashMap<>();
+
+		var it = fm.getFunctions(true);
+		while (it.hasNext()) {
+				var func = it.next();
+
+				var namespace = func.getParentNamespace().getName(true);
+				if (!(namespace.startsWith("vostok") || namespace.startsWith("survarium"))) {
+					continue;
+				}
+
+				if (filter.isPresent() && !namespace.startsWith(filter.get())) {
+					continue;
+				}
+
+				// `this` arguments are already covered by `getClassNamespaces`
+				Variable[] vars = func.getAllVariables();
+				var has_this = Arrays.stream(vars).anyMatch(v -> "this".equals(v.getName()));
+				if (has_this) {
+					continue;
+				}
+
+
+				map.computeIfAbsent(namespace, k -> new AddressSet())
+					.add(func.getBody());
+
+				var symbol = func.getSymbol();
+				println(namespace + " ---> " + symbol.getName());
+		}
+
+		for (Map.Entry<String, AddressSet> entry : map.entrySet()) {
+				String namespace = entry.getKey();
+				AddressSet addressSet = entry.getValue();
+
+				//
+				//
+				//
+
+				var dirPath = outputDir + "/functions/" + getDirRelativePath(namespace);
+				var objFile = new File(dirPath + "/" + getFileNameNamespace(namespace));
+
+				createDirAll(dirPath);
+				export(objFile, aam, analyzer, exporter, addressSet);
+		}
+	}
+
+	void exportClasses(
+		Optional<String> filter,
+		String outputDir,
+
+		AutoAnalysisManager aam,
+		Analyzer analyzer,
+		Exporter exporter
+	) throws Exception {
+
 		SymbolTable symbolTable = currentProgram.getSymbolTable();
 
-		var exporter = new CoffRelocatableObjectExporter();
 
 		var it = symbolTable.getClassNamespaces();
 		while (it.hasNext()) {
@@ -87,15 +170,15 @@ public class DelinkProgram extends HeadlessScript {
 				var addressSet = new AddressSet();
 				addressSet.add(engineClass.getBody());
 
+				//
+				//
+				//
+
 				var dirPath = outputDir + "/" + getDirRelativePath(namespace);
+				var objFile = new File(dirPath + "/" + getFileName(engineClass));
+
 				createDirAll(dirPath);
-				export(
-						new File(dirPath + "/" + getFileName(engineClass)),
-						aam,
-						analyzer,
-						exporter,
-						addressSet
-				);
+				export(objFile, aam, analyzer, exporter, addressSet);
 		}
 	}
 
@@ -115,6 +198,8 @@ public class DelinkProgram extends HeadlessScript {
 			if (!exporter.export(file, currentProgram, addressSet, monitor)) {
 				throw new RuntimeException("Failed to export " + file.getName());
 			}
+			println("Exported to " + file.getName());
+
 		} catch (Exception e) {
 			println("Failed to export " + file.getName());
 		}
@@ -202,9 +287,17 @@ public class DelinkProgram extends HeadlessScript {
 				.replace(">", "]");
 	}
 
+	public static String getFileNameNamespace(String namespace) {
+			return getFileNameImpl(namespace);
+	}
+
 	public static String getFileName(GhidraClass engineClass) {
 			var className = engineClass.getSymbol().getName();
-			return className
+			return getFileNameImpl(className);
+	}
+
+	public static String getFileNameImpl(String input) {
+			return input
 				.replace("vostok::", "")
 				.replace("stlp_std::", "std-")
 				.replace("::", "-")

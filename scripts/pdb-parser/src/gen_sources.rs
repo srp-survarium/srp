@@ -727,15 +727,15 @@ impl<'a> Function<'a> {
             let mut prev_statement_rva = None;
 
             let n = |num: i32| match num >= 0 {
-                true => format!("0x{num:02x}"),
-                false => format!("-0x{num:02x}", num = num.abs()),
+                true => format!("0x{num:03x}"),
+                false => format!("-0x{num:03x}", num = num.abs()),
             };
 
             for i in proc_start + 1..proc_end {
                 match statements.iter().find(|bp| bp.line_start == i) {
                     Some(Statement {
                         rva,
-                        line_start: _,
+                        line_start,
                         depth,
                     }) => {
                         let prev_statement_rva = match prev_statement_rva {
@@ -758,8 +758,8 @@ impl<'a> Function<'a> {
 
                         #[rustfmt::skip]
                         match depth {
-                            0  => writeln!(w, "\t// <{offset}>|{diff_start}|{diff_prev}|"         ),
-                            _  => writeln!(w, "\t// <{offset}>|{diff_start}|{diff_prev}|[{depth}]"),
+                            0  => writeln!(w, "\t// <{offset}>|{diff_start}|{diff_prev}:'{line_start}'"),
+                            _  => writeln!(w, "\t// <{offset}>|{diff_start}|{diff_prev}|[{depth}]:'{line_start}'"),
                         }?;
                     }
 
