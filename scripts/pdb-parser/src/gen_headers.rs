@@ -632,15 +632,20 @@ impl fmt::Display for Method {
             () => "",
         };
 
-        writeln!(f, "\t{specifier}{kind}{overrid}{pure};")
+        writeln!(
+            f,
+            "\t{specifier}{kind}{overrid}{pure};",
+            kind = kind.display(attributes.is_pure()),
+        )
     }
 }
 
-impl fmt::Display for MethodKind {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl MethodKind {
+    fn display(&self, is_pure: bool) -> String {
         match self {
-            Self::NoArgNames { signature } => write!(f, "{signature} /* no source */"),
-            Self::FromSourceFile { signature } => write!(f, "{signature}"),
+            Self::NoArgNames { signature } if is_pure => format!("{signature}"),
+            Self::NoArgNames { signature } => format!("{signature} /* no source */"),
+            Self::FromSourceFile { signature } => format!("{signature}"),
         }
     }
 }
@@ -650,7 +655,16 @@ impl fmt::Display for FunctionSignature {
         let Self { name, args } = self;
         write!(f, "{name}(")?;
 
-        if !args.is_empty() {
+        if args.len() < 5 {
+            for (idx, (arg_name, arg_type)) in args.iter().enumerate() {
+                let first = idx == 0;
+
+                write!(f, "{n} {arg_type} ", n = if first { "" } else { "," })?;
+                write!(f, "{arg_name}")?;
+            }
+
+            write!(f, " )")?;
+        } else {
             writeln!(f)?;
 
             let len = args.len();
@@ -663,8 +677,6 @@ impl fmt::Display for FunctionSignature {
                 pad_spaces(f, arg_prefix_len)?;
                 write!(f, "{arg_name}{n}", n = if last { ")" } else { ",\n" })?;
             }
-        } else {
-            write!(f, " )")?;
         }
 
         Ok(())

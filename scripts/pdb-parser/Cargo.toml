@@ -16,6 +16,7 @@ pdb-addr2line-orig = { package = "pdb-addr2line", version = "0.11.2" }
 pdb-addr2line = { git = "https://github.com/srp-survarium/pdb-addr2line", rev = "3d0fe1683365ddc1b97618f9e840a7fc8cd7cb6e" }
 
 bitflags = "2.9.2"
+chrono = "0.4.42"
 
 [lints]
 workspace = true

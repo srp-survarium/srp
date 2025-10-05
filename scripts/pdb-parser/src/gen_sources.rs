@@ -416,6 +416,9 @@ impl<'a> Module<'a> {
                             "subscribers_type",
                             "void_type",
                             "void_cv_type",
+                            //
+                            "value_type",
+                            "object_type",
                         ]
                         .into_iter()
                         .map(|t| t.as_bytes())
@@ -625,7 +628,16 @@ impl<'a> Function<'a> {
         writeln!(w, "// {name_orig}")?;
         write!(w, "{name}(")?;
 
-        if !args.is_empty() {
+        if args.len() < 5 {
+            for (idx, (arg_name, arg_type)) in args.iter().enumerate() {
+                let first = idx == 0;
+
+                write!(w, "{n} {arg_type} ", n = if first { "" } else { "," })?;
+                write!(w, "{arg_name}")?;
+            }
+
+            write!(w, " ) ")?;
+        } else {
             writeln!(w)?;
 
             let len = args.len();
@@ -638,8 +650,6 @@ impl<'a> Function<'a> {
                 pad_spaces(&mut w, arg_prefix_len)?;
                 writeln!(w, "{arg_name}{n}", n = if last { ")" } else { "," })?;
             }
-        } else {
-            writeln!(w, " )")?;
         }
 
         writeln!(w, "{{")?;
@@ -779,10 +789,13 @@ impl<'a> Function<'a> {
 }
 
 pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate::Result<()> {
+    use chrono::Local;
+    let day = Local::now().format("%d.%m.%Y").to_string();
+
     #[rustfmt::skip]
     {
         writeln!(w, "////////////////////////////////////////////////////////////////////////////")?;
-        writeln!(w, "//	Created 	: 28.08.2025")?;
+        writeln!(w, "//	Created 	: {day}")?;
         writeln!(w, "////////////////////////////////////////////////////////////////////////////")?;
         writeln!(w)?;
     };
@@ -806,8 +819,8 @@ pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate
 
     #[rustfmt::skip]
     {
-        writeln!(w, "namespace xray {{")?;
-        writeln!(w, "namespace collision {{")?;
+        writeln!(w, "namespace vostok {{")?;
+        writeln!(w, "namespace physics {{")?;
         writeln!(w)?;
     };
     Ok(())
@@ -822,12 +835,13 @@ pub fn write_footer(mut w: impl std::io::Write, path: &std::path::Path) -> crate
 
     #[rustfmt::skip]
     {
-        writeln!(w, "}} // namespace collision")?;
-        writeln!(w, "}} // namespace xray")?;
-        writeln!(w)?;
+        writeln!(w, "}} // namespace physics")?;
+        writeln!(w, "}} // namespace vostok")?;
     };
 
     if let Some(module_name) = file_name.strip_suffix(".h") {
+        writeln!(w)?;
+
         let ifdef = format!("{}_H_INCLUDED", module_name.to_uppercase());
 
         writeln!(w, "#endif // #ifndef {ifdef}")?;

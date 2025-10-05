@@ -141,7 +141,7 @@ impl Type {
             .replace("char const *", "pcstr")
             .replace("vostok::math::", "")
             .replace("vostok::resources::", "resources::")
-            .replace("vostok::collision::", "")
+            .replace("vostok::physics::", "")
             .replace("vostok::", "")
             .replace("boost::noncopyable_::noncopyable", "boost::noncopyable")
             .replace("unsigned int", "u32")
