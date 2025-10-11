@@ -108,6 +108,22 @@ impl<'a, 's> Formatter<'a, 's> {
         Ok(name)
     }
 
+    pub fn emit_function_ret_ty(
+        &self,
+        proc_name: &pdb::RawString,
+        module_id: usize,
+        type_index: pdb::TypeIndex,
+    ) -> crate::Result<Type> {
+        let mut name = String::new();
+        self.formatter.borrow().emit_function_ret_ty(
+            &mut name,
+            proc_name.to_string().as_str(),
+            module_id,
+            ti(type_index),
+        )?;
+        Ok(Type::new(name.trim_end()))
+    }
+
     pub fn args_count(
         &self,
         module_id: usize,
@@ -116,6 +132,16 @@ impl<'a, 's> Formatter<'a, 's> {
         self.formatter
             .borrow()
             .args_count(module_id, ti(type_index))
+    }
+
+    pub fn is_const_fn(
+        &self,
+        module_id: usize,
+        type_index: pdb::TypeIndex,
+    ) -> pdb_addr2line::Result<bool> {
+        self.formatter
+            .borrow()
+            .is_const_fn(module_id, ti(type_index))
     }
 }
 
@@ -139,10 +165,10 @@ impl Type {
             .replace("stlp_std", "std")
             .replace("char const*", "pcstr")
             .replace("char const *", "pcstr")
-            .replace("vostok::math::", "")
-            .replace("vostok::resources::", "resources::")
-            .replace("vostok::physics::", "")
-            .replace("vostok::", "")
+            // .replace("vostok::math::", "")
+            // .replace("vostok::resources::", "resources::")
+            // .replace("vostok::physics::", "")
+            // .replace("vostok::", "")
             .replace("boost::noncopyable_::noncopyable", "boost::noncopyable")
             .replace("unsigned int", "u32")
             .replace("unsigned short", "u16")

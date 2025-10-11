@@ -21,7 +21,8 @@ const GAME_IB: u32 = 0x10000;
 /// Padding between a type and name. Used for arguments, constants & statics.
 ///
 /// @TODO: Generate in format used by GSC.
-pub const PAD_LENGTH: usize = 35;
+pub const MAX_PAD_TABS: usize = 8;
+pub const MAX_PAD_SPACE: usize = MAX_PAD_TABS * 4;
 
 #[derive(Clone)]
 struct Function<'a> {
@@ -32,6 +33,8 @@ struct Function<'a> {
 
     name_orig: String,
     name: Type,
+    is_const: bool,
+    ret_type: Type,
 
     args: Vec<(pdb::RawString<'a>, Type)>,
     locals: Vec<(pdb::RawString<'a>, Type, usize)>,
@@ -52,6 +55,7 @@ struct Function<'a> {
 pub struct FunctionSignature {
     pub name: Type,
     pub args: Vec<(String, Type)>,
+    pub is_const: bool,
 }
 
 #[derive(Default, Clone)]
@@ -237,11 +241,18 @@ impl<'a> Module<'a> {
 
                     let name = formatter.emit_function(&proc.name, module_id, proc.type_index)?;
 
+                    let is_const = formatter.is_const_fn(module_id, proc.type_index)?;
+
+                    let ret_type =
+                        formatter.emit_function_ret_ty(&proc.name, module_id, proc.type_index)?;
+
                     function = Function {
                         module_id,
                         type_index: proc.type_index,
                         name,
                         name_orig,
+                        is_const,
+                        ret_type,
                         proc_start,
                         proc_end,
                         statements: breakpoints,
@@ -474,17 +485,25 @@ impl<'a> Function<'a> {
     pub fn new(flags: GenFlags) -> Self {
         Self {
             flags,
+
             module_id: Default::default(),
             type_index: Default::default(),
+
             name_orig: Default::default(),
             name: Default::default(),
+            is_const: Default::default(),
+            ret_type: Default::default(),
+
             args: Default::default(),
             locals: Default::default(),
+
             proc_start: Default::default(),
             proc_end: Default::default(),
             statements: Default::default(),
+
             constants: Default::default(),
             statics: Default::default(),
+
             blocks: Default::default(),
             typedefs: Default::default(),
             symbols: Default::default(),
@@ -537,6 +556,7 @@ impl FunctionCache {
             Some(args) => Some(FunctionSignature {
                 name: formatter.emit_function(name, 0, type_index)?,
                 args: args.clone(),
+                is_const: formatter.is_const_fn(0, type_index)?,
             }),
         };
         Ok(signature)
@@ -609,6 +629,8 @@ impl<'a> Function<'a> {
             flags,
             name_orig,
             name,
+            is_const,
+            ret_type,
             args,
             locals,
             proc_start,
@@ -628,7 +650,7 @@ impl<'a> Function<'a> {
         writeln!(w, "// {name_orig}")?;
         write!(w, "{name}(")?;
 
-        if args.len() < 5 {
+        if args.len() < 4 {
             for (idx, (arg_name, arg_type)) in args.iter().enumerate() {
                 let first = idx == 0;
 
@@ -636,23 +658,35 @@ impl<'a> Function<'a> {
                 write!(w, "{arg_name}")?;
             }
 
-            write!(w, " ) ")?;
+            write!(w, " )")?;
         } else {
             writeln!(w)?;
 
             let len = args.len();
+
+            let pad_space = args
+                .iter()
+                .map(|(_, arg_type)| arg_type.len())
+                .max()
+                .unwrap();
+
             for (idx, (arg_name, arg_type)) in args.into_iter().enumerate() {
                 let last = idx == len - 1;
 
-                let arg_prefix_len = arg_type.len() + " ".len();
-
-                write!(w, "\t{arg_type} ")?;
-                pad_spaces(&mut w, arg_prefix_len)?;
-                writeln!(w, "{arg_name}{n}", n = if last { ")" } else { "," })?;
+                write!(w, "\t{arg_type}\t")?;
+                pad_spaces_t(&mut w, arg_type.len(), pad_space)?;
+                match last {
+                    false => writeln!(w, "{arg_name},")?,
+                    true => write!(w, "{arg_name})")?,
+                }
             }
         }
 
-        writeln!(w, "{{")?;
+        if is_const {
+            write!(w, " const")?;
+        }
+
+        writeln!(w, "\n{{")?;
 
         if !locals.is_empty() {
             writeln!(w, "\t// LOCALS")?;
@@ -720,6 +754,7 @@ impl<'a> Function<'a> {
                 writeln!(w, "\t// \t{name};")?;
                 writeln!(w)?;
             }
+            writeln!(w, "\t// ******\n")?;
         }
 
         if !symbols.is_empty() {
@@ -730,16 +765,50 @@ impl<'a> Function<'a> {
             writeln!(w, "\t// ******\n")?;
         }
 
+        #[rustfmt::skip]
+        match ret_type.0.as_str() {
+            _ if ret_type.0.ends_with('*') => writeln!(w, "\treturn NULL;")?,
+            "pcstr"                        => writeln!(w, "\treturn NULL;")?,
+
+            "vostok::math::aabb"         => writeln!(w, "\treturn vostok::math::aabb();")?,
+            "vostok::math::color"        => writeln!(w, "\treturn vostok::math::color();")?,
+            "vostok::math::frustum"      => writeln!(w, "\treturn vostok::math::frustum();")?,
+            "vostok::math::intersection" => writeln!(w, "\treturn vostok::math::intersection();")?,
+            "vostok::math::plane"        => writeln!(w, "\treturn vostok::math::plane()")?,
+            "vostok::math::quaternion"   => writeln!(w, "\treturn vostok::math::quaternion()")?,
+
+            "vostok::math::uint2"        => writeln!(w, "\treturn vostok::math::uint2(1, 1);")?,
+
+            "vostok::math::float2"       => writeln!(w, "\treturn vostok::math::float2(1., 1.);")?,
+            "vostok::math::float3"       => writeln!(w, "\treturn vostok::math::float3(1., 1., 1.);")?,
+            "vostok::math::float4"       => writeln!(w, "\treturn vostok::math::float4(1., 1., 1., 1.);")?,
+
+            "vostok::math::float3_pod"   => writeln!(w, "\treturn vostok::math::float3_pod();")?,
+            "vostok::math::float4_pod"   => writeln!(w, "\treturn vostok::math::float4_pod();")?,
+            "vostok::math::float4x4"     => writeln!(w, "\treturn vostok::math::float4x4();")?,
+
+
+            "u8" | "u16" | "u32" => writeln!(w, "\treturn 0;")?,
+            "s8" | "s16" | "s32" => writeln!(w, "\treturn 0;")?,
+            "float" | "double"   => writeln!(w, "\treturn 0.0f;")?,
+            "bool"               => writeln!(w, "\treturn false;")?,
+            "char"               => writeln!(w, "\treturn 'a';")?,
+
+            "void" => (),
+            _      => (),
+        };
+
         if proc_start + 1 < proc_end {
             writeln!(w, "\t// FUNCTION BODY")?;
-
-            let mut first_statement_rva = None;
-            let mut prev_statement_rva = None;
 
             let n = |num: i32| match num >= 0 {
                 true => format!("0x{num:03x}"),
                 false => format!("-0x{num:03x}", num = num.abs()),
             };
+
+            let mut first_statement_rva = None;
+            let mut prev_statement_rva = None;
+            let mut empty_line_no = 0;
 
             for i in proc_start + 1..proc_end {
                 match statements.iter().find(|bp| bp.line_start == i) {
@@ -748,6 +817,8 @@ impl<'a> Function<'a> {
                         line_start,
                         depth,
                     }) => {
+                        empty_line_no = 0;
+
                         let prev_statement_rva = match prev_statement_rva {
                             None => {
                                 first_statement_rva = Some(rva);
@@ -773,7 +844,10 @@ impl<'a> Function<'a> {
                         }?;
                     }
 
-                    None => writeln!(w)?,
+                    None => {
+                        empty_line_no += 1;
+                        writeln!(w, "\t// {empty_line_no}")?
+                    }
                 }
             }
 
@@ -819,8 +893,10 @@ pub fn write_header(mut w: impl std::io::Write, path: &std::path::Path) -> crate
 
     #[rustfmt::skip]
     {
-        writeln!(w, "namespace vostok {{")?;
-        writeln!(w, "namespace physics {{")?;
+        // writeln!(w, "namespace vostok {{")?;
+        // writeln!(w, "namespace physics {{")?;
+
+        writeln!(w, "namespace survarium {{")?;
         writeln!(w)?;
     };
     Ok(())
@@ -835,8 +911,10 @@ pub fn write_footer(mut w: impl std::io::Write, path: &std::path::Path) -> crate
 
     #[rustfmt::skip]
     {
-        writeln!(w, "}} // namespace physics")?;
-        writeln!(w, "}} // namespace vostok")?;
+        writeln!(w, "}} // namespace survarium")?;
+
+        // writeln!(w, "}} // namespace physics")?;
+        // writeln!(w, "}} // namespace vostok")?;
     };
 
     if let Some(module_name) = file_name.strip_suffix(".h") {
@@ -849,10 +927,34 @@ pub fn write_footer(mut w: impl std::io::Write, path: &std::path::Path) -> crate
     Ok(())
 }
 
-pub fn pad_spaces(mut w: impl std::io::Write, prefix_len: usize) -> std::io::Result<()> {
-    let no = PAD_LENGTH.saturating_sub(prefix_len);
-    for _ in 0..no {
-        write!(w, " ")?;
+pub fn pad_spaces(w: impl std::io::Write, prefix_len: usize) -> std::io::Result<()> {
+    pad_spaces_t(w, prefix_len, MAX_PAD_SPACE)
+}
+
+pub fn pad_spaces_t(
+    mut w: impl std::io::Write,
+    prefix_len: usize,
+    pad_space: usize,
+) -> std::io::Result<()> {
+    for _ in 0..pad_times(prefix_len, pad_space) {
+        write!(w, "\t")?;
     }
     Ok(())
+}
+
+pub fn pad_times(prefix_len: usize, pad_space: usize) -> usize {
+    //
+    // my_type
+    // <--><--><--><--><--><-
+    //    ^                 ^
+    //    already_tabbed    pad_space
+    //     <--><--><--><--><-->
+    //
+
+    let pad_space = pad_space.min(MAX_PAD_SPACE);
+    let pad_tabs = (pad_space % 4 != 0) as usize + pad_space / 4;
+
+    let already_tabbed = prefix_len / 4;
+
+    pad_tabs.saturating_sub(already_tabbed)
 }

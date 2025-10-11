@@ -10,7 +10,6 @@ use crate::addr2line::Type;
 use crate::gen_sources;
 use crate::gen_sources::FunctionCache;
 use crate::gen_sources::FunctionSignature;
-use crate::gen_sources::PAD_LENGTH;
 use crate::utils;
 use crate::GenFlags;
 
@@ -652,10 +651,14 @@ impl MethodKind {
 
 impl fmt::Display for FunctionSignature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let Self { name, args } = self;
+        let Self {
+            name,
+            args,
+            is_const,
+        } = self;
         write!(f, "{name}(")?;
 
-        if args.len() < 5 {
+        if args.len() < 4 {
             for (idx, (arg_name, arg_type)) in args.iter().enumerate() {
                 let first = idx == 0;
 
@@ -677,6 +680,9 @@ impl fmt::Display for FunctionSignature {
                 pad_spaces(f, arg_prefix_len)?;
                 write!(f, "{arg_name}{n}", n = if last { ")" } else { ",\n" })?;
             }
+        }
+        if *is_const {
+            write!(f, " const")?;
         }
 
         Ok(())
@@ -735,9 +741,8 @@ impl fmt::Display for ForwardReference {
 //
 
 pub fn pad_spaces(w: &mut fmt::Formatter, prefix_len: usize) -> std::fmt::Result {
-    let no = PAD_LENGTH.saturating_sub(prefix_len);
-    for _ in 0..no {
-        write!(w, " ")?;
+    for _ in 0..gen_sources::pad_times(prefix_len, 36) {
+        write!(w, "\t")?;
     }
     Ok(())
 }
