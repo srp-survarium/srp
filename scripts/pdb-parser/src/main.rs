@@ -32,6 +32,7 @@ pub mod gen_headers;
 pub mod gen_sources;
 
 pub use error::{Error, Result};
+pub use utils::Type;
 
 use clap::Parser;
 

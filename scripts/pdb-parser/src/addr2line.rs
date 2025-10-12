@@ -4,6 +4,8 @@ use pdb_addr2line_orig::{
 };
 use std::cell::RefCell;
 
+use crate::Type;
+
 /// Formatter for types and functions.
 // A hacky way to store different types of formatters.
 // This is bad, since this will keep 2 versions of the `pdb` file in memory.
@@ -83,6 +85,17 @@ impl<'a, 's> Formatter<'a, 's> {
         Ok(name)
     }
 
+    pub fn parse_function(
+        &self,
+        proc_name: &pdb::RawString,
+        module_id: usize,
+        type_index: pdb::TypeIndex,
+    ) -> pdb_addr2line::Result<pdb_addr2line::type_parser::Function> {
+        self.formatter
+            .borrow()
+            .parse_function(&proc_name.to_string(), module_id, ti(type_index))
+    }
+
     // @TODO: Get rid of module_id | add assert too
     pub fn emit_type(&self, module_id: usize, type_index: pdb::TypeIndex) -> crate::Result<Type> {
         let mut type_name = String::new();
@@ -147,37 +160,4 @@ impl<'a, 's> Formatter<'a, 's> {
 
 fn ti(type_index: pdb::TypeIndex) -> pdb_addr2line::pdb::TypeIndex {
     pdb_addr2line::pdb::TypeIndex(type_index.0)
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Type(pub String);
-
-impl std::fmt::Display for Type {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        self.0.fmt(f)
-    }
-}
-
-impl Type {
-    pub fn new(ty: &str) -> Self {
-        let ty = ty
-            .replace("survarium::", "")
-            .replace("stlp_std", "std")
-            .replace("char const*", "pcstr")
-            .replace("char const *", "pcstr")
-            // .replace("vostok::math::", "")
-            // .replace("vostok::resources::", "resources::")
-            // .replace("vostok::physics::", "")
-            // .replace("vostok::", "")
-            .replace("boost::noncopyable_::noncopyable", "boost::noncopyable")
-            .replace("unsigned int", "u32")
-            .replace("unsigned short", "u16")
-            .replace("unsigned char", "u8");
-
-        Self(ty)
-    }
-
-    pub fn len(&self) -> usize {
-        self.0.len()
-    }
 }
