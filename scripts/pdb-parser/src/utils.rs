@@ -37,7 +37,24 @@ impl Type {
             .replace("unsigned short",     "u16")
             .replace("unsigned char",      "u8")
             //
-            .replace("boost::noncopyable_::noncopyable", "boost::noncopyable")
+            .replace("boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> >",     "boost::asio::ip::tcp::socket")
+            .replace("boost::asio::ip::basic_endpoint<boost::asio::ip::tcp>",                                                                "boost::asio::ip::tcp::endpoint")
+            .replace("boost::asio::ip::basic_resolver<boost::asio::ip::tcp,boost::asio::ip::resolver_service<boost::asio::ip::tcp> >",       "boost::asio::ip::tcp::resolver")
+            .replace("boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp>",                                                       "boost::asio::ip::tcp::resolver::iterator")
+            .replace("boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp>",                                                          "boost::asio::ip::tcp::resolver::query")
+
+            .replace("boost::asio::basic_datagram_socket<boost::asio::ip::udp,boost::asio::datagram_socket_service<boost::asio::ip::udp> >", "boost::asio::ip::udp::socket")
+            .replace("boost::asio::ip::basic_endpoint<boost::asio::ip::udp>",                                                                "boost::asio::ip::udp::endpoint")
+
+
+            .replace("boost::asio::basic_streambuf<std::allocator<char> >",                  "boost::asio::streambuf")
+            .replace("boost::noncopyable_::noncopyable",                                     "boost::noncopyable")
+            .replace("std::basic_string<char,std::char_traits<char>,std::allocator<char> >", "std::string")
+            .replace("std::basic_ostream<char,std::char_traits<char> >",                     "std::ostream")
+
+            .replace(" __cdecl(void)", "()")
+            .replace(" __cdecl", "")
+
 
             // Replacements for `survarium` workspace
             // .replace("survarium::", "")
