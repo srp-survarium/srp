@@ -16,7 +16,7 @@ pub struct ServerMessage {
     pub local_sequence_id: SN16,
     /// TODO: Currently we only can send a single packet.
     /// So this means that the first bit in `local_ack_bits` should always be 0
-    pub local_ack_bits: u16,
+    pub local_ack_bits: u64,
 
     pub kind: ServerMessageKind,
 }
@@ -133,7 +133,7 @@ impl Serialize for ServerMessage {
             }
             _ => udp_match_packets_count_enum::multiple_packets,
         } as u16;
-        packet.write(self.local_ack_bits << 1 | match_packets_count);
+        packet.write(self.local_ack_bits << 1 | match_packets_count as u64);
 
         self.kind.serialize(packet);
     }

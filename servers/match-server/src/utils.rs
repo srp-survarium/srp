@@ -51,7 +51,11 @@ impl message::ClientMessage {
                         order_id,
                         game_message,
                     } = message;
-                    format!("0x{:04X}:{:?}", order_id.0, game_message.message_type())
+                    format!(
+                        "0x{:04X}:{:?}",
+                        order_id.unwrap_or_default().0,
+                        game_message.message_type()
+                    )
                 })
                 .intersperse_with(|| ", ".to_string())
                 .collect::<String>(),
@@ -126,7 +130,7 @@ pub fn try_print_debug(mut incoming_bytes: &[u8]) {
     let local_sequence_id = advance_buffer::<SN16>(out_buffer).unwrap().0;
     let remote_sequence_id = advance_buffer::<SN16>(out_buffer).unwrap().0;
 
-    let word = advance_buffer::<u16>(out_buffer).unwrap();
+    let word = advance_buffer::<u64>(out_buffer).unwrap();
     let remote_ack_bits = word >> 1 | 0x8000;
 
     let match_packets_count = (word & 1) as u8;

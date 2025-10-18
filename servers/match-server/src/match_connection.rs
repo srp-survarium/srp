@@ -33,11 +33,11 @@ pub struct MatchConnection {
     // Last sequence_id sent to the client
     server_sequence_id: SN16,
     server_received_sequence_id: SN16,
-    server_received_ack_bits: u16,
+    server_received_ack_bits: u64,
 
     // Last sequence_id recv from the client
     client_sequence_id: SN16,
-    client_ack_bits: u16,
+    client_ack_bits: u64,
 
     server_order_id: SN16,
     #[expect(dead_code)]
@@ -248,18 +248,21 @@ impl MatchConnection {
 
         match self.connection_state {
             ConnectionState::WaitingForConnection => {
-                assert_eq!(local_sequence_id, 0x0000.into());
+                // assert_eq!(local_sequence_id, 0x0000.into());
                 assert_eq!(remote_sequence_id, 0xFFFF.into());
-                assert_eq!(remote_ack_bits, 0b1000_0000_0000_0000);
+                assert_eq!(remote_ack_bits, 0x8000_0000_0000_0000);
 
                 let message::ClientMessageKind::Messages(messages) = kind else {
                     panic!("Received incorrect packet on connection")
                 };
 
                 let message::ClientGameMessage {
-                    order_id: SN16(0),
+                    order_id: None,
                     game_message:
-                        message::ClientGameMessageKind::ConnectionRequest { session_id: _ },
+                        message::ClientGameMessageKind::ConnectionRequest {
+                            session_id: _,
+                            is_debug_hashes: false,
+                        },
                 } = messages[0]
                 else {
                     panic!("Received incorrect packet on connection")
@@ -362,7 +365,7 @@ impl MatchConnection {
         &mut self,
         client_sequence_id: SN16, // local here means client
         server_sequence_id: SN16,
-        server_ack_bits: u16, // server packets which were acknowledged by the client
+        server_ack_bits: u64, // server packets which were acknowledged by the client
     ) {
         //
         // Updates info on the client packages received

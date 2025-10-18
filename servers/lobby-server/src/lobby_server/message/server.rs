@@ -59,11 +59,7 @@ pub enum ClientStatus {
         last_status_message: Option<String>,
     },
     EnumerateProfiles(Vec<Profile>),
-    ProfileContents {
-        profile_id: u32,
-        profile: PlayerProfile,
-        revision: u32,
-    },
+    ProfileContents(survarium::player_profile::PlayerProfile),
     EnumerateInventory(Vec<player_profile::raw::inventory_item_instance>),
     PriceItems {
         faction_id: faction_id,
@@ -141,26 +137,6 @@ pub enum ClientState {
         team_id: game_team_id,
     },
     Unknown,
-}
-
-#[derive(Debug, Clone)]
-#[rustfmt::skip]
-pub struct PlayerProfile {
-    pub team_id: game_team_id, // fyi sets team_1
-    pub is_local: bool,        // Don't know what means exactly
-    pub profile_name: String,  // 64
-
-    /* TODO
-    pub slots_mask: u32,
-    pub slots_dict_id: Vec<u16>,                // 23
-    pub slots_condition_stack_values: Vec<u16>, // 23
-    pub slots_amount_values: Vec<u32>,          // 23
-    */
-
-    /* TODO
-    pub static_modifiers_mask: u32,
-    pub static_modifiers: Vec<f32>, // 20
-    */
 }
 
 #[derive(Debug, Clone)]
@@ -470,12 +446,12 @@ impl ClientStatus {
             Self::LastPlayerMatchStats { .. }     => query_info_types_enum::q_last_played_match_stats   ,
             Self::PlayerEloRating { .. }          => query_info_types_enum::q_player_elo_rating         ,
             Self::PlayerEloList { .. }            => query_info_types_enum::q_players_elo_list          ,
-            Self::PlayerQuestList { .. }          => query_info_types_enum::q_player_quest_list         ,
+            Self::PlayerQuestList { .. }          => query_info_types_enum::q_player_quest_list         , // 14
             Self::PlayerMatchStats { .. }         => query_info_types_enum::q_player_match_stats        ,
-            Self::PlayerServices { .. }           => query_info_types_enum::q_player_services           ,
+            Self::PlayerServices { .. }           => query_info_types_enum::q_player_services           , // 16
             // Self::SquadMemberProfileContents
             Self::ShopItems { .. }                => query_info_types_enum::q_shop_items                ,
-            Self::UnlockedFactionsMask { .. }     => query_info_types_enum::q_unlocked_factions_mask    ,
+            Self::UnlockedFactionsMask { .. }     => query_info_types_enum::q_unlocked_factions_mask    , // 19
         }
     }
 }
@@ -529,7 +505,7 @@ impl Serialize for Message {
             } => {
                 packet.write(players);
                 packet.write(matches);
-                packet.write(0_u32);
+                // packet.write(0_u32);
                 packet.write(maintenance_remain);
             }
             Self::SquadInfo { .. } => {
@@ -605,14 +581,8 @@ impl Serialize for ClientStatus {
                 }
             }
 
-            Self::ProfileContents {
-                profile_id,
-                profile,
-                revision,
-            } => {
-                packet.write(profile_id);
-                profile.serialize(packet);
-                packet.write(revision);
+            Self::ProfileContents(player_profile) => {
+                player_profile.serialize(packet);
             }
 
             Self::EnumerateInventory(items) => {
@@ -770,23 +740,6 @@ impl Serialize for ClientState {
                 packet.write(client_state_enum::unknown);
             }
         }
-    }
-}
-
-impl Serialize for PlayerProfile {
-    fn serialize(self, packet: &mut impl Packet) {
-        let Self {
-            team_id,
-            is_local,
-            profile_name,
-        } = self;
-
-        packet.write(team_id);
-        packet.write(is_local);
-        packet.write_str(&profile_name);
-
-        packet.write(0_u32); // slots_mask
-        packet.write(0_u32); // static_modifiers_mask
     }
 }
 

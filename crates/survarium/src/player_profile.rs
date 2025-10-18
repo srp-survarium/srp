@@ -2,21 +2,19 @@ use bytemuck::Zeroable;
 use raw::*;
 use vostok::network_packet::Packet;
 
+#[repr(C)]
+#[derive(Clone, Debug, PartialEq)]
+pub struct PlayerProfile {
+    pub profile_id: u32,
+    pub profile_name: String, // 64
+
+    pub slots: [inventory_item_instance; profile_slot_enum::max_slots_count as usize],
+    pub team_id: game_team_id,
+    pub is_local: bool,
+    pub revision: u32,
+}
+
 pub mod raw {
-    #[repr(C)]
-    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
-    pub struct player_profile {
-        pub account_id: u32,
-        pub profile_id: u32,
-        pub profile_name: [u8; 32],
-        pub boosters: [skill_booster; 11],
-        pub slots: [inventory_item_instance; 19],
-        pub team: game_team_id,
-        pub padding_1: [u8; 3],
-        pub is_local: bool,
-        pub padding_2: [u8; 3],
-    }
-    const _: () = assert!(std::mem::size_of::<player_profile>() == 0x1B8);
 
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
@@ -71,7 +69,14 @@ pub mod raw {
         quick_slot4        = 0x10,
         quick_slot5        = 0x11,
         quick_slot6        = 0x12,
-        max_slots_count    = 0x13,
+        ammo_slot_5        = 0x13,
+        ammo_slot_6        = 0x14,
+        ammo_slot_7        = 0x15,
+        ammo_slot_8        = 0x16,
+        max_slots_count    = 0x17,
+        carried_item       = 0x18,
+        // invalid_slot       = 0x17,
+        inventory_slot_id  = 0x64,
     }
 
     #[repr(u8)]
@@ -118,168 +123,161 @@ impl<T, const N: usize> std::ops::IndexMut<profile_slot_enum> for [T; N] {
     }
 }
 
-impl player_profile {
-    pub fn serialize_tcp(self, packet: &mut impl Packet) {
-        packet.write(self)
-    }
+//
+//
+//
 
-    pub fn serialize_udp(self, packet: &mut impl Packet) {
-        let player_profile {
-            account_id: _,
-            profile_id: _,
+#[rustfmt::skip]
+#[expect(non_camel_case_types)]
+#[derive(Copy, Clone)]
+enum slot_serialize_mode_enum {
+    serialize_just_condition_stack_values = 0x0,
+    #[expect(dead_code)]
+    serialize_just_amount_values          = 0x1,
+    serialize_both_values                 = 0x2,
+}
+use slot_serialize_mode_enum::*;
+
+const SLOT_SERIALIZE_TABLE: [slot_serialize_mode_enum; 23] = [
+    serialize_just_condition_stack_values,
+    serialize_just_condition_stack_values,
+    serialize_just_condition_stack_values,
+    serialize_just_condition_stack_values,
+    serialize_just_condition_stack_values,
+    serialize_just_condition_stack_values,
+    serialize_just_condition_stack_values,
+    serialize_just_condition_stack_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_just_condition_stack_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values, // ??
+    serialize_both_values,
+    serialize_both_values,
+    serialize_both_values,
+];
+
+impl PlayerProfile {
+    pub fn serialize(self, packet: &mut impl Packet) {
+        let PlayerProfile {
+            profile_id,
             profile_name,
-            boosters,
             slots,
-            padding_1: _,
-            team,
+            team_id,
             is_local,
-            padding_2: _,
+            revision,
         } = self;
 
-        packet.write(team);
+        packet.write(profile_id);
+
+        packet.write(team_id);
         packet.write(is_local);
+        packet.write_str(profile_name.as_str());
 
-        let profile_name = profile_name
-            .split_once(|&c| c == 0)
-            .map(|(name, _)| name)
-            .unwrap_or(profile_name.as_ref());
-        packet.write_slice::<u8, _, _>(profile_name);
-
-        //
-        //
-        //
-
-        let mut bitmask = 0b0000_0000_0000_0000;
-        let mut compact_boosters = [skill_booster::zeroed(); 11];
-        let mut no = 0;
-        for (i, booster) in boosters.into_iter().enumerate() {
-            if booster == skill_booster::zeroed() {
+        let mut bitmask: u32 = 0b0000_0000_0000_0000;
+        for (i, slot) in slots.iter().enumerate() {
+            if *slot == inventory_item_instance::zeroed() {
                 continue;
             }
-            bitmask |= 1_u16 << i;
-            compact_boosters[no] = booster;
-            no += 1;
+            bitmask |= 1 << i
         }
+
         packet.write(bitmask);
-        for booster in &compact_boosters[0..no] {
-            packet.write(booster.id);
-            packet.write(booster.value);
-        }
-
-        //
-        //
-        //
-
-        #[rustfmt::skip]
-        #[expect(non_camel_case_types)]
-        #[derive(Copy, Clone)]
-        enum slot_serialize_mode_enum {
-            serialize_just_condition_stack_values = 0x0,
-            #[expect(dead_code)]
-            serialize_just_amount_values          = 0x1,
-            serialize_both_values                 = 0x2,
-        }
-        use slot_serialize_mode_enum::*;
-
-        const TABLE: [slot_serialize_mode_enum; 19] = [
-            serialize_just_condition_stack_values,
-            serialize_just_condition_stack_values,
-            serialize_just_condition_stack_values,
-            serialize_just_condition_stack_values,
-            serialize_just_condition_stack_values,
-            serialize_just_condition_stack_values,
-            serialize_just_condition_stack_values,
-            serialize_just_condition_stack_values,
-            serialize_both_values,
-            serialize_both_values,
-            serialize_just_condition_stack_values,
-            serialize_both_values,
-            serialize_both_values,
-            serialize_both_values,
-            serialize_both_values,
-            serialize_both_values,
-            serialize_both_values,
-            serialize_both_values,
-            serialize_both_values,
-        ];
-
         for (i, slot) in slots.into_iter().enumerate() {
             if slot == inventory_item_instance::zeroed() {
                 continue;
             }
 
-            packet.write(i as u8);
             packet.write(slot.dict_id);
             packet.write(slot.id);
             if matches!(
-                TABLE[i],
+                SLOT_SERIALIZE_TABLE[i],
                 serialize_both_values | serialize_just_condition_stack_values
             ) {
                 packet.write(slot.condition_or_stack as u16)
             }
 
             if matches!(
-                TABLE[i],
+                SLOT_SERIALIZE_TABLE[i],
                 serialize_both_values | serialize_just_amount_values
             ) {
                 packet.write(slot.amount_in_inventory)
             }
         }
+
+        packet.write(0_u32); // static_modifiers_mask
+
+        packet.write(revision);
     }
 }
 
-impl player_profile {
-    pub fn new_dummy(account_id: u32, profile_id: u32, profile_name: &str) -> Self {
-        let i = |id, dict_id, condition_or_stack| inventory_item_instance {
+//
+//
+//
+
+impl PlayerProfile {
+    pub fn new_dummy(profile_id: u32, profile_name: &str) -> Self {
+        let a = |id, dict_id, condition_or_stack, amount_in_inventory| inventory_item_instance {
             condition_or_stack,
-            amount_in_inventory: 1,
+            amount_in_inventory,
             id,
             dict_id,
             padding: Default::default(),
         };
 
-        let mut slots = [inventory_item_instance::default(); 19];
+        let equipment = |dict_id| a(dict_id as u32, dict_id, 100, 1);
+        let ammo = |dict_id, condition_or_stack, amount_in_inventory| {
+            a(
+                dict_id as u32,
+                dict_id,
+                condition_or_stack,
+                amount_in_inventory,
+            )
+        };
+
+        let mut slots =
+            [inventory_item_instance::default(); profile_slot_enum::max_slots_count as usize];
 
         #[rustfmt::skip]
         {
             use profile_slot_enum::*;
-            slots[boots_slot]   = i(1, 24, 100);
-            // slots[gloves_slot]  = i(2, 40, 20);
-            // slots[pants_slot]   = i(3, 46, 30);
-            slots[helmet_slot]  = i(4, 27, 40);
-            slots[mask_slot]    = i(5, 43, 50);
-            slots[torso_slot]   = i(6, 48, 60);
-            // slots[back_slot]    = i(7, 9,  70);
-            slots[weapon1_slot] = i(12, 55, 120);
+            slots[boots_slot]   = equipment(85); // "gameplay/items/armour/boots/edge_boots_1.options"
+            slots[gloves_slot]  = equipment(41); // "gameplay/items/armour/gloves/scavenger_gloves_1.options"
+            slots[pants_slot]   = equipment(84); // "gameplay/items/armour/legs/edge_legs_1.options"
+            slots[helmet_slot]  = equipment(86); // "gameplay/items/armour/helmet/edge_helmet_1.options"
+
+            // slots[mask_slot]    = i(4, 27, 40);
+
+            slots[torso_slot]   = equipment(83); // "gameplay/items/armour/torso/edge_torso_1.options"
+            slots[back_slot]    = equipment(87); // "gameplay/items/armour/back/edge_back_1.options"
+            slots[weapon1_slot] = equipment(109);
+
             // slots[weapon2_slot] = i(12, 55, 130);
 
-            slots[ammo1_weapon1_slot] = i(33, 53, 500);
+            slots[ammo1_weapon1_slot] = ammo(81, 20, 30); // "gameplay/items/weapons/ammo/ammo_7.62x39.options"
+
             // slots[ammo2_weapon1_slot] = i(33, 53, 500);
             // slots[ammo2_weapon1_slot] = i(...);
             // slots[ammo1_weapon2_slot] = i(...);
             // slots[ammo2_weapon2_slot] = i(...);
         };
 
-        if !(3 < profile_name.len() && profile_name.len() < 30) {
-            panic!("bad name")
-        }
-
-        let profile_name = {
-            let mut bytes = [b'\0'; 32];
-            bytes[0..profile_name.len()].copy_from_slice(profile_name.as_bytes());
-            bytes
-        };
-
         Self {
-            account_id,
             profile_id,
-            profile_name,
-            boosters: [skill_booster::default(); 11],
+            profile_name: profile_name.to_string(),
+
             slots,
-            padding_1: Default::default(),
-            team: game_team_id::team_neutral,
+            team_id: game_team_id::team_neutral,
+
             is_local: true,
-            padding_2: Default::default(),
+            revision: 0,
         }
     }
 }

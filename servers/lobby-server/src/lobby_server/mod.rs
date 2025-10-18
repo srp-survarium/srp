@@ -7,7 +7,6 @@ pub use self::message::{client, server};
 
 use vostok::network_client::TcpClient;
 
-use std::ffi::CStr;
 use std::sync::Arc;
 
 pub struct ServerState {
@@ -35,7 +34,21 @@ impl ServerState {
 
         let mut state = ConnectionState::new_dummy(session_id);
 
+        let mut i = 0;
+
         loop {
+            i += 1;
+
+            if i == 1 {
+                tcp_client
+                    .send(server::Message::OnlineStats {
+                        players: 1000,
+                        matches: 2,
+                        maintenance_remain: 1000,
+                    })
+                    .unwrap();
+            }
+
             let message = match tcp_client.read::<client::Message>() {
                 Ok(message) => message,
                 Err(error) => {
@@ -50,6 +63,14 @@ impl ServerState {
             tcp_client.send(response).unwrap();
         }
     }
+
+    /*
+     *
+     * void __thiscall survarium::network_client::on_lobby_packet_received
+     *      > void __userpurge survarium::lobby_menu::on_client_status_received(
+     *
+     * void __stdcall survarium::lobby_menu::update_play_button_lock(survarium::lobby_menu *this)
+     */
 
     pub fn handle_client_message(
         &self,
@@ -150,6 +171,13 @@ impl ServerState {
                     client::QueryClientStatus::ClientState => server::ClientStatus::ClientState {
                         state: server::ClientState::SurfLobbyMenu,
                         last_status_message: None,
+                        // state: server::ClientState::InMatchMaking {
+                        //     match_order_id: 10,
+                        //     match_order_place: 10,
+                        //     match_orders_total: 10,
+                        //     match_order_current_time_sec: 10,
+                        //     match_order_avg_wait_sec: 10,
+                        // },
                     },
                     client::QueryClientStatus::EnumerateProfiles => {
                         server::ClientStatus::EnumerateProfiles(
@@ -159,10 +187,7 @@ impl ServerState {
                                 .iter()
                                 .map(|profile| server::Profile {
                                     profile_id: profile.profile_id,
-                                    name: CStr::from_bytes_until_nul(&profile.profile_name)
-                                        .unwrap()
-                                        .to_string_lossy()
-                                        .to_string(),
+                                    name: profile.profile_name.clone(),
                                     autobuy_items: false,
                                     skill_points_total: 40,
                                     current_exp: 1000,
@@ -175,23 +200,13 @@ impl ServerState {
                     }
 
                     client::QueryClientStatus::ProfileContents { profile_id } => {
-                        /* TODO
                         let profile = connection_state
                             .profile_contents
                             .iter()
                             .find(|profile| profile.profile_id == profile_id)
                             .unwrap();
-                        */
 
-                        server::ClientStatus::ProfileContents {
-                            profile_id,
-                            profile: server::PlayerProfile {
-                                team_id: survarium::player_profile::raw::game_team_id::team_1,
-                                is_local: true,
-                                profile_name: "Clown".to_string(),
-                            },
-                            revision: 0,
-                        }
+                        server::ClientStatus::ProfileContents(profile.clone())
                     }
 
                     // @TODO
@@ -218,14 +233,16 @@ impl ServerState {
                         name: connection_state.name.clone(),
                     },
 
-                    client::QueryClientStatus::PlayerSkills => server::ClientStatus::PlayerSkills {
-                        profile_id: 10,         // TODO
-                        skill_points_total: 40, // TODO
-                        current_exp: 1000,      // TODO
-                        prev_level_exp: 800,    // TODO
-                        next_level_exp: 1300,   // TODO
-                        player_skills: connection_state.player_skills,
-                    },
+                    client::QueryClientStatus::PlayerSkills { profile_id } => {
+                        server::ClientStatus::PlayerSkills {
+                            profile_id,
+                            skill_points_total: 40, // TODO
+                            current_exp: 1000,      // TODO
+                            prev_level_exp: 800,    // TODO
+                            next_level_exp: 1300,   // TODO
+                            player_skills: connection_state.player_skills,
+                        }
+                    }
 
                     client::QueryClientStatus::ServicePrices => {
                         server::ClientStatus::ServicePrices {
@@ -239,6 +256,58 @@ impl ServerState {
                         server::ClientStatus::PlayerReputations(connection_state.reps)
                     }
 
+                    client::QueryClientStatus::PlayerEloRating => {
+                        server::ClientStatus::PlayerEloRating {
+                            place: 1,
+                            elo: 100,
+                            last_elo: 102,
+                        }
+                    }
+
+                    client::QueryClientStatus::PlayerQuestList => {
+                        server::ClientStatus::PlayerQuestList {
+                            player_quest_list: vec![],
+                        }
+                    }
+
+                    client::QueryClientStatus::PlayerServices => {
+                        server::ClientStatus::PlayerServices {
+                            loaylties: vec![
+                                server::Loaylty::Premium {
+                                    premium_hours_left: 1000,
+                                },
+                                server::Loaylty::Faction {
+                                    faction_id: faction_id::scavengers,
+                                    loaylty_value: 10,
+                                },
+                                server::Loaylty::Faction {
+                                    faction_id: faction_id::black_market,
+                                    loaylty_value: 10,
+                                },
+                                server::Loaylty::Faction {
+                                    faction_id: faction_id::army,
+                                    loaylty_value: 10,
+                                },
+                                server::Loaylty::Faction {
+                                    faction_id: faction_id::fringe_settlers,
+                                    loaylty_value: 10,
+                                },
+                            ],
+                        }
+                    }
+
+                    client::QueryClientStatus::UnlockedFactionsMask => {
+                        server::ClientStatus::UnlockedFactionsMask { mask: 0b1111 }
+                    }
+
+                    client::QueryClientStatus::PlayersTotalCount => {
+                        server::ClientStatus::PlayersTotalCount { player_count: 5000 }
+                    }
+
+                    client::QueryClientStatus::ShopItems => server::ClientStatus::ShopItems {
+                        shop_items: Vec::new(),
+                    },
+
                     // TODO
                     status => {
                         println!("Next: {status:?}");
@@ -248,9 +317,11 @@ impl ServerState {
 
                 Some(server::Message::ClientStatus(status))
             }
+            // TODO: Ignored for now
+            client::Message::Unknown { id, profile_id } => None,
             client::Message::QuerySquadInfo { .. } => {
                 // TODO: Ignored for now
-                None
+                Some(server::Message::SquadInfo {})
             }
         }
     }
