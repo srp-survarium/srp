@@ -42,7 +42,7 @@ pub struct Cli {
         short,
         long,
         value_hint = clap::ValueHint::FilePath,
-        default_value = "D:\\Projects\\Survarium\\binaries\\win32\\survarium.pdb",
+        default_value = "D:\\Projects\\Survarium Builds\\survarium_full_020e\\Survarium\\game\\binaries\\x86\\survarium.pdb",
     )]
     pdb_path: std::path::PathBuf,
 
@@ -58,7 +58,7 @@ pub struct Cli {
         short,
         long,
         value_hint = clap::ValueHint::FilePath,
-        default_value = "c:\\survarium\\sources\\vostok\\",
+        default_value = "c:\\survarium.deploy\\sources\\vostok\\",
     )]
     engine_path: String,
 

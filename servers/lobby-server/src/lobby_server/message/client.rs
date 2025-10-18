@@ -85,6 +85,24 @@ pub mod raw {
 
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum lobby_client_message_types_enum_2 {
+        set_status_ready_for_match        = 0x20,
+
+        // survarium::lobby_menu::query_lobby_info
+        // > query_client_status (0x08, 0x0A, 0x12, 0x0E)
+        // > query_prices (1..5)
+        // > request_status_from_server
+        //    > query_client_status (0x00)
+        query_client_status               = 0x21,
+
+
+        // sruvarium::lobby_menu::query_lobby_info
+        // > query_squal_info (through a callback)
+        query_squad_info                  = 0x2A,
+    }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
     pub enum lobby_client_message_types_enum {
         set_status_ready_for_match        = 0x20,
         query_client_status               = 0x21,
@@ -97,21 +115,35 @@ pub mod raw {
         lobby_client_invalid_message_type = 0x2F,
     }
 
+
+    // enum vostok::lobby::query_info_types : __int32
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
     pub enum query_info_types_enum {
-        q_client_state               = 0x0,
-        q_enumerate_profiles         = 0x1,
-        q_profile_contents           = 0x2,
-        q_enumerate_inventory        = 0x3,
-        q_profile_slots_restrictions = 0x4,
-        q_items_compatibility        = 0x5,
-        q_price_items                = 0x6,
-        q_account_money              = 0x7,
-        q_player_skills              = 0x8,
-        q_player_skills_tree         = 0x9,
-        q_service_prices             = 0xA,
-        q_player_reputations         = 0xB,
+        q_client_state                  = 0x0, // +
+        q_enumerate_profiles            = 0x1, // +
+        q_profile_contents              = 0x2, // +
+        q_enumerate_inventory           = 0x3, // +
+        q_price_items                   = 0x4, // +
+        q_account_money                 = 0x5, // +
+        q_player_skills                 = 0x6, // +
+
+        q_player_profile_leveling       = 0x7, // missing?
+
+        q_service_prices                = 0x8, // +
+        q_player_reputations            = 0x9, // +
+        q_players_total_count           = 0xA, // +
+        q_last_played_match_stats       = 0xB, // +
+        q_player_elo_rating             = 0xC, // +
+        q_players_elo_list              = 0xD, // +
+        q_player_quest_list             = 0xE, // +
+        q_player_match_stats            = 0xF, // +
+        q_player_services               = 0x10, // +
+
+        q_squad_member_profile_contents = 0x11, // - reee, don't wanna
+
+        q_shop_items                    = 0x12, // +
+        q_unlocked_factions_mask        = 0x13, // +
     }
 
     #[repr(u8)]
@@ -186,16 +218,6 @@ impl Deserialize for Message {
             lobby_client_message_types_enum::query_client_status => {
                 let query_info_type = advance_buffer::<query_info_types_enum>(buffer)?;
                 let query_client_status = match query_info_type {
-                    query_info_types_enum::q_profile_contents => {
-                        let profile_id = advance_buffer::<u32>(buffer)?;
-                        QueryClientStatus::ProfileContents { profile_id }
-                    }
-
-                    query_info_types_enum::q_price_items => {
-                        let faction_id = advance_buffer::<faction_id>(buffer)?;
-                        QueryClientStatus::PriceItems(faction_id)
-                    }
-
                     query_info_types_enum::q_client_state => {
                         advance_padding::<3>(buffer)?;
                         QueryClientStatus::ClientState
@@ -206,19 +228,19 @@ impl Deserialize for Message {
                         QueryClientStatus::EnumerateProfiles
                     }
 
+                    query_info_types_enum::q_profile_contents => {
+                        let profile_id = advance_buffer::<u32>(buffer)?;
+                        QueryClientStatus::ProfileContents { profile_id }
+                    }
+
                     query_info_types_enum::q_enumerate_inventory => {
                         advance_padding::<3>(buffer)?;
                         QueryClientStatus::EnumerateInventory
                     }
 
-                    query_info_types_enum::q_profile_slots_restrictions => {
-                        advance_padding::<3>(buffer)?;
-                        QueryClientStatus::ProfileSlotsRestrictions
-                    }
-
-                    query_info_types_enum::q_items_compatibility => {
-                        advance_padding::<3>(buffer)?;
-                        QueryClientStatus::ItemsCompatibility
+                    query_info_types_enum::q_price_items => {
+                        let faction_id = advance_buffer::<faction_id>(buffer)?;
+                        QueryClientStatus::PriceItems(faction_id)
                     }
 
                     query_info_types_enum::q_account_money => {
@@ -231,9 +253,8 @@ impl Deserialize for Message {
                         QueryClientStatus::PlayerSkills
                     }
 
-                    query_info_types_enum::q_player_skills_tree => {
-                        advance_padding::<3>(buffer)?;
-                        QueryClientStatus::PlayerSkillsTree
+                    query_info_types_enum::q_player_profile_leveling => {
+                        todo!()
                     }
 
                     query_info_types_enum::q_service_prices => {
@@ -245,6 +266,23 @@ impl Deserialize for Message {
                         advance_padding::<3>(buffer)?;
                         QueryClientStatus::PlayerReputations
                     }
+
+                    query_info_types_enum::q_players_total_count => todo!(),
+                    query_info_types_enum::q_last_played_match_stats => todo!(),
+                    query_info_types_enum::q_player_elo_rating => todo!(),
+                    query_info_types_enum::q_players_elo_list => todo!(),
+                    query_info_types_enum::q_player_quest_list => {
+                        todo!();
+                        todo!();
+                    }
+                    query_info_types_enum::q_player_match_stats => todo!(),
+                    query_info_types_enum::q_player_services => todo!(),
+                    query_info_types_enum::q_squad_member_profile_contents => todo!(),
+                    query_info_types_enum::q_shop_items => {
+                        todo!();
+                        todo!();
+                    }
+                    query_info_types_enum::q_unlocked_factions_mask => todo!(),
                 };
 
                 Self::QueryClientStatus(query_client_status)
