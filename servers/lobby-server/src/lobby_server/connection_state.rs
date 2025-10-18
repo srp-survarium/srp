@@ -136,23 +136,31 @@ impl ConnectionState {
             reps: [
                 server::raw::player_reputation {
                     faction_id: faction_id::scavengers,
-                    padding: Default::default(),
+                    unlocked: true,
                     reputation_points: 100,
+                    padding_1: Default::default(),
+                    padding_2: Default::default(),
                 },
                 server::raw::player_reputation {
                     faction_id: faction_id::black_market,
-                    padding: Default::default(),
+                    unlocked: true,
                     reputation_points: 200,
+                    padding_1: Default::default(),
+                    padding_2: Default::default(),
                 },
                 server::raw::player_reputation {
                     faction_id: faction_id::army,
-                    padding: Default::default(),
+                    unlocked: true,
                     reputation_points: 300,
+                    padding_1: Default::default(),
+                    padding_2: Default::default(),
                 },
                 server::raw::player_reputation {
                     faction_id: faction_id::fringe_settlers,
-                    padding: Default::default(),
+                    unlocked: true,
                     reputation_points: 400,
+                    padding_1: Default::default(),
+                    padding_2: Default::default(),
                 },
             ],
         }

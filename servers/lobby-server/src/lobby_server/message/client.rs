@@ -12,6 +12,7 @@ pub enum Message {
     InventoryAction(Vec<InventoryAction>),
     ShopAction(ShopAction),
     SkillsTreeAction(SkillsTreeAction),
+    QuerySquadInfo {},
 
     SignInInfo { session_id: u32 },
     PingServer { alive_ms: u32 },
@@ -23,14 +24,24 @@ pub enum QueryClientStatus {
     EnumerateProfiles,
     ProfileContents { profile_id: u32 },
     EnumerateInventory,
-    ProfileSlotsRestrictions,
-    ItemsCompatibility,
     PriceItems(faction_id),
     AccountMoney,
     PlayerSkills,
-    PlayerSkillsTree,
+
+    // PlayerProfileLeveling,
     ServicePrices,
     PlayerReputations,
+
+    PlayersTotalCount,
+    LastPlayedMatchStats,
+    PlayerEloRating,
+    PlayersEloList,
+    PlayerQuestList,
+    PlayerMatchStats,
+    PlayerServices,
+    SquadMemberProfileContents,
+    ShopItems,
+    UnlockedFactionsMask,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -85,7 +96,7 @@ pub mod raw {
 
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
-    pub enum lobby_client_message_types_enum_2 {
+    pub enum lobby_client_message_types_enum {
         set_status_ready_for_match        = 0x20,
 
         // survarium::lobby_menu::query_lobby_info
@@ -95,23 +106,17 @@ pub mod raw {
         //    > query_client_status (0x00)
         query_client_status               = 0x21,
 
-
-        // sruvarium::lobby_menu::query_lobby_info
-        // > query_squal_info (through a callback)
-        query_squad_info                  = 0x2A,
-    }
-
-    #[repr(u8)]
-    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
-    pub enum lobby_client_message_types_enum {
-        set_status_ready_for_match        = 0x20,
-        query_client_status               = 0x21,
         inventory_action                  = 0x23,
         shop_action                       = 0x24,
         skills_tree_action                = 0x25,
         lobby_client_sign_in_info         = 0x26,
         discard_playing_order             = 0x27, // when disconnected from match (manually)
         ping_server                       = 0x28,
+
+        // sruvarium::lobby_menu::query_lobby_info
+        // > query_squal_info (through a callback)
+        query_squad_info                  = 0x2A,
+
         lobby_client_invalid_message_type = 0x2F,
     }
 
@@ -254,7 +259,7 @@ impl Deserialize for Message {
                     }
 
                     query_info_types_enum::q_player_profile_leveling => {
-                        todo!()
+                        unreachable!("Missing?")
                     }
 
                     query_info_types_enum::q_service_prices => {
@@ -267,22 +272,50 @@ impl Deserialize for Message {
                         QueryClientStatus::PlayerReputations
                     }
 
-                    query_info_types_enum::q_players_total_count => todo!(),
-                    query_info_types_enum::q_last_played_match_stats => todo!(),
-                    query_info_types_enum::q_player_elo_rating => todo!(),
-                    query_info_types_enum::q_players_elo_list => todo!(),
+                    //
+                    //
+                    //
+                    query_info_types_enum::q_players_total_count => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::PlayersTotalCount
+                    }
+
+                    query_info_types_enum::q_last_played_match_stats => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::LastPlayedMatchStats
+                    }
+                    query_info_types_enum::q_player_elo_rating => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::PlayerEloRating
+                    }
+                    query_info_types_enum::q_players_elo_list => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::PlayersEloList
+                    }
                     query_info_types_enum::q_player_quest_list => {
-                        todo!();
-                        todo!();
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::PlayerQuestList
                     }
-                    query_info_types_enum::q_player_match_stats => todo!(),
-                    query_info_types_enum::q_player_services => todo!(),
-                    query_info_types_enum::q_squad_member_profile_contents => todo!(),
+                    query_info_types_enum::q_player_match_stats => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::PlayerMatchStats
+                    }
+                    query_info_types_enum::q_player_services => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::PlayerServices
+                    }
+                    query_info_types_enum::q_squad_member_profile_contents => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::SquadMemberProfileContents
+                    }
                     query_info_types_enum::q_shop_items => {
-                        todo!();
-                        todo!();
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::ShopItems
                     }
-                    query_info_types_enum::q_unlocked_factions_mask => todo!(),
+                    query_info_types_enum::q_unlocked_factions_mask => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::UnlockedFactionsMask
+                    }
                 };
 
                 Self::QueryClientStatus(query_client_status)
@@ -439,8 +472,12 @@ impl Deserialize for Message {
                 Self::PingServer { alive_ms }
             }
 
+            lobby_client_message_types_enum::query_squad_info => Self::QuerySquadInfo {},
+
             lobby_client_message_types_enum::lobby_client_invalid_message_type => {
-                todo!()
+                return Err(DeserializeError::UnknownMessageType(
+                    lobby_client_message_types_enum::lobby_client_invalid_message_type as u8,
+                ));
             }
         };
 

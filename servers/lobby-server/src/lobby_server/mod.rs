@@ -67,9 +67,12 @@ impl ServerState {
             }
 
             // @TODO: Currently we allow all inventory actions :shrug:
-            client::Message::InventoryAction(actions) if actions.is_empty() => Some(
-                server::Message::OperationDenied(server::Operation::Inventory),
-            ),
+            client::Message::InventoryAction(actions) if actions.is_empty() => {
+                Some(server::Message::OperationDenied {
+                    operation: server::Operation::Inventory,
+                    reason: "Because I don't like you".to_string(),
+                })
+            }
 
             client::Message::InventoryAction(actions) => {
                 let mut profile_contents = connection_state.profile_contents.clone();
@@ -103,9 +106,10 @@ impl ServerState {
                                 survarium::player_profile::raw::inventory_item_instance::default();
                         }
                         _ => {
-                            return Some(server::Message::OperationDenied(
-                                server::Operation::Inventory,
-                            ));
+                            return Some(server::Message::OperationDenied {
+                                operation: server::Operation::Inventory,
+                                reason: "Unequipped nonequipped".to_string(),
+                            });
                         }
                     }
                 }
@@ -144,11 +148,12 @@ impl ServerState {
             client::Message::QueryClientStatus(status) => {
                 let status = match status {
                     client::QueryClientStatus::ClientState => server::ClientStatus::ClientState {
-                        status: 0,
-                        last_status_message: "last_status_message".to_string(),
+                        state: server::ClientState::SurfLobbyMenu,
+                        last_status_message: None,
                     },
                     client::QueryClientStatus::EnumerateProfiles => {
                         server::ClientStatus::EnumerateProfiles(
+                            // TODO: Remove profile_contents
                             connection_state
                                 .profile_contents
                                 .iter()
@@ -158,34 +163,40 @@ impl ServerState {
                                         .unwrap()
                                         .to_string_lossy()
                                         .to_string(),
+                                    autobuy_items: false,
+                                    skill_points_total: 40,
+                                    current_exp: 1000,
+                                    prev_level_exp: 800,
+                                    next_level_exp: 1300,
+                                    revision: 0,
                                 })
                                 .collect(),
                         )
                     }
 
                     client::QueryClientStatus::ProfileContents { profile_id } => {
-                        server::ClientStatus::ProfileContents(Box::new(
-                            *connection_state
-                                .profile_contents
-                                .iter()
-                                .find(|profile| profile.profile_id == profile_id)
-                                .unwrap(),
-                        ))
+                        /* TODO
+                        let profile = connection_state
+                            .profile_contents
+                            .iter()
+                            .find(|profile| profile.profile_id == profile_id)
+                            .unwrap();
+                        */
+
+                        server::ClientStatus::ProfileContents {
+                            profile_id,
+                            profile: server::PlayerProfile {
+                                team_id: survarium::player_profile::raw::game_team_id::team_1,
+                                is_local: true,
+                                profile_name: "Clown".to_string(),
+                            },
+                            revision: 0,
+                        }
                     }
 
                     // @TODO
                     client::QueryClientStatus::EnumerateInventory => {
                         server::ClientStatus::EnumerateInventory(connection_state.inventory.clone())
-                    }
-
-                    // In which slot what type of weapon can be placed.
-                    client::QueryClientStatus::ProfileSlotsRestrictions => {
-                        server::ClientStatus::ProfileSlotsRestrictions(self.restricts.clone())
-                    }
-
-                    // Used to connect ammo and weapons
-                    client::QueryClientStatus::ItemsCompatibility => {
-                        server::ClientStatus::ItemsCompatibility(self.compats.clone())
                     }
 
                     client::QueryClientStatus::PriceItems(faction_id) => {
@@ -204,22 +215,17 @@ impl ServerState {
                     client::QueryClientStatus::AccountMoney => server::ClientStatus::AccountMoney {
                         generic_money: connection_state.generic_money,
                         premium_money: connection_state.premium_money,
-                        skill_points: connection_state.skills_points,
                         name: connection_state.name.clone(),
                     },
 
                     client::QueryClientStatus::PlayerSkills => server::ClientStatus::PlayerSkills {
-                        total_experience: connection_state.total_experience,
-                        next_level_experience: connection_state.next_level_experience,
-                        prev_level_experience: connection_state.prev_level_experience,
+                        profile_id: 10,         // TODO
+                        skill_points_total: 40, // TODO
+                        current_exp: 1000,      // TODO
+                        prev_level_exp: 800,    // TODO
+                        next_level_exp: 1300,   // TODO
                         player_skills: connection_state.player_skills,
                     },
-
-                    client::QueryClientStatus::PlayerSkillsTree => {
-                        server::ClientStatus::PlayerSkillsTree {
-                            skills_tree: self.skills_tree.clone(),
-                        }
-                    }
 
                     client::QueryClientStatus::ServicePrices => {
                         server::ClientStatus::ServicePrices {
@@ -232,9 +238,19 @@ impl ServerState {
                     client::QueryClientStatus::PlayerReputations => {
                         server::ClientStatus::PlayerReputations(connection_state.reps)
                     }
+
+                    // TODO
+                    status => {
+                        println!("Next: {status:?}");
+                        return None;
+                    }
                 };
 
                 Some(server::Message::ClientStatus(status))
+            }
+            client::Message::QuerySquadInfo { .. } => {
+                // TODO: Ignored for now
+                None
             }
         }
     }
@@ -250,9 +266,10 @@ impl ServerState {
                         .cloned()
                         .map(|item_dict_id| server::raw::price_item {
                             item_dict_id,
-                            cost: item_dict_id,
+                            cost: item_dict_id as u32,
                             reputation_level: 0,
-                            padding: Default::default(),
+                            padding_1: Default::default(),
+                            padding_2: Default::default(),
                         })
                         .collect()
                 };

@@ -5,7 +5,8 @@
 if not defined SRP_DIR  set "SRP_DIR=%~dp0"
 if "%SRP_DIR:~-1%"=="\" set "SRP_DIR=%SRP_DIR:~0,-1%"
 
-if not defined SURVARIUM_BIN      set     "SURVARIUM_BIN=D:\Projects\Survarium\binaries\win32"
+if not defined SURVARIUM_BIN      set     "SURVARIUM_BIN=D:\Projects\Survarium Builds\survarium_full_020e\Survarium\game\binaries\x86"
+
 if not defined IDA_HOME           set          "IDA_HOME=C:\Program Files\IDA Free 9.1"
 if not defined SYS_INTERNALS_DIR  set "SYS_INTERNALS_DIR=C:\Program Files\SysinternalsSuite"
 
