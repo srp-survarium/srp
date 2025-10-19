@@ -51,11 +51,13 @@ impl message::ClientMessage {
                         order_id,
                         game_message,
                     } = message;
-                    format!(
-                        "0x{:04X}:{:?}",
-                        order_id.unwrap_or_default().0,
-                        game_message.message_type()
-                    )
+
+                    let order_id = order_id
+                        .map(|order_id| format!("0x{:04X}:", order_id.0))
+                        .unwrap_or_default();
+                    let message_type = game_message.message_type();
+
+                    format!("{order_id}{message_type:?}")
                 })
                 .intersperse_with(|| ", ".to_string())
                 .collect::<String>(),
@@ -96,7 +98,13 @@ impl message::ServerMessage {
                         order_id,
                         game_message,
                     } = message;
-                    format!("0x{:04X}:{:?}", order_id.0, game_message.message_type())
+
+                    let order_id = order_id
+                        .map(|order_id| format!("0x{:04X}:", order_id.0))
+                        .unwrap_or_default();
+                    let message_type = game_message.message_type();
+
+                    format!("{order_id}{message_type:?}")
                 })
                 .intersperse_with(|| ", ".to_string())
                 .collect::<String>(),

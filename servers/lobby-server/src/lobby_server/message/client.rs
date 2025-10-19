@@ -284,6 +284,8 @@ impl Deserialize for Message {
                         QueryClientStatus::PlayerEloRating
                     }
                     query_info_types_enum::q_players_elo_list => {
+                        let _unk1 = advance_buffer::<u32>(buffer)?;
+                        let _unk2 = advance_buffer::<u8>(buffer)?;
                         QueryClientStatus::PlayersEloList
                     }
                     query_info_types_enum::q_player_quest_list => {
