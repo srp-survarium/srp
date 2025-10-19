@@ -273,6 +273,38 @@ impl MatchConnection {
                     first_port_in_range: 26000,
                     last_port_in_range: 26019,
                 });
+                /*
+                 * TODO: Shouldn't be here, but whatever
+                 */
+                use survarium::player_profile;
+                self.send_game_packet(message::ServerGameMessageKind::StaticMatchInfo {
+                    map_id: 5,
+                    map_name: "level_01/evening".to_string(),
+                    match_mode: message::server_message::raw::game_mode_type::gather_victory_items,
+                    player_count: 2,
+                    victory_item_count: 10,
+                    respawn_time: 10,
+                    match_time: 15 * 60,
+                    match_id: 0xFFFF,
+                    wait_player_perceont: 10.,
+                    wait1_time: 10,
+                    wait2_time: 10,
+                    countdown_time: 10,
+                    events_scores: Default::default(),
+                    squads: vec![0, 0],
+                    players: vec![
+                        player_profile::PlayerProfile {
+                            team_id: player_profile::raw::game_team_id::team_1,
+                            is_local: true,
+                            ..player_profile::PlayerProfile::new_dummy(10, "sheepy")
+                        },
+                        player_profile::PlayerProfile {
+                            team_id: player_profile::raw::game_team_id::team_2,
+                            is_local: false,
+                            ..player_profile::PlayerProfile::new_dummy(20, "beauty")
+                        },
+                    ],
+                });
             }
             _ => match kind {
                 message::ClientMessageKind::Low(msg_type) => {

@@ -40,33 +40,49 @@ pub enum ServerGameMessageKind {
         first_port_in_range: u16,
         last_port_in_range: u16,
     },
-    // MatchOptions {
-    //     map_id: u8,
-    //     // 32 chars max
-    //     map_name: String,
-    //     match_mode: game_mode_type,
-    //     player_count: u8,
-    //     victory_item_count: u8,
-    //     respawn_time: u8,
-    //     match_time: u16,
-    // },
-    // SpawnPlayer {
-    //     player_id: u8,
-    //     player: player,
-    // },
-    // ServerPlayerInput {
-    //     player_id: u8,
-    //     player_input: player_input,
-    //     player_state: player_state,
-    //     weapon_state: weapon_state,
-    // },
-    // MatchTimeChanged {
-    //     match_time: u32,
-    // },
+    StaticMatchInfo {
+        map_id: u8,
+        map_name: String, // 32
+        match_mode: game_mode_type,
+        player_count: u8,
+        victory_item_count: u8,
+        respawn_time: u8,
+        match_time: u16,
+        match_id: u32,
+        wait_player_perceont: f32,
+        wait1_time: u8,
+        wait2_time: u8,
+        countdown_time: u8,
+        events_scores: [u16; 21],
+        squads: Vec<u8>,             // squads.len() == player_count
+        players: Vec<PlayerProfile>, // players.len() == player_count
+    }, // MatchOptions {
+       //     map_id: u8,
+       //     // 32 chars max
+       //     map_name: String,
+       //     match_mode: game_mode_type,
+       //     player_count: u8,
+       //     victory_item_count: u8,
+       //     respawn_time: u8,
+       //     match_time: u16,
+       // },
+       // SpawnPlayer {
+       //     player_id: u8,
+       //     player: player,
+       // },
+       // ServerPlayerInput {
+       //     player_id: u8,
+       //     player_input: player_input,
+       //     player_state: player_state,
+       //     weapon_state: weapon_state,
+       // },
+       // MatchTimeChanged {
+       //     match_time: u32,
+       // },
 
-    // PlayerProfile {
-    //     player_profile: Box<PlayerProfile>,
-    // },
+       // PlayerProfile {
+       //     player_profile: Box<PlayerProfile>,
+       // },
 }
 
 pub mod raw {
@@ -196,6 +212,7 @@ impl ServerGameMessageKind {
     pub fn message_type(&self) -> match_server_message_types_enum {
         match self {
             Self::ConnectionSuccessful { .. } => match_server_message_types_enum::match_server_connection_successful,
+            Self::StaticMatchInfo { .. }      => match_server_message_types_enum::static_match_info,
             // Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
             // Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
             // Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
@@ -215,6 +232,45 @@ impl Serialize for ServerGameMessageKind {
             } => {
                 packet.write(first_port_in_range);
                 packet.write(last_port_in_range);
+            }
+            Self::StaticMatchInfo {
+                map_id,
+                map_name,
+                match_mode,
+                player_count,
+                victory_item_count,
+                respawn_time,
+                match_time,
+                match_id,
+                wait_player_perceont,
+                wait1_time,
+                wait2_time,
+                countdown_time,
+                events_scores,
+                squads,
+                players,
+            } => {
+                packet.write(map_id);
+                packet.write_str(&map_name);
+                packet.write(match_mode);
+                packet.write(player_count);
+                packet.write(victory_item_count);
+                packet.write(respawn_time);
+                packet.write(match_time);
+                packet.write(match_id);
+                packet.write(wait_player_perceont);
+                packet.write(wait1_time);
+                packet.write(wait2_time);
+                packet.write(countdown_time);
+                packet.write(events_scores);
+                debug_assert_eq!(squads.len(), player_count as usize);
+                for squad_id in squads {
+                    packet.write(squad_id); // TODO: Function to write buffer
+                }
+                debug_assert_eq!(players.len(), player_count as usize);
+                for player in players {
+                    player.serialize(packet);
+                }
             } // Self::MatchOptions {
               //     map_id,
               //     map_name,
