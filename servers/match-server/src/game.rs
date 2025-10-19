@@ -47,33 +47,7 @@ impl Game {
                 unreachable!("Should already be handled")
             }
             ClientGameMessageKind::GetStartupInfo => {
-                vec![
-                    // ServerGameMessageKind::MatchOptions {
-                    //     map_id: 0,
-                    //     map_name: "level_03_evn".to_string(),
-                    //     // map_name: "level_04".to_string(),
-                    //     // map_name: "lobby_scene".to_string(),
-                    //     match_mode: game_mode_type::gather_victory_items,
-                    //     player_count: 2,
-                    //     victory_item_count: 10, // batteries
-                    //     respawn_time: 10,
-                    //     match_time: 15 * 60,
-                    // },
-                    // ServerGameMessageKind::PlayerProfile {
-                    //     player_profile: Box::new(player_profile::PlayerProfile {
-                    //         team_id: player_profile::raw::game_team_id::team_1,
-                    //         is_local: true,
-                    //         ..player_profile::PlayerProfile::new_dummy(10, "sheepy")
-                    //     }),
-                    // },
-                    // ServerGameMessageKind::PlayerProfile {
-                    //     player_profile: Box::new(player_profile::PlayerProfile {
-                    //         team_id: player_profile::raw::game_team_id::team_2,
-                    //         is_local: false,
-                    //         ..player_profile::PlayerProfile::new_dummy(20, "beauty")
-                    //     }),
-                    // },
-                ]
+                vec![]
             }
             ClientGameMessageKind::JoinMatch { .. } => {
                 vec![

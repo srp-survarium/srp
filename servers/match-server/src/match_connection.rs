@@ -279,7 +279,7 @@ impl MatchConnection {
                 use survarium::player_profile;
                 self.send_game_packet(message::ServerGameMessageKind::StaticMatchInfo {
                     map_id: 5,
-                    map_name: "level_01/evening".to_string(),
+                    map_name: "level_03/evening".to_string(),
                     match_mode: message::server_message::raw::game_mode_type::gather_victory_items,
                     player_count: 2,
                     victory_item_count: 10,
