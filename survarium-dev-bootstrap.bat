@@ -20,7 +20,10 @@ if exist "%SYS_INTERNALS_DIR%\" (
   start "" "%SYS_INTERNALS_DIR%\procexp64.exe"
 )
 
-start "" "%IDA_HOME%\ida.exe"
+tasklist /FI "IMAGENAME eq ida.exe" | find /I "ida.exe" >nul
+if errorlevel 1 (
+    start "" "%IDA_HOME%\ida.exe"
+)
 
 wt ^
 new-tab -d "%SRP_DIR%"       --title "nvim"           powershell -NoExit -Command "nvim +Ex"                                                                           ; ^
