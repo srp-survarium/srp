@@ -51,6 +51,8 @@ impl Type {
             .replace("boost::noncopyable_::noncopyable",                                     "boost::noncopyable")
             .replace("std::basic_string<char,std::char_traits<char>,std::allocator<char> >", "std::string")
             .replace("std::basic_ostream<char,std::char_traits<char> >",                     "std::ostream")
+            .replace("std::basic_istream<char,std::char_traits<char> >",                     "std::istream")
+
 
             .replace(" __cdecl(void)", "()")
             .replace(" __cdecl", "")

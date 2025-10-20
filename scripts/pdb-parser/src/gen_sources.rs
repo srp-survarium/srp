@@ -128,7 +128,7 @@ pub fn dump_sources(
             flags,
         )?;
 
-        module.update_cache(&mut cache);
+        module.update_cache(&mut cache, flags);
         module.write(&output_path, engine_path, flags)?;
     }
 
@@ -462,10 +462,12 @@ impl<'a> Module<'a> {
         Ok(Module { files, typedefs })
     }
 
-    fn update_cache(&self, cache: &mut FunctionCache) {
-        for funs in self.files.values() {
-            for fun in funs.values() {
-                cache.insert_from_source(fun);
+    fn update_cache(&self, cache: &mut FunctionCache, flags: GenFlags) {
+        if !flags.contains(GenFlags::NO_CACHE) {
+            for funs in self.files.values() {
+                for fun in funs.values() {
+                    cache.insert_from_source(fun);
+                }
             }
         }
     }

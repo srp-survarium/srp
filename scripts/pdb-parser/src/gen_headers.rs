@@ -1,5 +1,7 @@
 use std::collections::BTreeSet;
 use std::fmt;
+use std::fs;
+use std::io;
 use std::io::Write;
 
 use pdb::{FallibleIterator, ItemIndex};
@@ -62,7 +64,7 @@ pub fn dump_headers(
             continue;
         };
 
-        let file = create_header_file(&class, header_path.clone())?;
+        let file = create_header_file(&class, header_path.clone(), flags)?;
         write_header_file(&class, header, file)?;
     }
 
@@ -73,6 +75,7 @@ fn build_header<'a>(
     formatter: &Formatter,
     cache: &FunctionCache,
     type_finder: &pdb::TypeFinder<'a>,
+
     class: pdb::TypeIndex,
 ) -> crate::Result<Data<'a>> {
     let mut needed_types = TypeSet::new();
@@ -170,9 +173,11 @@ impl<'p> Data<'p> {
 
     fn add(
         &mut self,
+
         formatter: &Formatter,
         cache: &FunctionCache,
         type_finder: &pdb::TypeFinder<'p>,
+
         type_index: pdb::TypeIndex,
         needed_types: &mut TypeSet,
     ) -> crate::Result<()> {
@@ -238,6 +243,7 @@ impl<'p> Class<'p> {
         formatter: &Formatter,
         cache: &FunctionCache,
         type_finder: &pdb::TypeFinder<'p>,
+
         type_index: pdb::TypeIndex,
         needed_types: &mut TypeSet,
     ) -> crate::Result<()> {
@@ -263,9 +269,11 @@ impl<'p> Class<'p> {
 
     fn add_field(
         &mut self,
+
         formatter: &Formatter,
         cache: &FunctionCache,
         type_finder: &pdb::TypeFinder<'p>,
+
         field: &pdb::TypeData<'p>,
         needed_types: &mut TypeSet,
     ) -> crate::Result<()> {
@@ -350,12 +358,12 @@ impl<'p> Class<'p> {
         data_method_type: pdb::TypeIndex,
     ) -> crate::Result<()> {
         let method = Method::find(
-            &self.orig_name,
-            data_name,
-            data_attributes,
             formatter,
             cache,
             type_finder,
+            &self.orig_name,
+            data_name,
+            data_attributes,
             data_method_type,
         )?;
 
@@ -398,12 +406,13 @@ impl<'p> Class<'p> {
 
 impl Method {
     fn find(
-        class_name: &str,
-        name: pdb::RawString,
-        attributes: pdb::FieldAttributes,
         formatter: &Formatter,
         cache: &FunctionCache,
         type_finder: &pdb::TypeFinder,
+
+        class_name: &str,
+        name: pdb::RawString,
+        attributes: pdb::FieldAttributes,
         type_index: pdb::TypeIndex,
     ) -> crate::Result<Method> {
         match type_finder.find(type_index)?.parse()? {
@@ -418,6 +427,7 @@ impl Method {
                     },
                     Some(FunctionSignature { fn_t, args }) => Method::FromSourceFile { fn_t, args },
                 };
+
                 method.set_method_attributes(attributes);
 
                 Ok(method)
@@ -849,6 +859,7 @@ impl fmt::Display for ForwardReference {
 fn create_header_file(
     class: &pdb::ClassType,
     mut header_path: std::path::PathBuf,
+    flags: GenFlags,
 ) -> crate::Result<std::fs::File> {
     const MAX_CLASS_LEN: usize = 140;
 
@@ -871,28 +882,68 @@ fn create_header_file(
 
     let header_name = match header_name.find("::") {
         None => header_name,
-        Some(pos) if header_name.split_at(pos).0.contains('<') => header_name,
         Some(pos) => {
             let namespace = header_name.split_at(pos).0;
-            let header_name = header_name.split_at(pos + "::".len()).1;
 
-            header_path.push(namespace);
-            header_name
+            match namespace.contains('<') {
+                // That means the namespace is actually part of the name.
+                // We don't want to split that.
+                // ```
+                //  network_core<survarium::udp_packet>
+                //              ^         ^
+                // ```
+                true => header_name,
+                false => {
+                    let header_name = header_name.split_at(pos + "::".len()).1;
+
+                    header_path.push(namespace);
+                    header_name
+                }
+            }
         }
     };
 
-    let header_name = header_name
+    std::fs::create_dir_all(&header_path)?;
+
+    let mut header_name = header_name
         .replace(":", "∶")
         .replace("*", "٭")
         .replace("<", "＜")
         .replace(">", "＞");
+    let prefix_pos = header_name.len();
 
-    std::fs::create_dir_all(&header_path)?;
+    if !flags.contains(GenFlags::NO_OVERWRITES) {
+        header_path.push(format!("{header_name}.h"));
+        let file = std::fs::File::create(&header_path)?;
+        return Ok(file);
+    }
 
-    header_path.push(format!("{header_name}.h"));
+    let mut i = 0;
+    header_path.push("dummy"); // `set_file_name` cannot distinguish between file and folder names
 
-    let file = std::fs::File::create(&header_path)?;
-    Ok(file)
+    loop {
+        if i != 0 {
+            use std::fmt::Write;
+
+            header_name.truncate(prefix_pos);
+            write!(&mut header_name, "_{i}").unwrap();
+        }
+
+        header_path.set_file_name(&header_name);
+        header_path.set_extension("h");
+
+        match fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&header_path)
+        {
+            Err(error) if error.kind() == io::ErrorKind::AlreadyExists => {
+                i += 1;
+            }
+            Ok(file) => return Ok(file),
+            Err(error) => return Err(error.into()),
+        }
+    }
 }
 
 fn write_header_file(
