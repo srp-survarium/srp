@@ -1,4 +1,7 @@
-use survarium::player_input::{player, player_input, player_state, weapon_state};
+use survarium::player_input::{
+    player, player_input, player_inventory_slot, player_stamina, player_state, weapon_core,
+    weapon_core_state, weapon_state,
+};
 use survarium::player_profile::raw::player_profile;
 use vostok::network_client::NetworkResponse;
 use vostok::network_packet::Packet;
@@ -60,6 +63,12 @@ pub enum ServerGameMessageKind {
     MatchTimeChanged {
         match_time: u32,
     },
+    SyncResponse {
+        is_connected_bitmask: u32,
+    },
+    GameStatusChanged {
+        game_status: game_status,
+    },
 
     PlayerProfile {
         player_profile: Box<player_profile>,
@@ -116,6 +125,17 @@ pub mod raw {
         capture_neutral_base = 0x1,
         gather_victory_items = 0x2,
         invalid_game_mode    = 0xFF,
+    }
+
+    #[repr(u32)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    #[rustfmt::skip]
+    pub enum game_status {
+        inactive                 = 0x0,
+        waiting_for_first_player = 0x1,
+        waiting_for_players      = 0x2,
+        final_countdown          = 0x3,
+        inprocess                = 0x4,
     }
 }
 
@@ -195,6 +215,8 @@ impl ServerGameMessageKind {
             Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
             Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
             Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
+            Self::SyncResponse { .. }         => match_server_message_types_enum::sync_response,
+            Self::GameStatusChanged { .. }    => match_server_message_types_enum::game_status_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
         }
     }
@@ -231,16 +253,97 @@ impl Serialize for ServerGameMessageKind {
                     orientation,
                     look_pitch,
                     is_alive,
-                    slot_id,
+                    server_current_active_slot,
                     server_target_active_slot,
+                    player_stamina,
+                    player_inventory,
                 } = player;
 
                 packet.write(position);
                 packet.write(orientation);
                 packet.write(look_pitch);
                 packet.write(is_alive);
-                packet.write(slot_id);
+                packet.write(server_current_active_slot);
                 packet.write(server_target_active_slot);
+
+                let player_stamina {
+                    value,
+                    last_spending_time_in_ms,
+                    last_tick_time_in_ms,
+                    lower_threshold_was_reached,
+                } = player_stamina;
+                packet.write(value);
+                packet.write(last_spending_time_in_ms);
+                packet.write(last_tick_time_in_ms);
+                packet.write(lower_threshold_was_reached);
+
+                for item in player_inventory {
+                    match item {
+                        player_inventory_slot::weapon_slot(weapon_core) => {
+                            let weapon_core {
+                                inventory_item,
+                                random_seed,
+                                normal_random_seed,
+                                weapon_target,
+                                old_actions_mask,
+                                ammo_in_magazine,
+                                bullets_in_queue,
+                                fire_queue_type,
+                                ammo_slot,
+                                is_there_chamber_a_round_state,
+                                weapon_core_state,
+                            } = weapon_core;
+
+                            packet.write(inventory_item);
+                            packet.write(random_seed);
+                            packet.write(normal_random_seed);
+                            packet.write(weapon_target);
+                            packet.write(old_actions_mask);
+                            packet.write(ammo_in_magazine);
+                            packet.write(bullets_in_queue);
+                            packet.write(fire_queue_type);
+                            packet.write(ammo_slot);
+                            if let Some(is_there_chamber_a_round_state) =
+                                is_there_chamber_a_round_state
+                            {
+                                packet.write(is_there_chamber_a_round_state);
+                            }
+                            if let Some(weapon_core_state) = weapon_core_state {
+                                let weapon_core_state {
+                                    is_shown,
+                                    active_hands,
+                                    start_transition_time_in_ms_lhs,
+                                    start_transition_time_in_ms_rhs,
+                                    weapon_sound_target_state,
+                                    logic_sprint_target_state,
+                                } = weapon_core_state;
+                                packet.write(is_shown);
+                                packet.write(active_hands);
+                                packet.write(start_transition_time_in_ms_lhs);
+                                packet.write(start_transition_time_in_ms_rhs);
+
+                                packet.write(weapon_sound_target_state.0);
+                                if let Some((interval_id, interval_time)) =
+                                    weapon_sound_target_state.1
+                                {
+                                    packet.write(interval_id);
+                                    packet.write(interval_time);
+                                }
+
+                                packet.write(logic_sprint_target_state.0);
+                                if let Some((interval_id, interval_time)) =
+                                    logic_sprint_target_state.1
+                                {
+                                    packet.write(interval_id);
+                                    packet.write(interval_time);
+                                }
+                            }
+                        }
+                        player_inventory_slot::item_amount(amount) => {
+                            packet.write(amount);
+                        }
+                    }
+                }
             }
 
             Self::ServerPlayerInput { .. } => {
@@ -248,6 +351,14 @@ impl Serialize for ServerGameMessageKind {
             }
             Self::MatchTimeChanged { match_time } => {
                 packet.write(match_time);
+            }
+
+            Self::SyncResponse {
+                is_connected_bitmask,
+            } => packet.write(is_connected_bitmask),
+
+            Self::GameStatusChanged { game_status } => {
+                packet.write(game_status);
             }
 
             Self::PlayerProfile { player_profile } => {

@@ -230,12 +230,21 @@ impl player_profile {
 
 impl player_profile {
     pub fn new_dummy(account_id: u32, profile_id: u32, profile_name: &str) -> Self {
-        let i = |id, dict_id, condition_or_stack| inventory_item_instance {
+        let a = |id, dict_id, condition_or_stack, amount_in_inventory| inventory_item_instance {
             condition_or_stack,
-            amount_in_inventory: 1,
+            amount_in_inventory,
             id,
             dict_id,
             padding: Default::default(),
+        };
+        let equipment = |dict_id| a(dict_id as u32, dict_id, 100, 1);
+        let ammo = |dict_id, condition_or_stack, amount_in_inventory| {
+            a(
+                dict_id as u32,
+                dict_id,
+                condition_or_stack,
+                amount_in_inventory,
+            )
         };
 
         let mut slots = [inventory_item_instance::default(); 19];
@@ -243,21 +252,21 @@ impl player_profile {
         #[rustfmt::skip]
         {
             use profile_slot_enum::*;
-            slots[boots_slot]   = i(1, 24, 100);
+            // slots[boots_slot]   = i(1, 24, 100);
             // slots[gloves_slot]  = i(2, 40, 20);
             // slots[pants_slot]   = i(3, 46, 30);
-            slots[helmet_slot]  = i(4, 27, 40);
-            slots[mask_slot]    = i(5, 43, 50);
-            slots[torso_slot]   = i(6, 48, 60);
+            // slots[helmet_slot]  = i(4, 27, 40);
+            // slots[mask_slot]    = i(5, 43, 50);
+            // slots[torso_slot]   = i(6, 48, 60);
             // slots[back_slot]    = i(7, 9,  70);
-            slots[weapon1_slot] = i(12, 55, 120);
-            // slots[weapon2_slot] = i(12, 55, 130);
 
-            slots[ammo1_weapon1_slot] = i(33, 53, 500);
-            // slots[ammo2_weapon1_slot] = i(33, 53, 500);
-            // slots[ammo2_weapon1_slot] = i(...);
-            // slots[ammo1_weapon2_slot] = i(...);
-            // slots[ammo2_weapon2_slot] = i(...);
+            slots[weapon1_slot] = equipment(13); // "gameplay/weapons/ak_74u.options"
+            slots[ammo1_weapon1_slot] = ammo(7, 300, 300);
+            slots[ammo2_weapon1_slot] = ammo(7, 300, 300);
+
+            slots[weapon2_slot] = equipment(14); // "gameplay/weapons/rem_700.options"
+            slots[ammo1_weapon2_slot] = ammo(51, 10, 300);
+            slots[ammo2_weapon2_slot] = ammo(51, 10, 300);
         };
 
         if !(3 < profile_name.len() && profile_name.len() < 30) {
