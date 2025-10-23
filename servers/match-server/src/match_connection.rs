@@ -248,7 +248,7 @@ impl MatchConnection {
 
         match self.connection_state {
             ConnectionState::WaitingForConnection => {
-                // assert_eq!(local_sequence_id, 0x0000.into());
+                assert_eq!(local_sequence_id, 0x0000.into());
                 assert_eq!(remote_sequence_id, 0xFFFF.into());
                 assert_eq!(remote_ack_bits, 0x8000_0000_0000_0000);
 
@@ -269,7 +269,42 @@ impl MatchConnection {
                 };
 
                 self.connection_state = ConnectionState::Connected;
-                self.send_game_packet(message::ServerGameMessageKind::ConnectionSuccessful);
+                self.send_game_packet(message::ServerGameMessageKind::ConnectionSuccessful {
+                    first_port_in_range: 26000,
+                    last_port_in_range: 26019,
+                });
+                /*
+                 * TODO: Shouldn't be here, but whatever
+                 */
+                use survarium::player_profile;
+                self.send_game_packet(message::ServerGameMessageKind::StaticMatchInfo {
+                    map_id: 5,
+                    map_name: "level_03/evening".to_string(),
+                    match_mode: message::server_message::raw::game_mode_type::gather_victory_items,
+                    player_count: 2,
+                    victory_item_count: 10,
+                    respawn_time: 10,
+                    match_time: 15 * 60,
+                    match_id: 0xFFFF,
+                    wait_player_perceont: 10.,
+                    wait1_time: 10,
+                    wait2_time: 10,
+                    countdown_time: 10,
+                    events_scores: Default::default(),
+                    squads: vec![0, 0],
+                    players: vec![
+                        player_profile::PlayerProfile {
+                            team_id: player_profile::raw::game_team_id::team_1,
+                            is_local: true,
+                            ..player_profile::PlayerProfile::new_dummy(10, "sheepy")
+                        },
+                        player_profile::PlayerProfile {
+                            team_id: player_profile::raw::game_team_id::team_2,
+                            is_local: false,
+                            ..player_profile::PlayerProfile::new_dummy(20, "beauty")
+                        },
+                    ],
+                });
             }
             _ => match kind {
                 message::ClientMessageKind::Low(msg_type) => {
@@ -328,11 +363,17 @@ impl MatchConnection {
     //
 
     fn send_game_packet(&mut self, game_message: message::ServerGameMessageKind) {
-        self.server_order_id += 1.into();
+        let order_id = match game_message.message_type().is_ordered() {
+            true => {
+                self.server_order_id += 1.into();
+                Some(self.server_order_id)
+            }
+            false => None,
+        };
 
         self.send_packet(message::ServerMessageKind::Messages(vec![
             message::ServerGameMessage {
-                order_id: self.server_order_id,
+                order_id,
                 game_message,
             },
         ]));
@@ -367,16 +408,18 @@ impl MatchConnection {
         server_sequence_id: SN16,
         server_ack_bits: u64, // server packets which were acknowledged by the client
     ) {
+        const BITS_SIZE: i32 = 64;
+        const LAST_BIT: u64 = 0x8000_0000_0000_0000;
         //
         // Updates info on the client packages received
         //
         let diff = client_sequence_id - self.client_sequence_id;
 
         let mut client_ack_bits = 0;
-        if diff < 0x10 {
+        if diff < BITS_SIZE {
             client_ack_bits = self.client_ack_bits >> diff;
         }
-        client_ack_bits |= 0x8000;
+        client_ack_bits |= LAST_BIT;
 
         self.client_ack_bits = client_ack_bits;
         self.client_sequence_id = client_sequence_id;
@@ -400,8 +443,8 @@ impl MatchConnection {
             // Simply mark this packet as acknowledged.
 
             let diff = self.server_received_sequence_id - server_sequence_id;
-            if diff <= 15 {
-                self.server_received_ack_bits |= 1 << (15 - diff);
+            if diff <= BITS_SIZE - 1 {
+                self.server_received_ack_bits |= 1 << (BITS_SIZE - 1 - diff);
             }
 
             self.unacknowledged_packets.remove(&server_sequence_id);
@@ -410,7 +453,7 @@ impl MatchConnection {
 
             let diff = server_sequence_id - self.server_received_sequence_id;
 
-            let last_server_received_ack_bits = if diff < 16 {
+            let last_server_received_ack_bits = if diff < BITS_SIZE {
                 self.server_received_ack_bits >> diff
             } else {
                 0
@@ -429,7 +472,7 @@ impl MatchConnection {
             let mut sequence_id = server_sequence_id.0;
 
             while acknowledgment_bits != 0 {
-                if (acknowledgment_bits & 0x8000) != 0 {
+                if (acknowledgment_bits & LAST_BIT) != 0 {
                     self.unacknowledged_packets.remove(&sequence_id.into());
                 }
                 sequence_id = sequence_id.wrapping_sub(1);

@@ -1,8 +1,9 @@
 use crate::network_packet::Packet;
 
+// TODO: shouldn't be on stack
 #[derive(Copy, Clone)]
 pub struct UdpPacket {
-    buffer: [u8; 256],
+    buffer: [u8; 1472],
     idx: usize,
 }
 impl Packet for UdpPacket {
@@ -31,7 +32,7 @@ impl Default for UdpPacket {
 impl UdpPacket {
     pub fn new() -> Self {
         Self {
-            buffer: [0; 256],
+            buffer: [0; 1472],
             idx: 0,
         }
     }

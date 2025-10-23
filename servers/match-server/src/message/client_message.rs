@@ -78,6 +78,19 @@ pub mod raw {
     }
 }
 
+impl match_client_message_types_enum {
+    // vostok::network_core::udp_match_message_type_info*
+    //  survarium::network_packets_orderer<
+    //      enum vostok::match::client::messages_enum,
+    //      enum vostok::match::server::messages_enum
+    //  >::get_sending_message_info
+    //
+    // TODO: All reliable, none ordered (interesting)
+    pub fn is_ordered(&self) -> bool {
+        false
+    }
+}
+
 impl NetworkRequest for ClientMessage {}
 
 impl Deserialize for ClientMessage {
@@ -151,11 +164,9 @@ impl ClientGameMessage {
     fn parse(out_buffer: &mut &[u8]) -> Result<Self, DeserializeError> {
         let msg_type = advance_buffer::<match_client_message_types_enum>(out_buffer)?;
 
-        let order_id = if msg_type == match_client_message_types_enum::connection_request {
-            // @TODO:
-            None
-        } else {
-            Some(advance_buffer::<SN16>(out_buffer)?)
+        let order_id = match msg_type.is_ordered() {
+            true => Some(advance_buffer::<SN16>(out_buffer)?),
+            false => None,
         };
         let game_message = ClientGameMessageKind::parse(msg_type, out_buffer)?;
         Ok(Self {

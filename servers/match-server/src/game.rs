@@ -47,74 +47,52 @@ impl Game {
                 unreachable!("Should already be handled")
             }
             ClientGameMessageKind::GetStartupInfo => {
-                vec![
-                    ServerGameMessageKind::MatchOptions {
-                        map_id: 0,
-                        map_name: "level_03_evn".to_string(),
-                        // map_name: "level_04".to_string(),
-                        // map_name: "lobby_scene".to_string(),
-                        match_mode: game_mode_type::gather_victory_items,
-                        player_count: 2,
-                        victory_item_count: 10, // batteries
-                        respawn_time: 10,
-                        match_time: 15 * 60,
-                    },
-                    ServerGameMessageKind::PlayerProfile {
-                        player_profile: Box::new(player_profile::raw::player_profile {
-                            team: player_profile::raw::game_team_id::team_1,
-                            is_local: true,
-                            ..player_profile::raw::player_profile::new_dummy(0, 0, "sheepy")
-                        }),
-                    },
-                    ServerGameMessageKind::PlayerProfile {
-                        player_profile: Box::new(player_profile::raw::player_profile {
-                            team: player_profile::raw::game_team_id::team_2,
-                            is_local: false,
-                            ..player_profile::raw::player_profile::new_dummy(0, 0, "beauty")
-                        }),
-                    },
-                ]
+                vec![]
             }
             ClientGameMessageKind::JoinMatch { .. } => {
-                vec![ServerGameMessageKind::SpawnPlayer {
-                    player_id: 0,
-                    player: survarium::player_input::player {
-                        position: float3 {
-                            // x: 10.,
-                            // y: 10.,
-                            // z: 25.,
-                            x: -10.33856,
-                            y: 47.47741,
-                            z: -25.15140,
-                        },
-                        orientation: 10.,
-                        look_pitch: 10.,
-                        is_alive: true,
-                        slot_id: profile_slot_enum::weapon1_slot,
-                        server_target_active_slot: profile_slot_enum::weapon1_slot,
-                    },
-                }]
+                vec![
+                    // ServerGameMessageKind::SpawnPlayer {
+                    // player_id: 0,
+                    // player: survarium::player_input::player {
+                    //     position: float3 {
+                    //         // x: 10.,
+                    //         // y: 10.,
+                    //         // z: 25.,
+                    //         x: -10.33856,
+                    //         y: 47.47741,
+                    //         z: -25.15140,
+                    //     },
+                    //     orientation: 10.,
+                    //     look_pitch: 10.,
+                    //     is_alive: true,
+                    //     slot_id: profile_slot_enum::weapon1_slot,
+                    //     server_target_active_slot: profile_slot_enum::weapon1_slot,
+                    // },
+                // }
+                ]
             }
             ClientGameMessageKind::ClientPlayerUpdate { .. } => vec![],
             ClientGameMessageKind::TeamBasesInitializeInfo { .. } => {
-                vec![ServerGameMessageKind::SpawnPlayer {
-                    player_id: 1,
-                    player: survarium::player_input::player {
-                        position: float3 {
-                            // x: 12.,
-                            // y: 10.,
-                            // z: 27.,
-                            x: -9.33856,
-                            y: 47.47741,
-                            z: -25.15140,
-                        },
-                        orientation: 10.,
-                        look_pitch: 0.2,
-                        is_alive: true,
-                        slot_id: profile_slot_enum::weapon1_slot,
-                        server_target_active_slot: profile_slot_enum::weapon1_slot,
-                    },
-                }]
+                vec![
+                    // ServerGameMessageKind::SpawnPlayer {
+                    // player_id: 1,
+                    // player: survarium::player_input::player {
+                    //     position: float3 {
+                    //         // x: 12.,
+                    //         // y: 10.,
+                    //         // z: 27.,
+                    //         x: -9.33856,
+                    //         y: 47.47741,
+                    //         z: -25.15140,
+                    //     },
+                    //     orientation: 10.,
+                    //     look_pitch: 0.2,
+                    //     is_alive: true,
+                    //     slot_id: profile_slot_enum::weapon1_slot,
+                    //     server_target_active_slot: profile_slot_enum::weapon1_slot,
+                    // },
+                // }
+                ]
             }
         }
     }

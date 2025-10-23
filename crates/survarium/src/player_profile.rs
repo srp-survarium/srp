@@ -248,16 +248,16 @@ impl PlayerProfile {
         #[rustfmt::skip]
         {
             use profile_slot_enum::*;
-            slots[boots_slot]   = equipment(85); // "gameplay/items/armour/boots/edge_boots_1.options"
-            slots[gloves_slot]  = equipment(41); // "gameplay/items/armour/gloves/scavenger_gloves_1.options"
-            slots[pants_slot]   = equipment(84); // "gameplay/items/armour/legs/edge_legs_1.options"
-            slots[helmet_slot]  = equipment(86); // "gameplay/items/armour/helmet/edge_helmet_1.options"
+            // slots[boots_slot]   = equipment(85); // "gameplay/items/armour/boots/edge_boots_1.options"
+            // slots[gloves_slot]  = equipment(41); // "gameplay/items/armour/gloves/scavenger_gloves_1.options"
+            // slots[pants_slot]   = equipment(84); // "gameplay/items/armour/legs/edge_legs_1.options"
+            // slots[helmet_slot]  = equipment(86); // "gameplay/items/armour/helmet/edge_helmet_1.options"
 
             // slots[mask_slot]    = i(4, 27, 40);
 
-            slots[torso_slot]   = equipment(83); // "gameplay/items/armour/torso/edge_torso_1.options"
-            slots[back_slot]    = equipment(87); // "gameplay/items/armour/back/edge_back_1.options"
-            slots[weapon1_slot] = equipment(109);
+            // slots[torso_slot]   = equipment(83); // "gameplay/items/armour/torso/edge_torso_1.options"
+            // slots[back_slot]    = equipment(87); // "gameplay/items/armour/back/edge_back_1.options"
+            // slots[weapon1_slot] = equipment(109);
 
             // slots[weapon2_slot] = i(12, 55, 130);
 

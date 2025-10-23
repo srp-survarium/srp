@@ -140,6 +140,12 @@ fn main() {
                         eprintln!("{:?}: {}: player_id: {}", kind, msg_type, msg[0]);
                         println!("{:?}: {}: player_id: {}", kind, msg_type, msg[0]);
                     }
+                    0x50 => {
+                        let first_port = u16::from_le_bytes(msg[0..2].try_into().unwrap());
+                        let last_port = u16::from_le_bytes(msg[2..4].try_into().unwrap());
+                        eprintln!("{:?}: {}: {first_port}:{last_port}", kind, msg_type);
+                        println!("{:?}: {}: {first_port}:{last_port}", kind, msg_type);
+                    }
                     _ => {
                         eprintln!("{:?}: {}", kind, msg_type);
                         println!("{:?}: {}", kind, msg_type);

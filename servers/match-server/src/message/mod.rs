@@ -21,6 +21,7 @@ pub mod raw {
         continuous_flow        = 0x2,
     }
 
+    // TODO: I think this now means something aka `has_low_level_messages`
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
     #[rustfmt::skip]
