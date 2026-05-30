@@ -2,17 +2,23 @@
 
 ## Goal
 
-Today the four servers only work for **one client on `127.0.0.1`**. Two things
-must become true:
+SRP is a **mock** server (see `CLAUDE.md`): it returns canned, wire-compatible
+responses to drive the real client — the authoritative game logic stays in the
+C++ Vostok engine. The goal here is **not** a full server rewrite. It is to make
+the mock **usable** in two new ways:
 
-1. **Remote**: a real Survarium client on another machine can connect through a
-   server hosted at a public address (a VPS / "my own server").
-2. **Multi-client**: several clients can be signed in simultaneously and **play
-   the same match together**, seeing each other move and shoot.
+1. **Remote**: a real Survarium client on another machine can connect through the
+   mock hosted at a public address (a VPS / "my own server"), not just loopback.
+2. **Multi-client**: several clients can be signed in at once and end up in the
+   **same match**, seeing each other — implemented as a **mock relay** (fan a
+   client's updates out to the others), *not* an authoritative simulation.
+
+Keep it minimal: do the least that makes the mock usable for N clients. Don't
+add real game simulation, economy, or persistence — those belong in the engine.
 
 This is staged so each phase is independently shippable and testable against the
 real client. Every numbered item below should be **its own commit**. "General
-improvement" items (refactors, error handling, async) are also their own
+improvement" items (refactors, error handling, logging) are also their own
 commits, kept separate from behavioural changes.
 
 Status legend: ⬜ todo · 🔄 doing · ✅ done. Keep this in sync with `WORK.md`.
@@ -85,40 +91,44 @@ lobby.
 **Exit criterion:** the lobby can route two clients into the *same* match on
 opposite (or same) teams.
 
-## Phase 4 — Multi-client match server (the hard part)
+## Phase 4 — Multi-client match server (mock relay, not a game loop)
 
-`MatchConnection` is one-peer-only. This phase turns the match server into an
-N-peer authoritative game loop. This is the bulk of the real work and should be
-split into several commits as it lands.
+`MatchConnection` is one-peer-only. This phase lets the **mock** accept several
+peers and relay between them so players see each other. It is explicitly **not**
+an authoritative game loop — no real simulation, just enough fan-out to be
+usable. Split into several commits as it lands.
 
 - ⬜ **4.1** *(refactor)* Generalise the UDP transport from "the connection" to
   "a connection in a table keyed by `SocketAddr`/`session_id`". One socket,
   `recv_from` demultiplexes to per-peer `MatchConnection` state. Keep the
   existing reliable-UDP logic per peer.
-- ⬜ **4.2** A single authoritative `Game` shared by all peers (the per-peer
-  channels fan into one game; the game fans out to each peer). Replace the
-  hardcoded second player with **real** connected players.
+- ⬜ **4.2** One mock `Game` shared by all peers (per-peer channels fan in; the
+  game fans out to each peer). Replace the hardcoded second player ("beauty")
+  with the **real** connected players.
 - ⬜ **4.3** Spawn each connected client as its own player; compute
   `is_connected_bitmask` from the live roster instead of `0b0011`.
-- ⬜ **4.4** Route `ClientPlayerUpdate` from each client to **all the others**
-  (broadcast/relay), so players see each other move/shoot. Handle join/leave
-  mid-match.
-- ⬜ **4.5** Tighten the reliability layer for multi-peer: per-peer
-  unacked/retransmit, packet splitting when a tick's messages exceed one
-  datagram, and proper `order_id` handling (currently only partial).
+- ⬜ **4.4** Relay `ClientPlayerUpdate` from each client to **all the others**,
+  so players see each other move/shoot. Handle join/leave mid-match. This is the
+  crux of "multi-client" for a mock — a relay, not authoritative reconciliation.
+- ⬜ **4.5** *(only if needed)* Tighten the reliability layer for multi-peer:
+  per-peer unacked/retransmit, packet splitting when a tick's messages exceed one
+  datagram, `order_id` handling. Do the minimum the relay actually needs.
 
 **Exit criterion:** two real clients move around the same map and see each
-other; a third can join.
+other; a third can join. (Mock-level fidelity — desync vs. the engine is fine.)
 
-## Phase 5 — Hardening for real use
+## Phase 5 — Hardening enough to be usable
 
-- ⬜ **5.1** Timeouts / disconnect detection per peer; clean teardown so one
-  client dropping doesn't desync or panic the match.
-- ⬜ **5.2** Decide threads-vs-async. If peer counts grow, consider `tokio`
-  (already pulled in transitively via `sqlx`/`actix`). This is a big refactor —
-  only do it if Phase 4 shows the thread-per-peer model straining.
-- ⬜ **5.3** Basic load/abuse guards (cap connections, validate session before
-  allocating per-peer state).
+Keep this light — it's a mock test server, not production.
+
+- ⬜ **5.1** Per-peer timeout / disconnect detection and clean teardown so one
+  client dropping doesn't panic the whole mock.
+- ⬜ **5.2** Basic guards: cap connections, validate session before allocating
+  per-peer state, don't `panic!` on malformed input from a remote peer.
+
+> Explicitly **out of scope**: converting to async/`tokio`, a real database, an
+> authoritative simulation. The thread-per-peer model is fine for a mock; revisit
+> only if it actually breaks.
 
 ---
 

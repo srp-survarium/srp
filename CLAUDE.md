@@ -2,10 +2,17 @@
 
 ## What this is
 
-A clean-room reimplementation, in Rust, of the **server side** of Survarium
-v0.100b (an early 2013 build of the Vostok engine). The original game client
-(`survarium.exe`) is unmodified; SRP speaks its network protocol so the client
-can connect, browse the lobby/shop/inventory, and play a match.
+A **mock**, in Rust, of the **server side** of Survarium v0.100b (an early 2013
+build of the Vostok engine). The original game client (`survarium.exe`) is
+unmodified; SRP speaks just enough of its network protocol that the client can
+connect, browse the lobby/shop/inventory, and drop into a match.
+
+**It is a mock, not a reimplementation.** The real server logic lives — and will
+keep living — in the C++ Vostok engine (the sibling `vostok/` repo). SRP does
+not simulate the authoritative game; it returns canned/hardcoded responses that
+are *wire-compatible* enough to drive the client. Many "dummy" values here are
+intentional mock data, not unfinished features. The bar is **"a usable test
+server"**, not "a faithful server rewrite".
 
 This repo is the *server* counterpart to the sibling `vostok/` repo (which
 binary-matches the *engine itself*). Here we do **not** match bytes — we just
@@ -151,11 +158,17 @@ database/schema.sql  # aspirational Postgres schema (NOT wired up yet)
 
 ---
 
-## Known limitations (these are the work surface)
+## Mock simplifications (the work surface)
 
-The servers currently assume **exactly one client and one match**. Making real
-multiplayer work means lifting these. See `PLAN.md` for the staged approach and
-`WORK.md` for the running log.
+Being a mock, the servers currently assume **exactly one client and one match**
+and return mostly canned data. The goal is to make the *mock* reachable remotely
+and usable by **several clients at once** — **not** to grow it into an
+authoritative game server (that stays in the C++ engine). So we lift the
+single-client assumptions only as far as "multiple real clients can connect and
+see each other"; we do **not** add real game simulation, economy, or persistence.
+See `PLAN.md` for the staged approach and `WORK.md` for the running log.
+
+Intentional/mock simplifications that nonetheless block multi-client use:
 
 - **Addresses hardcoded to `127.0.0.1`** in `crates/vostok/src/lib.rs::config`.
   Nothing reads an env var or config file, so the servers can only be reached on

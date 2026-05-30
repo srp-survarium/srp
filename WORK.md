@@ -5,6 +5,33 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Reframe: this is a *mock*, not a server rewrite
+
+User correction: SRP is a **mock** of the server, deliberately not a full
+implementation — the real/authoritative game logic stays in the C++ Vostok
+engine (sibling `vostok/` repo). It must stay a **usable** server, just not a
+rewrite.
+
+### What this changes
+- **`CLAUDE.md`**: reframed "what this is" as a mock; relabelled "Known
+  limitations" → "Mock simplifications" and clarified many dummy values are
+  intentional mock data, and that the goal is multi-client *usability*, not
+  authoritative simulation.
+- **`PLAN.md`**: goal restated as "make the mock usable remotely + multi-client";
+  Phase 4 de-scoped from "authoritative N-peer game loop" to a **mock relay**
+  (fan one client's updates out to others, desync vs. engine is acceptable);
+  Phase 5 trimmed; async/`tokio`, a real DB, and authoritative simulation moved
+  explicitly **out of scope**.
+
+### Why it matters for the work
+The hardest item (Phase 4) shrinks dramatically: we relay rather than simulate.
+Identity/matchmaking (Phases 2–3) only need to be good enough to route real
+clients into one shared relayed match and tell them apart — not a real account
+system. This keeps every commit small and the whole effort proportionate to "a
+usable mock".
+
+---
+
 ## 2026-05-30 — Session start: orientation + scaffolding
 
 ### Context
