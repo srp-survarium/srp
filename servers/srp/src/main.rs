@@ -1,9 +1,7 @@
-//! Unified mock server: runs the login, browser and lobby servers in **one
-//! process** sharing a single [`SessionStore`], so a client signed in at the
-//! login server is recognised by the lobby (see PLAN Phase 2).
-//!
-//! The match server is intentionally **not** part of this process yet — it joins
-//! the shared store in Phase 4.
+//! Unified mock server: runs the login, browser, lobby and match servers in
+//! **one process** sharing a single [`SessionStore`], so a client signed in at
+//! the login server is recognised by the lobby, and the match it was routed to is
+//! recognised by the match server (see PLAN Phases 2–4).
 //!
 //! Each server runs on its own supervised thread: a panic or error in one is
 //! logged and the server is restarted, so no single server can take down the
@@ -34,10 +32,11 @@ fn main() {
 
     let store = Arc::new(SessionStore::new());
 
-    let servers: [(&str, Run); 3] = [
+    let servers: [(&str, Run); 4] = [
         ("login", login_server::run),
         ("browser", browser_server::run),
         ("lobby", lobby_server::run),
+        ("match", match_server::run),
     ];
 
     let handles: Vec<_> = servers
@@ -51,7 +50,7 @@ fn main() {
         })
         .collect();
 
-    log::info!("srp: started login, browser and lobby servers");
+    log::info!("srp: started login, browser, lobby and match servers");
 
     for handle in handles {
         let _ = handle.join();

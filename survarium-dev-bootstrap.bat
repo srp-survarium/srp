@@ -29,10 +29,10 @@ wt ^
 new-tab -d "%SRP_DIR%"       --title "nvim"           powershell -NoExit -Command "nvim +Ex"                                                                           ; ^
 new-tab -d "%SRP_DIR%"       --title "cargo build"    powershell -NoExit -Command "$c='cargo check'                                                  \; iex $c"        ; ^
 new-tab -d "%SRP_DIR%"       --title "srp servers"    powershell -NoExit -Command "$c='cargo run --bin srp'                                          \; iex $c"        ; ^
-new-tab -d "%SRP_DIR%"       --title "match server"   powershell -NoExit -Command "$c='cargo run --bin match-server'                                 \; iex $c"        ; ^
 new-tab -d "%SRP_DIR%"       --title "login log"      powershell -NoExit -Command "while(!(Test-Path logs\login.log)){Start-Sleep -Milliseconds 500}   \; Get-Content -Wait logs\login.log"     ; ^
 new-tab -d "%SRP_DIR%"       --title "lobby log"      powershell -NoExit -Command "while(!(Test-Path logs\lobby.log)){Start-Sleep -Milliseconds 500}   \; Get-Content -Wait logs\lobby.log"     ; ^
 new-tab -d "%SRP_DIR%"       --title "browser log"    powershell -NoExit -Command "while(!(Test-Path logs\browser.log)){Start-Sleep -Milliseconds 500} \; Get-Content -Wait logs\browser.log"   ; ^
+new-tab -d "%SRP_DIR%"       --title "match log"      powershell -NoExit -Command "while(!(Test-Path logs\match.log)){Start-Sleep -Milliseconds 500}   \; Get-Content -Wait logs\match.log"     ; ^
 new-tab -d "%SURVARIUM_BIN%" --title "survarium"      powershell -NoExit -Command "$c='.\survarium.exe -no_splash_screen -client=''127.0.0.1:1234''' \; Write-Host $c" ; ^
 new-tab -d "%SRP_DIR%"       --title "notes"          powershell -NoExit -Command "nvim resources/notes/dev-notes.md"                                                  ; ^
 focus-tab -t 0

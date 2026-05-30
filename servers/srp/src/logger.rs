@@ -18,7 +18,7 @@ use std::sync::Mutex;
 
 use log::{LevelFilter, Log, Metadata, Record};
 
-const SERVERS: [&str; 4] = ["login", "lobby", "browser", "srp"];
+const SERVERS: [&str; 5] = ["login", "lobby", "browser", "match", "srp"];
 
 struct FileLogger {
     level: LevelFilter,
@@ -52,6 +52,8 @@ fn server_for_target(target: &str) -> &'static str {
         "lobby"
     } else if target.starts_with("browser_server") || target.starts_with("actix") {
         "browser"
+    } else if target.starts_with("match_server") {
+        "match"
     } else {
         "srp"
     }

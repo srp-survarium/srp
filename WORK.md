@@ -5,6 +5,21 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 4.0a: match server joins the unified process
+
+Branch `sushi/0.100b/phase4-match` (off Phase 3). Lib-ified the match server
+(`main.rs` → `lib.rs`, `run_match_server` → `pub fn run(store) -> io::Result<()>`
+that loops forever; thin standalone `main.rs` keeps the restart loop). Added it as
+the 4th supervised thread in `srp`, extended the file logger to route
+`match_server` → `match.log`, and pointed both bootstrappers' `match` window at
+`tail`-ing that log (it's no longer a separate `cargo run`).
+
+Verified: `cargo run --bin srp` starts all four servers in one process, the match
+server binds UDP 1236, no panic, all five `logs/*.log` created. `store` is unused
+here (`_store`) — honouring the assignment is the next commit.
+
+---
+
 ## 2026-05-30 — Phase 3 on its own branch; rescoped lobby-side only
 
 Each phase is now its own PR. Phase 3 lives on `sushi/0.100b/phase3-matchmaking`,

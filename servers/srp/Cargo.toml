@@ -14,3 +14,4 @@ session = { workspace = true }
 browser-server = { path = "../browser-server" }
 lobby-server = { path = "../lobby-server" }
 login-server = { path = "../login-server" }
+match-server = { path = "../match-server" }
