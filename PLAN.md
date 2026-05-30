@@ -41,20 +41,21 @@ The blocker is that every "go here next" address is `127.0.0.1`. A remote client
 must be told a **publicly reachable** address, and servers must bind on all
 interfaces.
 
-- ⬜ **1.1** Make server **bind** addresses configurable. Default bind to
+- ✅ **1.1** Make server **bind** addresses configurable. Default bind to
   `0.0.0.0` (all interfaces) instead of `127.0.0.1`, so remote packets arrive.
-- ⬜ **1.2** Separate **bind address** from **advertised address**. The login →
+- ✅ **1.2** Separate **bind address** from **advertised address**. The login →
   browser → lobby → match chain hands the client the *next* server's address;
   that must be the public host the client can route to, which is **not** the
-  same as the bind address. Introduce a config with, per server, `{ bind, port,
-  public_host }`.
-- ⬜ **1.3** Load config from a file + env overrides (e.g. `SRP_CONFIG`,
-  `SRP_PUBLIC_HOST`) instead of compile-time constants in
-  `vostok::config`. Keep the localhost values as the default so the local
-  workflow is unchanged.
+  same as the bind address. `vostok::config` now models per server `{ bind_host,
+  public_host, port }`.
+- ✅ **1.3** Load config from env overrides (`SRP_PUBLIC_HOST`, and per-server
+  `SRP_<SERVER>_{BIND,PUBLIC_HOST,PORT}`) instead of compile-time constants. The
+  localhost values remain the default so the local workflow is unchanged. *(A
+  config-**file** loader was deferred — env covers the single-host VPS case; add
+  a file only if multi-host deployments need it.)*
 - ⬜ **1.4** Verify a full remote sign-in → lobby → match handshake against a
   client pointed at the public host. Document the firewall/port-forward needs
-  (TCP 1234/1235/80, UDP 1236) in README.
+  (TCP 1234/1235/80, UDP 1236) in README. *(Needs the real client + a host.)*
 
 **Exit criterion:** one client on a different machine completes the whole chain
 and spawns into a match hosted on the VPS.

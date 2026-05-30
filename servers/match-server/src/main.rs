@@ -28,9 +28,10 @@ fn run_match_server() {
     let (server_game_message_tx, server_game_message_rx) =
         mpsc::channel::<message::ServerGameMessageKind>();
 
+    let match_server = &config::get().match_server;
     let mut connection: MatchConnection = MatchConnection::wait_for_game_start(
-        config::match_server::ADDRESS,
-        config::match_server::PORT,
+        &match_server.bind_host,
+        match_server.port,
         client_game_message_tx,
         server_game_message_rx,
     );

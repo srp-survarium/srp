@@ -5,6 +5,43 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 1: configurable bind vs advertised addresses
+
+`PLAN.md` 1.1–1.3. Replaced the hardcoded-`127.0.0.1` constants in
+`vostok::config` with a runtime `Config` read once from the environment.
+
+### Decisions taken
+- **Per-server `{ bind_host, public_host, port }`.** The bind host (where we
+  listen) and the public host (what we tell the client to connect to next) are
+  genuinely different on a real deployment — the bind is `0.0.0.0`, the public
+  host is the VPS's routable address. Defaults: bind `0.0.0.0`, public
+  `127.0.0.1`, original ports — so the local workflow is unchanged with no env.
+- **Env, not a config file (for now).** `SRP_PUBLIC_HOST` sets the public host
+  for all four servers at once (the common "one VPS hosts everything" case);
+  `SRP_<SERVER>_{BIND,PUBLIC_HOST,PORT}` override individually. A file loader was
+  considered and **deferred** — it adds a parser dependency and only pays off for
+  multi-host splits, which aren't a current need.
+- **Global `OnceLock` accessor `config::get()`.** Chosen so deep call sites can
+  read config without threading a `Config` through every function — notably the
+  lobby's `Serialize` impl that advertises the match-server address has no other
+  access to runtime state. Initialised lazily from env on first use.
+- **Advertised hosts wired through:** login → browser host (host only; HTTP/80,
+  client appends the path), browser → lobby `public_addr()`, lobby → match
+  `public_host`+`port`. Bind sites (`TcpListener`/`UdpSocket`/actix) use
+  `bind_addr()`.
+
+### Verified
+`cargo check --workspace` clean (only the pre-existing unused-import warning in
+`parse-journal-file`). Behaviour with no env vars is identical to before.
+**Not** yet verified against the real client over a network (PLAN 1.4) — needs a
+client + host; that's the remaining Phase 1 step.
+
+### Not taken
+- Did not touch the match server's single-peer assumption (that's Phase 4).
+- Did not add a `--config`/file format or `clap` plumbing — env is enough.
+
+---
+
 ## 2026-05-30 — Reframe: this is a *mock*, not a server rewrite
 
 User correction: SRP is a **mock** of the server, deliberately not a full

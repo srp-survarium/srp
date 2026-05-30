@@ -23,12 +23,7 @@ const _: () = {
 fn main() -> std::io::Result<()> {
     let state = Arc::new(lobby_server::ServerState::new_dummy());
 
-    let addr = format!(
-        "{}:{}",
-        config::lobby_server::ADDRESS,
-        config::lobby_server::PORT
-    );
-    let listener = TcpListener::bind(&addr)?;
+    let listener = TcpListener::bind(config::get().lobby_server.bind_addr())?;
 
     for stream in listener.incoming() {
         std::thread::spawn({

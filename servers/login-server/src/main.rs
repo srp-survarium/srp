@@ -57,12 +57,7 @@ enum login_client_message_types_enum {
 /// * Have a database for different users and their session ids
 /// * ...many more things
 fn main() -> std::io::Result<()> {
-    let addr = format!(
-        "{}:{}",
-        config::login_server::ADDRESS,
-        config::login_server::PORT
-    );
-    let listener = TcpListener::bind(&addr)?;
+    let listener = TcpListener::bind(config::get().login_server.bind_addr())?;
 
     for stream in listener.incoming() {
         let stream = stream?;
@@ -140,8 +135,11 @@ fn handle_sign_in(mut stream: TcpStream) {
             buffer
                 .push(login_server_message_types_enum::servers_connection_info_message_type as u8);
 
-            buffer.push(config::browser_server::ADDRESS.len() as u8);
-            buffer.extend(config::browser_server::ADDRESS.as_bytes());
+            // Host only: the client talks HTTP to the browser server on the
+            // implicit port 80 and appends `URL_PREFIX` itself.
+            let browser_host = &config::get().browser_server.public_host;
+            buffer.push(browser_host.len() as u8);
+            buffer.extend(browser_host.as_bytes());
             buffer.push(URL_PREFIX.len() as u8);
             buffer.extend(URL_PREFIX);
             buffer.extend(SESSION_ID.to_le_bytes());
