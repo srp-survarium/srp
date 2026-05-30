@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "crates/binary-config-parser",
+  "crates/session",
   "crates/survarium",
   "crates/vostok",
 
@@ -44,5 +45,6 @@ log = "0.4"
 sqlx = { version = "0.8", features = [ "runtime-tokio" ] }
 
 binary-config-parser = { path = "crates/binary-config-parser" }
+session = { path = "crates/session" }
 survarium = { path = "crates/survarium" }
 vostok = { path = "crates/vostok" }
