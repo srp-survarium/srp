@@ -5,6 +5,20 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 2.8: bootstrap tabs tail per-server logs
+
+Updated `survarium-dev-bootstrap.bat`: the four per-server tabs are replaced by
+one "srp servers" tab (`cargo run --bin srp`, combined stdout) plus "login log",
+"lobby log", "browser log" tabs that wait for `logs\<server>.log` and then
+`Get-Content -Wait` it. The match server keeps its own `cargo run --bin
+match-server` tab (still a separate process, Phase 4). Used backslash paths and
+no nested quotes to keep the `wt` quoting sane.
+
+Windows-only; can't run it from this Linux box — needs a manual check on the dev
+machine. This closes the structural part of Phase 2.
+
+---
+
 ## 2026-05-30 — Phase 2.7: wire lobby → session store
 
 `ServerState::run` now takes the shared store; after the client's `SignInInfo`

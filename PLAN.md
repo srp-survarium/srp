@@ -113,11 +113,16 @@ bootstrap scripts tail in separate tabs.
   distinct IP/email now get distinct accounts. *(The lobby snapshots the account;
   live write-back to the store — for the match server to see lobby edits — is left
   to Phase 4.)*
-- ⬜ **2.8** Update **bootstrap scripts** to tail per-server logs in separate tabs.
+- ✅ **2.8** Updated **`survarium-dev-bootstrap.bat`**: one tab runs the unified
+  `srp` binary, the match server keeps its own tab (separate process), and
+  login/lobby/browser each get a tab that tails `logs/<server>.log` (waiting for
+  the file, then `Get-Content -Wait`). *(Windows-only script; not runnable on this
+  Linux box — needs a manual run on the dev machine.)*
 
 **Exit criterion:** two clients sign in with distinct IP/email and see *different*
 accounts in the lobby; one process where no server can crash another; logs still
-separable per server.
+separable per server. *Structurally complete and unit/run-tested on Linux; the
+two-real-clients check needs the game client (PLAN 1.4-style live verification).*
 
 ## Phase 3 — Matchmaking glue (lobby ↔ match)
 
