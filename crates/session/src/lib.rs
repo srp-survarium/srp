@@ -159,6 +159,7 @@ pub struct SessionStore {
     accounts: Mutex<HashMap<u32, Arc<Mutex<Account>>>>,
     sessions: Mutex<HashMap<u32, u32>>, // session_id -> account_id
     next_session_id: AtomicU32,
+    matchmaker: Mutex<Matchmaker>,
 }
 
 impl SessionStore {
@@ -167,6 +168,7 @@ impl SessionStore {
             accounts: Mutex::new(HashMap::new()),
             sessions: Mutex::new(HashMap::new()),
             next_session_id: AtomicU32::new(FIRST_SESSION_ID),
+            matchmaker: Mutex::new(Matchmaker::new()),
         }
     }
 
@@ -202,6 +204,89 @@ impl SessionStore {
     pub fn account_for_session(&self, session_id: u32) -> Option<Arc<Mutex<Account>>> {
         let account_id = *self.sessions.lock().unwrap().get(&session_id)?;
         self.accounts.lock().unwrap().get(&account_id).cloned()
+    }
+
+    /// Place a session into a match, balancing the two teams, and remember the
+    /// assignment. Idempotent: a session that re-readies gets the same match and
+    /// team. The lobby calls this on `ReadyForMatch`; the match server will read
+    /// it back via [`Self::match_assignment`] (Phase 4).
+    pub fn join_match(&self, session_id: u32) -> Assignment {
+        self.matchmaker.lock().unwrap().join(session_id)
+    }
+
+    /// The match/team a session was assigned, if it has readied up.
+    pub fn match_assignment(&self, session_id: u32) -> Option<Assignment> {
+        self.matchmaker.lock().unwrap().assignment_for(session_id)
+    }
+}
+
+/// Where a session was placed: which match, and which team (`1` or `2`).
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct Assignment {
+    pub match_id: u32,
+    pub team_id: u8,
+}
+
+/// First match id handed out. Kept at the historic constant the lobby used to
+/// return, so the first/only client's match is unchanged.
+const FIRST_MATCH_ID: u32 = 0x123;
+/// Players a single match accepts before a new one is opened.
+const MAX_PLAYERS_PER_MATCH: u32 = 20;
+
+/// Minimal mock matchmaker: fills one open match at a time, balancing teams.
+struct Matchmaker {
+    open_match: Option<Match>,
+    next_match_id: u32,
+    assignments: HashMap<u32, Assignment>, // session_id -> assignment
+}
+
+struct Match {
+    id: u32,
+    team_counts: [u32; 2],
+}
+
+impl Matchmaker {
+    fn new() -> Self {
+        Self {
+            open_match: None,
+            next_match_id: FIRST_MATCH_ID,
+            assignments: HashMap::new(),
+        }
+    }
+
+    fn join(&mut self, session_id: u32) -> Assignment {
+        if let Some(assignment) = self.assignments.get(&session_id) {
+            return *assignment;
+        }
+
+        let full = self
+            .open_match
+            .as_ref()
+            .is_none_or(|m| m.team_counts[0] + m.team_counts[1] >= MAX_PLAYERS_PER_MATCH);
+        if full {
+            let id = self.next_match_id;
+            self.next_match_id += 1;
+            self.open_match = Some(Match {
+                id,
+                team_counts: [0, 0],
+            });
+        }
+
+        let current = self.open_match.as_mut().unwrap();
+        // Put the new player on the smaller team (the first player goes to team 1).
+        let team = usize::from(current.team_counts[0] > current.team_counts[1]);
+        current.team_counts[team] += 1;
+
+        let assignment = Assignment {
+            match_id: current.id,
+            team_id: team as u8 + 1,
+        };
+        self.assignments.insert(session_id, assignment);
+        assignment
+    }
+
+    fn assignment_for(&self, session_id: u32) -> Option<Assignment> {
+        self.assignments.get(&session_id).copied()
     }
 }
 
@@ -262,5 +347,33 @@ mod tests {
         let account = store.account_for_session(first_session).unwrap();
         assert_eq!(account.lock().unwrap().id, id);
         assert!(store.account_for_session(0xFFFF_FFFF).is_none());
+    }
+
+    #[test]
+    fn first_match_keeps_the_historic_match_and_team() {
+        let store = SessionStore::new();
+        let assignment = store.join_match(1);
+        assert_eq!(assignment.match_id, FIRST_MATCH_ID);
+        assert_eq!(assignment.team_id, 1);
+    }
+
+    #[test]
+    fn two_sessions_share_a_match_on_opposite_teams() {
+        let store = SessionStore::new();
+        let a = store.join_match(1);
+        let b = store.join_match(2);
+        assert_eq!(a.match_id, b.match_id);
+        assert_eq!(a.team_id, 1);
+        assert_eq!(b.team_id, 2);
+    }
+
+    #[test]
+    fn join_match_is_idempotent_per_session() {
+        let store = SessionStore::new();
+        let first = store.join_match(7);
+        let again = store.join_match(7);
+        assert_eq!(first, again);
+        assert_eq!(store.match_assignment(7), Some(first));
+        assert_eq!(store.match_assignment(999), None);
     }
 }

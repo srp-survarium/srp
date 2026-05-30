@@ -5,6 +5,31 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 3 on its own branch; rescoped lobby-side only
+
+Each phase is now its own PR. Phase 3 lives on `sushi/0.100b/phase3-matchmaking`,
+branched off the Phase-2 branch (`sushi/0.100b/multiplayer`) since it builds on
+the lobby/store from Phase 2 — a stacked PR.
+
+### Decision: Phase 3 is lobby-side only; match honouring → Phase 4
+The original PLAN had the match server learn the roster in 3.2, but matchmaking
+state is shared **in-memory** and the match server is a **separate process** until
+Phase 4 — so it can't read the registry yet. Rather than drag the whole match-into-
+process restructuring into Phase 3, I kept Phase 3 small (lobby side) and moved
+"match honours the assignment" to Phase 4.0, next to the match-server work it
+belongs with. Cleaner PR boundaries; matches the existing "match joins in Phase 4"
+plan.
+
+### 3.1 — matchmaker in `crates/session`
+Added a `Matchmaker` inside `SessionStore`: `join_match(session_id)` fills one
+open match (cap 20) at a time, puts each new player on the smaller team (first
+player → team 1), and is **idempotent per session**; `match_assignment` reads it
+back (for the match server in Phase 4). Seeded at the historic `match_id 0x123`,
+so the first/only client's match + team (`0x123` / `1`) are unchanged. 3 new unit
+tests (7 total in the crate), all passing.
+
+---
+
 ## 2026-05-30 — Linux dev bootstrapper
 
 User asked to make the server runnable from Linux. Added `scripts/dev-bootstrap.sh`

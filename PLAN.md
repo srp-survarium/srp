@@ -124,17 +124,26 @@ accounts in the lobby; one process where no server can crash another; logs still
 separable per server. *Structurally complete and unit/run-tested on Linux; the
 two-real-clients check needs the game client (PLAN 1.4-style live verification).*
 
-## Phase 3 — Matchmaking glue (lobby ↔ match)
+## Phase 3 — Matchmaking glue (lobby side)
 
-- ⬜ **3.1** A match registry: lobby's `ReadyForMatch` allocates/returns a real
-  `match_id` + `team_id` that the match server recognises, instead of the
-  constant `0x123 / 0x1`. Assign teams (balance two sides).
-- ⬜ **3.2** Match server learns the **expected roster** for a `match_id` (who is
-  allowed, which team, which session) before/at connect time, replacing the
-  hardcoded 2-player setup.
+Separate PR. **Scope note:** matchmaking state is shared in-memory, and the match
+server is a *separate process* until Phase 4 — so the match server can't read the
+registry yet. Phase 3 therefore does the **lobby side** only; the match server
+honouring the assignment (the original 3.2) moves to Phase 4, where the match
+server joins the unified process.
 
-**Exit criterion:** the lobby can route two clients into the *same* match on
-opposite (or same) teams.
+- ✅ **3.1** Match registry in `crates/session` (`Matchmaker` inside
+  `SessionStore`): `join_match(session_id)` fills one open match at a time,
+  balancing the two teams, and is idempotent per session; `match_assignment`
+  reads it back. Seeded so the first match is the historic `match_id 0x123`, team
+  `1` (single-client flow unchanged). Unit-tested.
+- ⬜ **3.2** Lobby `ReadyForMatch` returns the **real** `match_id`/`team_id` from
+  `join_match` instead of the constant `0x123 / 0x1`.
+
+**Exit criterion (lobby side):** the lobby allocates a real, team-balanced
+`match_id`/`team_id` per session and records it for the match server to consume in
+Phase 4. *(The full "two clients in the same match" check is a Phase 4 +
+live-client item.)*
 
 ## Phase 4 — Multi-client match server (mock relay, not a game loop)
 
@@ -143,6 +152,11 @@ peers and relay between them so players see each other. It is explicitly **not**
 an authoritative game loop — no real simulation, just enough fan-out to be
 usable. Split into several commits as it lands.
 
+- ⬜ **4.0** *(was 3.2)* Bring the match server into the unified `srp` process
+  (lib-ify + supervised thread, sharing the store), then have it **honour the
+  matchmaking assignment**: on `ConnectionRequest { session_id }` look up
+  `match_assignment(session_id)` to validate the peer and learn its team, instead
+  of the hardcoded setup. Prerequisite for the rest of Phase 4.
 - ⬜ **4.1** *(refactor)* Generalise the UDP transport from "the connection" to
   "a connection in a table keyed by `SocketAddr`/`session_id`". One socket,
   `recv_from` demultiplexes to per-peer `MatchConnection` state. Keep the
