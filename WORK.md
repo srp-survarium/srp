@@ -5,6 +5,27 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — README docs + Phase 2.1 slice (unique session ids)
+
+Two small follow-ups.
+
+- **README**: added a Nix build/run section and a "Hosting on your own server"
+  section (`SRP_PUBLIC_HOST`, per-server env overrides, ports to open). Covers
+  the docs half of PLAN 1.4; live remote verification still needs the real
+  client + a host.
+- **Phase 2.1 (partial): unique session ids.** The login server handed *every*
+  client the constant `0xDD00`, so concurrent clients were indistinguishable —
+  a blocker for multi-client. Replaced it with an `AtomicU32` counter.
+  - *Seeded at `0xDD00`* on purpose: the first/only client still gets the historic
+    value, so the single-client local flow is byte-for-byte unchanged; only the
+    2nd+ concurrent client sees a different id.
+  - *Still a mock:* no account lookup yet. The `session_id → account` half of 2.1
+    is deferred to the shared in-memory store (2.2) — flagged in a comment at the
+    allocation site and in PLAN.
+  - Verified with `cargo check -p login-server`.
+
+---
+
 ## 2026-05-30 — Decision: in-memory, single-process session sharing
 
 Resolved open question #1. The lobby and match servers will share per-client

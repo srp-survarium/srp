@@ -72,8 +72,11 @@ and spawns into a match hosted on the VPS.
 Right now every client *is* the same dummy account. Multiplayer needs distinct
 identities flowing from login through lobby into the match.
 
-- ⬜ **2.1** Login server: allocate a **unique** `session_id` per sign-in
+- 🔄 **2.1** Login server: allocate a **unique** `session_id` per sign-in
   (instead of the constant `0xDD00`) and remember `session_id → account`.
+  ✅ *Unique allocation done* (atomic counter seeded at `0xDD00`, so the first
+  client is unchanged). ⬜ *`session_id → account` mapping* waits on the shared
+  in-memory store (2.2).
 - ⬜ **2.2** A shared session store (in-memory first) the lobby and match
   servers can consult to resolve `session_id → account/profile`. Decide on a
   transport (shared process? small internal RPC? shared sqlite?) — see
