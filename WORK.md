@@ -16,6 +16,32 @@ Phase 2 (identity) and Phase 3 (matchmaking): they become shared-memory lookups,
 not cross-process calls. May require merging some `servers/*` bins into one
 process with internal threads; to be designed when Phase 2 starts.
 
+## 2026-05-30 — Phase 0.2: accept loops don't kill the server
+
+### Decisions taken
+- **A failed `accept()` is logged and skipped, not propagated.** Both the login
+  and lobby accept loops did `let stream = stream?;`, so a single transient
+  accept error (e.g. fd exhaustion) returned from `main` and killed the whole
+  server. Now they `match` and `continue`. This is the concrete "drop the one
+  connection instead of killing the server" from the plan.
+- **Panicking handlers are logged.** The per-connection `catch_unwind` result was
+  discarded with `_ =`; now an `Err` logs "dropped the connection". The match
+  server's restart loop logs before restarting. (The default panic hook still
+  prints the panic detail to stderr; this just adds an operational marker.)
+
+### Not taken (deliberately)
+- **Did not convert the deep `unwrap()`s inside handlers to `Result`.** The plan
+  floated "a small Result-returning handler shape", but the handlers mix
+  `io::Error`, openssl `ErrorStack`, and `DeserializeError`; a faithful
+  conversion is a bigger, riskier change for little gain on a mock, since the
+  per-connection `catch_unwind` already isolates a bad client. Left as a future
+  pass; noted in PLAN 0.2.
+- Kept the existing inline accept-loop style (didn't extract a shared helper into
+  `vostok`) per the "match the existing conventions" guidance — the two servers
+  already mirror each other.
+
+---
+
 ## 2026-05-30 — Phase 0.3: structured logging (println → log)
 
 User asked for general server-implementation improvements as their own commits.

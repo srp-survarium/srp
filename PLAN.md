@@ -33,9 +33,13 @@ Status legend: ⬜ todo · 🔄 doing · ✅ done. Keep this in sync with `WORK.
   debugging has levels and timestamps. *(Done before 0.2 — "logged errors" in 0.2
   needs `log` first. Left the match-server `print_debug` file+stdout packet trace
   in `utils.rs` untouched; it's a deliberate trace, not operational logging.)*
-- ⬜ **0.2** *(improvement)* Replace `unwrap()`/`panic!` in connection-accept
-  paths with logged errors that drop the one connection instead of killing the
-  server. Introduce a small `Result`-returning handler shape. No protocol change.
+- ✅ **0.2** *(improvement)* Connection-accept paths no longer take down the
+  server: a failed `accept()` is logged and skipped (was `?`, which killed the
+  whole listener), and a panicking per-connection handler is logged as a dropped
+  connection instead of swallowed. The match-server restart loop logs on panic
+  too. *(Deferred: converting the deep `unwrap()`s inside the handlers to a
+  `Result` shape — they mix io/openssl/deserialize error types; the per-handler
+  `catch_unwind` + panic hook already contains a bad client. Revisit if needed.)*
 
 ## Phase 1 — Make it reachable remotely (the "my own server" half)
 

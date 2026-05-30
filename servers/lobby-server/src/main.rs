@@ -28,13 +28,18 @@ fn main() -> std::io::Result<()> {
     let listener = TcpListener::bind(config::get().lobby_server.bind_addr())?;
 
     for stream in listener.incoming() {
-        std::thread::spawn({
-            let stream = stream?;
-            let state = state.clone();
-            move || {
-                _ = std::panic::catch_unwind(|| {
-                    handle_connection(state, stream);
-                });
+        let stream = match stream {
+            Ok(stream) => stream,
+            // A failed `accept` shouldn't take down the whole server.
+            Err(error) => {
+                log::error!("Failed to accept connection: {error}");
+                continue;
+            }
+        };
+        let state = state.clone();
+        std::thread::spawn(move || {
+            if std::panic::catch_unwind(|| handle_connection(state, stream)).is_err() {
+                log::error!("Connection handler panicked; dropped the connection");
             }
         });
     }

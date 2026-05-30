@@ -62,11 +62,18 @@ fn main() -> std::io::Result<()> {
     let listener = TcpListener::bind(config::get().login_server.bind_addr())?;
 
     for stream in listener.incoming() {
-        let stream = stream?;
+        let stream = match stream {
+            Ok(stream) => stream,
+            // A failed `accept` shouldn't take down the whole server.
+            Err(error) => {
+                log::error!("Failed to accept connection: {error}");
+                continue;
+            }
+        };
         std::thread::spawn(move || {
-            _ = std::panic::catch_unwind(|| {
-                handle_client(stream);
-            });
+            if std::panic::catch_unwind(|| handle_client(stream)).is_err() {
+                log::error!("Connection handler panicked; dropped the connection");
+            }
         });
     }
     Ok(())

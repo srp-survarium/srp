@@ -20,7 +20,9 @@ fn main() {
 
     loop {
         log::info!("Starting a match server");
-        _ = std::panic::catch_unwind(run_match_server);
+        if std::panic::catch_unwind(run_match_server).is_err() {
+            log::error!("Match server panicked; restarting");
+        }
     }
 }
 
