@@ -5,6 +5,25 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 4.0b: match server honours the matchmaking assignment
+
+`MatchConnection` now holds the shared `Arc<SessionStore>` (threaded through
+`wait_for_game_start`). On the client's `ConnectionRequest { session_id }` it looks
+up `store.match_assignment(session_id)` and logs the match/team the lobby routed
+it to; if there's no assignment (e.g. match run standalone without the lobby) it
+warns but still accepts the client, so nothing regresses.
+
+Scope: this *validates/observes* the assignment. Actually **using** the team to
+decide where/which side the player spawns is entangled with replacing the
+hardcoded 2-player game content, so it rides along with the multi-peer relay
+(4.2/4.3). **Paused here per the agreed "4.0 first, then pause".**
+
+`cargo check -p match-server -p srp` clean. The lookup path only runs on a real
+client connect, so it's compile-verified here; live behaviour is part of the final
+in-game check.
+
+---
+
 ## 2026-05-30 — Phase 4.0a: match server joins the unified process
 
 Branch `sushi/0.100b/phase4-match` (off Phase 3). Lib-ified the match server

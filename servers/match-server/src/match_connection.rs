@@ -9,6 +9,7 @@ use std::sync::mpsc::TryRecvError;
 use std::sync::{mpsc, Arc};
 use std::time::{self, Duration, Instant};
 
+use session::SessionStore;
 use vostok::network_client::UdpClient;
 use vostok::network_packet::UdpPacket;
 use vostok::serde::{Deserialize, Serialize};
@@ -51,6 +52,8 @@ pub struct MatchConnection {
     last_send_time: time::Instant,
 
     connection_state: ConnectionState,
+
+    store: Arc<SessionStore>,
 }
 
 #[expect(dead_code)]
@@ -85,6 +88,7 @@ impl MatchConnection {
     pub fn wait_for_game_start(
         address: &str,
         port: u16,
+        store: Arc<SessionStore>,
         client_game_message_tx: mpsc::Sender<message::ClientGameMessageKind>,
         server_game_message_rx: mpsc::Receiver<message::ServerGameMessageKind>,
     ) -> Self {
@@ -118,6 +122,8 @@ impl MatchConnection {
             pendings_packets: BTreeMap::new(),
             last_send_time: Instant::now(),
             connection_state: ConnectionState::WaitingForConnection,
+
+            store,
         };
 
         this.init_connection(reader_tx, writer_rx);
@@ -258,12 +264,25 @@ impl MatchConnection {
 
                 let message::ClientGameMessage {
                     order_id: SN16(0),
-                    game_message:
-                        message::ClientGameMessageKind::ConnectionRequest { session_id: _ },
+                    game_message: message::ClientGameMessageKind::ConnectionRequest { session_id },
                 } = messages[0]
                 else {
                     panic!("Received incorrect packet on connection")
                 };
+
+                // Honour the lobby's matchmaking: the session must have been
+                // routed here, and we learn its match + team from the shared store.
+                match self.store.match_assignment(session_id) {
+                    Some(assignment) => log::info!(
+                        "Session {session_id:#x} connected to match {:#x} on team {}",
+                        assignment.match_id,
+                        assignment.team_id,
+                    ),
+                    None => log::warn!(
+                        "Session {session_id:#x} connected without a match assignment \
+                         (lobby not consulted?); accepting anyway"
+                    ),
+                }
 
                 self.connection_state = ConnectionState::Connected;
                 self.send_game_packet(message::ServerGameMessageKind::ConnectionSuccessful);

@@ -20,7 +20,7 @@ use vostok::config;
 /// Run the match server: bind UDP, wait for a client, then drive the game loop
 /// forever (it never returns). Panics are contained by the caller (the standalone
 /// `main`, or the `srp` supervisor thread), which restarts it.
-pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
+pub fn run(store: Arc<SessionStore>) -> std::io::Result<()> {
     let (client_game_message_tx, client_game_message_rx) =
         mpsc::channel::<message::ClientGameMessageKind>();
     let (server_game_message_tx, server_game_message_rx) =
@@ -30,6 +30,7 @@ pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
     let mut connection: MatchConnection = MatchConnection::wait_for_game_start(
         &match_server.bind_host,
         match_server.port,
+        store,
         client_game_message_tx,
         server_game_message_rx,
     );
