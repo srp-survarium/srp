@@ -117,29 +117,36 @@ impl ClientMessageKind {
                 Self::Messages(vec![message])
             }
             udp_match_packets_count_enum::multiple_packets => {
-                let mut messages = vec![];
-                let message_len = advance_buffer::<u8>(out_buffer)? as usize;
+                let mut message_len = advance_buffer::<u8>(out_buffer)? as usize;
                 if let Ok(msg_type) = advance_buffer::<low_level_message_type_enum>(out_buffer) {
-                    Self::Low(msg_type)
-                } else {
-                    let message =
-                        ClientGameMessage::parse(&mut out_buffer[0..message_len].as_ref())?;
-                    messages.push(message);
-                    *out_buffer = out_buffer[message_len..].as_ref();
+                    return Ok(Self::Low(msg_type));
+                }
 
-                    loop {
-                        if out_buffer.is_empty() {
-                            break;
-                        }
-                        let message_len = advance_buffer::<u8>(out_buffer)? as usize;
-                        let message =
-                            ClientGameMessage::parse(&mut out_buffer[0..message_len].as_ref())?;
-                        messages.push(message);
-                        *out_buffer = out_buffer[message_len..].as_ref();
+                // One or more length-prefixed game messages. Parse the ones the
+                // relay understands and *skip* the rest (time sync, suicide,
+                // combat, ...) by their length, so a single unhandled message
+                // doesn't drop the whole packet — and with it any movement updates
+                // batched alongside it.
+                let mut messages = vec![];
+                loop {
+                    if message_len > out_buffer.len() {
+                        // Bogus length from a remote peer: bail instead of panicking.
+                        return Err(DeserializeError::incorrect_input());
                     }
 
-                    Self::Messages(messages)
+                    match ClientGameMessage::parse(&mut &out_buffer[0..message_len]) {
+                        Ok(message) => messages.push(message),
+                        Err(error) => log::debug!("skipping unhandled match message: {error}"),
+                    }
+                    *out_buffer = out_buffer[message_len..].as_ref();
+
+                    if out_buffer.is_empty() {
+                        break;
+                    }
+                    message_len = advance_buffer::<u8>(out_buffer)? as usize;
                 }
+
+                Self::Messages(messages)
             }
         };
         Ok(kind)
@@ -260,6 +267,31 @@ mod test {
             panic!();
         };
         assert_eq!(messages.len(), 5);
+    }
+
+    #[test]
+    fn skips_unhandled_messages_but_keeps_movement() {
+        // A `client_player_update` (0x43, len 47) followed by a
+        // `time_synchronization_request` (0x45, len 5) the relay doesn't handle.
+        // The movement update must survive; the unhandled one is skipped.
+        #[rustfmt::skip]
+        let buffer: &[u8] = &[
+            1, 0, 0, 0, 1, 0, // header: local 1, remote 0, multiple packets
+            // client_player_update
+            47, 67, 81, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 210, 112, 50, 39, 128, 155, 196, 59, 231, 52, 1, 167, 218, 15, 73, 192, 0, 0, 0, 0, 247, 57, 0, 0,
+            // time_synchronization_request (len 5: type + order_id + 2 body bytes)
+            5, 69, 0, 0, 7, 7,
+        ];
+
+        let message = ClientMessage::deserialize(&mut buffer.as_ref()).unwrap();
+        let ClientMessageKind::Messages(messages) = message.kind else {
+            panic!("expected game messages");
+        };
+        assert_eq!(messages.len(), 1, "only the movement update should survive");
+        assert!(matches!(
+            messages[0].game_message,
+            ClientGameMessageKind::ClientPlayerUpdate { .. }
+        ));
     }
 
     // Stale (pre-existing): this captured packet's messages are

@@ -5,6 +5,27 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 4 robustness + Phase 5 hardening
+
+Branch `sushi/0.100b/phase5-hardening` (off the relay). User scope: **movement
+only** — a real match needs the authoritative C++ server, which we don't have, so
+no combat/sync/play logic. Combat in the dumb-relay sense is already covered:
+the relayed `player_input` carries `action_mask`. So this branch is purely about
+making *movement* robust for multiple clients.
+
+### Phase 4 robustness — tolerate unhandled message types (critical for movement)
+The client batches messages it expects the real server to handle — time sync,
+world sync, suicide — in the same UDP packet as `client_player_update`. The parser
+returned `UnknownMessageType` for any of these and **failed the whole datagram**,
+dropping the movement update with it. Now the multi-message parser **parses the
+handled messages and skips the rest by their length prefix** (logs at debug),
+with a bounds guard so a bogus length can't panic. Added a unit test:
+a `client_player_update` + a `time_synchronization_request` → only the movement
+update survives. This is the single most important fix for the relay to actually
+move players in-game.
+
+---
+
 ## 2026-05-30 — Phase 4 relay (broadcast, nothing smart)
 
 New branch `sushi/0.100b/phase4-relay` (off Phase 4.0). User direction: the
