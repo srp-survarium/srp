@@ -21,7 +21,7 @@ const _: () = {
     );
 };
 
-pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
+pub fn run(store: Arc<SessionStore>) -> std::io::Result<()> {
     let state = Arc::new(lobby_server::ServerState::new_dummy());
 
     let listener = TcpListener::bind(config::get().lobby_server.bind_addr())?;
@@ -36,8 +36,9 @@ pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
             }
         };
         let state = state.clone();
+        let store = store.clone();
         std::thread::spawn(move || {
-            if std::panic::catch_unwind(|| handle_connection(state, stream)).is_err() {
+            if std::panic::catch_unwind(|| handle_connection(store, state, stream)).is_err() {
                 log::error!("Connection handler panicked; dropped the connection");
             }
         });
@@ -46,11 +47,15 @@ pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
     Ok(())
 }
 
-pub fn handle_connection(lobby_server: Arc<lobby_server::ServerState>, stream: TcpStream) {
+pub fn handle_connection(
+    store: Arc<SessionStore>,
+    lobby_server: Arc<lobby_server::ServerState>,
+    stream: TcpStream,
+) {
     // @TODO: Write messaging server properly, should get rid of `try_clone`
     let mut tcp_client = TcpClient::new(stream.try_clone().unwrap());
     match tcp_client.peek::<lobby_server::client::Message>() {
-        Ok(_) => lobby_server.run(tcp_client),
+        Ok(_) => lobby_server.run(store, tcp_client),
         Err(NetworkError::DeserializeError(DeserializeError::UnknownMessageType(_))) => {
             let buffer = tcp_client.get_read_buffer();
             messaging_server::handle(stream, buffer)

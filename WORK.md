@@ -5,6 +5,28 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 2.7: wire lobby → session store
+
+`ServerState::run` now takes the shared store; after the client's `SignInInfo`
+it resolves `account_for_session(session_id)` and builds the connection via the
+new `ConnectionState::from_account`, falling back to a default account when the
+session is unknown (standalone lobby runs, or a stale id). Deleted
+`ConnectionState::new_dummy` — the dummy data lives only in `session::Account`
+now (no duplication).
+
+### Decision: snapshot, don't live-share (for now)
+`ConnectionState::from_account` **clones** the account into per-connection state;
+lobby mutations (equip, shop buys) stay local and don't write back to the store.
+Rationale: the exit criterion (two clients see different accounts) only needs a
+read, and a snapshot keeps the diff small and avoids holding the account lock
+across a whole session. When the match server joins (Phase 4) and needs to see
+the lobby's edits, switch the lobby to hold the `Arc<Mutex<Account>>` and mutate
+through it. Flagged in PLAN 2.7.
+
+Full `cargo check --workspace` clean; `session` tests still pass.
+
+---
+
 ## 2026-05-30 — Phase 2.6: wire login → session store
 
 Login's `run`/`handle_client`/`handle_sign_in` now thread the shared

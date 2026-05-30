@@ -107,9 +107,12 @@ bootstrap scripts tail in separate tabs.
   sends that `session_id`. The local atomic counter from 2.1 is gone (the store
   owns it now, still seeded at `0xDD00`). This completes 2.1's `session → account`
   half.
-- ⬜ **2.7** Wire **lobby → store**: `ConnectionState` backed by the shared
-  `Account` resolved via `session_id`; fall back to a default account when the
-  session is absent (standalone runs).
+- ✅ **2.7** Wire **lobby → store**: `ServerState::run` resolves the `Account`
+  from `session_id` and builds `ConnectionState::from_account`; falls back to a
+  default account when the session is unknown (standalone runs). Two clients with
+  distinct IP/email now get distinct accounts. *(The lobby snapshots the account;
+  live write-back to the store — for the match server to see lobby edits — is left
+  to Phase 4.)*
 - ⬜ **2.8** Update **bootstrap scripts** to tail per-server logs in separate tabs.
 
 **Exit criterion:** two clients sign in with distinct IP/email and see *different*
