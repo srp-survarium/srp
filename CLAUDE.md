@@ -18,15 +18,14 @@ is no CI: build and test inside `nix develop` before every commit.
 
 ## Run
 
-    cargo run -p srp               # login + browser + lobby in one process, one session store
-    cargo run -p match-server      # UDP 1236: the match, a separate process
-    ./scripts/dev-bootstrap.sh     # both in tmux, plus a log window per server
+    cargo run -p srp               # login, browser, lobby and match in one process, one session store
+    ./scripts/dev-bootstrap.sh     # srp in tmux, plus a log window per server
 
 `srp` runs each server on a supervised thread (a panic restarts that server, not
 the process) and writes `logs/<server>.log` besides stdout; `RUST_LOG` sets the
-level. The standalone `login-server` (TCP 1234), `browser-server` (HTTP 80) and
-`lobby-server` (TCP 1235) binaries remain for isolated debugging, without a
-shared store.
+level. The standalone `login-server` (TCP 1234), `browser-server` (HTTP 80),
+`lobby-server` (TCP 1235) and `match-server` (UDP 1236) binaries remain for
+isolated debugging, without a shared store.
 
 The client starts at the login server:
 `survarium.exe -no_splash_screen -client=127.0.0.1:1234`. Addresses come from
