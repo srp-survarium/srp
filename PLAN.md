@@ -59,9 +59,10 @@ interfaces.
   localhost values remain the default so the local workflow is unchanged. *(A
   config-**file** loader was deferred — env covers the single-host VPS case; add
   a file only if multi-host deployments need it.)*
-- ⬜ **1.4** Verify a full remote sign-in → lobby → match handshake against a
-  client pointed at the public host. Document the firewall/port-forward needs
-  (TCP 1234/1235/80, UDP 1236) in README. *(Needs the real client + a host.)*
+- 🔄 **1.4** Verify a full remote sign-in → lobby → match handshake against a
+  client pointed at the public host. ✅ *Docs half done* — README now covers the
+  env config and the firewall/port-forward needs (TCP 1234/1235/80, UDP 1236).
+  ⬜ *Live verification still pending* — needs the real client + a host.
 
 **Exit criterion:** one client on a different machine completes the whole chain
 and spawns into a match hosted on the VPS.
