@@ -5,6 +5,25 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 2.3: per-server file-routing logger
+
+`servers/srp/src/logger.rs` — a `log::Log` backend that routes each record to
+`logs/<server>.log` by `target()` prefix and also echoes to stdout (the user's
+"files + tail, also stdout" choice). Routing: `login_server`→login,
+`lobby_server`/`messaging`→lobby, `browser_server`/`actix`→browser, everything
+else (incl. the orchestrator)→srp. The unified bin installs it; level comes from
+`RUST_LOG` as a single filter (default info), parsed simply rather than pulling
+in env_logger's full syntax. `logs/` is gitignored.
+
+**Verified live:** ran `RUST_LOG=info SRP_BROWSER_PORT=8080 ./target/debug/srp` —
+all three servers started in one process, actix's own logs were folded into
+`browser.log`, and killing the browser thread produced a supervisor
+"browser server exited; restarting" line in `srp.log` and a clean restart
+(crash isolation confirmed end-to-end). login/lobby logs were empty only because
+nothing connected.
+
+---
+
 ## 2026-05-30 — Phase 2.5: unified `srp` binary with crash isolation
 
 New `servers/srp` bin runs login + browser + lobby in one process sharing one

@@ -88,9 +88,12 @@ bootstrap scripts tail in separate tabs.
   empty email accepted; name = email, or a unique fallback when empty; a
   `session_id → account` map; the session-id counter seeded at `0xDD00`). Pure
   addition, 4 unit tests. *Not wired into the servers yet — that's 2.6/2.7.*
-- ⬜ **2.3** Per-server **file-routing logger**: a `log::Log` impl that dispatches
-  each record to `logs/<server>.log` by target prefix (plus stdout), so the merged
-  servers stay separable.
+- ✅ **2.3** Per-server **file-routing logger** (`servers/srp/src/logger.rs`): a
+  `log::Log` impl that routes each record to `logs/<server>.log` by target prefix
+  (`login_server`→login, `lobby_server`/`messaging`→lobby, `browser_server`/`actix`
+  →browser, else srp) **and** echoes to stdout. Installed by the unified bin; level
+  from `RUST_LOG` (default info). `logs/` is gitignored. Verified by running the
+  bin: actix logs landed in `browser.log`, orchestrator lines in `srp.log`.
 - ✅ **2.4** *(refactor)* Lib-ify login/lobby/browser — each exposes
   `pub fn run(store: Arc<SessionStore>) -> io::Result<()>` (store unused for now)
   with a thin standalone `main.rs`. Browser's `run` drives a fresh actix runtime

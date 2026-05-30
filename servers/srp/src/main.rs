@@ -9,11 +9,14 @@
 //! logged and the server is restarted, so no single server can take down the
 //! whole process.
 
+mod logger;
+
 use std::panic::AssertUnwindSafe;
 use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 
+use log::LevelFilter;
 use session::SessionStore;
 
 /// Delay before restarting a server that exited, to avoid a hot crash loop.
@@ -22,7 +25,12 @@ const RESTART_DELAY: Duration = Duration::from_secs(1);
 type Run = fn(Arc<SessionStore>) -> std::io::Result<()>;
 
 fn main() {
-    env_logger::init();
+    // A single level from RUST_LOG (e.g. `RUST_LOG=debug`), defaulting to info.
+    let level = std::env::var("RUST_LOG")
+        .ok()
+        .and_then(|value| value.parse().ok())
+        .unwrap_or(LevelFilter::Info);
+    logger::init(level).expect("failed to install logger");
 
     let store = Arc::new(SessionStore::new());
 

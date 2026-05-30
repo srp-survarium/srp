@@ -1472,7 +1472,6 @@ name = "srp"
 version = "0.1.0"
 dependencies = [
  "browser-server",
- "env_logger",
  "lobby-server",
  "log",
  "login-server",

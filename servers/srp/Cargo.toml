@@ -7,7 +7,6 @@ edition.workspace = true
 workspace = true
 
 [dependencies]
-env_logger = { workspace = true }
 log = { workspace = true }
 
 session = { workspace = true }
