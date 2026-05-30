@@ -137,8 +137,9 @@ server joins the unified process.
   balancing the two teams, and is idempotent per session; `match_assignment`
   reads it back. Seeded so the first match is the historic `match_id 0x123`, team
   `1` (single-client flow unchanged). Unit-tested.
-- ⬜ **3.2** Lobby `ReadyForMatch` returns the **real** `match_id`/`team_id` from
-  `join_match` instead of the constant `0x123 / 0x1`.
+- ✅ **3.2** Lobby `ReadyForMatch` returns the **real** `match_id`/`team_id` from
+  `store.join_match(session_id)` instead of the constant `0x123 / 0x1`, and logs
+  the routing.
 
 **Exit criterion (lobby side):** the lobby allocates a real, team-balanced
 `match_id`/`team_id` per session and records it for the match server to consume in

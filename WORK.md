@@ -20,6 +20,14 @@ process restructuring into Phase 3, I kept Phase 3 small (lobby side) and moved
 belongs with. Cleaner PR boundaries; matches the existing "match joins in Phase 4"
 plan.
 
+### 3.2 — lobby `ReadyForMatch` uses the matchmaker
+Threaded the store into `handle_client_message` (one new `&SessionStore` param;
+`run` already held the `Arc`). The `ReadyForMatch` arm now calls
+`store.join_match(connection_state.session_id)` and returns its `match_id`/
+`team_id` (was the constant `0x123`/`0x1`), logging the routing. With one client
+the values are identical to before, so nothing breaks; the assignment is recorded
+for the match server to read in Phase 4. Full `cargo check --workspace` clean.
+
 ### 3.1 — matchmaker in `crates/session`
 Added a `Matchmaker` inside `SessionStore`: `join_match(session_id)` fills one
 open match (cap 20) at a time, puts each new player on the smaller team (first
