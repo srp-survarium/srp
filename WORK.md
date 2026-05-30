@@ -5,6 +5,53 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Scoping Phase 2 (single-process mock + session store)
+
+Scoped the in-memory session store with the user. Restructured PLAN Phase 2 into
+2.2–2.8. Answers to the three forks and the resulting design:
+
+### Topology → **unified `srp` binary, match deferred**
+One process runs login + lobby + browser as threads sharing `Arc<SessionStore>`;
+the match server stays a separate process until Phase 4. Two hard requirements
+the user added:
+- **Crash isolation:** no server thread may take down the process. Each server
+  runs under `catch_unwind` with restart, on top of the existing per-connection
+  isolation.
+- **Per-server logs on separate tabs:** since the merged servers no longer each
+  own a terminal tab, each writes to its own log file (`logs/<server>.log`) and
+  the bootstrap opens a tab per file that tails it. Implemented as a custom
+  `log::Log` that routes by record `target()` prefix (the `log` macros default
+  the target to the module path, which carries the originating crate name).
+
+### Identity → **id from IP + email, no real accounts**
+No real account system. `account_id` is a unique value derived from
+`(client IP, email)`; the **empty email is accepted**; reconnecting from the same
+IP+email resolves to the same account (good enough for a mock). Name = the email,
+or a unique fallback (derived from the id) when empty. `session_id` stays a
+per-sign-in counter mapping to the account.
+
+### State depth → **full account state in the store**
+`Account` holds the whole per-account payload the lobby currently fabricates in
+`ConnectionState::new_dummy` (profiles, inventory, money, skills, reputations).
+Rationale (user): this is what lets the **match server share account state**
+later. Default values stay identical to today's dummy, so the local flow is
+unchanged.
+
+### Commit plan (each its own commit, `cargo check`-clean)
+1. `crates/session` — `Account` + `SessionStore` (pure addition + unit test).
+2. file-routing logger.
+3. lib-ify login/lobby/browser (extract `run()`), thin mains.
+4. unified `srp` bin (shared store, thread-per-server, crash isolation, logger).
+5. wire login → store.
+6. wire lobby → store (Account-backed `ConnectionState`).
+7. bootstrap scripts tail per-server logs.
+
+### Not taken
+- No SQLite/RPC (in-memory, single process — earlier decision).
+- Match server not merged yet (Phase 4) — it doesn't consult sessions until then.
+
+---
+
 ## 2026-05-30 — README docs + Phase 2.1 slice (unique session ids)
 
 Two small follow-ups.

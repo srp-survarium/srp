@@ -67,28 +67,45 @@ interfaces.
 **Exit criterion:** one client on a different machine completes the whole chain
 and spawns into a match hosted on the VPS.
 
-## Phase 2 — Identity & sessions (prerequisite for telling clients apart)
+## Phase 2 — Single-process mock with a shared in-memory session store
 
 Right now every client *is* the same dummy account. Multiplayer needs distinct
 identities flowing from login through lobby into the match.
 
-- 🔄 **2.1** Login server: allocate a **unique** `session_id` per sign-in
-  (instead of the constant `0xDD00`) and remember `session_id → account`.
-  ✅ *Unique allocation done* (atomic counter seeded at `0xDD00`, so the first
-  client is unchanged). ⬜ *`session_id → account` mapping* waits on the shared
-  in-memory store (2.2).
-- ⬜ **2.2** A shared session store (in-memory first) the lobby and match
-  servers can consult to resolve `session_id → account/profile`. Decide on a
-  transport (shared process? small internal RPC? shared sqlite?) — see
-  `WORK.md` open questions.
-- ⬜ **2.3** *(optional / improvement)* Wire `database/schema.sql` + `sqlx` for
-  real accounts; keep an in-memory fallback for dev. Only if 2.2 proves it pays
-  off; otherwise defer.
-- ⬜ **2.4** Lobby server: derive `ConnectionState` from the resolved account
-  rather than `new_dummy`, so two clients have two different profiles/inventories.
+**Agreed design** (scoping decision, see `WORK.md` 2026-05-30): one **unified
+`srp` binary** runs the login + lobby + browser servers as threads sharing an
+`Arc<SessionStore>`. The **match server stays a separate process for now** (it
+joins the shared store in Phase 4; it doesn't need sessions until then). A panic
+in one server thread must **not** crash the process. Because the merged servers no
+longer each own a terminal tab, each routes its logs to a per-server file that the
+bootstrap scripts tail in separate tabs.
 
-**Exit criterion:** two clients sign in and see *different* names/profiles in the
-lobby.
+- ✅ **2.1** Login server allocates a **unique** `session_id` per sign-in (was the
+  constant `0xDD00`). The counter moves into the store in 2.6.
+- ⬜ **2.2** `crates/session`: `Account` (full per-account state — profiles,
+  inventory, money, skills, reputations; defaults = today's dummy values) +
+  `SessionStore` (accounts keyed by a unique id derived from **client IP + email**;
+  empty email accepted; name = email, or a unique fallback when empty; a
+  `session_id → account` map; the session-id counter). Pure addition, unit-tested.
+- ⬜ **2.3** Per-server **file-routing logger**: a `log::Log` impl that dispatches
+  each record to `logs/<server>.log` by target prefix (plus stdout), so the merged
+  servers stay separable.
+- ⬜ **2.4** *(refactor)* Lib-ify login/lobby/browser — each exposes
+  `pub fn run(store: Arc<SessionStore>) -> io::Result<()>`; thin standalone mains
+  kept. No behaviour change.
+- ⬜ **2.5** Unified **`srp` binary**: builds one shared store, spawns a thread per
+  server, `catch_unwind` + restart per thread (crash isolation), installs the file
+  logger.
+- ⬜ **2.6** Wire **login → store**: `get_or_create_account(ip, email)` +
+  `create_session`; accept empty email.
+- ⬜ **2.7** Wire **lobby → store**: `ConnectionState` backed by the shared
+  `Account` resolved via `session_id`; fall back to a default account when the
+  session is absent (standalone runs).
+- ⬜ **2.8** Update **bootstrap scripts** to tail per-server logs in separate tabs.
+
+**Exit criterion:** two clients sign in with distinct IP/email and see *different*
+accounts in the lobby; one process where no server can crash another; logs still
+separable per server.
 
 ## Phase 3 — Matchmaking glue (lobby ↔ match)
 
