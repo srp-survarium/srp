@@ -110,21 +110,27 @@ impl Transport {
 
         match self.connection_state {
             ConnectionState::WaitingForConnection => {
-                assert_eq!(local_sequence_id, 0x0000.into());
-                assert_eq!(remote_sequence_id, 0xFFFF.into());
-                assert_eq!(remote_ack_bits, 0b1000_0000_0000_0000);
+                let valid_header = local_sequence_id == 0x0000.into()
+                    && remote_sequence_id == 0xFFFF.into()
+                    && remote_ack_bits == 0b1000_0000_0000_0000;
 
-                let message::ClientMessageKind::Messages(messages) = kind else {
-                    panic!("Received incorrect packet on connection")
+                let first = match kind {
+                    message::ClientMessageKind::Messages(messages) => messages.into_iter().next(),
+                    message::ClientMessageKind::Low(_) => None,
                 };
 
+                // A malformed first packet must not crash the server (which would
+                // restart the whole match and drop every peer): log and drop this
+                // would-be peer instead.
                 let Some(message::ClientGameMessage {
                     order_id: SN16(0),
                     game_message:
                         game_message @ message::ClientGameMessageKind::ConnectionRequest { .. },
-                }) = messages.into_iter().next()
+                }) = first.filter(|_| valid_header)
                 else {
-                    panic!("Received incorrect packet on connection")
+                    log::warn!("dropping malformed connection attempt from {addr}");
+                    self.connection_state = ConnectionState::Disconnected;
+                    return vec![];
                 };
 
                 self.connection_state = ConnectionState::Connected;
@@ -182,7 +188,11 @@ impl Transport {
                 // loop can drop it and notify the others.
                 self.connection_state = ConnectionState::Disconnected;
             }
-            low_level_message_type_enum::confirm_disconnection => unimplemented!(),
+            // We never initiate a disconnect, so a confirmation is unexpected;
+            // ignore it rather than crash on a stray/malicious packet.
+            low_level_message_type_enum::confirm_disconnection => {
+                log::debug!("ignoring unexpected confirm_disconnection");
+            }
         }
     }
 
@@ -269,7 +279,10 @@ impl Transport {
         //
 
         if server_sequence_id > self.server_sequence_id {
-            panic!("Packet we didn't send");
+            // The client acked a packet we never sent (malformed/stale): ignore
+            // the server-side ack bookkeeping instead of crashing.
+            log::warn!("client acked an unsent packet; ignoring");
+            return;
         }
 
         if server_sequence_id == self.server_received_sequence_id {

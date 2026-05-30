@@ -24,6 +24,29 @@ a `client_player_update` + a `time_synchronization_request` → only the movemen
 update survives. This is the single most important fix for the relay to actually
 move players in-game.
 
+### Phase 5 — hardening (light; it's a mock)
+- **Don't panic on malformed remote packets.** The transport's connection path
+  used `assert!`/`panic!`/`unimplemented!` — one bad packet would crash the match
+  thread, and the supervisor would restart the whole server, dropping *every*
+  peer. Now: a malformed connection attempt is logged and the would-be peer is
+  marked `Disconnected` (reaped); an ack for an unsent packet is logged and
+  ignored; an unexpected `confirm_disconnection` is ignored.
+- **Reap idle/dead peers** (`reap_peers`, `IDLE_TIMEOUT` 5s): peers that
+  disconnect or stop sending are removed and the rest get a refreshed connected
+  bitmask. Each datagram bumps the peer's `last_seen`.
+- **Cap peers** (`PEER_LIMIT` 64): a datagram from a new address is dropped once
+  the table is full, bounding what a flood of spoofed/unknown sources can create.
+  Full "validate before allocating any state" isn't possible (the transport needs
+  a peer to read the first packet), so cap + idle-reap is the pragmatic version.
+
+`cargo test -p match-server`: 6 pass, 1 ignored; workspace clean.
+
+### Scope confirmation (user)
+Movement only. A real, *playable* match (combat, hit/damage, time/world sync) needs
+the authoritative C++ server, which we don't have — so those are out of scope, not
+missing work. The relayed `player_input` already carries `action_mask`, so the
+dumb-relay notion of "combat" is covered.
+
 ---
 
 ## 2026-05-30 — Phase 4 relay (broadcast, nothing smart)
