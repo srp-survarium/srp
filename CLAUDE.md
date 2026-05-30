@@ -18,10 +18,15 @@ is no CI: build and test inside `nix develop` before every commit.
 
 ## Run
 
-    cargo run -p login-server      # TCP 1234: TLS sign-in, hands out a session id
-    cargo run -p browser-server    # HTTP 80: returns the lobby address
-    cargo run -p lobby-server      # TCP 1235: profiles, shop, inventory, chat
-    cargo run -p match-server      # UDP 1236: the match
+    cargo run -p srp               # login + browser + lobby in one process, one session store
+    cargo run -p match-server      # UDP 1236: the match, a separate process
+    ./scripts/dev-bootstrap.sh     # both in tmux, plus a log window per server
+
+`srp` runs each server on a supervised thread (a panic restarts that server, not
+the process) and writes `logs/<server>.log` besides stdout; `RUST_LOG` sets the
+level. The standalone `login-server` (TCP 1234), `browser-server` (HTTP 80) and
+`lobby-server` (TCP 1235) binaries remain for isolated debugging, without a
+shared store.
 
 The client starts at the login server:
 `survarium.exe -no_splash_screen -client=127.0.0.1:1234`. Addresses come from
@@ -31,8 +36,11 @@ The client starts at the login server:
 
 - `crates/vostok` - protocol library: config, serde traits, TCP/UDP packets and clients.
 - `crates/survarium` - game-domain wire types (profiles, inventory, player input).
+- `crates/session` - in-memory accounts, sessions and the session id counter.
 - `crates/binary-config-parser` - the game's binary config format.
-- `servers/*-server` - one crate per server.
+- `servers/*-server` - one crate per server: a lib exposing
+  `run(Arc<SessionStore>)` and a thin standalone `main`.
+- `servers/srp` - the unified binary and its per-server log routing.
 - `scripts/` - offline tools: `nasm-decompiler` (the `resources/patches/` exe
   patches), `binary-config-cli`, `parse-journal-file`.
 - `certs/` - the original game's TLS keys; the client expects them.
