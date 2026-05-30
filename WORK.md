@@ -1,0 +1,74 @@
+# WORK — running log of decisions (taken and not taken)
+
+Newest entries at the top. Each entry: what changed, why, alternatives
+considered, and what it means for the client. Cross-reference `PLAN.md` items.
+
+---
+
+## 2026-05-30 — Session start: orientation + scaffolding
+
+### Context
+Picked up the SRP server with the goal of making networking work **remotely**
+and for **multiple clients** (see `PLAN.md`). First read the whole server
+surface to understand the connection chain and where the single-client
+assumptions live; recorded that understanding in `CLAUDE.md`.
+
+### Decisions taken
+
+- **Added a Nix dev shell (`flake.nix`/`flake.lock`)** — `PLAN.md` 0.1.
+  - *Why:* there was no Rust toolchain available locally and the workspace is
+    nightly-only (`edition 2024` + several `#![feature]` gates). The sibling
+    `vostok/` repo already standardises on a flake, so this matches the project's
+    conventions and unblocks `cargo check` on Linux.
+  - *Shape:* nightly `rust-bin` via `rust-overlay` + system `openssl` exposed
+    through `pkg-config` with `OPENSSL_NO_VENDOR=1`. Deliberately **much smaller**
+    than vostok's flake — SRP needs none of the Wine/MSVC/objdiff toolchain, only
+    Rust + OpenSSL (the `openssl` crate is the one non-pure-Rust dependency).
+  - *Verified:* `nix develop --command cargo check --workspace` succeeds (one
+    pre-existing unused-import warning in `parse-journal-file`, untouched).
+  - *Alternative not taken:* reusing vostok's flake — rejected, it drags in a
+    large game/toolchain closure irrelevant to building four Rust servers.
+
+- **Created branch `sushi/0.100b/multiplayer`** off `0.100b`.
+  - *Why:* `0.100b` is the default branch; this is multi-commit feature work, so
+    it belongs on its own branch (matches the existing `sushi/0.100b/...` and
+    `sushi/v0.20e/...` naming on the remote).
+
+- **Wrote `CLAUDE.md`, `PLAN.md`, `WORK.md`.**
+  - *Why:* the task is large and will span many commits/sessions; durable docs
+    let the work be picked up later. `CLAUDE.md` = how the system works today;
+    `PLAN.md` = staged roadmap to the goal; `WORK.md` = this log.
+
+### Decisions deliberately deferred / not taken
+
+- **Did not start code changes to behaviour yet.** Phase 0 docs + build first,
+  so later changes can be validated by `cargo check` and the doc'd handshake.
+- **Did not wire up `database/schema.sql` / `sqlx`.** Identity (Phase 2) will
+  likely start with an in-memory session store; a DB is only worth it if it pays
+  off (see open questions). The schema file is also currently incomplete (trailing
+  comma, no real columns beyond id/username/email).
+- **Did not touch the reliable-UDP logic.** It is the riskiest code and is only
+  meaningfully testable against the real client; it will be approached in Phase 4
+  with the client in the loop.
+- **Did not convert to async.** Explicitly a Phase 5 *maybe* — not worth a big
+  refactor until the thread-per-peer model is shown to strain (`PLAN.md` 5.2).
+
+### Open questions (to resolve as phases land)
+
+1. **How do the lobby and match servers share session/account state?** Options:
+   (a) run them in one process with shared memory; (b) a tiny internal RPC; (c) a
+   shared sqlite/postgres. Leaning toward (a)/(c) for simplicity. Affects Phase 2.
+2. **Public-address discovery for the client.** The browser/login responses must
+   hand out a routable host. Will the deployment always know its public host via
+   config, or do we need the client's-eye-view address? Assume config-provided
+   `public_host` for now (Phase 1.2).
+3. **Single match vs. many.** Phase 4 first targets one shared match; a registry
+   of concurrent matches (Phase 3.1) may stay a stub (always match 0) until 4
+   works for one match.
+4. **Teardown semantics** when a mid-match client drops — needs the real client
+   to observe desync behaviour before committing to an approach (Phase 5.1).
+
+### Next step
+Phase 1.1–1.3: make bind/advertised addresses configurable (the smallest change
+that delivers the "my own server" half), defaulting to today's localhost values
+so the local flow is unchanged.
