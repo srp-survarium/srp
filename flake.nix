@@ -18,7 +18,8 @@
       rust = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
     in {
       devShells.${system}.default = pkgs.mkShell {
-        packages = [ rust pkgs.pkg-config pkgs.openssl pkgs.zstd pkgs.nasm ];
+        # tmux runs scripts/dev-bootstrap.sh.
+        packages = [ rust pkgs.pkg-config pkgs.openssl pkgs.zstd pkgs.nasm pkgs.tmux ];
       };
     };
 }
