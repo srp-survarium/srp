@@ -5,6 +5,41 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 2.2: `crates/session` (Account + SessionStore)
+
+Two commits.
+
+- **Moved `faction_id`/`player_skill`/`player_reputation` into `survarium`.** They
+  were lobby-server-private, so a shared `session` crate couldn't name them.
+  Re-exported from the lobby's `raw` modules → lobby call sites unchanged. Pure
+  refactor.
+- **Added `crates/session`** (depends on `survarium`):
+  - `Account` — the full per-account payload the lobby used to fabricate inline
+    (money, skills, profiles, inventory, reputations). `Account::new_dummy(id,
+    name)` reproduces the historic dummy values verbatim, so the data the client
+    sees is unchanged once wired in. (The commented-out inventory entries from the
+    lobby's `new_dummy` were dropped, matching the live set.)
+  - `SessionStore` — `Mutex<HashMap>` of accounts + sessions, std-only (no new
+    deps). `get_or_create_account(ip, email)` (id = non-zero hash of ip+email,
+    empty email → `player_<id>` name), `create_session` (counter seeded at the
+    historic `0xDD00`), `account_for_session` (hands out `Arc<Mutex<Account>>` so
+    the lobby and, later, the match server mutate the *same* account).
+  - 4 unit tests, all passing.
+
+### Behaviour note
+Once wired (2.6/2.7), the local client's account **id and name change**: id is now
+the ip+email hash (was the constant `1`) and name is the email (was
+`"dummy_name"`). That's the intended identity behaviour; the `session_id` still
+starts at `0xDD00`, and all other account *contents* are byte-identical to the old
+dummy.
+
+### Not taken
+- `Account::id` keeps doubling as the running "next bought-item id" counter, as in
+  the original mock — didn't split that conflation now to keep the wiring diff
+  small; can revisit later.
+
+---
+
 ## 2026-05-30 — Scoping Phase 2 (single-process mock + session store)
 
 Scoped the in-memory session store with the user. Restructured PLAN Phase 2 into

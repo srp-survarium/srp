@@ -1,0 +1,10 @@
+[package]
+name = "session"
+version.workspace = true
+edition.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+survarium = { workspace = true }

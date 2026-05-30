@@ -82,11 +82,12 @@ bootstrap scripts tail in separate tabs.
 
 - ✅ **2.1** Login server allocates a **unique** `session_id` per sign-in (was the
   constant `0xDD00`). The counter moves into the store in 2.6.
-- ⬜ **2.2** `crates/session`: `Account` (full per-account state — profiles,
+- ✅ **2.2** `crates/session`: `Account` (full per-account state — profiles,
   inventory, money, skills, reputations; defaults = today's dummy values) +
   `SessionStore` (accounts keyed by a unique id derived from **client IP + email**;
   empty email accepted; name = email, or a unique fallback when empty; a
-  `session_id → account` map; the session-id counter). Pure addition, unit-tested.
+  `session_id → account` map; the session-id counter seeded at `0xDD00`). Pure
+  addition, 4 unit tests. *Not wired into the servers yet — that's 2.6/2.7.*
 - ⬜ **2.3** Per-server **file-routing logger**: a `log::Log` impl that dispatches
   each record to `logs/<server>.log` by target prefix (plus stdout), so the merged
   servers stay separable.
