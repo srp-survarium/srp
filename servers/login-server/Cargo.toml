@@ -14,4 +14,5 @@ openssl = { workspace = true }
 env_logger = { workspace = true }
 log = { workspace = true }
 
+session = { workspace = true }
 vostok = { workspace = true }

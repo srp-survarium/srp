@@ -91,9 +91,10 @@ bootstrap scripts tail in separate tabs.
 - ⬜ **2.3** Per-server **file-routing logger**: a `log::Log` impl that dispatches
   each record to `logs/<server>.log` by target prefix (plus stdout), so the merged
   servers stay separable.
-- ⬜ **2.4** *(refactor)* Lib-ify login/lobby/browser — each exposes
-  `pub fn run(store: Arc<SessionStore>) -> io::Result<()>`; thin standalone mains
-  kept. No behaviour change.
+- ✅ **2.4** *(refactor)* Lib-ify login/lobby/browser — each exposes
+  `pub fn run(store: Arc<SessionStore>) -> io::Result<()>` (store unused for now)
+  with a thin standalone `main.rs`. Browser's `run` drives a fresh actix runtime
+  via `System::new().block_on`. No behaviour change.
 - ⬜ **2.5** Unified **`srp` binary**: builds one shared store, spawns a thread per
   server, `catch_unwind` + restart per thread (crash isolation), installs the file
   logger.

@@ -5,6 +5,23 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 2.4: lib-ify login/lobby/browser
+
+Each server crate is now a lib + thin bin. `main.rs` → `lib.rs` (via `git mv`),
+`fn main` → `pub fn run(store: Arc<SessionStore>) -> io::Result<()>`, and a small
+new `main.rs` does `env_logger::init()` + `<crate>::run(Arc::new(SessionStore::new()))`
+for standalone use. The unified `srp` bin (2.5) will instead share one store
+across all three.
+- `run` does **not** init logging — the caller chooses (standalone main uses
+  env_logger; the unified bin installs the file logger).
+- Browser's `run` is blocking: `actix_web::rt::System::new().block_on(serve())`,
+  so it fits the uniform `run` shape and can be spawned on a thread.
+- `store` is `_store` (unused) for now; login wiring is 2.6, lobby 2.7, and the
+  browser server never needs it.
+- No behaviour change; `cargo check --workspace --bins` clean.
+
+---
+
 ## 2026-05-30 — Phase 2.2: `crates/session` (Account + SessionStore)
 
 Two commits.
