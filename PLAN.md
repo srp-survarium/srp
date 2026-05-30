@@ -102,8 +102,11 @@ bootstrap scripts tail in separate tabs.
   spawns a supervised thread per server (`catch_unwind` + restart after a 1s
   delay, so no server can crash the process). Uses `env_logger` for now; the file
   logger lands in 2.3.
-- ⬜ **2.6** Wire **login → store**: `get_or_create_account(ip, email)` +
-  `create_session`; accept empty email.
+- ✅ **2.6** Wire **login → store**: on sign-in the login server resolves the
+  account from `(peer IP, email)` and opens a session via the shared store, then
+  sends that `session_id`. The local atomic counter from 2.1 is gone (the store
+  owns it now, still seeded at `0xDD00`). This completes 2.1's `session → account`
+  half.
 - ⬜ **2.7** Wire **lobby → store**: `ConnectionState` backed by the shared
   `Account` resolved via `session_id`; fall back to a default account when the
   session is absent (standalone runs).

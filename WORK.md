@@ -5,6 +5,17 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 2.6: wire login → session store
+
+Login's `run`/`handle_client`/`handle_sign_in` now thread the shared
+`Arc<SessionStore>` through. On sign-in it reads the client's `peer_addr().ip()`
+plus the email, calls `get_or_create_account(ip, email)` then `create_session`,
+and sends the resulting `session_id`. Removed the local `AtomicU32` counter added
+in 2.1 — the store owns session-id allocation now (still seeded at `0xDD00`, so
+the first local client is unchanged). `cargo check -p login-server` clean.
+
+---
+
 ## 2026-05-30 — Phase 2.3: per-server file-routing logger
 
 `servers/srp/src/logger.rs` — a `log::Log` backend that routes each record to

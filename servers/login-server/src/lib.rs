@@ -4,7 +4,6 @@ use openssl::ssl::{Ssl, SslContext, SslFiletype, SslMethod};
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::sync::Arc;
-use std::sync::atomic::{AtomicU32, Ordering};
 
 use session::SessionStore;
 use vostok::config;
@@ -18,19 +17,6 @@ const CERT_PATH: &str = "./certs/survarium_login_server.crt";
 /// As a temporary (?) fix provide an unused argument to the client, since it accepts url prefix
 /// as a part of the message.
 const URL_PREFIX: &[u8] = b"/hello?unused=1";
-
-/// Session id handed to the first client. Each subsequent sign-in gets the next
-/// id, so concurrent clients are distinguishable. The first/only client keeps
-/// the historic `0xDD00`, so the single-client local flow is unchanged.
-///
-/// @NOTE: This is still a mock — there's no real account lookup yet. Once the
-/// servers share an in-memory session store (PLAN Phase 2), this is where a
-/// `session_id -> account` entry would be created.
-static NEXT_SESSION_ID: AtomicU32 = AtomicU32::new(0x00_00_DD_00);
-
-fn allocate_session_id() -> u32 {
-    NEXT_SESSION_ID.fetch_add(1, Ordering::Relaxed)
-}
 
 #[repr(u8)]
 #[rustfmt::skip]
@@ -69,7 +55,7 @@ enum login_client_message_types_enum {
 /// * Use `async` instead of threads
 /// * Have a database for different users and their session ids
 /// * ...many more things
-pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
+pub fn run(store: Arc<SessionStore>) -> std::io::Result<()> {
     let listener = TcpListener::bind(config::get().login_server.bind_addr())?;
 
     for stream in listener.incoming() {
@@ -81,8 +67,9 @@ pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
                 continue;
             }
         };
+        let store = store.clone();
         std::thread::spawn(move || {
-            if std::panic::catch_unwind(|| handle_client(stream)).is_err() {
+            if std::panic::catch_unwind(|| handle_client(store, stream)).is_err() {
                 log::error!("Connection handler panicked; dropped the connection");
             }
         });
@@ -90,7 +77,7 @@ pub fn run(_store: Arc<SessionStore>) -> std::io::Result<()> {
     Ok(())
 }
 
-fn handle_client(mut stream: TcpStream) {
+fn handle_client(store: Arc<SessionStore>, mut stream: TcpStream) {
     let mut request_type = [0_u8];
     stream.read(&mut request_type).unwrap();
 
@@ -99,7 +86,7 @@ fn handle_client(mut stream: TcpStream) {
 
     match () {
         _ if request_type == login_client_message_types_enum::sign_in_message_type as u8 => {
-            handle_sign_in(stream);
+            handle_sign_in(store, stream);
         }
         _ if request_type == login_client_message_types_enum::sign_out_message_type as u8 => {
             handle_sign_out(stream);
@@ -108,7 +95,7 @@ fn handle_client(mut stream: TcpStream) {
     }
 }
 
-fn handle_sign_in(mut stream: TcpStream) {
+fn handle_sign_in(store: Arc<SessionStore>, mut stream: TcpStream) {
     let mut buffer = [0; 1024];
 
     let bytes_read = stream.read(&mut buffer).unwrap();
@@ -123,6 +110,13 @@ fn handle_sign_in(mut stream: TcpStream) {
 
     log::info!("User email: {email}");
     log::info!("Client version: {game_version}");
+
+    // Resolve (or create) the account for this client and open a session. The
+    // account is keyed on the client IP + email; an empty email is accepted.
+    let peer_ip = stream.peer_addr().unwrap().ip();
+    let account_id = store.get_or_create_account(peer_ip, &email);
+    let session_id = store.create_session(account_id);
+    log::info!("Sign-in: account={account_id:#x} session={session_id:#x}");
 
     let message_type = login_server_message_types_enum::valid_user_name_message_type as u8;
     stream.write(&[message_type]).unwrap();
@@ -163,8 +157,6 @@ fn handle_sign_in(mut stream: TcpStream) {
             buffer.push(URL_PREFIX.len() as u8);
             buffer.extend(URL_PREFIX);
 
-            let session_id = allocate_session_id();
-            log::info!("Allocated session id: {session_id:#x}");
             buffer.extend(session_id.to_le_bytes());
 
             ssl_stream.write(&buffer).unwrap();
