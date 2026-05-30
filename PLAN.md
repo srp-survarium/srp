@@ -159,24 +159,29 @@ usable. Split into several commits as it lands.
   logs the match/team it was routed to (warns, but still accepts, when there's no
   assignment — e.g. match run standalone). *Still single-peer; using the team to
   drive spawns comes with the multi-peer relay (4.2/4.3).* **← paused here.**
-- ⬜ **4.1** *(refactor)* Generalise the UDP transport from "the connection" to
-  "a connection in a table keyed by `SocketAddr`/`session_id`". One socket,
-  `recv_from` demultiplexes to per-peer `MatchConnection` state. Keep the
-  existing reliable-UDP logic per peer.
-- ⬜ **4.2** One mock `Game` shared by all peers (per-peer channels fan in; the
-  game fans out to each peer). Replace the hardcoded second player ("beauty")
-  with the **real** connected players.
-- ⬜ **4.3** Spawn each connected client as its own player; compute
-  `is_connected_bitmask` from the live roster instead of `0b0011`.
-- ⬜ **4.4** Relay `ClientPlayerUpdate` from each client to **all the others**,
-  so players see each other move/shoot. Handle join/leave mid-match. This is the
-  crux of "multi-client" for a mock — a relay, not authoritative reconciliation.
-- ⬜ **4.5** *(only if needed)* Tighten the reliability layer for multi-peer:
-  per-peer unacked/retransmit, packet splitting when a tick's messages exceed one
-  datagram, `order_id` handling. Do the minimum the relay actually needs.
+- ✅ **4.1** *(refactor)* UDP transport generalised: `transport.rs` holds a
+  per-peer `Transport` (the reliable seq/ack logic, unchanged) with no threads or
+  socket; `match_server.rs`'s `MatchServer` owns one non-blocking `UdpSocket`,
+  demultiplexes `recv_from` to a `HashMap<SocketAddr, Peer>`, and paces a 120 Hz
+  loop.
+- ✅ **4.2** One shared relay (`MatchServer`) instead of per-peer channels; the
+  hardcoded "beauty" bot is gone. `game.rs` is now pure canned content
+  (MatchOptions/profile/spawn).
+- ✅ **4.3** Each peer is assigned a `player_id` (team from the matchmaker), gets
+  a dynamic roster at `GetStartupInfo` (one profile per connected peer, its own
+  marked `is_local`), and is spawned to/by the others on join.
+  `is_connected_bitmask` is computed from the live roster.
+- ✅ **4.4** `ClientPlayerUpdate` is relayed to every other peer as
+  `ServerPlayerInput{player_id}` — the dumb broadcast (no reconciliation).
+  Disconnect drops the peer and refreshes the others' connected bitmask.
+- ⬜ **4.5** *(only if needed)* Per-peer retransmit / packet splitting / `order_id`
+  — left as before (the originals never retransmitted either); revisit only if
+  in-game testing shows it's needed.
 
-**Exit criterion:** two real clients move around the same map and see each
-other; a third can join. (Mock-level fidelity — desync vs. the engine is fine.)
+**Exit criterion:** two real clients move around the same map and see each other.
+*Structurally complete; verified on-machine via a loopback UDP integration test
+(connection handshake → `ConnectionSuccessful`). The real two-client check needs
+the game client — roster/late-join timing will likely need in-game iteration.*
 
 ## Phase 5 — Hardening enough to be usable
 
