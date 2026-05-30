@@ -5,6 +5,30 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 4 relay (broadcast, nothing smart)
+
+New branch `sushi/0.100b/phase4-relay` (off Phase 4.0). User direction: the
+server just **relays/broadcasts** one client's info to the others — no
+authoritative simulation, no smart processing of data.
+
+Protocol basis (from `resources/notes/making_client_work.cpp`): the client keeps
+`m_net_players[20]`; `server_player_input` (0x82) → `process_player_action` →
+`set_character_transform`, keyed by `player_id` — the movement-relay message.
+`spawn_player` (0x84) spawns a `player_id`; the client collects `players_count`
+profiles before readying. So the relay = assign each peer a `player_id`, spawn
+peers to each other, and forward each `ClientPlayerUpdate` →
+`ServerPlayerInput{player_id}` to the *other* peers.
+
+### Implemented `ServerPlayerInput` serialization (was `todo!()`)
+Writes `player_id` then the three POD structs (`player_input`, `player_state`,
+`weapon_state`) in field order. **Uncertain** (flagged in a code comment): the
+exact wire layout isn't confirmed against the client, and the matching client
+message carries `time_in_ms` rather than `weapon_state`, so the relay supplies a
+best-effort `weapon_state`. Per user: noted, but implemented anyway. Needs in-game
+confirmation.
+
+---
+
 ## 2026-05-30 — Phase 4.0b: match server honours the matchmaking assignment
 
 `MatchConnection` now holds the shared `Arc<SessionStore>` (threaded through
