@@ -374,6 +374,7 @@ dependencies = [
  "env_logger",
  "log",
  "serde",
+ "session",
  "vostok",
 ]
 
@@ -971,6 +972,7 @@ dependencies = [
  "env_logger",
  "log",
  "openssl",
+ "session",
  "survarium",
  "thiserror",
  "vostok",
@@ -1016,6 +1018,7 @@ dependencies = [
  "env_logger",
  "log",
  "openssl",
+ "session",
  "vostok",
 ]
 
