@@ -21,6 +21,8 @@ const _: () = {
 };
 
 fn main() -> std::io::Result<()> {
+    env_logger::init();
+
     let state = Arc::new(lobby_server::ServerState::new_dummy());
 
     let listener = TcpListener::bind(config::get().lobby_server.bind_addr())?;

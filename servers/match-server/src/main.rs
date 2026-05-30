@@ -16,8 +16,10 @@ use crate::match_connection::MatchConnection;
 use vostok::config;
 
 fn main() {
+    env_logger::init();
+
     loop {
-        println!("\n\nStarting a match server");
+        log::info!("Starting a match server");
         _ = std::panic::catch_unwind(run_match_server);
     }
 }

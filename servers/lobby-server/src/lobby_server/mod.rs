@@ -33,7 +33,7 @@ impl ServerState {
         tcp_client
             .send(server::Message::ConnectionSuccessful)
             .unwrap();
-        println!("Connected to client: {session_id}");
+        log::info!("Connected to client: {session_id}");
 
         let mut state = ConnectionState::new_dummy(session_id);
 
@@ -41,8 +41,8 @@ impl ServerState {
             let message = match tcp_client.read::<client::Message>() {
                 Ok(message) => message,
                 Err(error) => {
-                    println!("{error}");
-                    println!("{:?}", tcp_client.get_read_buffer());
+                    log::error!("{error}");
+                    log::error!("{:?}", tcp_client.get_read_buffer());
                     panic!()
                 }
             };
@@ -58,7 +58,7 @@ impl ServerState {
         connection_state: &mut ConnectionState,
         msg: client::Message,
     ) -> Option<server::Message> {
-        println!("[writer] Received {msg:?}");
+        log::debug!("[writer] Received {msg:?}");
 
         match msg {
             client::Message::ReadyForMatch { profile_id: _ } => {

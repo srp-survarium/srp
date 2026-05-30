@@ -5,6 +5,41 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Decision: in-memory, single-process session sharing
+
+Resolved open question #1. The lobby and match servers will share per-client
+session/account state via an **in-memory store in a single process** (the mock
+servers can be merged behind one binary), rather than a shared SQLite DB or an
+internal RPC. Rationale: it's a mock — the simplest thing that lets the servers
+see the same sessions wins, and there's no persistence requirement. This shapes
+Phase 2 (identity) and Phase 3 (matchmaking): they become shared-memory lookups,
+not cross-process calls. May require merging some `servers/*` bins into one
+process with internal threads; to be designed when Phase 2 starts.
+
+## 2026-05-30 — Phase 0.3: structured logging (println → log)
+
+User asked for general server-implementation improvements as their own commits.
+Did logging first because 0.2 ("logged errors") depends on it.
+
+### Decisions taken
+- Added `log` + `env_logger` to the login/lobby/match server crates (browser
+  server already had them) and `env_logger::init()` to each `main`.
+- Converted operational `println!`s to `log::{info,debug,error}!`: connection
+  lifecycle → `info`, decode/parse failures → `error`, verbose per-message dumps
+  → `debug`. **Kept the original message wording and style** (per user note:
+  prefer the existing conventions) — only the mechanism changed.
+- **Left `match-server/src/utils.rs` `print_debug` untouched.** It's a bespoke
+  packet trace that tees to `./target/debug/match-server-<ts>.log` *and* stdout;
+  rerouting it through `log` would change that behaviour for no real gain on a
+  mock. Flagged for a later pass if it becomes noisy.
+
+### Verified
+`cargo check --workspace` clean (same single pre-existing warning). Default log
+output is quieter than before (was unconditional `println!`); set `RUST_LOG`
+(e.g. `RUST_LOG=debug`) to restore verbosity.
+
+---
+
 ## 2026-05-30 — Phase 1: configurable bind vs advertised addresses
 
 `PLAN.md` 1.1–1.3. Replaced the hardcoded-`127.0.0.1` constants in
@@ -119,9 +154,8 @@ assumptions live; recorded that understanding in `CLAUDE.md`.
 
 ### Open questions (to resolve as phases land)
 
-1. **How do the lobby and match servers share session/account state?** Options:
-   (a) run them in one process with shared memory; (b) a tiny internal RPC; (c) a
-   shared sqlite/postgres. Leaning toward (a)/(c) for simplicity. Affects Phase 2.
+1. ~~**How do the lobby and match servers share session/account state?**~~
+   **RESOLVED** → in-memory, single process (see the dated entry above).
 2. **Public-address discovery for the client.** The browser/login responses must
    hand out a routable host. Will the deployment always know its public host via
    config, or do we need the client's-eye-view address? Assume config-provided

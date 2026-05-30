@@ -28,12 +28,14 @@ Status legend: ⬜ todo · 🔄 doing · ✅ done. Keep this in sync with `WORK.
 ## Phase 0 — Foundations (no behavioural change yet)
 
 - ✅ **0.1** Nix dev shell (`flake.nix`) so the workspace builds on Linux.
+- ✅ **0.3** *(improvement)* Switch the ad-hoc `println!` debugging to the `log`
+  crate (already a dependency via browser-server) with `env_logger`, so remote
+  debugging has levels and timestamps. *(Done before 0.2 — "logged errors" in 0.2
+  needs `log` first. Left the match-server `print_debug` file+stdout packet trace
+  in `utils.rs` untouched; it's a deliberate trace, not operational logging.)*
 - ⬜ **0.2** *(improvement)* Replace `unwrap()`/`panic!` in connection-accept
   paths with logged errors that drop the one connection instead of killing the
   server. Introduce a small `Result`-returning handler shape. No protocol change.
-- ⬜ **0.3** *(improvement)* Switch the ad-hoc `println!` debugging to the `log`
-  crate (already a dependency via browser-server) with `env_logger`, so remote
-  debugging has levels and timestamps.
 
 ## Phase 1 — Make it reachable remotely (the "my own server" half)
 
