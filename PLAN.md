@@ -95,9 +95,10 @@ bootstrap scripts tail in separate tabs.
   `pub fn run(store: Arc<SessionStore>) -> io::Result<()>` (store unused for now)
   with a thin standalone `main.rs`. Browser's `run` drives a fresh actix runtime
   via `System::new().block_on`. No behaviour change.
-- ⬜ **2.5** Unified **`srp` binary**: builds one shared store, spawns a thread per
-  server, `catch_unwind` + restart per thread (crash isolation), installs the file
-  logger.
+- ✅ **2.5** Unified **`srp` binary** (`servers/srp`): builds one shared store,
+  spawns a supervised thread per server (`catch_unwind` + restart after a 1s
+  delay, so no server can crash the process). Uses `env_logger` for now; the file
+  logger lands in 2.3.
 - ⬜ **2.6** Wire **login → store**: `get_or_create_account(ip, email)` +
   `create_session`; accept empty email.
 - ⬜ **2.7** Wire **lobby → store**: `ConnectionState` backed by the shared

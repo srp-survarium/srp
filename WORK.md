@@ -5,6 +5,17 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 2.5: unified `srp` binary with crash isolation
+
+New `servers/srp` bin runs login + browser + lobby in one process sharing one
+`Arc<SessionStore>`. Each runs on a named thread under `supervise()`, which loops
+`catch_unwind(run)` and restarts (after a 1s delay to avoid a hot loop) on clean
+exit, error, or panic — so no server can take the process down (the user's hard
+requirement). `AssertUnwindSafe` wraps the closure (`Arc<SessionStore>` is fine
+across the boundary). Still `env_logger`; the per-server file logger is 2.3 next.
+
+---
+
 ## 2026-05-30 — Phase 2.4: lib-ify login/lobby/browser
 
 Each server crate is now a lib + thin bin. `main.rs` → `lib.rs` (via `git mv`),

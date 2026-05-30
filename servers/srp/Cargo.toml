@@ -1,0 +1,17 @@
+[package]
+name = "srp"
+version.workspace = true
+edition.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+env_logger = { workspace = true }
+log = { workspace = true }
+
+session = { workspace = true }
+
+browser-server = { path = "../browser-server" }
+lobby-server = { path = "../lobby-server" }
+login-server = { path = "../login-server" }

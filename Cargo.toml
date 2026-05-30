@@ -9,6 +9,7 @@ members = [
   "servers/lobby-server",
   "servers/login-server",
   "servers/match-server",
+  "servers/srp",
 
   "scripts/binary-config-cli",      # Parser for binary config files
   "scripts/build-engine-structure", # IDA helper for buidling directory structure based on C++ namespaces
