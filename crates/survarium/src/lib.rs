@@ -2,5 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #![feature(slice_split_once)]
 
+pub mod account;
 pub mod player_input;
 pub mod player_profile;
