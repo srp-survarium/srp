@@ -5,6 +5,20 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Linux dev bootstrapper
+
+User asked to make the server runnable from Linux. Added `scripts/dev-bootstrap.sh`
+— the tmux counterpart to the Windows `.bat`: a `srp` window (unified binary), a
+`match` window, and `login`/`lobby`/`browser` windows each `tail -F`-ing
+`logs/<server>.log`. `tail -F` retries on a missing file, so no wait loop is
+needed. Added `tmux` to the flake dev shell so the script's only prerequisite is
+`nix develop`. Verified: tmux creates detached sessions + named windows in this
+environment, and `bash -n` passes. (Didn't fully launch the servers under tmux
+here — that's interactive and binds ports; the tmux mechanics and the `srp` binary
+were each verified separately.)
+
+---
+
 ## 2026-05-30 — Phase 2.8: bootstrap tabs tail per-server logs
 
 Updated `survarium-dev-bootstrap.bat`: the four per-server tabs are replaced by

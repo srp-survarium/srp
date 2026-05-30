@@ -113,11 +113,11 @@ bootstrap scripts tail in separate tabs.
   distinct IP/email now get distinct accounts. *(The lobby snapshots the account;
   live write-back to the store — for the match server to see lobby edits — is left
   to Phase 4.)*
-- ✅ **2.8** Updated **`survarium-dev-bootstrap.bat`**: one tab runs the unified
-  `srp` binary, the match server keeps its own tab (separate process), and
-  login/lobby/browser each get a tab that tails `logs/<server>.log` (waiting for
-  the file, then `Get-Content -Wait`). *(Windows-only script; not runnable on this
-  Linux box — needs a manual run on the dev machine.)*
+- ✅ **2.8** Bootstrap launchers (both OSes): one launches the unified `srp`
+  binary, the match server (separate process), and a per-server log view.
+  - `survarium-dev-bootstrap.bat` (Windows Terminal tabs; `Get-Content -Wait`).
+  - `scripts/dev-bootstrap.sh` (Linux, tmux windows; `tail -F`) — so the server is
+    runnable end-to-end from Linux. tmux is provided by the flake dev shell.
 
 **Exit criterion:** two clients sign in with distinct IP/email and see *different*
 accounts in the lobby; one process where no server can crash another; logs still
