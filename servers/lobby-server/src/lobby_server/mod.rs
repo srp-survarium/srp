@@ -59,7 +59,7 @@ impl ServerState {
                     panic!()
                 }
             };
-            let Some(response) = self.handle_client_message(&mut state, message) else {
+            let Some(response) = self.handle_client_message(&store, &mut state, message) else {
                 continue;
             };
             tcp_client.send(response).unwrap();
@@ -68,6 +68,7 @@ impl ServerState {
 
     pub fn handle_client_message(
         &self,
+        store: &SessionStore,
         connection_state: &mut ConnectionState,
         msg: client::Message,
     ) -> Option<server::Message> {
@@ -75,9 +76,19 @@ impl ServerState {
 
         match msg {
             client::Message::ReadyForMatch { profile_id: _ } => {
+                // Place this session into a match (balancing teams) and tell the
+                // client where to go. The match server reads the same assignment
+                // back from the store when the client connects (Phase 4).
+                let assignment = store.join_match(connection_state.session_id);
+                log::info!(
+                    "Session {:#x} -> match {:#x} team {}",
+                    connection_state.session_id,
+                    assignment.match_id,
+                    assignment.team_id
+                );
                 Some(server::Message::ConnectToMatchServer {
-                    match_id: 0x123,
-                    team_id: 0x1,
+                    match_id: assignment.match_id,
+                    team_id: assignment.team_id,
                 })
             }
 
