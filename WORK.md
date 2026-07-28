@@ -5,6 +5,30 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-07-28 — Fixed-damage demo respawns
+
+Branch `feature/demo-respawn-and-damage` (stacked on
+`feature/drop-in-demo-match`) completes the minimal death loop without adding
+round state:
+
+- every accepted client hit deals a server-selected 25 damage, regardless of
+  the amount or armor-piercing value in the untrusted report;
+- reaching zero health broadcasts the existing stock `KillPlayer` message and
+  schedules that player to respawn after exactly ten seconds;
+- respawn resets health, selects a point with the existing tiny demo PRNG, and
+  broadcasts `SpawnPlayer` to the live match;
+- hit delivery now covers all fixed-array player IDs `0..19`.
+
+The last point was checked against the shipped 0.100b executable and PDB. Its
+`hit_info::deserialize` calls a function typed as `packet_reader::r<bool>`, but
+the machine code copies the raw byte without normalization. The server must
+therefore serialize full `u8` IDs; no damage-message decoder patch is needed.
+
+The permanent-warmup design still sends neither
+`GameStatusChanged(inprocess)` nor `MatchTimeChanged`. PR #22's version-locked
+DLL removes only the two verified `inprocess` guards which otherwise prevent
+local controls from attaching during initial sync and respawn.
+
 ## 2026-05-30 — Phase 4 robustness + Phase 5 hardening
 
 Branch `sushi/0.100b/phase5-hardening` (off the relay). User scope: **movement
