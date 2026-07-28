@@ -130,6 +130,9 @@ impl ConnectionState {
                     i(45, 45, 1),
                     i(46, 46, 1),
                     i(47, 47, 1),
+                    //
+                    i(48, 74, 100),    // AKMN
+                    i(49, 75, 10_000), // 7.62x39 ammunition
                 ]
             },
 
@@ -156,5 +159,44 @@ impl ConnectionState {
                 },
             ],
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn akmn_is_added_without_replacing_stock_inventory() {
+        let state = ConnectionState::new_dummy(0xDD00);
+        let dict_ids: std::collections::HashSet<_> =
+            state.inventory.iter().map(|item| item.dict_id).collect();
+
+        assert!(dict_ids.contains(&13), "stock AK-74u must remain available");
+        assert!(
+            dict_ids.contains(&53),
+            "stock ammunition must remain available"
+        );
+        assert!(dict_ids.contains(&74), "AKMN must be available");
+        assert!(
+            dict_ids.contains(&75),
+            "7.62x39 ammunition must be available"
+        );
+        assert_eq!(
+            state
+                .inventory
+                .iter()
+                .filter(|item| item.dict_id == 74)
+                .count(),
+            1
+        );
+        assert_eq!(
+            state
+                .inventory
+                .iter()
+                .filter(|item| item.dict_id == 75)
+                .count(),
+            1
+        );
     }
 }
