@@ -12,9 +12,9 @@
 //     `HitPlayer`/`KillPlayer` messages.
 //
 // Movement and damage remain client-reported demo data; there is no geometry,
-// armor, healing, respawn, or reconciliation. Roster handling is best-effort
-// (see WORK.md) — the clean case is clients connecting before either readies
-// up; late joins may render imperfectly and need in-game iteration.
+// armor, healing, respawn, timer, or reconciliation. The stock client has a
+// fixed 20-player array. Late join/profile replacement remains best-effort and
+// may require a client patch (see WORK.md).
 
 use std::collections::HashMap;
 use std::io;
@@ -22,21 +22,18 @@ use std::net::{SocketAddr, UdpSocket};
 use std::sync::Arc;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
-use session::SessionStore;
+use session::{MAX_PLAYERS_PER_MATCH, SessionStore};
 use survarium::player_input::weapon_state;
 use survarium::player_profile::raw::{
     game_team_id, player_profile as raw_player_profile, profile_slot_enum,
 };
 
 use crate::game;
-use crate::message::server_message::raw::game_status;
 use crate::message::{ClientGameMessageKind, PlayerHit, PlayerKill, ServerGameMessageKind};
 use crate::transport::Transport;
 
 const FRAMES_PER_SECOND: u64 = 120;
 const FRAME_DURATION: Duration = Duration::from_millis(1000 / FRAMES_PER_SECOND);
-/// Client tracks `m_net_players[20]`, so at most 20 player ids.
-const MAX_PLAYERS: u8 = 20;
 /// Standalone clients without a lobby assignment share the historic match.
 const DEFAULT_MATCH_ID: u32 = 0x123;
 /// Drop a peer we haven't heard from for this long (the client sends keepalives
@@ -52,6 +49,7 @@ struct Peer {
     transport: Transport,
     /// `false` until the peer's `ConnectionRequest` assigns it a player id.
     registered: bool,
+    session_id: Option<u32>,
     match_id: u32,
     player_id: u8,
     team: game_team_id,
@@ -73,6 +71,7 @@ impl Peer {
         Self {
             transport: Transport::new(),
             registered: false,
+            session_id: None,
             match_id: DEFAULT_MATCH_ID,
             player_id: 0,
             team: game_team_id::team_1,
@@ -244,17 +243,21 @@ impl MatchServer {
                 peer.spawn_index = spawn_index;
                 let player_id = peer.player_id;
 
-                // Spawn the joining player for itself and start the match.
-                self.send_to(
-                    from,
-                    ServerGameMessageKind::GameStatusChanged {
-                        game_status: game_status::inprocess,
-                    },
-                );
+                // This is a permanent demo/warmup: spawn the player without
+                // transitioning the stock client to `inprocess`. That transition
+                // starts its match timer and would eventually end an otherwise
+                // stateless drop-in session.
                 self.send_to(from, self.spawn_message(match_id, player_id));
 
                 // Let everyone already in the match see the newcomer.
                 self.broadcast_to_others(from, self.spawn_message(match_id, player_id));
+                self.broadcast_to_others(
+                    from,
+                    ServerGameMessageKind::PlayerVisibilityChanged {
+                        player_id,
+                        is_visible: true,
+                    },
+                );
             }
 
             ClientGameMessageKind::TeamBasesInitializeInfo => {
@@ -402,7 +405,12 @@ impl MatchServer {
             return;
         }
 
-        let assignment = self.store.match_assignment(session_id);
+        let account = self.store.account_for_session(session_id);
+        let assignment = self.store.match_assignment(session_id).or_else(|| {
+            // A known session may reconnect directly after its previous peer was
+            // reaped. Re-enter matchmaking so it can claim any live vacancy.
+            account.is_some().then(|| self.store.join_match(session_id))
+        });
         let match_id = assignment
             .map(|assignment| assignment.match_id)
             .unwrap_or(DEFAULT_MATCH_ID);
@@ -411,14 +419,15 @@ impl MatchServer {
             _ => game_team_id::team_1,
         };
 
-        let player_id = (0..MAX_PLAYERS).find(|candidate| {
+        let player_id = (0..MAX_PLAYERS_PER_MATCH).find(|candidate| {
             !self.peers.values().any(|peer| {
                 peer.registered && peer.match_id == match_id && peer.player_id == *candidate
             })
         });
         let Some(player_id) = player_id else {
             log::warn!(
-                "match {match_id:#x} full ({MAX_PLAYERS} players); rejecting session {session_id:#x}"
+                "match {match_id:#x} full ({MAX_PLAYERS_PER_MATCH} players); \
+                 rejecting session {session_id:#x}"
             );
             // The transport has already acknowledged the connection request.
             // Remove it now so it cannot continue with the default player ID.
@@ -426,7 +435,6 @@ impl MatchServer {
             return;
         };
 
-        let account = self.store.account_for_session(session_id);
         let name = account
             .as_ref()
             .map(|account| account.lock().unwrap().name.clone())
@@ -445,6 +453,7 @@ impl MatchServer {
 
         if let Some(peer) = self.peers.get_mut(&addr) {
             peer.registered = true;
+            peer.session_id = Some(session_id);
             peer.match_id = match_id;
             peer.player_id = player_id;
             peer.team = team;
@@ -547,13 +556,35 @@ impl MatchServer {
             return;
         }
 
+        let mut departures = Vec::new();
         for addr in gone {
             if let Some(peer) = self.peers.remove(&addr) {
                 log::info!("player {} ({addr}) disconnected", peer.player_id);
+                departures.push((peer.match_id, peer.player_id, peer.joined, peer.session_id));
             }
         }
 
-        // Best-effort leave signal: refresh each match's connected bitmask.
+        for (match_id, player_id, was_joined, session_id) in departures {
+            if let Some(session_id) = session_id
+                && !self
+                    .peers
+                    .values()
+                    .any(|peer| peer.registered && peer.session_id == Some(session_id))
+            {
+                self.store.leave_match(session_id);
+            }
+            if was_joined {
+                self.broadcast_to_match(
+                    match_id,
+                    ServerGameMessageKind::PlayerVisibilityChanged {
+                        player_id,
+                        is_visible: false,
+                    },
+                );
+            }
+        }
+
+        // Refresh each match's connected bitmask after releasing departed peers.
         let bitmasks: HashMap<u32, u32> = self.peers.values().filter(|peer| peer.registered).fold(
             HashMap::new(),
             |mut bitmasks, peer| {
@@ -691,6 +722,39 @@ mod tests {
     }
 
     #[test]
+    fn reaping_a_departure_releases_its_match_and_player_slots() {
+        let store = Arc::new(SessionStore::new());
+        let departed_assignment = store.join_match(1);
+        store.join_match(2);
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::clone(&store)).unwrap();
+
+        let departed = peer_addr(11_100);
+        let remaining = peer_addr(11_101);
+        let mut departed_peer = joined_peer(departed_assignment.match_id, 0);
+        departed_peer.session_id = Some(1);
+        departed_peer.last_seen = Instant::now() - IDLE_TIMEOUT - Duration::from_secs(1);
+        let mut remaining_peer = joined_peer(departed_assignment.match_id, 1);
+        remaining_peer.session_id = Some(2);
+        server.peers.insert(departed, departed_peer);
+        server.peers.insert(remaining, remaining_peer);
+
+        server.reap_peers();
+
+        assert!(!server.peers.contains_key(&departed));
+        assert_eq!(store.match_assignment(1), None);
+        let replacement_assignment = store.join_match(3);
+        assert_eq!(
+            replacement_assignment.match_id,
+            departed_assignment.match_id
+        );
+
+        let replacement = peer_addr(11_102);
+        server.peers.insert(replacement, Peer::new());
+        server.register_peer(replacement, 3);
+        assert_eq!(server.peers[&replacement].player_id, 0);
+    }
+
+    #[test]
     fn removes_an_over_capacity_unassigned_peer() {
         let store = Arc::new(SessionStore::new());
         let mut server = MatchServer::bind("127.0.0.1:0", store).unwrap();
@@ -702,6 +766,7 @@ mod tests {
         }
 
         assert!(!server.peers.contains_key(&peer_addr(12_020)));
+        assert_eq!(MAX_PLAYERS_PER_MATCH, 20);
     }
 
     #[test]

@@ -25,6 +25,8 @@ pub fn match_options(player_count: u8) -> ServerGameMessageKind {
         player_count,
         victory_item_count: 10, // batteries
         respawn_time: 10,
+        // Required match metadata only. The demo never sends the status/time
+        // messages that activate or advance the stock client's match timer.
         match_time: 15 * 60,
     }
 }

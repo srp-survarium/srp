@@ -199,6 +199,12 @@ impl SessionStore {
     pub fn match_assignment(&self, session_id: u32) -> Option<Assignment> {
         self.matchmaker.lock().unwrap().assignment_for(session_id)
     }
+
+    /// Release a departed session's active-player slot. Account and selected
+    /// profile data remain available so the same user may immediately rejoin.
+    pub fn leave_match(&self, session_id: u32) -> Option<Assignment> {
+        self.matchmaker.lock().unwrap().leave(session_id)
+    }
 }
 
 /// Where a session was placed: which match, and which team (`1` or `2`).
@@ -211,25 +217,34 @@ pub struct Assignment {
 /// First match id handed out. Kept at the historic constant the lobby used to
 /// return, so the first/only client's match is unchanged.
 const FIRST_MATCH_ID: u32 = 0x123;
-/// Players a single match accepts before a new one is opened.
-const MAX_PLAYERS_PER_MATCH: u32 = 20;
+/// Hard protocol/client limit: the stock game stores players in
+/// `m_net_players[20]`.
+pub const MAX_PLAYERS_PER_MATCH: u8 = 20;
 
-/// Minimal mock matchmaker: fills one open match at a time, balancing teams.
+/// Minimal mock matchmaker: fills the most populated match with a vacancy,
+/// balancing teams. Departures release their assignment so the demo stays
+/// drop-in/drop-out instead of accumulating permanent historical occupants.
 struct Matchmaker {
-    open_match: Option<Match>,
+    matches: Vec<Match>,
     next_match_id: u32,
     assignments: HashMap<u32, Assignment>, // session_id -> assignment
 }
 
 struct Match {
     id: u32,
-    team_counts: [u32; 2],
+    team_counts: [u8; 2],
+}
+
+impl Match {
+    fn player_count(&self) -> u8 {
+        self.team_counts[0] + self.team_counts[1]
+    }
 }
 
 impl Matchmaker {
     fn new() -> Self {
         Self {
-            open_match: None,
+            matches: Vec::new(),
             next_match_id: FIRST_MATCH_ID,
             assignments: HashMap::new(),
         }
@@ -240,20 +255,32 @@ impl Matchmaker {
             return *assignment;
         }
 
-        let full = self
-            .open_match
-            .as_ref()
-            .is_none_or(|m| m.team_counts[0] + m.team_counts[1] >= MAX_PLAYERS_PER_MATCH);
-        if full {
-            let id = self.next_match_id;
-            self.next_match_id += 1;
-            self.open_match = Some(Match {
-                id,
-                team_counts: [0, 0],
+        let match_index = self
+            .matches
+            .iter()
+            .enumerate()
+            .filter(|(_, game_match)| game_match.player_count() < MAX_PLAYERS_PER_MATCH)
+            .max_by(|(_, lhs), (_, rhs)| {
+                lhs.player_count()
+                    .cmp(&rhs.player_count())
+                    .then_with(|| rhs.id.cmp(&lhs.id))
+            })
+            .map(|(index, _)| index)
+            .unwrap_or_else(|| {
+                let index = self.matches.len();
+                self.matches.push(Match {
+                    id: self.next_match_id,
+                    team_counts: [0, 0],
+                });
+                self.next_match_id += 1;
+                index
             });
+
+        let current = &mut self.matches[match_index];
+        if current.player_count() >= MAX_PLAYERS_PER_MATCH {
+            unreachable!("match selection must return a vacancy");
         }
 
-        let current = self.open_match.as_mut().unwrap();
         // Put the new player on the smaller team (the first player goes to team 1).
         let team = usize::from(current.team_counts[0] > current.team_counts[1]);
         current.team_counts[team] += 1;
@@ -264,6 +291,23 @@ impl Matchmaker {
         };
         self.assignments.insert(session_id, assignment);
         assignment
+    }
+
+    fn leave(&mut self, session_id: u32) -> Option<Assignment> {
+        let assignment = self.assignments.remove(&session_id)?;
+        if let Some(game_match) = self
+            .matches
+            .iter_mut()
+            .find(|game_match| game_match.id == assignment.match_id)
+        {
+            let team = usize::from(assignment.team_id.saturating_sub(1));
+            if let Some(team_count) = game_match.team_counts.get_mut(team) {
+                *team_count = team_count.saturating_sub(1);
+            }
+        }
+        self.matches
+            .retain(|game_match| game_match.player_count() != 0);
+        Some(assignment)
     }
 
     fn assignment_for(&self, session_id: u32) -> Option<Assignment> {
@@ -356,6 +400,27 @@ mod tests {
         assert_eq!(first, again);
         assert_eq!(store.match_assignment(7), Some(first));
         assert_eq!(store.match_assignment(999), None);
+    }
+
+    #[test]
+    fn leaving_a_full_match_opens_its_slot_to_the_next_session() {
+        let store = SessionStore::new();
+        let first_match: Vec<_> = (0..u32::from(MAX_PLAYERS_PER_MATCH))
+            .map(|session_id| store.join_match(session_id))
+            .collect();
+        assert!(
+            first_match
+                .iter()
+                .all(|assignment| assignment.match_id == FIRST_MATCH_ID)
+        );
+
+        let overflow = store.join_match(100);
+        assert_ne!(overflow.match_id, FIRST_MATCH_ID);
+        assert_eq!(store.leave_match(7), Some(first_match[7]));
+        assert_eq!(store.match_assignment(7), None);
+
+        let replacement = store.join_match(101);
+        assert_eq!(replacement.match_id, FIRST_MATCH_ID);
     }
 
     #[test]

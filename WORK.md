@@ -88,8 +88,9 @@ Per message:
   from the account.
 - `GetStartupInfo` → `MatchOptions{player_count = roster size}` + one
   `PlayerProfile` per connected peer (sender's marked `is_local`).
-- `JoinMatch` → `GameStatusChanged(inprocess)` + spawn the joiner to itself, and
-  broadcast its spawn to the others.
+- `JoinMatch` → spawn the joiner to itself and broadcast its spawn to the
+  others. The demo deliberately never sends `GameStatusChanged(inprocess)` or
+  `MatchTimeChanged`, so the stock match timer never starts.
 - `TeamBasesInitializeInfo` → spawn every other joined player to the sender +
   `SyncResponse{bitmask}`.
 - `ClientPlayerUpdate` → broadcast `ServerPlayerInput{player_id}` to the others.
@@ -101,17 +102,20 @@ gone — players are real peers now.
   connected at `GetStartupInfo` time (must, or the client waits forever for
   missing profiles). A peer that joins *after* another already readied is spawned
   to the others, but they never got its `PlayerProfile`, so late-join rendering may
-  be imperfect. The clean case (both connect before either readies) is the target;
-  late join needs in-game iteration. Did **not** try to retroactively push
-  profiles (uncertain whether the client accepts a late `player_profile` without
-  corrupting its `received==players_count` counter).
+  be imperfect or crash the stock client. The server accepts that demo
+  limitation; a client binary patch can make replacement fully safe later. Did
+  **not** try to retroactively push profiles (uncertain whether the client
+  accepts a late `player_profile` without corrupting its
+  `received==players_count` counter).
 - **No retransmit / packet-split / `order_id`** — same as the original
   single-peer code (4.5, only if needed).
-- **player_id is monotonic** (not reused on leave) — fine for ≤20 short-lived
-  peers.
+- **20 active players maximum.** This follows the stock client's fixed
+  `m_net_players[20]` array. A disconnect releases both its matchmaking
+  assignment and lowest-available player ID so a later user can fill the live
+  match vacancy.
 
 ### Verified
-`cargo test -p match-server`: 5 pass, 1 ignored. Added a **loopback UDP
+`cargo test --workspace` passes; match server: 26 pass, 1 ignored. Added a **loopback UDP
 integration test** (`responds_to_a_connection_request`): boots a real `MatchServer`
 on an ephemeral port and checks a crafted `ConnectionRequest` gets a
 `ConnectionSuccessful` back — exercises bind, demux, the handshake, `send_to` and
