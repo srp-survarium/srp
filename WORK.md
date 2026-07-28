@@ -5,6 +5,88 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 4 relay (broadcast, nothing smart)
+
+New branch `sushi/0.100b/phase4-relay` (off Phase 4.0). User direction: the
+server just **relays/broadcasts** one client's info to the others — no
+authoritative simulation, no smart processing of data.
+
+Protocol basis (from `resources/notes/making_client_work.cpp`): the client keeps
+`m_net_players[20]`; `server_player_input` (0x82) → `process_player_action` →
+`set_character_transform`, keyed by `player_id` — the movement-relay message.
+`spawn_player` (0x84) spawns a `player_id`; the client collects `players_count`
+profiles before readying. So the relay = assign each peer a `player_id`, spawn
+peers to each other, and forward each `ClientPlayerUpdate` →
+`ServerPlayerInput{player_id}` to the *other* peers.
+
+### Implemented `ServerPlayerInput` serialization (was `todo!()`)
+Writes `player_id` then the three POD structs (`player_input`, `player_state`,
+`weapon_state`) in field order. **Uncertain** (flagged in a code comment): the
+exact wire layout isn't confirmed against the client, and the matching client
+message carries `time_in_ms` rather than `weapon_state`, so the relay supplies a
+best-effort `weapon_state`. Per user: noted, but implemented anyway. Needs in-game
+confirmation.
+
+### Multi-peer transport (`transport.rs`, was `match_connection.rs`)
+Split transport from threading: `Transport` is now a per-peer object holding only
+the reliable seq/ack state — **the ack math is byte-for-byte the original**. It no
+longer owns a socket or reader/writer threads; methods take a shared `&UdpSocket`
++ the peer's `SocketAddr` and `send_to`. `handle_datagram` returns the decoded
+client messages instead of pushing to a channel. `initiate_disconnection` now
+marks the peer `Disconnected` (the loop reaps it) instead of `panic!`-ing the
+whole server.
+
+### The relay (`match_server.rs` + `game.rs`)
+`MatchServer` owns one non-blocking `UdpSocket`, a `HashMap<SocketAddr, Peer>`, and
+a 120 Hz loop: drain `recv_from` → per-peer `Transport` → `handle_game_message`.
+Per message:
+- `ConnectionRequest` → assign a `player_id`, team from `match_assignment`, name
+  from the account.
+- `GetStartupInfo` → `MatchOptions{player_count = roster size}` + one
+  `PlayerProfile` per connected peer (sender's marked `is_local`).
+- `JoinMatch` → `GameStatusChanged(inprocess)` + spawn the joiner to itself, and
+  broadcast its spawn to the others.
+- `TeamBasesInitializeInfo` → spawn every other joined player to the sender +
+  `SyncResponse{bitmask}`.
+- `ClientPlayerUpdate` → broadcast `ServerPlayerInput{player_id}` to the others.
+`game.rs` became pure canned content (no state); the hardcoded "beauty" bot is
+gone — players are real peers now.
+
+### Decisions / not-taken
+- **Dynamic roster, best-effort late join.** `player_count` reflects who's
+  connected at `GetStartupInfo` time (must, or the client waits forever for
+  missing profiles). A peer that joins *after* another already readied is spawned
+  to the others, but they never got its `PlayerProfile`, so late-join rendering may
+  be imperfect. The clean case (both connect before either readies) is the target;
+  late join needs in-game iteration. Did **not** try to retroactively push
+  profiles (uncertain whether the client accepts a late `player_profile` without
+  corrupting its `received==players_count` counter).
+- **No retransmit / packet-split / `order_id`** — same as the original
+  single-peer code (4.5, only if needed).
+- **player_id is monotonic** (not reused on leave) — fine for ≤20 short-lived
+  peers.
+
+### Verified
+`cargo test -p match-server`: 5 pass, 1 ignored. Added a **loopback UDP
+integration test** (`responds_to_a_connection_request`): boots a real `MatchServer`
+on an ephemeral port and checks a crafted `ConnectionRequest` gets a
+`ConnectionSuccessful` back — exercises bind, demux, the handshake, `send_to` and
+server-packet serialization on-machine. `cargo run --bin srp` still starts all
+four servers; match binds UDP 1236 via the new loop.
+
+### Fixed a latent crash
+`utils.rs`'s packet-trace `File::create("./target/debug/...")` `unwrap()`ed and
+would crash the match server whenever run from a CWD without that dir (incl. under
+`cargo test`). Now creates the dir and falls back to the temp dir.
+
+### Pre-existing stale test
+`client_message.rs::fails_to_parse_new_message_types` was already failing before
+this branch (its captured packet's `join_match`/`team_bases_initialize_info` are
+now supported, so it parses instead of erroring). `#[ignore]`d with a note rather
+than silently flipping its assertion; left for the owner to repurpose.
+
+---
+
 ## 2026-05-30 — Phase 4.0b: match server honours the matchmaking assignment
 
 `MatchConnection` now holds the shared `Arc<SessionStore>` (threaded through

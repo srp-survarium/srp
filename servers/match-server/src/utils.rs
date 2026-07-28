@@ -21,11 +21,18 @@ fn log_file() -> Mutex<std::fs::File> {
         since_the_epoch.as_secs()
     }
 
-    let file_name = format!(
-        "./target/debug/match-server-{time}.log",
-        time = get_current_time()
-    );
-    Mutex::new(std::fs::File::create(file_name).unwrap())
+    let time = get_current_time();
+    let name = format!("match-server-{time}.log");
+
+    // Prefer ./target/debug (next to the build), but create it if missing and
+    // fall back to the temp dir, so the trace never crashes the server just
+    // because of the current working directory (e.g. under `cargo test`).
+    let dir = std::path::Path::new("./target/debug");
+    let _ = std::fs::create_dir_all(dir);
+    let file = std::fs::File::create(dir.join(&name))
+        .or_else(|_| std::fs::File::create(std::env::temp_dir().join(&name)))
+        .expect("failed to create match-server trace log");
+    Mutex::new(file)
 }
 
 impl message::ClientMessage {

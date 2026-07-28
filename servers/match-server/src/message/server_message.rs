@@ -346,8 +346,23 @@ impl Serialize for ServerGameMessageKind {
                 }
             }
 
-            Self::ServerPlayerInput { .. } => {
-                todo!()
+            // @NOTE: Best-effort layout. The client reads this via
+            // `process_player_action` -> `set_character_transform` + `time_warp`,
+            // keyed by `player_id`. We write the id followed by the three POD
+            // structs in field order. The exact wire layout (and whether the
+            // client expects `weapon_state` here, since the matching client
+            // message `client_player_update` carries `time_in_ms` instead) is not
+            // confirmed against the client — revisit if movement relay misbehaves.
+            Self::ServerPlayerInput {
+                player_id,
+                player_input,
+                player_state,
+                weapon_state,
+            } => {
+                packet.write(player_id);
+                packet.write(player_input);
+                packet.write(player_state);
+                packet.write(weapon_state);
             }
             Self::MatchTimeChanged { match_time } => {
                 packet.write(match_time);
