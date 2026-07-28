@@ -3,10 +3,9 @@
 # Linux dev bootstrapper — the counterpart to survarium-dev-bootstrap.bat.
 #
 # Launches the mock servers in a tmux session, one window each:
-#   * srp      — the unified binary (login + browser + lobby in one process)
-#   * match    — the match server (still a separate process)
-#   * login / lobby / browser — `tail -F` of that server's log file, so logs stay
-#     separable even though three servers share the `srp` process.
+#   * srp      — the unified binary (login + browser + lobby + match, one process)
+#   * login / lobby / browser / match — `tail -F` of that server's log file, so
+#     logs stay separable even though the servers share the `srp` process.
 #
 # Run it from inside the dev shell (so cargo + tmux are on PATH):
 #   nix develop
@@ -38,10 +37,10 @@ mkdir -p logs
 tmux kill-session -t "$SESSION" 2>/dev/null || true
 
 tmux new-session -d -s "$SESSION" -n srp     -c "$ROOT" 'cargo run --bin srp'
-tmux new-window  -t "$SESSION"    -n match   -c "$ROOT" 'cargo run --bin match-server'
 tmux new-window  -t "$SESSION"    -n login   -c "$ROOT" 'tail -F logs/login.log'
 tmux new-window  -t "$SESSION"    -n lobby   -c "$ROOT" 'tail -F logs/lobby.log'
 tmux new-window  -t "$SESSION"    -n browser -c "$ROOT" 'tail -F logs/browser.log'
+tmux new-window  -t "$SESSION"    -n match   -c "$ROOT" 'tail -F logs/match.log'
 
 tmux select-window -t "$SESSION:srp"
 tmux attach-session -t "$SESSION"

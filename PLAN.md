@@ -153,11 +153,12 @@ peers and relay between them so players see each other. It is explicitly **not**
 an authoritative game loop — no real simulation, just enough fan-out to be
 usable. Split into several commits as it lands.
 
-- ⬜ **4.0** *(was 3.2)* Bring the match server into the unified `srp` process
-  (lib-ify + supervised thread, sharing the store), then have it **honour the
-  matchmaking assignment**: on `ConnectionRequest { session_id }` look up
-  `match_assignment(session_id)` to validate the peer and learn its team, instead
-  of the hardcoded setup. Prerequisite for the rest of Phase 4.
+- ✅ **4.0** *(was 3.2)* Match server is now the 4th supervised thread in `srp`,
+  sharing the store, and **honours the matchmaking assignment**: on
+  `ConnectionRequest { session_id }` it looks up `match_assignment(session_id)` and
+  logs the match/team it was routed to (warns, but still accepts, when there's no
+  assignment — e.g. match run standalone). *Still single-peer; using the team to
+  drive spawns comes with the multi-peer relay (4.2/4.3).* **← paused here.**
 - ⬜ **4.1** *(refactor)* Generalise the UDP transport from "the connection" to
   "a connection in a table keyed by `SocketAddr`/`session_id`". One socket,
   `recv_from` demultiplexes to per-peer `MatchConnection` state. Keep the

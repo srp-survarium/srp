@@ -14,5 +14,6 @@ bytemuck = { workspace = true }
 env_logger = { workspace = true }
 log = { workspace = true }
 
+session = { workspace = true }
 survarium = { workspace = true }
 vostok = { workspace = true }
