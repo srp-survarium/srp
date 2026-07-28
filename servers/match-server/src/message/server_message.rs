@@ -476,4 +476,26 @@ mod test {
         ];
         assert_eq!(packet.get_message(), expected);
     }
+
+    #[test]
+    fn spawn_player_contains_all_selected_ammo_slot_amounts() {
+        let mut packet = UdpPacket::new();
+        let profile =
+            survarium::player_profile::raw::player_profile::new_dummy(1, 0, "demo_player");
+        ServerGameMessageKind::SpawnPlayer {
+            player_id: 0,
+            player: crate::game::spawn_content(0, &profile),
+        }
+        .serialize(&mut packet);
+
+        assert!(
+            packet
+                .get_message()
+                .windows(2)
+                .filter(|window| *window == 10_000_u16.to_le_bytes())
+                .count()
+                >= 4,
+            "spawn state must contain all four selected large ammo stacks"
+        );
+    }
 }

@@ -2,6 +2,24 @@ use bytemuck::Zeroable;
 use raw::*;
 use vostok::network_packet::Packet;
 
+pub const DEMO_AMMO_AMOUNT: u16 = 10_000;
+
+// Every item currently exposed by the 0.100b lobby's price, compatibility,
+// restriction, and quick-item tables.
+pub const DEMO_WEAPON_DICT_IDS: [u16; 11] = [12, 13, 14, 15, 16, 17, 18, 19, 55, 56, 64];
+pub const DEMO_AMMO_DICT_IDS: [u16; 11] = [7, 20, 22, 50, 51, 52, 53, 70, 71, 72, 73];
+pub const DEMO_GEAR_DICT_IDS: [u16; 25] = [
+    24, 35, 36, 37, 38, 39, // boots
+    25, 40, 41, 42, // gloves
+    28, 44, 45, 46, 47, // legs
+    27, // helmet
+    43, // mask
+    29, 31, 32, 33, 34, 48, // torso
+    9, 49, // backpacks
+];
+pub const DEMO_QUICK_ITEM_DICT_IDS: [u16; 6] = [65, 66, 67, 68, 54, 57];
+pub const DEMO_SCOPE_DICT_IDS: [u16; 1] = [69];
+
 pub mod raw {
     #[repr(C)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
@@ -252,21 +270,31 @@ impl player_profile {
         #[rustfmt::skip]
         {
             use profile_slot_enum::*;
-            // slots[boots_slot]   = i(1, 24, 100);
-            // slots[gloves_slot]  = i(2, 40, 20);
-            // slots[pants_slot]   = i(3, 46, 30);
-            // slots[helmet_slot]  = i(4, 27, 40);
-            // slots[mask_slot]    = i(5, 43, 50);
-            // slots[torso_slot]   = i(6, 48, 60);
-            // slots[back_slot]    = i(7, 9,  70);
 
-            slots[weapon1_slot] = equipment(13); // "gameplay/weapons/ak_74u.options"
-            slots[ammo1_weapon1_slot] = ammo(7, 300, 300);
-            slots[ammo2_weapon1_slot] = ammo(7, 300, 300);
+            slots[helmet_slot] = equipment(27);
+            slots[mask_slot] = equipment(43);
+            slots[torso_slot] = equipment(48);
+            slots[back_slot] = equipment(9);
+            slots[pants_slot] = equipment(46);
+            slots[gloves_slot] = equipment(40);
+            slots[boots_slot] = equipment(24);
 
-            slots[weapon2_slot] = equipment(14); // "gameplay/weapons/rem_700.options"
-            slots[ammo1_weapon2_slot] = ammo(51, 10, 300);
-            slots[ammo2_weapon2_slot] = ammo(51, 10, 300);
+            slots[weapon1_slot] = equipment(13); // AK-74u
+            slots[ammo1_weapon1_slot] =
+                ammo(7, DEMO_AMMO_AMOUNT.into(), DEMO_AMMO_AMOUNT.into());
+            slots[ammo2_weapon1_slot] =
+                ammo(7, DEMO_AMMO_AMOUNT.into(), DEMO_AMMO_AMOUNT.into());
+
+            slots[weapon2_slot] = equipment(14); // Remington 700
+            slots[ammo1_weapon2_slot] =
+                ammo(51, DEMO_AMMO_AMOUNT.into(), DEMO_AMMO_AMOUNT.into());
+            slots[ammo2_weapon2_slot] =
+                ammo(52, DEMO_AMMO_AMOUNT.into(), DEMO_AMMO_AMOUNT.into());
+
+            slots[quick_slot1] = a(65, 65, 100, 100); // painkiller
+            slots[quick_slot2] = a(66, 66, 100, 100); // bandages
+            slots[quick_slot3] = a(67, 67, 100, 100); // medkit
+            slots[quick_slot4] = a(68, 68, 100, 100); // traps
         };
 
         if !(3 < profile_name.len() && profile_name.len() < 30) {
@@ -289,6 +317,116 @@ impl player_profile {
             team: game_team_id::team_neutral,
             is_local: true,
             padding_2: Default::default(),
+        }
+    }
+}
+
+pub fn demo_inventory() -> Vec<inventory_item_instance> {
+    let mut items = Vec::new();
+    for dict_id in DEMO_WEAPON_DICT_IDS
+        .into_iter()
+        .chain(DEMO_GEAR_DICT_IDS)
+        .chain(DEMO_SCOPE_DICT_IDS)
+    {
+        items.push(inventory_item_instance {
+            condition_or_stack: 100,
+            amount_in_inventory: 1,
+            id: 1_000_000 + u32::from(dict_id),
+            dict_id,
+            padding: Default::default(),
+        });
+    }
+    for dict_id in DEMO_AMMO_DICT_IDS {
+        items.push(inventory_item_instance {
+            condition_or_stack: u32::from(DEMO_AMMO_AMOUNT),
+            amount_in_inventory: u32::from(DEMO_AMMO_AMOUNT),
+            id: 1_000_000 + u32::from(dict_id),
+            dict_id,
+            padding: Default::default(),
+        });
+    }
+    for dict_id in DEMO_QUICK_ITEM_DICT_IDS {
+        items.push(inventory_item_instance {
+            condition_or_stack: 100,
+            amount_in_inventory: 100,
+            id: 1_000_000 + u32::from(dict_id),
+            dict_id,
+            padding: Default::default(),
+        });
+    }
+    items
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn dummy_profile_starts_with_two_weapons_full_gear_and_large_ammo_stacks() {
+        use profile_slot_enum::*;
+
+        let profile = player_profile::new_dummy(1, 0, "demo_player");
+        assert!(
+            profile.slots[..=boots_slot as usize]
+                .iter()
+                .all(|slot| slot.id != 0)
+        );
+        assert_eq!(profile.slots[weapon1_slot].dict_id, 13);
+        assert_eq!(profile.slots[weapon2_slot].dict_id, 14);
+        for slot in [
+            ammo1_weapon1_slot,
+            ammo2_weapon1_slot,
+            ammo1_weapon2_slot,
+            ammo2_weapon2_slot,
+        ] {
+            assert_eq!(
+                profile.slots[slot].condition_or_stack,
+                u32::from(DEMO_AMMO_AMOUNT)
+            );
+            assert_eq!(
+                profile.slots[slot].amount_in_inventory,
+                u32::from(DEMO_AMMO_AMOUNT)
+            );
+        }
+    }
+
+    #[test]
+    fn demo_inventory_contains_every_known_item_with_generous_ammo() {
+        let inventory = demo_inventory();
+        let dict_ids: std::collections::HashSet<u16> =
+            inventory.iter().map(|item| item.dict_id).collect();
+        let instance_ids: std::collections::HashSet<u32> =
+            inventory.iter().map(|item| item.id).collect();
+        assert_eq!(
+            inventory.len(),
+            dict_ids.len(),
+            "catalog IDs must be unique"
+        );
+        assert_eq!(
+            inventory.len(),
+            instance_ids.len(),
+            "inventory instance IDs must be unique"
+        );
+
+        for dict_id in DEMO_WEAPON_DICT_IDS
+            .into_iter()
+            .chain(DEMO_AMMO_DICT_IDS)
+            .chain(DEMO_GEAR_DICT_IDS)
+            .chain(DEMO_QUICK_ITEM_DICT_IDS)
+            .chain(DEMO_SCOPE_DICT_IDS)
+        {
+            assert!(
+                dict_ids.contains(&dict_id),
+                "missing dictionary item {dict_id}"
+            );
+        }
+        for dict_id in DEMO_AMMO_DICT_IDS {
+            let ammo = inventory
+                .iter()
+                .find(|item| item.dict_id == dict_id)
+                .unwrap();
+            assert_eq!(ammo.condition_or_stack, u32::from(DEMO_AMMO_AMOUNT));
+            assert_eq!(ammo.amount_in_inventory, u32::from(DEMO_AMMO_AMOUNT));
         }
     }
 }

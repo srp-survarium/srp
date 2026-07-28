@@ -23,8 +23,7 @@ pub struct ConnectionState {
 
 impl ConnectionState {
     /// Snapshot the shared [`Account`] into per-connection state for the given
-    /// session. Mutations the lobby makes stay local to the connection for now;
-    /// the canonical account lives in the session store.
+    /// session. The lobby persists profile edits when the player readies up.
     pub fn from_account(session_id: u32, account: &Account) -> Self {
         Self {
             session_id,

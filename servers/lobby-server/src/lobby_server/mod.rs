@@ -75,11 +75,46 @@ impl ServerState {
         log::debug!("[writer] Received {msg:?}");
 
         match msg {
-            client::Message::ReadyForMatch { profile_id: _ } => {
+            client::Message::ReadyForMatch { profile_id } => {
+                let Some(selected_profile) = connection_state
+                    .profile_contents
+                    .iter()
+                    .find(|profile| profile.profile_id == profile_id)
+                    .copied()
+                else {
+                    log::warn!(
+                        "Session {:#x} selected unknown profile {profile_id}",
+                        connection_state.session_id
+                    );
+                    return Some(server::Message::OperationDenied(
+                        server::Operation::Inventory,
+                    ));
+                };
+                use survarium::player_profile::raw::profile_slot_enum;
+                if [
+                    profile_slot_enum::weapon1_slot,
+                    profile_slot_enum::weapon2_slot,
+                ]
+                .into_iter()
+                .all(|slot| selected_profile.slots[slot].id == 0)
+                {
+                    log::warn!(
+                        "Session {:#x} selected a profile without a weapon",
+                        connection_state.session_id
+                    );
+                    return Some(server::Message::OperationDenied(
+                        server::Operation::Inventory,
+                    ));
+                }
+
                 // Place this session into a match (balancing teams) and tell the
-                // client where to go. The match server reads the same assignment
-                // back from the store when the client connects (Phase 4).
-                let assignment = store.join_match(connection_state.session_id);
+                // client where to go. Persist the edited profiles and selected
+                // loadout so the match server spawns exactly what the user chose.
+                let assignment = store.ready_for_match(
+                    connection_state.session_id,
+                    selected_profile,
+                    &connection_state.profile_contents,
+                );
                 log::info!(
                     "Session {:#x} -> match {:#x} team {}",
                     connection_state.session_id,
@@ -128,10 +163,16 @@ impl ServerState {
                             profile_contents.slots[from_slot] =
                                 survarium::player_profile::raw::inventory_item_instance::default();
                         }
-                        _ => {
-                            return Some(server::Message::OperationDenied(
-                                server::Operation::Inventory,
-                            ));
+                        client::EquipKind::Move { from_slot, to_slot } => {
+                            let item = profile_contents.slots[from_slot];
+                            if item.id == 0 {
+                                return Some(server::Message::OperationDenied(
+                                    server::Operation::Inventory,
+                                ));
+                            }
+                            profile_contents.slots[from_slot] =
+                                survarium::player_profile::raw::inventory_item_instance::default();
+                            profile_contents.slots[to_slot] = item;
                         }
                     }
                 }
@@ -385,5 +426,36 @@ impl ServerState {
             add_profile_cost: 200,
             rename_account_cost: 300,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use survarium::player_profile::raw::profile_slot_enum;
+
+    #[test]
+    fn ready_for_match_preserves_the_chosen_lobby_loadout() {
+        let store = SessionStore::new();
+        let account = Account::new_dummy(1, "demo_player".to_owned());
+        let mut connection = ConnectionState::from_account(0xDD00, &account);
+        let selected_id = connection.profile_contents[1].profile_id;
+        connection.profile_contents[1].slots[profile_slot_enum::weapon1_slot].dict_id = 55;
+
+        let response = ServerState::new_dummy().handle_client_message(
+            &store,
+            &mut connection,
+            client::Message::ReadyForMatch {
+                profile_id: selected_id,
+            },
+        );
+
+        assert!(matches!(
+            response,
+            Some(server::Message::ConnectToMatchServer { .. })
+        ));
+        let selected = store.selected_profile(0xDD00).unwrap();
+        assert_eq!(selected.profile_id, selected_id);
+        assert_eq!(selected.slots[profile_slot_enum::weapon1_slot].dict_id, 55);
     }
 }
