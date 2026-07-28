@@ -286,7 +286,7 @@ impl ServerState {
                     .collect()
             },
             compats: {
-                let compats: [(u16, u16); 19] = [
+                let compats: [(u16, u16); 20] = [
                     (12, 51),
                     (12, 52),
                     (13, 7),
@@ -306,6 +306,7 @@ impl ServerState {
                     (56, 20),
                     (64, 70),
                     (74, 75),
+                    (76, 75),
                 ];
 
                 compats
@@ -344,7 +345,7 @@ impl ServerState {
                         faction_id::black_market,
                         ids(&[
                             22, 24, 25, 27, 28, 29, 31, 32, 33, 48, 49, 50, 51, 52, 53, 55, 56, 64,
-                            65, 66, 67, 68, 70, 71, 72, 73, 74, 75,
+                            65, 66, 67, 68, 70, 71, 72, 73, 74, 75, 76,
                         ]),
                     ),
                     // @NOTE: in 001b are not supported
