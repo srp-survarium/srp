@@ -11,10 +11,11 @@
 //     applies a deliberately simplified health model, and emits stock
 //     `HitPlayer`/`KillPlayer` messages.
 //
-// Movement and damage remain client-reported demo data; there is no geometry,
-// armor, healing, respawn, timer, or reconciliation. The stock client has a
-// fixed 20-player array. Late join/profile replacement remains best-effort and
-// may require a client patch (see WORK.md).
+// Movement and hit detection remain client-reported demo data; accepted hits
+// deal fixed damage. There is no geometry, armor, healing, timer, or
+// reconciliation. Death schedules only a simple ten-second random respawn. The
+// stock client has a fixed 20-player array. Late join/profile replacement
+// remains best-effort and may require a client patch (see WORK.md).
 
 use std::collections::HashMap;
 use std::io;
@@ -42,8 +43,10 @@ const IDLE_TIMEOUT: Duration = Duration::from_secs(5);
 /// Cap on total peer entries (registered + still-connecting), to bound the work
 /// a flood of unknown source addresses can create.
 const PEER_LIMIT: usize = 64;
-/// Demo health model. The client-reported hit amount is deducted directly.
+/// Fixed demo health model: four accepted hits kill a full-health player.
 const PLAYER_MAX_HEALTH: f32 = 100.0;
+const PLAYER_HIT_DAMAGE: f32 = 25.0;
+const RESPAWN_DELAY: Duration = Duration::from_secs(10);
 
 struct Peer {
     transport: Transport,
@@ -60,6 +63,7 @@ struct Peer {
     joined: bool,
     health: f32,
     alive: bool,
+    respawn_at: Option<Instant>,
     /// Index into `game::SPAWN_POSITIONS`, assigned when this peer joins.
     spawn_index: usize,
     /// When we last received a datagram from this peer (for the idle timeout).
@@ -80,6 +84,7 @@ impl Peer {
             joined: false,
             health: PLAYER_MAX_HEALTH,
             alive: true,
+            respawn_at: None,
             spawn_index: 0,
             last_seen: Instant::now(),
         }
@@ -156,6 +161,7 @@ impl MatchServer {
             }
 
             self.reap_peers();
+            self.respawn_players_at(Instant::now());
 
             // Keepalives.
             let socket = &self.socket;
@@ -240,6 +246,7 @@ impl MatchServer {
                 peer.joined = true;
                 peer.health = PLAYER_MAX_HEALTH;
                 peer.alive = true;
+                peer.respawn_at = None;
                 peer.spawn_index = spawn_index;
                 let player_id = peer.player_id;
 
@@ -329,6 +336,15 @@ impl MatchServer {
         from: SocketAddr,
         hit: PlayerHit,
     ) -> Option<(u32, PlayerHit, Option<PlayerKill>)> {
+        self.apply_player_hit_at(from, hit, Instant::now())
+    }
+
+    fn apply_player_hit_at(
+        &mut self,
+        from: SocketAddr,
+        hit: PlayerHit,
+        now: Instant,
+    ) -> Option<(u32, PlayerHit, Option<PlayerKill>)> {
         let (match_id, hit) = self.validate_player_hit(from, hit)?;
         let item_dict_id = self
             .peers
@@ -343,8 +359,7 @@ impl MatchServer {
                 && peer.player_id == hit.being_hit
         })?;
 
-        // This demo intentionally treats the reported amount as final damage.
-        // Armor, body-part multipliers, and damage-model affects belong to the
+        // Armor, body-part multipliers, and damage-model effects belong to the
         // future authoritative engine implementation.
         if !target.alive {
             return None;
@@ -352,6 +367,7 @@ impl MatchServer {
         target.health = (target.health - hit.amount).max(0.0);
         let kill = if target.health == 0.0 {
             target.alive = false;
+            target.respawn_at = Some(now + RESPAWN_DELAY);
             Some(PlayerKill {
                 victim_id: hit.being_hit,
                 killer_id: hit.hit_initiator,
@@ -377,18 +393,10 @@ impl MatchServer {
         // Never trust the attacker ID supplied in the synthetic payload. The
         // UDP peer's registered identity is the authority for this demo.
         hit.hit_initiator = source.player_id;
-
-        // The stock 0.100b HitPlayer deserializer reads these two IDs as bools,
-        // so its wire format can address only players 0 and 1. Keep the demo
-        // explicit instead of silently aliasing every nonzero player to ID 1.
-        if hit.hit_initiator > 1 || hit.being_hit > 1 {
-            log::warn!(
-                "dropping hit with stock-incompatible players {} -> {}",
-                hit.hit_initiator,
-                hit.being_hit
-            );
-            return None;
-        }
+        // The client report proves only that its local hit path fired. Keep the
+        // demo deterministic and do not trust its calculated damage values.
+        hit.amount = PLAYER_HIT_DAMAGE;
+        hit.armor_piercing = 0.0;
 
         let target_is_present = self.peers.values().any(|peer| {
             peer.registered
@@ -506,6 +514,38 @@ impl MatchServer {
             .values()
             .filter(|peer| peer.registered && peer.match_id == match_id)
             .fold(0, |mask, peer| mask | (1 << peer.player_id))
+    }
+
+    /// Revive every due player at a newly selected demo spawn. No round state is
+    /// involved: death simply schedules this one delayed state transition.
+    fn respawn_players_at(&mut self, now: Instant) {
+        let due: Vec<(u32, u8)> = self
+            .peers
+            .values()
+            .filter(|peer| {
+                peer.registered
+                    && peer.joined
+                    && !peer.alive
+                    && peer.respawn_at.is_some_and(|deadline| deadline <= now)
+            })
+            .map(|peer| (peer.match_id, peer.player_id))
+            .collect();
+
+        for (match_id, player_id) in due {
+            let spawn_index = self.select_spawn_index(match_id);
+            let Some(peer) = self.peers.values_mut().find(|peer| {
+                peer.registered && peer.match_id == match_id && peer.player_id == player_id
+            }) else {
+                continue;
+            };
+            peer.health = PLAYER_MAX_HEALTH;
+            peer.alive = true;
+            peer.respawn_at = None;
+            peer.spawn_index = spawn_index;
+
+            let spawn = self.spawn_message(match_id, player_id);
+            self.broadcast_to_match(match_id, spawn);
+        }
     }
 
     fn send_to(&mut self, addr: SocketAddr, message: ServerGameMessageKind) {
@@ -805,10 +845,12 @@ mod tests {
         assert_eq!(match_id, DEFAULT_MATCH_ID);
         assert_eq!(hit.hit_initiator, 0);
         assert_eq!(hit.being_hit, 1);
+        assert_eq!(hit.amount, PLAYER_HIT_DAMAGE);
+        assert_eq!(hit.armor_piercing, 0.0);
     }
 
     #[test]
-    fn rejects_hit_for_an_absent_or_unrepresentable_target() {
+    fn rejects_hit_for_a_target_outside_the_attackers_match() {
         let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
         let attacker = peer_addr(14_000);
         server
@@ -831,6 +873,24 @@ mod tests {
     }
 
     #[test]
+    fn accepts_damage_for_every_stock_player_array_id() {
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        let attacker = peer_addr(14_100);
+        server
+            .peers
+            .insert(attacker, joined_peer(DEFAULT_MATCH_ID, 18));
+        server
+            .peers
+            .insert(peer_addr(14_101), joined_peer(DEFAULT_MATCH_ID, 19));
+
+        let (_, hit) = server
+            .validate_player_hit(attacker, player_hit(0, 19))
+            .unwrap();
+        assert_eq!(hit.hit_initiator, 18);
+        assert_eq!(hit.being_hit, 19);
+    }
+
+    #[test]
     fn kills_a_player_when_simplified_health_reaches_zero() {
         let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
         let attacker = peer_addr(15_000);
@@ -842,13 +902,16 @@ mod tests {
             .peers
             .insert(victim, joined_peer(DEFAULT_MATCH_ID, 1));
 
-        let (_, _, first_kill) = server.apply_player_hit(attacker, player_hit(0, 1)).unwrap();
-        assert_eq!(first_kill, None);
-        assert_eq!(server.peers[&victim].health, 50.0);
+        for expected_health in [75.0, 50.0, 25.0] {
+            let (_, hit, kill) = server.apply_player_hit(attacker, player_hit(0, 1)).unwrap();
+            assert_eq!(hit.amount, PLAYER_HIT_DAMAGE);
+            assert_eq!(kill, None);
+            assert_eq!(server.peers[&victim].health, expected_health);
+        }
 
-        let (_, _, second_kill) = server.apply_player_hit(attacker, player_hit(0, 1)).unwrap();
+        let (_, _, fourth_kill) = server.apply_player_hit(attacker, player_hit(0, 1)).unwrap();
         assert_eq!(
-            second_kill,
+            fourth_kill,
             Some(PlayerKill {
                 victim_id: 1,
                 killer_id: 0,
@@ -858,6 +921,7 @@ mod tests {
         );
         assert_eq!(server.peers[&victim].health, 0.0);
         assert!(!server.peers[&victim].alive);
+        assert!(server.peers[&victim].respawn_at.is_some());
 
         assert!(
             server
@@ -865,6 +929,36 @@ mod tests {
                 .is_none(),
             "a dead player must not emit duplicate hits or kills"
         );
+    }
+
+    #[test]
+    fn respawns_a_dead_player_after_ten_seconds_at_a_random_point() {
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        server.spawn_rng = SpawnRng::new(123);
+        let attacker = peer_addr(15_100);
+        let victim = peer_addr(15_101);
+        server
+            .peers
+            .insert(attacker, joined_peer(DEFAULT_MATCH_ID, 0));
+        server
+            .peers
+            .insert(victim, joined_peer(DEFAULT_MATCH_ID, 1));
+        let killed_at = Instant::now();
+
+        for _ in 0..4 {
+            server
+                .apply_player_hit_at(attacker, player_hit(0, 1), killed_at)
+                .unwrap();
+        }
+        server.respawn_players_at(killed_at + RESPAWN_DELAY - Duration::from_millis(1));
+        assert!(!server.peers[&victim].alive);
+
+        server.respawn_players_at(killed_at + RESPAWN_DELAY);
+        let victim = &server.peers[&victim];
+        assert!(victim.alive);
+        assert_eq!(victim.health, PLAYER_MAX_HEALTH);
+        assert_eq!(victim.respawn_at, None);
+        assert!(victim.spawn_index < game::spawn_position_count());
     }
 
     #[test]

@@ -382,12 +382,11 @@ impl Serialize for ServerGameMessageKind {
             }
 
             Self::HitPlayer(hit) => {
-                // The 0.100b client's hit_info deserializer reads player IDs as
-                // bools. This demo match contains exactly players 0 and 1.
-                assert!(hit.hit_initiator <= 1);
-                assert!(hit.being_hit <= 1);
-                packet.write(hit.hit_initiator != 0);
-                packet.write(hit.being_hit != 0);
+                // The PDB types these reads as bool, but target
+                // `packet_reader::r<bool>` copies the raw byte without
+                // normalization. hit_info therefore retains IDs 0..19.
+                packet.write(hit.hit_initiator);
+                packet.write(hit.being_hit);
                 packet.write_str(&hit.body_part);
                 packet.write_str(&hit.damage_type);
                 packet.write(hit.amount);
@@ -442,6 +441,25 @@ mod test {
             0, 0, 128, 62,
         ];
         assert_eq!(packet.get_message(), expected);
+    }
+
+    #[test]
+    fn serializes_full_u8_player_ids_preserved_by_the_target_client() {
+        let mut packet = UdpPacket::new();
+        ServerGameMessage {
+            order_id: 3.into(),
+            game_message: ServerGameMessageKind::HitPlayer(PlayerHit {
+                hit_initiator: 18,
+                being_hit: 19,
+                body_part: "head".to_owned(),
+                damage_type: "injury".to_owned(),
+                amount: 25.0,
+                armor_piercing: 0.0,
+            }),
+        }
+        .serialize(&mut packet);
+
+        assert_eq!(&packet.get_message()[3..5], &[18, 19]);
     }
 
     #[test]
