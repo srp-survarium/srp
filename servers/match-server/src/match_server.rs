@@ -7,13 +7,14 @@
 //     peer), and
 //   * relays each client's `ClientPlayerUpdate` to every OTHER peer as a
 //     `ServerPlayerInput`, so players see each other move.
-//   * validates the identity/roster fields of a synthetic client hit report and
-//     rebroadcasts it as the stock server `HitPlayer` message.
+//   * validates the identity/roster fields of a synthetic client hit report,
+//     applies a deliberately simplified health model, and emits stock
+//     `HitPlayer`/`KillPlayer` messages.
 //
 // Movement and damage remain client-reported demo data; there is no geometry,
-// health simulation, or reconciliation. Roster handling is best-effort (see
-// WORK.md) — the clean case is clients connecting before either readies up;
-// late joins may render imperfectly and need in-game iteration.
+// armor, healing, respawn, or reconciliation. Roster handling is best-effort
+// (see WORK.md) — the clean case is clients connecting before either readies
+// up; late joins may render imperfectly and need in-game iteration.
 
 use std::collections::HashMap;
 use std::io;
@@ -27,7 +28,7 @@ use survarium::player_profile::raw::game_team_id;
 
 use crate::game;
 use crate::message::server_message::raw::game_status;
-use crate::message::{ClientGameMessageKind, PlayerHit, ServerGameMessageKind};
+use crate::message::{ClientGameMessageKind, PlayerHit, PlayerKill, ServerGameMessageKind};
 use crate::transport::Transport;
 
 const FRAMES_PER_SECOND: u64 = 120;
@@ -42,6 +43,10 @@ const IDLE_TIMEOUT: Duration = Duration::from_secs(5);
 /// Cap on total peer entries (registered + still-connecting), to bound the work
 /// a flood of unknown source addresses can create.
 const PEER_LIMIT: usize = 64;
+/// Demo health model. The client-reported hit amount is deducted directly.
+const PLAYER_MAX_HEALTH: f32 = 100.0;
+/// Dictionary ID of the dummy AK-74u equipped by `game::player_profile`.
+const DEMO_WEAPON_DICT_ID: u32 = 13;
 
 struct Peer {
     transport: Transport,
@@ -53,6 +58,8 @@ struct Peer {
     name: String,
     /// `true` once the peer has sent `JoinMatch` (is in the match).
     joined: bool,
+    health: f32,
+    alive: bool,
     /// When we last received a datagram from this peer (for the idle timeout).
     last_seen: Instant,
 }
@@ -67,6 +74,8 @@ impl Peer {
             team: game_team_id::team_1,
             name: String::new(),
             joined: false,
+            health: PLAYER_MAX_HEALTH,
+            alive: true,
             last_seen: Instant::now(),
         }
     }
@@ -189,6 +198,8 @@ impl MatchServer {
                     return;
                 };
                 peer.joined = true;
+                peer.health = PLAYER_MAX_HEALTH;
+                peer.alive = true;
                 let player_id = peer.player_id;
 
                 // Spawn the joining player for itself and start the match.
@@ -255,12 +266,49 @@ impl MatchServer {
             }
 
             ClientGameMessageKind::ClientPlayerHit(hit) => {
-                let Some((match_id, hit)) = self.validate_player_hit(from, hit) else {
+                let Some((match_id, hit, kill)) = self.apply_player_hit(from, hit) else {
                     return;
                 };
                 self.broadcast_to_match(match_id, ServerGameMessageKind::HitPlayer(hit));
+                if let Some(kill) = kill {
+                    self.broadcast_to_match(match_id, ServerGameMessageKind::KillPlayer(kill));
+                }
             }
         }
+    }
+
+    fn apply_player_hit(
+        &mut self,
+        from: SocketAddr,
+        hit: PlayerHit,
+    ) -> Option<(u32, PlayerHit, Option<PlayerKill>)> {
+        let (match_id, hit) = self.validate_player_hit(from, hit)?;
+        let target = self.peers.values_mut().find(|peer| {
+            peer.registered
+                && peer.joined
+                && peer.match_id == match_id
+                && peer.player_id == hit.being_hit
+        })?;
+
+        // This demo intentionally treats the reported amount as final damage.
+        // Armor, body-part multipliers, and damage-model affects belong to the
+        // future authoritative engine implementation.
+        if !target.alive {
+            return None;
+        }
+        target.health = (target.health - hit.amount).max(0.0);
+        let kill = if target.health == 0.0 {
+            target.alive = false;
+            Some(PlayerKill {
+                victim_id: hit.being_hit,
+                killer_id: hit.hit_initiator,
+                is_headshot: hit.body_part.eq_ignore_ascii_case("head"),
+                item_dict_id: DEMO_WEAPON_DICT_ID,
+            })
+        } else {
+            None
+        };
+        Some((match_id, hit, kill))
     }
 
     fn validate_player_hit(
@@ -608,6 +656,43 @@ mod tests {
             server
                 .validate_player_hit(attacker, player_hit(0, 2))
                 .is_none()
+        );
+    }
+
+    #[test]
+    fn kills_a_player_when_simplified_health_reaches_zero() {
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        let attacker = peer_addr(15_000);
+        let victim = peer_addr(15_001);
+        server
+            .peers
+            .insert(attacker, joined_peer(DEFAULT_MATCH_ID, 0));
+        server
+            .peers
+            .insert(victim, joined_peer(DEFAULT_MATCH_ID, 1));
+
+        let (_, _, first_kill) = server.apply_player_hit(attacker, player_hit(0, 1)).unwrap();
+        assert_eq!(first_kill, None);
+        assert_eq!(server.peers[&victim].health, 50.0);
+
+        let (_, _, second_kill) = server.apply_player_hit(attacker, player_hit(0, 1)).unwrap();
+        assert_eq!(
+            second_kill,
+            Some(PlayerKill {
+                victim_id: 1,
+                killer_id: 0,
+                is_headshot: true,
+                item_dict_id: DEMO_WEAPON_DICT_ID,
+            })
+        );
+        assert_eq!(server.peers[&victim].health, 0.0);
+        assert!(!server.peers[&victim].alive);
+
+        assert!(
+            server
+                .apply_player_hit(attacker, player_hit(0, 1))
+                .is_none(),
+            "a dead player must not emit duplicate hits or kills"
         );
     }
 }

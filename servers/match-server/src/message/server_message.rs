@@ -8,8 +8,8 @@ use vostok::network_packet::Packet;
 use vostok::serde::Serialize;
 
 use self::raw::*;
-use crate::message::PlayerHit;
 use crate::message::raw::{low_level_message_type_enum, udp_match_packets_count_enum};
+use crate::message::{PlayerHit, PlayerKill};
 use crate::sequence_number::SN16;
 
 #[derive(Debug, PartialEq, Clone)]
@@ -75,6 +75,7 @@ pub enum ServerGameMessageKind {
         player_profile: Box<player_profile>,
     },
     HitPlayer(PlayerHit),
+    KillPlayer(PlayerKill),
 }
 
 pub mod raw {
@@ -221,6 +222,7 @@ impl ServerGameMessageKind {
             Self::GameStatusChanged { .. }    => match_server_message_types_enum::game_status_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
             Self::HitPlayer(..)               => match_server_message_types_enum::hit_player,
+            Self::KillPlayer(..)              => match_server_message_types_enum::kill_player,
         }
     }
 }
@@ -395,6 +397,13 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(hit.amount);
                 packet.write(hit.armor_piercing);
             }
+
+            Self::KillPlayer(kill) => {
+                packet.write(kill.victim_id);
+                packet.write(kill.killer_id);
+                packet.write(kill.is_headshot);
+                packet.write(kill.item_dict_id);
+            }
         }
     }
 }
@@ -435,6 +444,35 @@ mod test {
             6, b'i', b'n', b'j', b'u', b'r', b'y',
             0, 0, 72, 66,
             0, 0, 128, 62,
+        ];
+        assert_eq!(packet.get_message(), expected);
+    }
+
+    #[test]
+    fn serializes_kill_player_for_the_stock_client() {
+        let message = ServerMessage {
+            remote_sequence_id: 1.into(),
+            local_sequence_id: 2.into(),
+            local_ack_bits: 0,
+            kind: ServerMessageKind::Messages(vec![ServerGameMessage {
+                order_id: 3.into(),
+                game_message: ServerGameMessageKind::KillPlayer(PlayerKill {
+                    victim_id: 1,
+                    killer_id: 0,
+                    is_headshot: true,
+                    item_dict_id: 13,
+                }),
+            }]),
+        };
+        let mut packet = UdpPacket::new();
+        message.serialize(&mut packet);
+
+        #[rustfmt::skip]
+        let expected: &[u8] = &[
+            1, 0, 2, 0, 0, 0,
+            0x83, 3, 0,
+            1, 0, 1,
+            13, 0, 0, 0,
         ];
         assert_eq!(packet.get_message(), expected);
     }

@@ -21,6 +21,14 @@ pub struct PlayerHit {
     pub armor_piercing: f32,
 }
 
+#[derive(Debug, PartialEq, Clone)]
+pub struct PlayerKill {
+    pub victim_id: u8,
+    pub killer_id: u8,
+    pub is_headshot: bool,
+    pub item_dict_id: u32,
+}
+
 pub mod raw {
     #![expect(non_camel_case_types)]
     #![expect(dead_code)]
