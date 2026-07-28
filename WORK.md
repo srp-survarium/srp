@@ -5,6 +5,50 @@ considered, and what it means for the client. Cross-reference `PLAN.md` items.
 
 ---
 
+## 2026-05-30 — Phase 4 robustness + Phase 5 hardening
+
+Branch `sushi/0.100b/phase5-hardening` (off the relay). User scope: **movement
+only** — a real match needs the authoritative C++ server, which we don't have, so
+no combat/sync/play logic. Combat in the dumb-relay sense is already covered:
+the relayed `player_input` carries `action_mask`. So this branch is purely about
+making *movement* robust for multiple clients.
+
+### Phase 4 robustness — tolerate unhandled message types (critical for movement)
+The client batches messages it expects the real server to handle — time sync,
+world sync, suicide — in the same UDP packet as `client_player_update`. The parser
+returned `UnknownMessageType` for any of these and **failed the whole datagram**,
+dropping the movement update with it. Now the multi-message parser **parses the
+handled messages and skips the rest by their length prefix** (logs at debug),
+with a bounds guard so a bogus length can't panic. Added a unit test:
+a `client_player_update` + a `time_synchronization_request` → only the movement
+update survives. This is the single most important fix for the relay to actually
+move players in-game.
+
+### Phase 5 — hardening (light; it's a mock)
+- **Don't panic on malformed remote packets.** The transport's connection path
+  used `assert!`/`panic!`/`unimplemented!` — one bad packet would crash the match
+  thread, and the supervisor would restart the whole server, dropping *every*
+  peer. Now: a malformed connection attempt is logged and the would-be peer is
+  marked `Disconnected` (reaped); an ack for an unsent packet is logged and
+  ignored; an unexpected `confirm_disconnection` is ignored.
+- **Reap idle/dead peers** (`reap_peers`, `IDLE_TIMEOUT` 5s): peers that
+  disconnect or stop sending are removed and the rest get a refreshed connected
+  bitmask. Each datagram bumps the peer's `last_seen`.
+- **Cap peers** (`PEER_LIMIT` 64): a datagram from a new address is dropped once
+  the table is full, bounding what a flood of spoofed/unknown sources can create.
+  Full "validate before allocating any state" isn't possible (the transport needs
+  a peer to read the first packet), so cap + idle-reap is the pragmatic version.
+
+`cargo test -p match-server`: 6 pass, 1 ignored; workspace clean.
+
+### Scope confirmation (user)
+Movement only. A real, *playable* match (combat, hit/damage, time/world sync) needs
+the authoritative C++ server, which we don't have — so those are out of scope, not
+missing work. The relayed `player_input` already carries `action_mask`, so the
+dumb-relay notion of "combat" is covered.
+
+---
+
 ## 2026-05-30 — Phase 4 relay (broadcast, nothing smart)
 
 New branch `sushi/0.100b/phase4-relay` (off Phase 4.0). User direction: the

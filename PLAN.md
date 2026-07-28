@@ -187,14 +187,20 @@ the game client — roster/late-join timing will likely need in-game iteration.*
 
 Keep this light — it's a mock test server, not production.
 
-- ⬜ **5.1** Per-peer timeout / disconnect detection and clean teardown so one
-  client dropping doesn't panic the whole mock.
-- ⬜ **5.2** Basic guards: cap connections, validate session before allocating
-  per-peer state, don't `panic!` on malformed input from a remote peer.
+- ✅ **5.1** The match relay reaps peers that disconnect *or* go silent
+  (`IDLE_TIMEOUT` 5s) and refreshes the others' connected bitmask, so a client
+  that vanishes doesn't linger in the roster.
+- ✅ **5.2** Guards: a malformed connection/ack/low-level packet from a remote peer
+  is logged and dropped instead of `panic!`/`assert!`/`unimplemented!`-ing (which
+  would restart the whole match and drop every peer); total peer entries are capped
+  (`PEER_LIMIT` 64) to bound what a flood of unknown addresses can create. *(Full
+  "validate session before allocating any state" isn't possible — the transport
+  needs a peer entry to read the first packet — so the cap + idle-reap is the
+  pragmatic version.)*
 
-> Explicitly **out of scope**: converting to async/`tokio`, a real database, an
-> authoritative simulation. The thread-per-peer model is fine for a mock; revisit
-> only if it actually breaks.
+> Explicitly **out of scope** (and confirmed by the user — a real match needs the
+> authoritative C++ server, which we don't have): combat/hit/damage, time/world
+> sync responses, async/`tokio`, a real database. We relay **movement** only.
 
 ---
 

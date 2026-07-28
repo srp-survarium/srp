@@ -35,6 +35,12 @@ const FRAME_DURATION: Duration = Duration::from_millis(1000 / FRAMES_PER_SECOND)
 const MAX_PLAYERS: u8 = 20;
 /// Standalone clients without a lobby assignment share the historic match.
 const DEFAULT_MATCH_ID: u32 = 0x123;
+/// Drop a peer we haven't heard from for this long (the client sends keepalives
+/// and updates far more often), so dead clients don't linger in the roster.
+const IDLE_TIMEOUT: Duration = Duration::from_secs(5);
+/// Cap on total peer entries (registered + still-connecting), to bound the work
+/// a flood of unknown source addresses can create.
+const PEER_LIMIT: usize = 64;
 
 struct Peer {
     transport: Transport,
@@ -46,6 +52,8 @@ struct Peer {
     name: String,
     /// `true` once the peer has sent `JoinMatch` (is in the match).
     joined: bool,
+    /// When we last received a datagram from this peer (for the idle timeout).
+    last_seen: Instant,
 }
 
 impl Peer {
@@ -58,6 +66,7 @@ impl Peer {
             team: game_team_id::team_1,
             name: String::new(),
             joined: false,
+            last_seen: Instant::now(),
         }
     }
 }
@@ -104,7 +113,7 @@ impl MatchServer {
                 }
             }
 
-            self.reap_disconnected();
+            self.reap_peers();
 
             // Keepalives.
             let socket = &self.socket;
@@ -119,7 +128,13 @@ impl MatchServer {
     }
 
     fn handle_datagram(&mut self, addr: SocketAddr, datagram: Vec<u8>) {
+        if !self.peers.contains_key(&addr) && self.peers.len() >= PEER_LIMIT {
+            log::warn!("peer limit ({PEER_LIMIT}) reached; dropping datagram from {addr}");
+            return;
+        }
+
         let peer = self.peers.entry(addr).or_insert_with(Peer::new);
+        peer.last_seen = Instant::now();
         let messages = peer
             .transport
             .handle_datagram(&datagram, &self.socket, addr);
@@ -326,12 +341,17 @@ impl MatchServer {
         }
     }
 
-    /// Drop peers that have disconnected, and tell the rest who is left.
-    fn reap_disconnected(&mut self) {
+    /// Drop peers that have disconnected or gone silent, and tell the rest who is
+    /// left.
+    fn reap_peers(&mut self) {
+        let now = Instant::now();
         let gone: Vec<SocketAddr> = self
             .peers
             .iter()
-            .filter(|(_, peer)| peer.transport.is_disconnected())
+            .filter(|(_, peer)| {
+                peer.transport.is_disconnected()
+                    || now.duration_since(peer.last_seen) > IDLE_TIMEOUT
+            })
             .map(|(addr, _)| *addr)
             .collect();
 
