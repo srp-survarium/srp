@@ -3,7 +3,8 @@
 // SRP is a mock — this does NOT simulate the game. It owns one UDP socket,
 // demultiplexes datagrams to a per-peer `Transport` (reliable-UDP), and:
 //   * runs each client through the connect/startup/join handshake, reflecting the
-//     live roster (one `PlayerProfile`/`SpawnPlayer` per connected peer), and
+//     per-match live roster (one `PlayerProfile`/`SpawnPlayer` per connected
+//     peer), and
 //   * relays each client's `ClientPlayerUpdate` to every OTHER peer as a
 //     `ServerPlayerInput`, so players see each other move.
 //
@@ -32,11 +33,14 @@ const FRAMES_PER_SECOND: u64 = 120;
 const FRAME_DURATION: Duration = Duration::from_millis(1000 / FRAMES_PER_SECOND);
 /// Client tracks `m_net_players[20]`, so at most 20 player ids.
 const MAX_PLAYERS: u8 = 20;
+/// Standalone clients without a lobby assignment share the historic match.
+const DEFAULT_MATCH_ID: u32 = 0x123;
 
 struct Peer {
     transport: Transport,
     /// `false` until the peer's `ConnectionRequest` assigns it a player id.
     registered: bool,
+    match_id: u32,
     player_id: u8,
     team: game_team_id,
     name: String,
@@ -49,6 +53,7 @@ impl Peer {
         Self {
             transport: Transport::new(),
             registered: false,
+            match_id: DEFAULT_MATCH_ID,
             player_id: 0,
             team: game_team_id::team_1,
             name: String::new(),
@@ -61,7 +66,6 @@ pub struct MatchServer {
     socket: UdpSocket,
     store: Arc<SessionStore>,
     peers: HashMap<SocketAddr, Peer>,
-    next_player_id: u8,
 }
 
 impl MatchServer {
@@ -72,11 +76,11 @@ impl MatchServer {
             socket,
             store,
             peers: HashMap::new(),
-            next_player_id: 0,
         })
     }
 
     /// The address the relay is bound to (used by tests to find the ephemeral port).
+    #[cfg(test)]
     pub fn local_addr(&self) -> io::Result<SocketAddr> {
         self.socket.local_addr()
     }
@@ -116,13 +120,22 @@ impl MatchServer {
 
     fn handle_datagram(&mut self, addr: SocketAddr, datagram: Vec<u8>) {
         let peer = self.peers.entry(addr).or_insert_with(Peer::new);
-        let messages = peer.transport.handle_datagram(&datagram, &self.socket, addr);
+        let messages = peer
+            .transport
+            .handle_datagram(&datagram, &self.socket, addr);
         for message in messages {
             self.handle_game_message(addr, message);
         }
     }
 
     fn handle_game_message(&mut self, from: SocketAddr, message: ClientGameMessageKind) {
+        let is_connection_request =
+            matches!(&message, ClientGameMessageKind::ConnectionRequest { .. });
+        if !is_connection_request && !self.peers.get(&from).is_some_and(|peer| peer.registered) {
+            log::warn!("ignoring pre-registration match message from {from}");
+            return;
+        }
+
         match message {
             ClientGameMessageKind::ConnectionRequest { session_id } => {
                 self.register_peer(from, session_id);
@@ -131,10 +144,11 @@ impl MatchServer {
             ClientGameMessageKind::GetStartupInfo => {
                 // Tell this client about the whole current roster: how many players
                 // to expect, then a profile per player (its own marked is_local).
+                let match_id = self.peers[&from].match_id;
                 let mut roster: Vec<(u8, game_team_id, String, bool)> = self
                     .peers
                     .iter()
-                    .filter(|(_, peer)| peer.registered)
+                    .filter(|(_, peer)| peer.registered && peer.match_id == match_id)
                     .map(|(addr, peer)| {
                         (peer.player_id, peer.team, peer.name.clone(), *addr == from)
                     })
@@ -177,10 +191,13 @@ impl MatchServer {
             ClientGameMessageKind::TeamBasesInitializeInfo => {
                 // Spawn every other already-joined player for this client, then
                 // tell it who is connected.
+                let match_id = self.peers[&from].match_id;
                 let others: Vec<u8> = self
                     .peers
                     .iter()
-                    .filter(|(addr, peer)| **addr != from && peer.joined)
+                    .filter(|(addr, peer)| {
+                        **addr != from && peer.joined && peer.match_id == match_id
+                    })
                     .map(|(_, peer)| peer.player_id)
                     .collect();
                 for player_id in others {
@@ -189,7 +206,7 @@ impl MatchServer {
                 self.send_to(
                     from,
                     ServerGameMessageKind::SyncResponse {
-                        is_connected_bitmask: self.connected_bitmask(),
+                        is_connected_bitmask: self.connected_bitmask(match_id),
                     },
                 );
             }
@@ -224,19 +241,34 @@ impl MatchServer {
     }
 
     fn register_peer(&mut self, addr: SocketAddr, session_id: u32) {
-        if self.next_player_id >= MAX_PLAYERS {
-            log::warn!("match full ({MAX_PLAYERS} players); ignoring session {session_id:#x}");
+        if self.peers.get(&addr).is_some_and(|peer| peer.registered) {
+            log::debug!("ignoring duplicate registration from {addr}");
             return;
         }
 
         let assignment = self.store.match_assignment(session_id);
+        let match_id = assignment
+            .map(|assignment| assignment.match_id)
+            .unwrap_or(DEFAULT_MATCH_ID);
         let team = match assignment {
             Some(a) if a.team_id == 2 => game_team_id::team_2,
             _ => game_team_id::team_1,
         };
 
-        let player_id = self.next_player_id;
-        self.next_player_id += 1;
+        let player_id = (0..MAX_PLAYERS).find(|candidate| {
+            !self.peers.values().any(|peer| {
+                peer.registered && peer.match_id == match_id && peer.player_id == *candidate
+            })
+        });
+        let Some(player_id) = player_id else {
+            log::warn!(
+                "match {match_id:#x} full ({MAX_PLAYERS} players); rejecting session {session_id:#x}"
+            );
+            // The transport has already acknowledged the connection request.
+            // Remove it now so it cannot continue with the default player ID.
+            self.peers.remove(&addr);
+            return;
+        };
 
         let name = self
             .store
@@ -246,13 +278,15 @@ impl MatchServer {
 
         if let Some(peer) = self.peers.get_mut(&addr) {
             peer.registered = true;
+            peer.match_id = match_id;
             peer.player_id = player_id;
             peer.team = team;
             peer.name = name;
         }
 
         log::info!(
-            "session {session_id:#x} is player {player_id} (team {team:?}) at {addr}",
+            "session {session_id:#x} is player {player_id} in match {match_id:#x} \
+             (team {team:?}) at {addr}",
         );
     }
 
@@ -265,23 +299,27 @@ impl MatchServer {
     }
 
     /// Bitmask of registered (connected) players, one bit per player id.
-    fn connected_bitmask(&self) -> u32 {
+    fn connected_bitmask(&self, match_id: u32) -> u32 {
         self.peers
             .values()
-            .filter(|peer| peer.registered)
+            .filter(|peer| peer.registered && peer.match_id == match_id)
             .fold(0, |mask, peer| mask | (1 << peer.player_id))
     }
 
     fn send_to(&mut self, addr: SocketAddr, message: ServerGameMessageKind) {
         if let Some(peer) = self.peers.get_mut(&addr) {
-            peer.transport.send_game_message(&self.socket, addr, message);
+            peer.transport
+                .send_game_message(&self.socket, addr, message);
         }
     }
 
     fn broadcast_to_others(&mut self, except: SocketAddr, message: ServerGameMessageKind) {
+        let Some(match_id) = self.peers.get(&except).map(|peer| peer.match_id) else {
+            return;
+        };
         let socket = &self.socket;
         for (addr, peer) in self.peers.iter_mut() {
-            if *addr != except && peer.joined {
+            if *addr != except && peer.joined && peer.match_id == match_id {
                 peer.transport
                     .send_game_message(socket, *addr, message.clone());
             }
@@ -307,8 +345,14 @@ impl MatchServer {
             }
         }
 
-        // Best-effort leave signal: refresh everyone's connected bitmask.
-        let bitmask = self.connected_bitmask();
+        // Best-effort leave signal: refresh each match's connected bitmask.
+        let bitmasks: HashMap<u32, u32> = self.peers.values().filter(|peer| peer.registered).fold(
+            HashMap::new(),
+            |mut bitmasks, peer| {
+                *bitmasks.entry(peer.match_id).or_default() |= 1 << peer.player_id;
+                bitmasks
+            },
+        );
         let socket = &self.socket;
         for (addr, peer) in self.peers.iter_mut() {
             if peer.joined {
@@ -316,7 +360,10 @@ impl MatchServer {
                     socket,
                     *addr,
                     ServerGameMessageKind::SyncResponse {
-                        is_connected_bitmask: bitmask,
+                        is_connected_bitmask: bitmasks
+                            .get(&peer.match_id)
+                            .copied()
+                            .unwrap_or_default(),
                     },
                 );
             }
@@ -328,6 +375,10 @@ impl MatchServer {
 mod tests {
     use super::*;
     use std::time::Duration;
+
+    fn peer_addr(port: u16) -> SocketAddr {
+        SocketAddr::from(([127, 0, 0, 1], port))
+    }
 
     /// A minimal, valid client "connection" datagram: local_seq 0, remote_seq
     /// 0xFFFF, ack word 0 (→ remote_ack_bits 0x8000, single packet), then a
@@ -349,7 +400,9 @@ mod tests {
         client
             .set_read_timeout(Some(Duration::from_secs(2)))
             .unwrap();
-        client.send_to(&connection_packet(0xDD00), server_addr).unwrap();
+        client
+            .send_to(&connection_packet(0xDD00), server_addr)
+            .unwrap();
 
         let mut buf = [0u8; 2048];
         let (len, _) = client
@@ -359,6 +412,66 @@ mod tests {
         // Server packet: 6-byte header, then the first message's type byte.
         // 0x80 = match_server_connection_successful.
         assert!(len >= 7, "response too short: {len} bytes");
-        assert_eq!(buf[6], 0x80, "expected ConnectionSuccessful, got {:#x}", buf[6]);
+        assert_eq!(
+            buf[6], 0x80,
+            "expected ConnectionSuccessful, got {:#x}",
+            buf[6]
+        );
+    }
+
+    #[test]
+    fn assigns_player_ids_per_match() {
+        let store = Arc::new(SessionStore::new());
+        for session_id in 0..=20 {
+            store.join_match(session_id);
+        }
+        let mut server = MatchServer::bind("127.0.0.1:0", store).unwrap();
+
+        for session_id in 0..=20 {
+            let addr = peer_addr(10_000 + session_id as u16);
+            server.peers.insert(addr, Peer::new());
+            server.register_peer(addr, session_id);
+        }
+
+        let first = &server.peers[&peer_addr(10_000)];
+        let twenty_first = &server.peers[&peer_addr(10_020)];
+        assert_ne!(first.match_id, twenty_first.match_id);
+        assert_eq!(first.player_id, 0);
+        assert_eq!(twenty_first.player_id, 0);
+    }
+
+    #[test]
+    fn reuses_a_vacated_player_id() {
+        let store = Arc::new(SessionStore::new());
+        for session_id in 1..=3 {
+            store.join_match(session_id);
+        }
+        let mut server = MatchServer::bind("127.0.0.1:0", store).unwrap();
+
+        for session_id in 1..=2 {
+            let addr = peer_addr(11_000 + session_id as u16);
+            server.peers.insert(addr, Peer::new());
+            server.register_peer(addr, session_id);
+        }
+        server.peers.remove(&peer_addr(11_001));
+
+        let replacement = peer_addr(11_003);
+        server.peers.insert(replacement, Peer::new());
+        server.register_peer(replacement, 3);
+        assert_eq!(server.peers[&replacement].player_id, 0);
+    }
+
+    #[test]
+    fn removes_an_over_capacity_unassigned_peer() {
+        let store = Arc::new(SessionStore::new());
+        let mut server = MatchServer::bind("127.0.0.1:0", store).unwrap();
+
+        for session_id in 0..=20 {
+            let addr = peer_addr(12_000 + session_id as u16);
+            server.peers.insert(addr, Peer::new());
+            server.register_peer(addr, session_id);
+        }
+
+        assert!(!server.peers.contains_key(&peer_addr(12_020)));
     }
 }

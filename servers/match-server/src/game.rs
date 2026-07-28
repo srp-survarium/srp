@@ -37,10 +37,28 @@ pub fn player_profile(
     name: &str,
     is_local: bool,
 ) -> player_profile::raw::player_profile {
+    let name = wire_profile_name(name, player_id);
     player_profile::raw::player_profile {
         team,
         is_local,
-        ..player_profile::raw::player_profile::new_dummy(player_id as u32, 0, name)
+        ..player_profile::raw::player_profile::new_dummy(player_id as u32, 0, &name)
+    }
+}
+
+/// The stock profile payload requires 4–29 bytes and cannot carry an embedded
+/// NUL. Login identity is intentionally permissive, so make a safe display name
+/// at this wire boundary instead of letting a user-provided email panic the
+/// entire match thread.
+fn wire_profile_name(name: &str, player_id: u8) -> String {
+    let mut end = name.len().min(29);
+    while !name.is_char_boundary(end) {
+        end -= 1;
+    }
+    let name = &name[..end];
+    if name.len() > 3 && !name.contains('\0') {
+        name.to_owned()
+    } else {
+        format!("player_{player_id}")
     }
 }
 
@@ -97,5 +115,30 @@ pub fn spawn_content(spawn_index: usize) -> player {
             }),
             player_inventory_slot::item_amount(300),
         ],
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::ffi::CStr;
+
+    fn profile_name(name: &str) -> String {
+        let profile = player_profile(7, game_team_id::team_1, name, true);
+        CStr::from_bytes_until_nul(&profile.profile_name)
+            .unwrap()
+            .to_string_lossy()
+            .into_owned()
+    }
+
+    #[test]
+    fn sanitizes_profile_names_for_the_stock_wire_format() {
+        assert_eq!(profile_name("abc"), "player_7");
+        assert_eq!(
+            profile_name("abcdefghijklmnopqrstuvwxyz0123456789"),
+            "abcdefghijklmnopqrstuvwxyz012"
+        );
+        assert_eq!(profile_name("valid@example.com"), "valid@example.com");
+        assert_eq!(profile_name("bad\0name"), "player_7");
     }
 }
