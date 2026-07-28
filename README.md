@@ -1,6 +1,51 @@
 # SRP - Survarium Restoration Project
 
-### Prerequisites
+A **mock** of the Survarium v0.100b server side (see `CLAUDE.md`). It speaks just
+enough of the client's protocol to drive it through login → lobby → match; the
+authoritative game logic stays in the C++ Vostok engine. `PLAN.md` tracks the
+roadmap, `WORK.md` the decision log.
+
+### Build & run (Linux, via Nix)
+
+The servers build and run on Linux. With Nix (flakes enabled):
+
+```bash
+nix develop                      # nightly Rust + system OpenSSL
+cargo check --workspace
+
+# Each server is its own binary; all four run together for a full session:
+cargo run --bin login-server     # TCP  :1234
+cargo run --bin browser-server   # HTTP :80
+cargo run --bin lobby-server     # TCP  :1235
+cargo run --bin match-server     # UDP  :1236
+```
+
+Point the game client at the login server: `survarium.exe -client=<host>:1234`.
+
+### Hosting on your own server
+
+Addresses are configured at runtime (see `vostok::config`). Each server binds
+`127.0.0.1` by default, preserving the original local-only behavior. For a
+single remote machine, explicitly bind all services to its interfaces and set
+the routable host advertised to the client:
+
+```bash
+SRP_BIND_HOST=0.0.0.0 SRP_PUBLIC_HOST=your.public.host cargo run --bin lobby-server
+# Run the other three servers with the same environment.
+```
+
+Per-server overrides: `SRP_<SERVER>_{BIND,PUBLIC_HOST,PORT}` where `<SERVER>` is
+`BROWSER`, `LOGIN`, `LOBBY`, or `MATCH`. The stock client always contacts the
+browser service on public port 80 because login advertises only its host.
+`SRP_BROWSER_PORT` therefore requires external forwarding from public port 80
+to the configured bind port.
+
+Open these ports to remote clients: **TCP** 1234 (login), 80 (browser), 1235
+(lobby) and **UDP** 1236 (match).
+
+### Prerequisites (manual / Windows toolchain)
+
+If not using the Nix dev shell:
 
 1. `rustc`
     * Install nightly version from `rustup`: `rustup default nightly`
