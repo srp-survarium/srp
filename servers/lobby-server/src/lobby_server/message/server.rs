@@ -95,8 +95,6 @@ pub struct Profile {
 pub mod raw {
     #![expect(non_camel_case_types)]
 
-    use crate::lobby_server::message::client::raw::faction_id;
-
     #[rustfmt::skip]
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
@@ -136,20 +134,7 @@ pub mod raw {
         pub padding: [u8; 1],
     }
 
-    #[repr(C)]
-    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
-    pub struct player_skill {
-        pub skill_id: u8,
-        pub skill_points: u8,
-    }
-
-    #[repr(C)]
-    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
-    pub struct player_reputation {
-        pub faction_id: faction_id,
-        pub padding: [u8; 1],
-        pub reputation_points: u16,
-    }
+    pub use survarium::account::{player_reputation, player_skill};
 }
 
 impl Message {

@@ -67,25 +67,62 @@ interfaces.
 **Exit criterion:** one client on a different machine completes the whole chain
 and spawns into a match hosted on the VPS.
 
-## Phase 2 — Identity & sessions (prerequisite for telling clients apart)
+## Phase 2 — Single-process mock with a shared in-memory session store
 
 Right now every client *is* the same dummy account. Multiplayer needs distinct
 identities flowing from login through lobby into the match.
 
-- ⬜ **2.1** Login server: allocate a **unique** `session_id` per sign-in
-  (instead of the constant `0xDD00`) and remember `session_id → account`.
-- ⬜ **2.2** A shared session store (in-memory first) the lobby and match
-  servers can consult to resolve `session_id → account/profile`. Decide on a
-  transport (shared process? small internal RPC? shared sqlite?) — see
-  `WORK.md` open questions.
-- ⬜ **2.3** *(optional / improvement)* Wire `database/schema.sql` + `sqlx` for
-  real accounts; keep an in-memory fallback for dev. Only if 2.2 proves it pays
-  off; otherwise defer.
-- ⬜ **2.4** Lobby server: derive `ConnectionState` from the resolved account
-  rather than `new_dummy`, so two clients have two different profiles/inventories.
+**Agreed design** (scoping decision, see `WORK.md` 2026-05-30): one **unified
+`srp` binary** runs the login + lobby + browser servers as threads sharing an
+`Arc<SessionStore>`. The **match server stays a separate process for now** (it
+joins the shared store in Phase 4; it doesn't need sessions until then). A panic
+in one server thread must **not** crash the process. Because the merged servers no
+longer each own a terminal tab, each routes its logs to a per-server file that the
+bootstrap scripts tail in separate tabs.
 
-**Exit criterion:** two clients sign in and see *different* names/profiles in the
-lobby.
+- ✅ **2.1** Login server allocates a **unique** `session_id` per sign-in (was the
+  constant `0xDD00`). The counter moves into the store in 2.6.
+- ✅ **2.2** `crates/session`: `Account` (full per-account state — profiles,
+  inventory, money, skills, reputations; defaults = today's dummy values) +
+  `SessionStore` (accounts keyed by a unique id derived from **client IP + email**;
+  empty email accepted; name = email, or a unique fallback when empty; a
+  `session_id → account` map; the session-id counter seeded at `0xDD00`). Pure
+  addition, 4 unit tests. *Not wired into the servers yet — that's 2.6/2.7.*
+- ✅ **2.3** Per-server **file-routing logger** (`servers/srp/src/logger.rs`): a
+  `log::Log` impl that routes each record to `logs/<server>.log` by target prefix
+  (`login_server`→login, `lobby_server`/`messaging`→lobby, `browser_server`/`actix`
+  →browser, else srp) **and** echoes to stdout. Installed by the unified bin; level
+  from `RUST_LOG` (default info). `logs/` is gitignored. Verified by running the
+  bin: actix logs landed in `browser.log`, orchestrator lines in `srp.log`.
+- ✅ **2.4** *(refactor)* Lib-ify login/lobby/browser — each exposes
+  `pub fn run(store: Arc<SessionStore>) -> io::Result<()>` (store unused for now)
+  with a thin standalone `main.rs`. Browser's `run` drives a fresh actix runtime
+  via `System::new().block_on`. No behaviour change.
+- ✅ **2.5** Unified **`srp` binary** (`servers/srp`): builds one shared store,
+  spawns a supervised thread per server (`catch_unwind` + restart after a 1s
+  delay, so no server can crash the process). Uses `env_logger` for now; the file
+  logger lands in 2.3.
+- ✅ **2.6** Wire **login → store**: on sign-in the login server resolves the
+  account from `(peer IP, email)` and opens a session via the shared store, then
+  sends that `session_id`. The local atomic counter from 2.1 is gone (the store
+  owns it now, still seeded at `0xDD00`). This completes 2.1's `session → account`
+  half.
+- ✅ **2.7** Wire **lobby → store**: `ServerState::run` resolves the `Account`
+  from `session_id` and builds `ConnectionState::from_account`; falls back to a
+  default account when the session is unknown (standalone runs). Two clients with
+  distinct IP/email now get distinct accounts. *(The lobby snapshots the account;
+  live write-back to the store — for the match server to see lobby edits — is left
+  to Phase 4.)*
+- ✅ **2.8** Bootstrap launchers (both OSes): one launches the unified `srp`
+  binary, the match server (separate process), and a per-server log view.
+  - `survarium-dev-bootstrap.bat` (Windows Terminal tabs; `Get-Content -Wait`).
+  - `scripts/dev-bootstrap.sh` (Linux, tmux windows; `tail -F`) — so the server is
+    runnable end-to-end from Linux. tmux is provided by the flake dev shell.
+
+**Exit criterion:** two clients sign in with distinct IP/email and see *different*
+accounts in the lobby; one process where no server can crash another; logs still
+separable per server. *Structurally complete and unit/run-tested on Linux; the
+two-real-clients check needs the game client (PLAN 1.4-style live verification).*
 
 ## Phase 3 — Matchmaking glue (lobby ↔ match)
 

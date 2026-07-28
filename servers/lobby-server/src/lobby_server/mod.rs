@@ -5,6 +5,7 @@ use self::connection_state::ConnectionState;
 pub use self::message::client::raw::faction_id;
 pub use self::message::{client, server};
 
+use session::{Account, SessionStore};
 use vostok::network_client::TcpClient;
 
 use std::ffi::CStr;
@@ -22,7 +23,7 @@ pub struct ServerState {
 }
 
 impl ServerState {
-    pub fn run(self: Arc<Self>, tcp_client: TcpClient) -> ! {
+    pub fn run(self: Arc<Self>, store: Arc<SessionStore>, tcp_client: TcpClient) -> ! {
         let mut tcp_client = tcp_client;
 
         let message = tcp_client.read::<client::Message>().unwrap();
@@ -35,7 +36,19 @@ impl ServerState {
             .unwrap();
         log::info!("Connected to client: {session_id}");
 
-        let mut state = ConnectionState::new_dummy(session_id);
+        // Resolve the account this session belongs to. Falls back to a default
+        // account when the session is unknown (e.g. the lobby run standalone,
+        // without the login server having populated the store).
+        let mut state = match store.account_for_session(session_id) {
+            Some(account) => ConnectionState::from_account(session_id, &account.lock().unwrap()),
+            None => {
+                log::warn!("Unknown session {session_id:#x}; using a default account");
+                ConnectionState::from_account(
+                    session_id,
+                    &Account::new_dummy(1, "dummy_name".to_string()),
+                )
+            }
+        };
 
         loop {
             let message = match tcp_client.read::<client::Message>() {

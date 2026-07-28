@@ -37,22 +37,32 @@ nix develop
 # Build / check everything
 cargo check --workspace
 
-# Run a server (each is its own workspace bin)
-cargo run --bin login-server     # TCP  :1234  — sign-in, hands out lobby info
-cargo run --bin browser-server   # HTTP :80    — returns the lobby address
-cargo run --bin lobby-server     # TCP  :1235  — profiles, shop, inventory, chat
-cargo run --bin match-server     # UDP  :1236  — the actual gameplay
+# Primary way to run: the unified binary runs login + browser + lobby in ONE
+# process sharing a session store (see "Single-process & sessions" below).
+cargo run --bin srp              # TCP :1234 (login) + HTTP :80 (browser) + TCP :1235 (lobby)
+cargo run --bin match-server     # UDP :1236  — gameplay (still a separate process)
+
+# Per-server logs are written to logs/<server>.log AND echoed to stdout; set the
+# level with RUST_LOG (e.g. RUST_LOG=debug). The standalone bins still exist for
+# isolated debugging, but only `srp` shares one store across servers:
+cargo run --bin login-server     # TCP  :1234
+cargo run --bin browser-server   # HTTP :80
+cargo run --bin lobby-server     # TCP  :1235
 ```
 
-All four must run at once for a full client session. On Windows there is a
-convenience launcher, `survarium-dev-bootstrap.bat`, that opens a Windows
-Terminal tab per server plus the client:
+`srp` + `match-server` together cover a full client session. Bootstrappers launch
+everything at once with per-server log views:
+- **Linux:** `./scripts/dev-bootstrap.sh` — a tmux session with a window for `srp`,
+  one for the match server, and one `tail -F` per `logs/<server>.log` (run it from
+  inside `nix develop`).
+- **Windows:** `survarium-dev-bootstrap.bat` — the same layout in Windows Terminal
+  tabs, plus IDA/ProcExp and a client tab.
+
+The client's `-client=<addr:port>` argument points it at the **login server**:
 
 ```
 survarium.exe -no_splash_screen -client=127.0.0.1:1234
 ```
-
-The `-client=<addr:port>` argument points the client at the **login server**.
 
 > **Toolchain note:** the workspace is nightly-only — `edition = "2024"` plus
 > `#![feature(generic_atomic)]`, `iter_intersperse`, `slice_split_once`. Use the
@@ -63,8 +73,11 @@ The `-client=<addr:port>` argument points the client at the **login server**.
 ## Architecture: the connection handshake
 
 The client walks a fixed chain of servers. Each step tells it where to go next,
-so addresses are discovered at runtime — **except** they are currently all
-hardcoded to `127.0.0.1` (see *Known limitations*).
+so addresses are discovered at runtime. Addresses are configurable
+(`vostok::config`, read from env): each server has a **bind** host (default
+`0.0.0.0`) and a **public** host advertised to the client (default `127.0.0.1`,
+override with `SRP_PUBLIC_HOST`). Login + browser + lobby run together inside the
+unified `srp` process; the match server is still separate.
 
 ```
                       survarium.exe (-client=<login_addr>)
@@ -106,7 +119,7 @@ the *original game's* keys (also obtainable from the installer's
 ```
 crates/
   vostok/                  # shared protocol library
-    src/lib.rs             #   `config` module: ALL server addresses/ports (hardcoded)
+    src/config.rs          #   per-server { bind_host, public_host, port }, from env
     src/serde.rs           #   Serialize / Deserialize traits + DeserializeError
     src/network_packet/    #   TcpPacket / UdpPacket byte buffers (Packet trait)
     src/network_client/    #   TcpClient (buffered, peek/read) / UdpClient
@@ -114,17 +127,23 @@ crates/
   survarium/               # game-domain types shared across servers
     src/player_profile.rs  #   profiles, inventory_item_instance, slots, factions
     src/player_input.rs    #   player, weapon_core, stamina, player_input/state
+    src/account.rs         #   faction_id, player_skill, player_reputation
+  session/                 # in-memory Account + SessionStore (shared, single-process)
   binary-config-parser/    # (de)serializer for the game's binary config blobs
 
 servers/
-  login-server/   src/main.rs                  # single-file; TLS sign-in
-  browser-server/ src/main.rs                  # single-file; actix-web HTTP
-  lobby-server/   src/lobby_server/            # profiles/shop/inventory/skills
-                  src/messaging_server/        # friends/chat (stub)
+  srp/            src/main.rs   # UNIFIED bin: runs login+browser+lobby threads, shared store
+                  src/logger.rs # routes each server's log to logs/<server>.log (+ stdout)
+  login-server/   src/lib.rs    # TLS sign-in → resolves account + session in the store
+  browser-server/ src/lib.rs    # actix-web HTTP; returns the lobby address
+  lobby-server/   src/lobby_server/      # profiles/shop/inventory/skills (per-account)
+                  src/messaging_server/  # friends/chat (stub)
   match-server/   src/match_connection.rs      # reliable-UDP transport + acks
                   src/game.rs                  # game logic / tick / spawns
                   src/message/                 # client_message.rs, server_message.rs
                   src/sequence_number.rs       # SN16 wrapping seq-number arithmetic
+
+(each server crate is a lib exposing `run(Arc<SessionStore>)` + a thin standalone main)
 
 scripts/          # offline RE tooling (not servers): binary-config-cli,
                   # build-engine-structure, nasm-decompiler, parse-journal-file
@@ -168,27 +187,30 @@ single-client assumptions only as far as "multiple real clients can connect and
 see each other"; we do **not** add real game simulation, economy, or persistence.
 See `PLAN.md` for the staged approach and `WORK.md` for the running log.
 
-Intentional/mock simplifications that nonetheless block multi-client use:
+Already addressed (Phases 1–2 — see `PLAN.md`/`WORK.md`):
 
-- **Addresses hardcoded to `127.0.0.1`** in `crates/vostok/src/lib.rs::config`.
-  Nothing reads an env var or config file, so the servers can only be reached on
-  loopback. This is the first blocker for "works through my own server".
-- **Login server** hands every client the same hardcoded `SESSION_ID = 0xDD00`;
-  no password check, no user lookup, no DB (despite `database/schema.sql` and
-  the `sqlx` dependency).
-- **Lobby server** gives every connection a `ConnectionState::new_dummy` with
-  account id `1` and name `"dummy_name"`. `ReadyForMatch` always returns
-  `match_id: 0x123, team_id: 0x1`.
+- ✅ **Addresses** are configurable (`vostok::config`, bind vs public host, env).
+- ✅ **Login server** allocates a real per-sign-in `session_id` and an account
+  (keyed on IP + email) in the shared `SessionStore`. Still a mock: no password
+  check, no DB (the `database/schema.sql` + `sqlx` dep are unused).
+- ✅ **Lobby server** builds `ConnectionState` from the resolved `Account`, so
+  distinct clients get distinct accounts. *(It snapshots the account; lobby edits
+  don't write back to the store yet — Phase 4.)* `ReadyForMatch` still returns the
+  constant `match_id: 0x123, team_id: 0x1` (matchmaking is Phase 3).
+
+Still open (the remaining work surface):
+
 - **Match server** is single-connection: `MatchConnection::wait_for_game_start`
-  accepts one UDP peer and `connect()`s to it. The second "player" in a match is
-  a hardcoded static dummy (`"beauty"`); `is_connected_bitmask` is hardcoded
-  `0b0011`. There is no per-player connection table, no shared world, no routing
-  of one client's updates to another.
-- **No matchmaking** ties the lobby's `match_id`/`team_id` to anything the match
-  server knows about.
-- **Robustness:** servers `unwrap()`/`panic!` liberally and rely on
-  `catch_unwind` + thread-per-connection. Fine for one local client; fragile for
-  many remote ones.
+  accepts one UDP peer and `connect()`s to it. The second "player" is a hardcoded
+  static dummy (`"beauty"`); `is_connected_bitmask` is hardcoded `0b0011`. No
+  per-peer table, no relay of one client's updates to another. It's also still a
+  **separate process** (not in `srp`). This is Phase 4 — the core multi-client
+  work, done as a *relay*, not a simulation.
+- **No matchmaking** ties the lobby's `match_id`/`team_id` to the match server
+  (Phase 3).
+- **Robustness:** handlers still `unwrap()`/`panic!` internally; per-connection
+  `catch_unwind` + the `srp` supervisor contain it (no panic can kill the
+  process), but the deep unwraps remain.
 
 Lower-priority `@TODO`s are scattered in-code (search `@TODO`): packet
 splitting/retries in `match_connection.rs`, `order_id` handling, messaging

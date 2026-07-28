@@ -134,14 +134,7 @@ pub mod raw {
         player_perks_changed  = 0x2,
     }
 
-    #[repr(u8)]
-    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
-    pub enum faction_id {
-        scavengers      = 0x1,
-        black_market    = 0x2,
-        army            = 0x3,
-        fringe_settlers = 0x4,
-    }
+    pub use survarium::account::faction_id;
 
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]

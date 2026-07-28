@@ -1,38 +1,8 @@
-use actix_web::{
-    get, middleware::Logger, web, App, HttpRequest, HttpResponse, HttpServer, Responder,
-};
+use std::sync::Arc;
 
-use vostok::config;
+use session::SessionStore;
 
-#[derive(serde::Deserialize, Debug)]
-#[expect(dead_code)]
-struct QueryParams {
-    unused: Option<String>,
-    r#type: Option<u8>,
-    local_ip: Option<String>,
-    login_ip: Option<String>,
-}
-
-#[get("/hello")]
-async fn handle_request_lobby_server(
-    _req: HttpRequest,
-    query: web::Query<QueryParams>,
-) -> impl Responder {
-    log::error!("Received: {query:#?}");
-
-    HttpResponse::Ok().body(config::get().lobby_server.public_addr())
-}
-
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
+fn main() -> std::io::Result<()> {
     env_logger::init();
-
-    HttpServer::new(|| {
-        App::new()
-            .wrap(Logger::default())
-            .service(handle_request_lobby_server)
-    })
-    .bind(config::get().browser_server.bind_addr())?
-    .run()
-    .await
+    browser_server::run(Arc::new(SessionStore::new()))
 }

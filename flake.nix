@@ -37,6 +37,8 @@
         buildInputs = [
           rust
           pkgs.openssl
+          # Used by scripts/dev-bootstrap.sh to run the servers in tmux windows.
+          pkgs.tmux
         ];
 
         # The `openssl` crate defaults to vendoring (compiling OpenSSL from
