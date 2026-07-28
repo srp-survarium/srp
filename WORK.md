@@ -75,10 +75,12 @@ output is quieter than before (was unconditional `println!`); set `RUST_LOG`
 - **Per-server `{ bind_host, public_host, port }`.** The bind host (where we
   listen) and the public host (what we tell the client to connect to next) are
   genuinely different on a real deployment — the bind is `0.0.0.0`, the public
-  host is the VPS's routable address. Defaults: bind `0.0.0.0`, public
-  `127.0.0.1`, original ports — so the local workflow is unchanged with no env.
-- **Env, not a config file (for now).** `SRP_PUBLIC_HOST` sets the public host
-  for all four servers at once (the common "one VPS hosts everything" case);
+  host is the VPS's routable address. Both hosts default to `127.0.0.1`, with
+  the original ports, so no-env runs remain local-only; remote exposure is an
+  explicit opt-in.
+- **Env, not a config file (for now).** `SRP_BIND_HOST` and `SRP_PUBLIC_HOST`
+  set the shared bind/public hosts for all four servers at once (the common
+  "one VPS hosts everything" case);
   `SRP_<SERVER>_{BIND,PUBLIC_HOST,PORT}` override individually. A file loader was
   considered and **deferred** — it adds a parser dependency and only pays off for
   multi-host splits, which aren't a current need.
