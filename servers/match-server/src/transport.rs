@@ -42,8 +42,6 @@ pub struct Transport {
 
     // server packets that weren't acknowledged
     unacknowledged_packets: BTreeMap<SN16, UdpPacket>,
-    // client packets that were sent not in order
-    pendings_packets: BTreeMap<SN16, Vec<message::ClientGameMessage>>,
 
     last_send_time: Instant,
 
@@ -63,7 +61,6 @@ impl Transport {
             server_order_id: 0xFFFF.into(),
 
             unacknowledged_packets: BTreeMap::new(),
-            pendings_packets: BTreeMap::new(),
             last_send_time: Instant::now(),
             connection_state: ConnectionState::WaitingForConnection,
         }
@@ -101,6 +98,18 @@ impl Transport {
 
         // Packet already received. Ignore
         if local_sequence_id == self.client_sequence_id {
+            return vec![];
+        }
+
+        // `client_sequence_id` is the newest packet already processed. A late
+        // packet is stale; processing it again can duplicate game actions. The
+        // old pending-map loop also unwrapped sequence gaps and panicked on the
+        // normal UDP arrival order 0 -> 2 -> 1.
+        if local_sequence_id < self.client_sequence_id {
+            log::debug!(
+                "dropping stale client packet {local_sequence_id:?}; newest is {:?}",
+                self.client_sequence_id
+            );
             return vec![];
         }
 
@@ -149,21 +158,10 @@ impl Transport {
                     self.handle_low_level_message(msg_type, socket, addr);
                     vec![]
                 }
-                message::ClientMessageKind::Messages(messages) => {
-                    self.pendings_packets.insert(local_sequence_id, messages);
-
-                    let mut game_messages = vec![];
-                    let mut i = local_sequence_id;
-                    // @TODO: Fix logic; `order_id` is not handled at all.
-                    while i <= self.client_sequence_id {
-                        let messages = self.pendings_packets.remove(&i).unwrap();
-                        for message in messages {
-                            game_messages.push(message.game_message);
-                        }
-                        i += 1.into();
-                    }
-                    game_messages
-                }
+                message::ClientMessageKind::Messages(messages) => messages
+                    .into_iter()
+                    .map(|message| message.game_message)
+                    .collect(),
             },
         }
     }
@@ -331,5 +329,56 @@ impl Transport {
                 acknowledgment_bits <<= 1;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn connection_packet() -> Vec<u8> {
+        vec![
+            0x00, 0x00, // local sequence
+            0xFF, 0xFF, // remote sequence
+            0x00, 0x00, // single packet / ack bits
+            0x40, 0x00, 0x00, // connection request / order ID
+            0x00, 0xDD, 0x00, 0x00, // session ID
+        ]
+    }
+
+    fn game_packet(local_sequence: u16, message_type: u8, order_id: u16) -> Vec<u8> {
+        let mut packet = Vec::new();
+        packet.extend(local_sequence.to_le_bytes());
+        packet.extend(0u16.to_le_bytes());
+        packet.extend(0u16.to_le_bytes());
+        packet.push(message_type);
+        packet.extend(order_id.to_le_bytes());
+        packet
+    }
+
+    #[test]
+    fn drops_a_late_packet_without_panicking() {
+        let socket = UdpSocket::bind("127.0.0.1:0").unwrap();
+        let peer_socket = UdpSocket::bind("127.0.0.1:0").unwrap();
+        let peer_addr = peer_socket.local_addr().unwrap();
+        let mut transport = Transport::new();
+
+        assert_eq!(
+            transport
+                .handle_datagram(&connection_packet(), &socket, peer_addr)
+                .len(),
+            1
+        );
+        assert_eq!(
+            transport
+                .handle_datagram(&game_packet(2, 0x41, 2), &socket, peer_addr)
+                .len(),
+            1
+        );
+        assert!(
+            transport
+                .handle_datagram(&game_packet(1, 0x42, 1), &socket, peer_addr)
+                .is_empty()
+        );
     }
 }
