@@ -8,6 +8,19 @@ pub use server_message::{
     ServerGameMessage, ServerGameMessageKind, ServerMessage, ServerMessageKind,
 };
 
+pub const CLIENT_PLAYER_HIT_VERSION: u8 = 1;
+pub const MAX_HIT_STRING_LENGTH: usize = 15;
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct PlayerHit {
+    pub hit_initiator: u8,
+    pub being_hit: u8,
+    pub body_part: String,
+    pub damage_type: String,
+    pub amount: f32,
+    pub armor_piercing: f32,
+}
+
 pub mod raw {
     #![expect(non_camel_case_types)]
     #![expect(dead_code)]

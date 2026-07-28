@@ -8,6 +8,7 @@ use vostok::network_packet::Packet;
 use vostok::serde::Serialize;
 
 use self::raw::*;
+use crate::message::PlayerHit;
 use crate::message::raw::{low_level_message_type_enum, udp_match_packets_count_enum};
 use crate::sequence_number::SN16;
 
@@ -73,6 +74,7 @@ pub enum ServerGameMessageKind {
     PlayerProfile {
         player_profile: Box<player_profile>,
     },
+    HitPlayer(PlayerHit),
 }
 
 pub mod raw {
@@ -218,6 +220,7 @@ impl ServerGameMessageKind {
             Self::SyncResponse { .. }         => match_server_message_types_enum::sync_response,
             Self::GameStatusChanged { .. }    => match_server_message_types_enum::game_status_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
+            Self::HitPlayer(..)               => match_server_message_types_enum::hit_player,
         }
     }
 }
@@ -379,6 +382,60 @@ impl Serialize for ServerGameMessageKind {
             Self::PlayerProfile { player_profile } => {
                 player_profile.serialize_udp(packet);
             }
+
+            Self::HitPlayer(hit) => {
+                // The 0.100b client's hit_info deserializer reads player IDs as
+                // bools. This demo match contains exactly players 0 and 1.
+                assert!(hit.hit_initiator <= 1);
+                assert!(hit.being_hit <= 1);
+                packet.write(hit.hit_initiator != 0);
+                packet.write(hit.being_hit != 0);
+                packet.write_str(&hit.body_part);
+                packet.write_str(&hit.damage_type);
+                packet.write(hit.amount);
+                packet.write(hit.armor_piercing);
+            }
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use vostok::network_packet::UdpPacket;
+
+    #[test]
+    fn serializes_hit_player_for_the_stock_client() {
+        let message = ServerMessage {
+            remote_sequence_id: 1.into(),
+            local_sequence_id: 2.into(),
+            local_ack_bits: 0,
+            kind: ServerMessageKind::Messages(vec![ServerGameMessage {
+                order_id: 3.into(),
+                game_message: ServerGameMessageKind::HitPlayer(PlayerHit {
+                    hit_initiator: 0,
+                    being_hit: 1,
+                    body_part: "head".to_owned(),
+                    damage_type: "injury".to_owned(),
+                    amount: 50.0,
+                    armor_piercing: 0.25,
+                }),
+            }]),
+        };
+        let mut packet = UdpPacket::new();
+        message.serialize(&mut packet);
+
+        #[rustfmt::skip]
+        let expected: &[u8] = &[
+            1, 0, 2, 0, 0, 0,
+            0x89, 3, 0,
+            0,
+            1,
+            4, b'h', b'e', b'a', b'd',
+            6, b'i', b'n', b'j', b'u', b'r', b'y',
+            0, 0, 72, 66,
+            0, 0, 128, 62,
+        ];
+        assert_eq!(packet.get_message(), expected);
     }
 }

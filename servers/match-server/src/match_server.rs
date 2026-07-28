@@ -7,11 +7,13 @@
 //     peer), and
 //   * relays each client's `ClientPlayerUpdate` to every OTHER peer as a
 //     `ServerPlayerInput`, so players see each other move.
+//   * validates the identity/roster fields of a synthetic client hit report and
+//     rebroadcasts it as the stock server `HitPlayer` message.
 //
-// It is explicitly not authoritative: nothing validates or reconciles the data,
-// it is forwarded as-is. Roster handling is best-effort (see WORK.md) — the clean
-// case is clients connecting before either readies up; late joins may render
-// imperfectly and need in-game iteration.
+// Movement and damage remain client-reported demo data; there is no geometry,
+// health simulation, or reconciliation. Roster handling is best-effort (see
+// WORK.md) — the clean case is clients connecting before either readies up;
+// late joins may render imperfectly and need in-game iteration.
 
 use std::collections::HashMap;
 use std::io;
@@ -24,9 +26,8 @@ use survarium::player_input::weapon_state;
 use survarium::player_profile::raw::game_team_id;
 
 use crate::game;
-use crate::message::ClientGameMessageKind;
-use crate::message::ServerGameMessageKind;
 use crate::message::server_message::raw::game_status;
+use crate::message::{ClientGameMessageKind, PlayerHit, ServerGameMessageKind};
 use crate::transport::Transport;
 
 const FRAMES_PER_SECOND: u64 = 120;
@@ -252,7 +253,49 @@ impl MatchServer {
                     },
                 );
             }
+
+            ClientGameMessageKind::ClientPlayerHit(hit) => {
+                let Some((match_id, hit)) = self.validate_player_hit(from, hit) else {
+                    return;
+                };
+                self.broadcast_to_match(match_id, ServerGameMessageKind::HitPlayer(hit));
+            }
         }
+    }
+
+    fn validate_player_hit(
+        &self,
+        from: SocketAddr,
+        mut hit: PlayerHit,
+    ) -> Option<(u32, PlayerHit)> {
+        let source = self
+            .peers
+            .get(&from)
+            .filter(|peer| peer.registered && peer.joined)?;
+
+        // Never trust the attacker ID supplied in the synthetic payload. The
+        // UDP peer's registered identity is the authority for this demo.
+        hit.hit_initiator = source.player_id;
+
+        // The stock 0.100b HitPlayer deserializer reads these two IDs as bools,
+        // so its wire format can address only players 0 and 1. Keep the demo
+        // explicit instead of silently aliasing every nonzero player to ID 1.
+        if hit.hit_initiator > 1 || hit.being_hit > 1 {
+            log::warn!(
+                "dropping hit with stock-incompatible players {} -> {}",
+                hit.hit_initiator,
+                hit.being_hit
+            );
+            return None;
+        }
+
+        let target_is_present = self.peers.values().any(|peer| {
+            peer.registered
+                && peer.joined
+                && peer.match_id == source.match_id
+                && peer.player_id == hit.being_hit
+        });
+        target_is_present.then_some((source.match_id, hit))
     }
 
     fn register_peer(&mut self, addr: SocketAddr, session_id: u32) {
@@ -341,6 +384,16 @@ impl MatchServer {
         }
     }
 
+    fn broadcast_to_match(&mut self, match_id: u32, message: ServerGameMessageKind) {
+        let socket = &self.socket;
+        for (addr, peer) in self.peers.iter_mut() {
+            if peer.joined && peer.match_id == match_id {
+                peer.transport
+                    .send_game_message(socket, *addr, message.clone());
+            }
+        }
+    }
+
     /// Drop peers that have disconnected or gone silent, and tell the rest who is
     /// left.
     fn reap_peers(&mut self) {
@@ -398,6 +451,27 @@ mod tests {
 
     fn peer_addr(port: u16) -> SocketAddr {
         SocketAddr::from(([127, 0, 0, 1], port))
+    }
+
+    fn joined_peer(match_id: u32, player_id: u8) -> Peer {
+        Peer {
+            registered: true,
+            match_id,
+            player_id,
+            joined: true,
+            ..Peer::new()
+        }
+    }
+
+    fn player_hit(hit_initiator: u8, being_hit: u8) -> PlayerHit {
+        PlayerHit {
+            hit_initiator,
+            being_hit,
+            body_part: "head".to_owned(),
+            damage_type: "injury".to_owned(),
+            amount: 50.0,
+            armor_piercing: 0.25,
+        }
     }
 
     /// A minimal, valid client "connection" datagram: local_seq 0, remote_seq
@@ -493,5 +567,47 @@ mod tests {
         }
 
         assert!(!server.peers.contains_key(&peer_addr(12_020)));
+    }
+
+    #[test]
+    fn authenticates_hit_attacker_from_the_sending_peer() {
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        let attacker = peer_addr(13_000);
+        server
+            .peers
+            .insert(attacker, joined_peer(DEFAULT_MATCH_ID, 0));
+        server
+            .peers
+            .insert(peer_addr(13_001), joined_peer(DEFAULT_MATCH_ID, 1));
+
+        let (match_id, hit) = server
+            .validate_player_hit(attacker, player_hit(99, 1))
+            .unwrap();
+        assert_eq!(match_id, DEFAULT_MATCH_ID);
+        assert_eq!(hit.hit_initiator, 0);
+        assert_eq!(hit.being_hit, 1);
+    }
+
+    #[test]
+    fn rejects_hit_for_an_absent_or_unrepresentable_target() {
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        let attacker = peer_addr(14_000);
+        server
+            .peers
+            .insert(attacker, joined_peer(DEFAULT_MATCH_ID, 0));
+        server
+            .peers
+            .insert(peer_addr(14_001), joined_peer(DEFAULT_MATCH_ID + 1, 1));
+
+        assert!(
+            server
+                .validate_player_hit(attacker, player_hit(0, 1))
+                .is_none()
+        );
+        assert!(
+            server
+                .validate_player_hit(attacker, player_hit(0, 2))
+                .is_none()
+        );
     }
 }

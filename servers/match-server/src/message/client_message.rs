@@ -4,6 +4,7 @@ use vostok::serde::advance_buffer;
 use vostok::serde::{Deserialize, DeserializeError};
 
 use crate::message::raw::{low_level_message_type_enum, udp_match_packets_count_enum};
+use crate::message::{CLIENT_PLAYER_HIT_VERSION, MAX_HIT_STRING_LENGTH, PlayerHit};
 use crate::sequence_number::SN16;
 
 use self::raw::*;
@@ -45,6 +46,7 @@ pub enum ClientGameMessageKind {
         time_in_ms: u32,
     },
     TeamBasesInitializeInfo,
+    ClientPlayerHit(PlayerHit),
 }
 
 const _: () = assert!(
@@ -73,6 +75,7 @@ pub mod raw {
         team_bases_initialize_info         = 0x48, // !!!!
         force_finish_match                 = 0x49,
         world_synchronization_confirmation = 0x4A, // 74
+        client_player_hit                  = 0x4B, // SRP synthetic message
         match_client_invalid_message_type  = 0x7F,
     }
 }
@@ -190,6 +193,42 @@ impl ClientGameMessageKind {
             match_client_message_types_enum::team_bases_initialize_info => {
                 Self::TeamBasesInitializeInfo
             }
+            match_client_message_types_enum::client_player_hit => {
+                let version = advance_buffer::<u8>(out_buffer)?;
+                if version != CLIENT_PLAYER_HIT_VERSION {
+                    return Err(DeserializeError::incorrect_input_from(format!(
+                        "unsupported client player hit version {version}"
+                    )));
+                }
+
+                let hit_initiator = advance_buffer::<u8>(out_buffer)?;
+                let being_hit = advance_buffer::<u8>(out_buffer)?;
+                let body_part = advance_string(out_buffer)?;
+                let damage_type = advance_string(out_buffer)?;
+                let amount = advance_buffer::<f32>(out_buffer)?;
+                let armor_piercing = advance_buffer::<f32>(out_buffer)?;
+
+                if body_part.is_empty()
+                    || damage_type.is_empty()
+                    || !amount.is_finite()
+                    || amount <= 0.0
+                    || !armor_piercing.is_finite()
+                    || armor_piercing < 0.0
+                {
+                    return Err(DeserializeError::incorrect_input_from(
+                        "invalid client player hit payload",
+                    ));
+                }
+
+                Self::ClientPlayerHit(PlayerHit {
+                    hit_initiator,
+                    being_hit,
+                    body_part,
+                    damage_type,
+                    amount,
+                    armor_piercing,
+                })
+            }
             _ => return Err(DeserializeError::UnknownMessageType(msg_type as u8)),
         };
         Ok(msg)
@@ -205,8 +244,24 @@ impl ClientGameMessageKind {
             Self::JoinMatch { .. }               => match_client_message_types_enum::join_match,
             Self::ClientPlayerUpdate { .. }      => match_client_message_types_enum::client_player_update,
             Self::TeamBasesInitializeInfo { .. } => match_client_message_types_enum::team_bases_initialize_info,
+            Self::ClientPlayerHit(..)            => match_client_message_types_enum::client_player_hit,
         }
     }
+}
+
+fn advance_string(out_buffer: &mut &[u8]) -> Result<String, DeserializeError> {
+    let length = advance_buffer::<u8>(out_buffer)? as usize;
+    if length > MAX_HIT_STRING_LENGTH || out_buffer.len() < length {
+        return Err(DeserializeError::incorrect_input_from(format!(
+            "invalid hit string length {length}"
+        )));
+    }
+
+    let (value, remaining) = out_buffer.split_at(length);
+    *out_buffer = remaining;
+    let value = std::str::from_utf8(value)
+        .map_err(|error| DeserializeError::incorrect_input_from(error))?;
+    Ok(value.to_owned())
 }
 
 #[cfg(test)]
@@ -292,6 +347,74 @@ mod test {
             messages[0].game_message,
             ClientGameMessageKind::ClientPlayerUpdate { .. }
         ));
+    }
+
+    #[test]
+    fn parses_synthetic_client_player_hit() {
+        #[rustfmt::skip]
+        let buffer: &[u8] = &[
+            1, 0, 0, 0, 0, 0,
+            0x4B, 2, 0,
+            1,
+            0,
+            1,
+            4, b'h', b'e', b'a', b'd',
+            6, b'i', b'n', b'j', b'u', b'r', b'y',
+            0, 0, 72, 66,
+            0, 0, 128, 62,
+        ];
+
+        let message = ClientMessage::deserialize(&mut buffer.as_ref()).unwrap();
+        assert_eq!(
+            message,
+            ClientMessage {
+                local_sequence_id: 1.into(),
+                remote_sequence_id: 0.into(),
+                remote_ack_bits: 0x8000,
+                kind: ClientMessageKind::Messages(vec![ClientGameMessage {
+                    order_id: 2.into(),
+                    game_message: ClientGameMessageKind::ClientPlayerHit(PlayerHit {
+                        hit_initiator: 0,
+                        being_hit: 1,
+                        body_part: "head".to_owned(),
+                        damage_type: "injury".to_owned(),
+                        amount: 50.0,
+                        armor_piercing: 0.25,
+                    }),
+                }]),
+            }
+        );
+    }
+
+    #[test]
+    fn rejects_invalid_synthetic_client_player_hit() {
+        #[rustfmt::skip]
+        let wrong_version: &[u8] = &[
+            1, 0, 0, 0, 0, 0,
+            0x4B, 2, 0,
+            2,
+            0,
+            1,
+            4, b'h', b'e', b'a', b'd',
+            6, b'i', b'n', b'j', b'u', b'r', b'y',
+            0, 0, 72, 66,
+            0, 0, 128, 62,
+        ];
+        assert!(ClientMessage::deserialize(&mut wrong_version.as_ref()).is_err());
+
+        #[rustfmt::skip]
+        let non_finite_damage: &[u8] = &[
+            1, 0, 0, 0, 0, 0,
+            0x4B, 2, 0,
+            1,
+            0,
+            1,
+            4, b'h', b'e', b'a', b'd',
+            6, b'i', b'n', b'j', b'u', b'r', b'y',
+            0, 0, 128, 127,
+            0, 0, 128, 62,
+        ];
+        assert!(ClientMessage::deserialize(&mut non_finite_damage.as_ref()).is_err());
     }
 
     // Stale (pre-existing): this captured packet's messages are
