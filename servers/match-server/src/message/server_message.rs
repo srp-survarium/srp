@@ -37,7 +37,6 @@ pub struct ServerGameMessage {
     pub game_message: ServerGameMessageKind,
 }
 
-#[expect(dead_code)]
 #[derive(Debug, PartialEq, Clone)]
 pub enum ServerGameMessageKind {
     ConnectionSuccessful,
@@ -61,14 +60,12 @@ pub enum ServerGameMessageKind {
         player_state: player_state,
         weapon_state: weapon_state,
     },
-    MatchTimeChanged {
-        match_time: u32,
-    },
     SyncResponse {
         is_connected_bitmask: u32,
     },
-    GameStatusChanged {
-        game_status: game_status,
+    PlayerVisibilityChanged {
+        player_id: u8,
+        is_visible: bool,
     },
 
     PlayerProfile {
@@ -217,9 +214,8 @@ impl ServerGameMessageKind {
             Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
             Self::SpawnPlayer { .. }          => match_server_message_types_enum::spawn_player,
             Self::ServerPlayerInput { .. }    => match_server_message_types_enum::server_player_input,
-            Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
             Self::SyncResponse { .. }         => match_server_message_types_enum::sync_response,
-            Self::GameStatusChanged { .. }    => match_server_message_types_enum::game_status_changed,
+            Self::PlayerVisibilityChanged { .. } => match_server_message_types_enum::player_visibility_changed,
             Self::PlayerProfile { .. }        => match_server_message_types_enum::player_profile_message_type,
             Self::HitPlayer(..)               => match_server_message_types_enum::hit_player,
             Self::KillPlayer(..)              => match_server_message_types_enum::kill_player,
@@ -369,16 +365,16 @@ impl Serialize for ServerGameMessageKind {
                 packet.write(player_state);
                 packet.write(weapon_state);
             }
-            Self::MatchTimeChanged { match_time } => {
-                packet.write(match_time);
-            }
-
             Self::SyncResponse {
                 is_connected_bitmask,
             } => packet.write(is_connected_bitmask),
 
-            Self::GameStatusChanged { game_status } => {
-                packet.write(game_status);
+            Self::PlayerVisibilityChanged {
+                player_id,
+                is_visible,
+            } => {
+                packet.write(player_id);
+                packet.write(is_visible);
             }
 
             Self::PlayerProfile { player_profile } => {
@@ -475,6 +471,21 @@ mod test {
             13, 0, 0, 0,
         ];
         assert_eq!(packet.get_message(), expected);
+    }
+
+    #[test]
+    fn serializes_player_visibility_for_drop_in_and_out() {
+        let mut packet = UdpPacket::new();
+        ServerGameMessage {
+            order_id: 3.into(),
+            game_message: ServerGameMessageKind::PlayerVisibilityChanged {
+                player_id: 7,
+                is_visible: false,
+            },
+        }
+        .serialize(&mut packet);
+
+        assert_eq!(packet.get_message(), &[0x91, 3, 0, 7, 0]);
     }
 
     #[test]
