@@ -76,57 +76,7 @@ impl Account {
                 player_profile::raw::player_profile::new_dummy(id, 600_000, "server_profile_3"),
             ],
 
-            inventory: {
-                let i = |id, dict_id, condition_or_stack| {
-                    player_profile::raw::inventory_item_instance {
-                        condition_or_stack,
-                        amount_in_inventory: 1,
-                        id,
-                        dict_id,
-                        padding: Default::default(),
-                    }
-                };
-                vec![
-                    i(1, 24, 10), // boots
-                    i(2, 40, 20), // gloves
-                    i(3, 46, 30), // legs
-                    i(4, 27, 40), // helmet
-                    i(5, 43, 50), // resp
-                    i(6, 48, 60), // torso
-                    i(7, 9, 70),  // back
-                    //
-                    i(8, 65, 80),   // painkiller
-                    i(9, 66, 90),   // bandages
-                    i(10, 67, 100), // medkit
-                    i(11, 68, 110), // traps
-                    //
-                    i(12, 55, 120), // uzi
-                    i(13, 55, 130), // uzi
-                    i(20, 12, 10),
-                    i(21, 13, 10),
-                    i(22, 14, 10),
-                    i(23, 15, 10),
-                    i(24, 16, 10),
-                    i(25, 17, 10),
-                    i(26, 18, 10),
-                    i(27, 19, 10),
-                    i(33, 53, 1_000),
-                    i(34, 55, 10),
-                    i(35, 56, 10),
-                    i(36, 64, 10),
-                    i(37, 28, 1),
-                    i(38, 29, 1),
-                    i(39, 31, 1),
-                    i(40, 32, 1),
-                    i(41, 33, 1),
-                    i(42, 34, 1),
-                    i(43, 48, 1),
-                    i(44, 44, 1),
-                    i(45, 45, 1),
-                    i(46, 46, 1),
-                    i(47, 47, 1),
-                ]
-            },
+            inventory: player_profile::demo_inventory(),
 
             reps: [
                 player_reputation {
@@ -160,6 +110,7 @@ pub struct SessionStore {
     sessions: Mutex<HashMap<u32, u32>>, // session_id -> account_id
     next_session_id: AtomicU32,
     matchmaker: Mutex<Matchmaker>,
+    selected_profiles: Mutex<HashMap<u32, player_profile::raw::player_profile>>,
 }
 
 impl SessionStore {
@@ -169,6 +120,7 @@ impl SessionStore {
             sessions: Mutex::new(HashMap::new()),
             next_session_id: AtomicU32::new(FIRST_SESSION_ID),
             matchmaker: Mutex::new(Matchmaker::new()),
+            selected_profiles: Mutex::new(HashMap::new()),
         }
     }
 
@@ -212,6 +164,35 @@ impl SessionStore {
     /// it back via [`Self::match_assignment`] (Phase 4).
     pub fn join_match(&self, session_id: u32) -> Assignment {
         self.matchmaker.lock().unwrap().join(session_id)
+    }
+
+    /// Persist the lobby's current profile edits, remember the profile selected
+    /// for this match connection, and assign the session to a match.
+    pub fn ready_for_match(
+        &self,
+        session_id: u32,
+        selected_profile: player_profile::raw::player_profile,
+        profile_contents: &[player_profile::raw::player_profile],
+    ) -> Assignment {
+        self.selected_profiles
+            .lock()
+            .unwrap()
+            .insert(session_id, selected_profile);
+
+        if let Some(account) = self.account_for_session(session_id) {
+            account.lock().unwrap().profile_contents = profile_contents.to_vec();
+        }
+
+        self.join_match(session_id)
+    }
+
+    /// The exact lobby profile selected by this session for its current match.
+    pub fn selected_profile(&self, session_id: u32) -> Option<player_profile::raw::player_profile> {
+        self.selected_profiles
+            .lock()
+            .unwrap()
+            .get(&session_id)
+            .copied()
     }
 
     /// The match/team a session was assigned, if it has readied up.
@@ -375,5 +356,29 @@ mod tests {
         assert_eq!(first, again);
         assert_eq!(store.match_assignment(7), Some(first));
         assert_eq!(store.match_assignment(999), None);
+    }
+
+    #[test]
+    fn ready_for_match_preserves_the_selected_edited_profile() {
+        let store = SessionStore::new();
+        let id = store.get_or_create_account(ip(127, 0, 0, 1), "loadout@test");
+        let session_id = store.create_session(id);
+        let account = store.account_for_session(session_id).unwrap();
+        let mut profiles = account.lock().unwrap().profile_contents.clone();
+        profiles[1].slots[player_profile::raw::profile_slot_enum::weapon1_slot].dict_id = 55;
+
+        store.ready_for_match(session_id, profiles[1], &profiles);
+
+        assert_eq!(
+            store.selected_profile(session_id).unwrap().profile_id,
+            profiles[1].profile_id
+        );
+        assert_eq!(
+            store.selected_profile(session_id).unwrap().slots
+                [player_profile::raw::profile_slot_enum::weapon1_slot]
+                .dict_id,
+            55
+        );
+        assert_eq!(account.lock().unwrap().profile_contents, profiles);
     }
 }

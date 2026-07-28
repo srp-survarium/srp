@@ -24,7 +24,9 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use session::SessionStore;
 use survarium::player_input::weapon_state;
-use survarium::player_profile::raw::game_team_id;
+use survarium::player_profile::raw::{
+    game_team_id, player_profile as raw_player_profile, profile_slot_enum,
+};
 
 use crate::game;
 use crate::message::server_message::raw::game_status;
@@ -45,8 +47,6 @@ const IDLE_TIMEOUT: Duration = Duration::from_secs(5);
 const PEER_LIMIT: usize = 64;
 /// Demo health model. The client-reported hit amount is deducted directly.
 const PLAYER_MAX_HEALTH: f32 = 100.0;
-/// Dictionary ID of the dummy AK-74u equipped by `game::player_profile`.
-const DEMO_WEAPON_DICT_ID: u32 = 13;
 
 struct Peer {
     transport: Transport,
@@ -56,6 +56,8 @@ struct Peer {
     player_id: u8,
     team: game_team_id,
     name: String,
+    /// Exact lobby-selected equipment for this match connection.
+    profile: raw_player_profile,
     /// `true` once the peer has sent `JoinMatch` (is in the match).
     joined: bool,
     health: f32,
@@ -75,6 +77,7 @@ impl Peer {
             player_id: 0,
             team: game_team_id::team_1,
             name: String::new(),
+            profile: raw_player_profile::new_dummy(0, 0, "demo_player"),
             joined: false,
             health: PLAYER_MAX_HEALTH,
             alive: true,
@@ -200,23 +203,29 @@ impl MatchServer {
                 // Tell this client about the whole current roster: how many players
                 // to expect, then a profile per player (its own marked is_local).
                 let match_id = self.peers[&from].match_id;
-                let mut roster: Vec<(u8, game_team_id, String, bool)> = self
+                let mut roster: Vec<(u8, game_team_id, String, raw_player_profile, bool)> = self
                     .peers
                     .iter()
                     .filter(|(_, peer)| peer.registered && peer.match_id == match_id)
                     .map(|(addr, peer)| {
-                        (peer.player_id, peer.team, peer.name.clone(), *addr == from)
+                        (
+                            peer.player_id,
+                            peer.team,
+                            peer.name.clone(),
+                            peer.profile,
+                            *addr == from,
+                        )
                     })
                     .collect();
                 roster.sort_by_key(|(player_id, ..)| *player_id);
 
                 self.send_to(from, game::match_options(roster.len() as u8));
-                for (player_id, team, name, is_local) in roster {
+                for (player_id, team, name, profile, is_local) in roster {
                     self.send_to(
                         from,
                         ServerGameMessageKind::PlayerProfile {
                             player_profile: Box::new(game::player_profile(
-                                player_id, team, &name, is_local,
+                                profile, player_id, team, &name, is_local,
                             )),
                         },
                     );
@@ -280,9 +289,11 @@ impl MatchServer {
                     return;
                 };
                 let player_id = peer.player_id;
+                let active_slot = game::active_weapon_slot(&peer.profile)
+                    .unwrap_or(profile_slot_enum::weapon1_slot);
                 // Dumb relay: forward this player's movement to everyone else. The
-                // client message carries no weapon_state, so we send a default one.
-                // @NOTE: best-effort — see ServerPlayerInput serialization note.
+                // client message carries no weapon_state, so use the active slot
+                // from the selected loadout.
                 self.broadcast_to_others(
                     from,
                     ServerGameMessageKind::ServerPlayerInput {
@@ -290,7 +301,7 @@ impl MatchServer {
                         player_input,
                         player_state,
                         weapon_state: weapon_state {
-                            slot_id: 0,
+                            slot_id: active_slot as u8,
                             ammo_slot_id: 0,
                             state: 0,
                         },
@@ -316,6 +327,12 @@ impl MatchServer {
         hit: PlayerHit,
     ) -> Option<(u32, PlayerHit, Option<PlayerKill>)> {
         let (match_id, hit) = self.validate_player_hit(from, hit)?;
+        let item_dict_id = self
+            .peers
+            .get(&from)
+            .and_then(|peer| game::active_weapon_dict_id(&peer.profile))
+            .map(u32::from)
+            .unwrap_or_default();
         let target = self.peers.values_mut().find(|peer| {
             peer.registered
                 && peer.joined
@@ -336,7 +353,7 @@ impl MatchServer {
                 victim_id: hit.being_hit,
                 killer_id: hit.hit_initiator,
                 is_headshot: hit.body_part.eq_ignore_ascii_case("head"),
-                item_dict_id: DEMO_WEAPON_DICT_ID,
+                item_dict_id,
             })
         } else {
             None
@@ -409,11 +426,22 @@ impl MatchServer {
             return;
         };
 
-        let name = self
-            .store
-            .account_for_session(session_id)
+        let account = self.store.account_for_session(session_id);
+        let name = account
+            .as_ref()
             .map(|account| account.lock().unwrap().name.clone())
             .unwrap_or_else(|| format!("player_{player_id}"));
+        let profile = self
+            .store
+            .selected_profile(session_id)
+            .or_else(|| {
+                account
+                    .as_ref()
+                    .and_then(|account| account.lock().unwrap().profile_contents.first().copied())
+            })
+            .unwrap_or_else(|| {
+                raw_player_profile::new_dummy(u32::from(player_id), 0, "demo_player")
+            });
 
         if let Some(peer) = self.peers.get_mut(&addr) {
             peer.registered = true;
@@ -421,6 +449,7 @@ impl MatchServer {
             peer.player_id = player_id;
             peer.team = team;
             peer.name = name;
+            peer.profile = profile;
         }
 
         log::info!(
@@ -448,16 +477,17 @@ impl MatchServer {
 
     /// A `SpawnPlayer` for `player_id` at its assigned demo spawn point.
     fn spawn_message(&self, match_id: u32, player_id: u8) -> ServerGameMessageKind {
-        let spawn_index = self
-            .peers
-            .values()
-            .find(|peer| {
-                peer.registered && peer.match_id == match_id && peer.player_id == player_id
-            })
-            .map_or(player_id as usize, |peer| peer.spawn_index);
+        let peer = self.peers.values().find(|peer| {
+            peer.registered && peer.match_id == match_id && peer.player_id == player_id
+        });
+        let spawn_index = peer.map_or(player_id as usize, |peer| peer.spawn_index);
+        let profile = peer.map_or_else(
+            || raw_player_profile::new_dummy(u32::from(player_id), 0, "demo_player"),
+            |peer| peer.profile,
+        );
         ServerGameMessageKind::SpawnPlayer {
             player_id,
-            player: game::spawn_content(spawn_index),
+            player: game::spawn_content(spawn_index, &profile),
         }
     }
 
@@ -675,6 +705,25 @@ mod tests {
     }
 
     #[test]
+    fn registration_uses_the_profile_selected_in_the_lobby() {
+        let store = Arc::new(SessionStore::new());
+        let mut selected = raw_player_profile::new_dummy(1, 400_000, "selected");
+        selected.slots[profile_slot_enum::weapon1_slot].dict_id = 55;
+        store.ready_for_match(0xDD00, selected, &[selected]);
+
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::clone(&store)).unwrap();
+        let addr = peer_addr(12_100);
+        server.peers.insert(addr, Peer::new());
+        server.register_peer(addr, 0xDD00);
+
+        assert_eq!(server.peers[&addr].profile.profile_id, 400_000);
+        assert_eq!(
+            server.peers[&addr].profile.slots[profile_slot_enum::weapon1_slot].dict_id,
+            55
+        );
+    }
+
+    #[test]
     fn authenticates_hit_attacker_from_the_sending_peer() {
         let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
         let attacker = peer_addr(13_000);
@@ -739,7 +788,7 @@ mod tests {
                 victim_id: 1,
                 killer_id: 0,
                 is_headshot: true,
-                item_dict_id: DEMO_WEAPON_DICT_ID,
+                item_dict_id: 13,
             })
         );
         assert_eq!(server.peers[&victim].health, 0.0);
