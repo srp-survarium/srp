@@ -230,43 +230,42 @@ impl player_profile {
 
 impl player_profile {
     pub fn new_dummy(account_id: u32, profile_id: u32, profile_name: &str) -> Self {
-        let a = |id, dict_id, condition_or_stack, amount_in_inventory| inventory_item_instance {
-            condition_or_stack,
-            amount_in_inventory,
-            id,
-            dict_id,
-            padding: Default::default(),
-        };
-        let equipment = |dict_id| a(dict_id as u32, dict_id, 100, 1);
-        let ammo = |dict_id, condition_or_stack, amount_in_inventory| {
-            a(
-                dict_id as u32,
-                dict_id,
+        let item = |id, dict_id, condition_or_stack, amount_in_inventory| {
+            inventory_item_instance {
                 condition_or_stack,
                 amount_in_inventory,
-            )
+                id,
+                dict_id,
+                padding: Default::default(),
+            }
         };
+        let equipment = |id, dict_id| item(id, dict_id, 100, 1);
 
         let mut slots = [inventory_item_instance::default(); 19];
+
+        // A database that has no imported items cannot be handed imported
+        // dictionary IDs: the client dereferences the missing resource and dies
+        // with an access violation while the lobby is still sending the
+        // profile. Set SRP_STOCK_PROFILE_ONLY for such a database -- the SoC
+        // map release is one -- and the profile keeps only retail items.
+        let stock_only = std::env::var_os("SRP_STOCK_PROFILE_ONLY").is_some();
 
         #[rustfmt::skip]
         {
             use profile_slot_enum::*;
-            // slots[boots_slot]   = i(1, 24, 100);
-            // slots[gloves_slot]  = i(2, 40, 20);
-            // slots[pants_slot]   = i(3, 46, 30);
-            // slots[helmet_slot]  = i(4, 27, 40);
-            // slots[mask_slot]    = i(5, 43, 50);
-            // slots[torso_slot]   = i(6, 48, 60);
-            // slots[back_slot]    = i(7, 9,  70);
 
-            slots[weapon1_slot] = equipment(13); // "gameplay/weapons/ak_74u.options"
-            slots[ammo1_weapon1_slot] = ammo(7, 300, 300);
-            slots[ammo2_weapon1_slot] = ammo(7, 300, 300);
+            // Use the real lobby inventory instance IDs, not dictionary IDs.
+            // The five imported Duty pieces deliberately leave mask/back empty.
+            if !stock_only {
+                slots[helmet_slot] = equipment(53, 79);
+                slots[torso_slot]  = equipment(51, 77);
+                slots[pants_slot]  = equipment(52, 78);
+                slots[gloves_slot] = equipment(54, 80);
+                slots[boots_slot]  = equipment(55, 81);
+            }
 
-            slots[weapon2_slot] = equipment(14); // "gameplay/weapons/rem_700.options"
-            slots[ammo1_weapon2_slot] = ammo(51, 10, 300);
-            slots[ammo2_weapon2_slot] = ammo(51, 10, 300);
+            slots[weapon1_slot]       = equipment(21, 13); // stock AKS-74U
+            slots[ammo1_weapon1_slot] = item(56, 7, 200, 200); // 5.45x39 FMJ
         };
 
         if !(3 < profile_name.len() && profile_name.len() < 30) {

@@ -134,7 +134,12 @@ impl ConnectionState {
                     i(48, 74, 100),    // AKMN
                     i(49, 75, 10_000), // 7.62x39 ammunition
                     i(50, 76, 100),    // SKS
-                    i(51, 77, 1),      // Duty exoskeleton
+                    i(51, 77, 1),      // Duty exoskeleton torso
+                    i(52, 78, 1),      // Duty exoskeleton pants
+                    i(53, 79, 1),      // Duty exoskeleton helmet
+                    i(54, 80, 1),      // Duty exoskeleton gloves
+                    i(55, 81, 1),      // Duty exoskeleton boots
+                    i(56, 7, 200),     // 5.45x39 FMJ
                 ]
             },
 
@@ -176,12 +181,25 @@ mod tests {
 
         assert!(dict_ids.contains(&13), "stock AK-74u must remain available");
         assert!(
-            dict_ids.contains(&53),
-            "stock ammunition must remain available"
+            dict_ids.contains(&7),
+            "stock AK-74u ammunition must remain available"
         );
         assert!(dict_ids.contains(&74), "AKMN must be available");
         assert!(dict_ids.contains(&76), "SKS must be available");
-        assert!(dict_ids.contains(&77), "Duty exoskeleton must be available");
+        for dict_id in 77..=81 {
+            assert!(
+                dict_ids.contains(&dict_id),
+                "Duty exoskeleton part {dict_id} must be available"
+            );
+            assert_eq!(
+                state
+                    .inventory
+                    .iter()
+                    .filter(|item| item.dict_id == dict_id)
+                    .count(),
+                1
+            );
+        }
         assert!(
             dict_ids.contains(&75),
             "7.62x39 ammunition must be available"
@@ -191,14 +209,6 @@ mod tests {
                 .inventory
                 .iter()
                 .filter(|item| item.dict_id == 74)
-                .count(),
-            1
-        );
-        assert_eq!(
-            state
-                .inventory
-                .iter()
-                .filter(|item| item.dict_id == 77)
                 .count(),
             1
         );

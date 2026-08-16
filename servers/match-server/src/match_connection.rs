@@ -182,9 +182,12 @@ impl MatchConnection {
                 match result {
                     Ok(packet) => reader_tx.send(packet).unwrap(),
                     Err(error) => {
-                        let std::io::ErrorKind::TimedOut = error.kind() else {
+                        if !matches!(
+                            error.kind(),
+                            std::io::ErrorKind::TimedOut | std::io::ErrorKind::WouldBlock
+                        ) {
                             panic!("{error:?}")
-                        };
+                        }
                         if should_stop.load(Ordering::Relaxed) {
                             return;
                         }
@@ -204,9 +207,12 @@ impl MatchConnection {
                 match result {
                     Ok(_) => (),
                     Err(error) => {
-                        let std::io::ErrorKind::TimedOut = error.kind() else {
+                        if !matches!(
+                            error.kind(),
+                            std::io::ErrorKind::TimedOut | std::io::ErrorKind::WouldBlock
+                        ) {
                             panic!("{error:?}")
-                        };
+                        }
                         if should_stop.load(Ordering::Relaxed) {
                             return;
                         }
