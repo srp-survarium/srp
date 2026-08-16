@@ -1,3 +1,4 @@
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::mpsc;
 use std::sync::mpsc::TryRecvError;
 
@@ -11,6 +12,9 @@ use vostok::math::float3;
 use crate::message;
 use crate::message::server_message::raw::{game_mode_type, game_status};
 use crate::message::{ClientGameMessageKind, ServerGameMessageKind};
+
+/// Position updates seen, for rate-limiting the optional position log.
+static PLAYER_UPDATES_SEEN: AtomicU64 = AtomicU64::new(0);
 
 pub struct Game {
     client_game_message_rx: mpsc::Receiver<message::ClientGameMessageKind>,
@@ -116,10 +120,94 @@ impl MapProfile {
             },
             "soc-cordon" => Self {
                 map_name: "soc_cordon",
-                // Largest flat standable ground in the collision mesh
-                // (1737 sq units, open sky); the map centre is mid-air.
-                local_spawn: [390.34, 43.57, 712.12],
-                remote_spawn: [343.31, 43.44, 677.80],
+                // Cordon declares no team base, and its widest flat ground is an
+                // empty field. This is standable ground 0.4u from the densest
+                // cluster of AI graph points -- the inhabited centre.
+                local_spawn: [-140.99, -29.19, -362.48],
+                remote_spawn: [-141.70, -29.19, -360.17],
+                orientation: 0.0,
+            },
+            // The rest of Shadow of Chernobyl's multiplayer roster. Every spawn
+            // below is the map's own `zone_team_base`, read out of level.spawn
+            // by `soc-spawn-candidates`: the two teams' bases become the local
+            // and remote spawns, which is what they were authored as. Only
+            // mp_bath declares none, and falls back to the ranked ground.
+            //
+            // Each sits 1.5m above the authored height. X-Ray placed a team
+            // base *on* the floor and spawned a character standing on it;
+            // v0.100b puts the capsule's centre where it is told, so the
+            // authored height buries the lower half in the floor and the player
+            // falls through the map. Landing from 1.5m costs nothing.
+            "soc-rostok" => Self {
+                map_name: "soc_mp_rostok",
+                local_spawn: [-101.33, -35.16, 15.89],
+                remote_spawn: [5.57, -31.26, -112.12],
+                orientation: 0.0,
+            },
+            "soc-factory" => Self {
+                map_name: "soc_mp_factory",
+                local_spawn: [32.00, 2.71, 43.98],
+                remote_spawn: [27.43, 1.83, -73.72],
+                orientation: 0.0,
+            },
+            "soc-atp" => Self {
+                map_name: "soc_mp_atp",
+                local_spawn: [139.13, -5.22, -69.30],
+                remote_spawn: [134.33, -5.66, 25.37],
+                orientation: 0.0,
+            },
+            "soc-railroad" => Self {
+                map_name: "soc_mp_railroad",
+                local_spawn: [66.39, 2.59, 63.64],
+                remote_spawn: [-32.60, 2.75, -108.00],
+                orientation: 0.0,
+            },
+            "soc-lost-village" => Self {
+                map_name: "soc_mp_lost_village",
+                local_spawn: [83.82, 6.50, -61.79],
+                remote_spawn: [-13.05, 12.61, -66.51],
+                orientation: 0.0,
+            },
+            "soc-military-1" => Self {
+                map_name: "soc_mp_military_1",
+                local_spawn: [-59.54, -9.72, -47.65],
+                remote_spawn: [-43.35, -9.45, 52.62],
+                orientation: 0.0,
+            },
+            "soc-military-2" => Self {
+                map_name: "soc_mp_military_2",
+                local_spawn: [-342.36, -19.71, 254.88],
+                remote_spawn: [-288.10, -19.82, 295.73],
+                orientation: 0.0,
+            },
+            "soc-agroprom" => Self {
+                map_name: "soc_mp_agroprom",
+                local_spawn: [-39.34, 1.77, 38.92],
+                remote_spawn: [59.76, 3.27, -35.95],
+                orientation: 0.0,
+            },
+            "soc-workshop" => Self {
+                map_name: "soc_mp_workshop",
+                local_spawn: [-14.53, 2.48, -56.64],
+                remote_spawn: [-30.50, 2.81, 47.73],
+                orientation: 0.0,
+            },
+            "soc-bath" => Self {
+                map_name: "soc_mp_bath",
+                // No team base declared, and the ranked-ground fallback put the
+                // player *under* the map: `convert::spawn` reported
+                // [19.43, 1.78, 16.27], but `soc-probe-ground` finds seven
+                // collision layers over that column and the lowest upward face
+                // is concrete at y=4.43 -- so 1.78 is 2.7m below the building's
+                // ground floor, and the player spawned beneath it and fell out
+                // of the world. The heuristic's height is not the height of the
+                // surface it measured; trust the probe.
+                //
+                // 4.43 is the floor, 8.62 the ceiling above it, and the three
+                // neighbouring columns agree, so this is a room rather than a
+                // ledge.
+                local_spawn: [19.43, 5.93, 16.27],
+                remote_spawn: [16.93, 5.93, 18.77],
                 orientation: 0.0,
             },
             "level03-native-0100b" => Self {
@@ -373,7 +461,25 @@ impl Game {
                     },
                 ]
             }
-            ClientGameMessageKind::ClientPlayerUpdate { .. } => vec![],
+            ClientGameMessageKind::ClientPlayerUpdate { player_state, .. } => {
+                // The client tells the server where it is thirty times a
+                // second, and the server has nothing to do with it. It is the
+                // only way to answer "where was I when that happened", which
+                // every report about spawns, holes in the collision and dark
+                // patches turns out to need. Off unless asked for, and
+                // rate-limited, because the raw stream is unreadable.
+                if std::env::var("SRP_LOG_PLAYER_POSITION").is_ok() {
+                    let seen = PLAYER_UPDATES_SEEN.fetch_add(1, Ordering::Relaxed);
+                    if seen % 30 == 0 {
+                        let at = player_state.translation_w;
+                        println!(
+                            "player at [{:.2}, {:.2}, {:.2}] facing {:.2}",
+                            at.x, at.y, at.z, player_state.euler_angle_y
+                        );
+                    }
+                }
+                vec![]
+            }
             ClientGameMessageKind::TeamBasesInitializeInfo { .. } => {
                 vec![
                     ServerGameMessageKind::SpawnPlayer {
