@@ -217,6 +217,144 @@ impl MapProfile {
             // Office's floor under the first spawn is at -11.04 and the point
             // at -9.54 -- so unlike the SoC team bases no capsule-centre lift
             // is added on top.
+            "fear-clone" => Self {
+                map_name: "fear_clone",
+                local_spawn: [-38.31, -7.20, -3.06],
+                remote_spawn: [-9.38, 6.15, 33.45],
+                orientation: 0.0,
+            },
+            "fear-forgotten-factory" => Self {
+                map_name: "fear_forgotten_factory",
+                local_spawn: [82.52, -0.57, 28.71],
+                remote_spawn: [92.36, -7.13, 22.93],
+                orientation: 0.0,
+            },
+            "fear-museum" => Self {
+                map_name: "fear_museum",
+                local_spawn: [35.88, -101.49, 17.62],
+                remote_spawn: [50.68, -102.99, 28.42],
+                orientation: 0.0,
+            },
+            "fear-train-yard" => Self {
+                map_name: "fear_train_yard",
+                local_spawn: [14.67, -3.15, 4.56],
+                remote_spawn: [21.24, -9.54, -4.55],
+                orientation: 0.0,
+            },
+            "fear-bedlam" => Self {
+                map_name: "fear_bedlam",
+                local_spawn: [13.65, -6.33, 23.50],
+                remote_spawn: [5.78, -6.34, -5.90],
+                orientation: 0.0,
+            },
+            "fear-asylum" => Self {
+                map_name: "fear_asylum",
+                local_spawn: [22.32, -2.30, -26.68],
+                remote_spawn: [-16.68, -8.57, -52.98],
+                orientation: 0.0,
+            },
+            "fear-cafeteria" => Self {
+                map_name: "fear_cafeteria",
+                local_spawn: [-33.18, -2.01, -4.32],
+                remote_spawn: [-8.18, -2.01, 19.68],
+                orientation: 0.0,
+            },
+            "fear-campus" => Self {
+                map_name: "fear_campus",
+                local_spawn: [1.50, -17.75, 9.02],
+                remote_spawn: [-13.90, -21.75, 8.52],
+                orientation: 0.0,
+            },
+            "fear-construction" => Self {
+                map_name: "fear_construction",
+                local_spawn: [84.00, 28.65, -30.97],
+                remote_spawn: [80.30, 22.65, -10.72],
+                orientation: 0.0,
+            },
+            "fear-deadwood" => Self {
+                map_name: "fear_deadwood",
+                local_spawn: [12.50, -14.81, -85.00],
+                remote_spawn: [14.50, -14.81, -87.00],
+                orientation: 0.0,
+            },
+            "fear-depot" => Self {
+                map_name: "fear_depot",
+                local_spawn: [52.00, 0.55, 28.00],
+                remote_spawn: [48.00, 0.55, 28.00],
+                orientation: 0.0,
+            },
+            "fear-docks" => Self {
+                map_name: "fear_docks",
+                local_spawn: [-13.04, 4.11, 25.82],
+                remote_spawn: [-4.74, 4.11, 1.42],
+                orientation: 0.0,
+            },
+            "fear-evac" => Self {
+                map_name: "fear_evac",
+                local_spawn: [28.09, 2.11, -5.79],
+                remote_spawn: [43.84, 10.90, 20.96],
+                orientation: 0.0,
+            },
+            "fear-facility" => Self {
+                map_name: "fear_facility",
+                local_spawn: [-61.00, -1.95, -11.26],
+                remote_spawn: [-63.00, -1.95, -9.76],
+                orientation: 0.0,
+            },
+            "fear-factory" => Self {
+                map_name: "fear_factory",
+                local_spawn: [-55.35, -3.01, 6.75],
+                remote_spawn: [-43.05, -3.01, 7.35],
+                orientation: 0.0,
+            },
+            "fear-heliport" => Self {
+                map_name: "fear_heliport",
+                local_spawn: [45.24, 18.91, -64.76],
+                remote_spawn: [43.24, 18.91, -61.76],
+                orientation: 0.0,
+            },
+            "fear-hightech" => Self {
+                map_name: "fear_hightech",
+                local_spawn: [-10.30, -4.01, 21.30],
+                remote_spawn: [0.25, -4.01, 10.80],
+                orientation: 0.0,
+            },
+            "fear-labs" => Self {
+                map_name: "fear_labs",
+                local_spawn: [-6.50, 8.13, 46.94],
+                remote_spawn: [-8.00, 8.13, 48.94],
+                orientation: 0.0,
+            },
+            "fear-refinery" => Self {
+                map_name: "fear_refinery",
+                local_spawn: [-11.66, 0.55, -20.80],
+                remote_spawn: [-17.86, 3.55, 0.00],
+                orientation: 0.0,
+            },
+            "fear-spillkill" => Self {
+                map_name: "fear_spillkill",
+                local_spawn: [-38.80, -12.63, 17.56],
+                remote_spawn: [-39.80, -12.61, 10.56],
+                orientation: 0.0,
+            },
+            "fear-stockpile" => Self {
+                map_name: "fear_stockpile",
+                local_spawn: [52.84, -112.09, -18.36],
+                remote_spawn: [54.34, -111.82, -22.86],
+                orientation: 0.0,
+            },
+            "fear-streets" => Self {
+                map_name: "fear_streets",
+                local_spawn: [-18.75, -7.13, -53.45],
+                remote_spawn: [-18.75, -7.13, -57.45],
+                orientation: 0.0,
+            },
+            "fear-waterworks" => Self {
+                map_name: "fear_waterworks",
+                local_spawn: [45.50, -6.67, -28.02],
+                remote_spawn: [47.00, -6.67, -30.02],
+                orientation: 0.0,
+            },
             // Office is an interior map and the engine resolves a spawn onto
             // the topmost collision over its column, so an indoor start point
             // puts the player on the building's roof. Start05 is the one
