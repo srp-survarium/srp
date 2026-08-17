@@ -1,5 +1,3 @@
-#![feature(iter_intersperse)]
-#![feature(generic_atomic)]
 
 mod game;
 mod match_connection;

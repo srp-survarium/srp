@@ -140,8 +140,9 @@ impl player_profile {
         packet.write(is_local);
 
         let profile_name = profile_name
-            .split_once(|&c| c == 0)
-            .map(|(name, _)| name)
+            .iter()
+            .position(|&c| c == 0)
+            .map(|end| &profile_name[..end])
             .unwrap_or(profile_name.as_ref());
         packet.write_slice::<u8, _, _>(profile_name);
 

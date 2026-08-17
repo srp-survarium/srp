@@ -4,7 +4,7 @@
 // * error handling
 
 use std::collections::BTreeMap;
-use std::sync::atomic::{Atomic, Ordering};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::TryRecvError;
 use std::sync::{mpsc, Arc};
 use std::time::{self, Duration, Instant};
@@ -25,7 +25,7 @@ pub struct MatchConnection {
     udp_client: UdpClient,
     reader_handle: Option<std::thread::JoinHandle<()>>,
     writer_handle: Option<std::thread::JoinHandle<()>>,
-    should_stop: Arc<Atomic<bool>>,
+    should_stop: Arc<AtomicBool>,
 
     client_game_message_tx: mpsc::Sender<message::ClientGameMessageKind>,
     server_game_message_rx: mpsc::Receiver<message::ServerGameMessageKind>,

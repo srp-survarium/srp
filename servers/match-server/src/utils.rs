@@ -53,8 +53,8 @@ impl message::ClientMessage {
                     } = message;
                     format!("0x{:04X}:{:?}", order_id.0, game_message.message_type())
                 })
-                .intersperse_with(|| ", ".to_string())
-                .collect::<String>(),
+                .collect::<Vec<_>>()
+                .join(", "),
         };
 
         let log_line = format!(
@@ -94,8 +94,8 @@ impl message::ServerMessage {
                     } = message;
                     format!("0x{:04X}:{:?}", order_id.0, game_message.message_type())
                 })
-                .intersperse_with(|| ", ".to_string())
-                .collect::<String>(),
+                .collect::<Vec<_>>()
+                .join(", "),
         };
 
         let log_line = format!(
@@ -158,8 +158,8 @@ pub fn try_print_debug(mut incoming_bytes: &[u8]) {
         }
     }
     .into_iter()
-    .intersperse_with(|| ", ".to_string())
-    .collect::<String>();
+    .collect::<Vec<_>>()
+    .join(", ");
 
     let log_line = format!(
         "<!< local : 0x{local_sequence_id:04X} | remote: 0x{remote_sequence_id:04X} | remote: 0b{remote_ack_bits:016b} | {kinds}\n"

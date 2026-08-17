@@ -210,6 +210,25 @@ impl MapProfile {
                 remote_spawn: [16.93, 5.93, 18.77],
                 orientation: 0.0,
             },
+            // F.E.A.R. multiplayer, from build-lilith-map. Spawns are authored
+            // `GameStartPoint`s out of the world's own object list (see the
+            // port manifest's `start_points`), at the authored height: F.E.A.R.
+            // places a start point about 1.5m above the floor already --
+            // Office's floor under the first spawn is at -11.04 and the point
+            // at -9.54 -- so unlike the SoC team bases no capsule-centre lift
+            // is added on top.
+            // Office is an interior map and the engine resolves a spawn onto
+            // the topmost collision over its column, so an indoor start point
+            // puts the player on the building's roof. Start05 is the one
+            // authored point whose column is open to the sky -- the port
+            // drops sky-seal geometry, leaving the courtyard floor at -15.04
+            // as that column's top surface.
+            "fear-office" => Self {
+                map_name: "fear_office",
+                local_spawn: [86.88, -13.74, -16.57],
+                remote_spawn: [86.88, -13.74, -16.07],
+                orientation: 0.0,
+            },
             "level03-native-0100b" => Self {
                 map_name: "level_03",
                 local_spawn: [48.593, 0.433, 16.238],
