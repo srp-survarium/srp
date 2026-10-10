@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Linux dev bootstrapper — the counterpart to survarium-dev-bootstrap.bat.
 #

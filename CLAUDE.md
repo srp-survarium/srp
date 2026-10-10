@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # SRP — Survarium Restoration Project (server side)
 
 ## What this is

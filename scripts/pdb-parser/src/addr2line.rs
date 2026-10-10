@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use pdb_addr2line::{pdb::PDB as Pdb, ContextPdbData as Data, TypeFormatterFlags as Flags};
 use pdb_addr2line_orig::{
     pdb::PDB as PdbOrig, ContextPdbData as DataOrig, TypeFormatterFlags as FlagsOrig,
