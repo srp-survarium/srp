@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 //! Per-account progression wire types shared between the lobby (which serves
 //! them to the client) and the in-memory session store (which owns them).
 //!

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Multi-client match server: a dumb relay.
 //
 // SRP is a mock — this does NOT simulate the game. It owns one UDP socket,
