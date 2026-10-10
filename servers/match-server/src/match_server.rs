@@ -21,7 +21,7 @@ use std::collections::HashMap;
 use std::io;
 use std::net::{SocketAddr, UdpSocket};
 use std::sync::Arc;
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use session::SessionStore;
 use survarium::player_input::weapon_state;
@@ -61,6 +61,8 @@ struct Peer {
     joined: bool,
     health: f32,
     alive: bool,
+    /// Index into `game::SPAWN_POSITIONS`, assigned when this peer joins.
+    spawn_index: usize,
     /// When we last received a datagram from this peer (for the idle timeout).
     last_seen: Instant,
 }
@@ -77,6 +79,7 @@ impl Peer {
             joined: false,
             health: PLAYER_MAX_HEALTH,
             alive: true,
+            spawn_index: 0,
             last_seen: Instant::now(),
         }
     }
@@ -86,16 +89,43 @@ pub struct MatchServer {
     socket: UdpSocket,
     store: Arc<SessionStore>,
     peers: HashMap<SocketAddr, Peer>,
+    spawn_rng: SpawnRng,
+}
+
+/// Tiny dependency-free PRNG used only to vary demo spawn selection. This is
+/// deliberately not suitable for security or authoritative game simulation.
+struct SpawnRng(u64);
+
+impl SpawnRng {
+    fn new(seed: u64) -> Self {
+        Self(seed.max(1))
+    }
+
+    fn next_index(&mut self, upper_bound: usize) -> usize {
+        debug_assert!(upper_bound > 0);
+        let mut value = self.0;
+        value ^= value << 13;
+        value ^= value >> 7;
+        value ^= value << 17;
+        self.0 = value;
+        value as usize % upper_bound
+    }
 }
 
 impl MatchServer {
     pub fn bind(addr: &str, store: Arc<SessionStore>) -> io::Result<Self> {
         let socket = UdpSocket::bind(addr)?;
         socket.set_nonblocking(true)?;
+        let seed = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_nanos() as u64
+            ^ u64::from(socket.local_addr()?.port());
         Ok(Self {
             socket,
             store,
             peers: HashMap::new(),
+            spawn_rng: SpawnRng::new(seed),
         })
     }
 
@@ -195,12 +225,15 @@ impl MatchServer {
             }
 
             ClientGameMessageKind::JoinMatch => {
+                let match_id = self.peers[&from].match_id;
+                let spawn_index = self.select_spawn_index(match_id);
                 let Some(peer) = self.peers.get_mut(&from) else {
                     return;
                 };
                 peer.joined = true;
                 peer.health = PLAYER_MAX_HEALTH;
                 peer.alive = true;
+                peer.spawn_index = spawn_index;
                 let player_id = peer.player_id;
 
                 // Spawn the joining player for itself and start the match.
@@ -210,10 +243,10 @@ impl MatchServer {
                         game_status: game_status::inprocess,
                     },
                 );
-                self.send_to(from, self.spawn_message(player_id));
+                self.send_to(from, self.spawn_message(match_id, player_id));
 
                 // Let everyone already in the match see the newcomer.
-                self.broadcast_to_others(from, self.spawn_message(player_id));
+                self.broadcast_to_others(from, self.spawn_message(match_id, player_id));
             }
 
             ClientGameMessageKind::TeamBasesInitializeInfo => {
@@ -229,7 +262,7 @@ impl MatchServer {
                     .map(|(_, peer)| peer.player_id)
                     .collect();
                 for player_id in others {
-                    self.send_to(from, self.spawn_message(player_id));
+                    self.send_to(from, self.spawn_message(match_id, player_id));
                 }
                 self.send_to(
                     from,
@@ -397,11 +430,35 @@ impl MatchServer {
         );
     }
 
-    /// A `SpawnPlayer` for `player_id` at its canned spawn point.
-    fn spawn_message(&self, player_id: u8) -> ServerGameMessageKind {
+    fn select_spawn_index(&mut self, match_id: u32) -> usize {
+        let spawn_count = game::spawn_position_count();
+        let available: Vec<usize> = (0..spawn_count)
+            .filter(|candidate| {
+                !self.peers.values().any(|peer| {
+                    peer.joined && peer.match_id == match_id && peer.spawn_index == *candidate
+                })
+            })
+            .collect();
+
+        if available.is_empty() {
+            self.spawn_rng.next_index(spawn_count)
+        } else {
+            available[self.spawn_rng.next_index(available.len())]
+        }
+    }
+
+    /// A `SpawnPlayer` for `player_id` at its assigned demo spawn point.
+    fn spawn_message(&self, match_id: u32, player_id: u8) -> ServerGameMessageKind {
+        let spawn_index = self
+            .peers
+            .values()
+            .find(|peer| {
+                peer.registered && peer.match_id == match_id && peer.player_id == player_id
+            })
+            .map_or(player_id as usize, |peer| peer.spawn_index);
         ServerGameMessageKind::SpawnPlayer {
             player_id,
-            player: game::spawn_content(player_id as usize),
+            player: game::spawn_content(spawn_index),
         }
     }
 
@@ -694,6 +751,50 @@ mod tests {
                 .apply_player_hit(attacker, player_hit(0, 1))
                 .is_none(),
             "a dead player must not emit duplicate hits or kills"
+        );
+    }
+
+    #[test]
+    fn assigns_unused_spawn_points_within_a_match() {
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        server.spawn_rng = SpawnRng::new(123);
+
+        let first = peer_addr(16_000);
+        let second = peer_addr(16_001);
+        let first_spawn = server.select_spawn_index(DEFAULT_MATCH_ID);
+        let mut first_peer = joined_peer(DEFAULT_MATCH_ID, 0);
+        first_peer.spawn_index = first_spawn;
+        server.peers.insert(first, first_peer);
+
+        let second_spawn = server.select_spawn_index(DEFAULT_MATCH_ID);
+        let mut second_peer = joined_peer(DEFAULT_MATCH_ID, 1);
+        second_peer.spawn_index = second_spawn;
+        server.peers.insert(second, second_peer);
+
+        assert!(first_spawn < game::spawn_position_count());
+        assert!(second_spawn < game::spawn_position_count());
+        assert_ne!(first_spawn, second_spawn);
+    }
+
+    #[test]
+    fn spawn_selection_is_isolated_per_match() {
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        server.spawn_rng = SpawnRng::new(7);
+        let occupied = peer_addr(17_000);
+        server
+            .peers
+            .insert(occupied, joined_peer(DEFAULT_MATCH_ID, 0));
+        server.peers.get_mut(&occupied).unwrap().spawn_index = 0;
+
+        let selection = server.select_spawn_index(DEFAULT_MATCH_ID + 1);
+
+        let mut empty_server =
+            MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        empty_server.spawn_rng = SpawnRng::new(7);
+        assert_eq!(
+            selection,
+            empty_server.select_spawn_index(DEFAULT_MATCH_ID + 1),
+            "an occupied point in another match must not affect this match"
         );
     }
 }

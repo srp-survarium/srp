@@ -63,7 +63,8 @@ fn wire_profile_name(name: &str, player_id: u8) -> String {
     }
 }
 
-/// Spawn positions cycled through by player index so players don't stack.
+/// Demo spawn table. Add the remaining map coordinates here when they are
+/// available; the match server randomly assigns these points to joining peers.
 const SPAWN_POSITIONS: [float3; 2] = [
     float3 {
         x: -7.76438,
@@ -77,8 +78,12 @@ const SPAWN_POSITIONS: [float3; 2] = [
     },
 ];
 
-/// Canned `player` payload for a `SpawnPlayer`, placed at one of the spawn points
-/// by index. All players get the same dummy loadout.
+pub fn spawn_position_count() -> usize {
+    SPAWN_POSITIONS.len()
+}
+
+/// Canned `player` payload for a `SpawnPlayer`, placed at a selected spawn point.
+/// All players get the same dummy loadout.
 pub fn spawn_content(spawn_index: usize) -> player {
     player {
         position: SPAWN_POSITIONS[spawn_index % SPAWN_POSITIONS.len()],
