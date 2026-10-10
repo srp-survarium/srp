@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;
 use std::collections::HashMap;

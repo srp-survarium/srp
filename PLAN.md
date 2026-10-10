@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # PLAN — from "works on localhost" to "works on my server, with multiple clients"
 
 ## Goal

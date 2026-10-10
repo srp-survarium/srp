@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # WORK — running log of decisions (taken and not taken)
 
 Newest entries at the top. Each entry: what changed, why, alternatives

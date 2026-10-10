@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Per-peer reliable-UDP transport for the match server.
 //
 // This holds the sequence-number / ack state for ONE peer and (de)serializes
