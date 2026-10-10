@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 //! The idea behind this script is to build a structure out of decompiled function names.
 //! It is a pain to parse C functions, so everything is done on the best effort only:
 //! * Generics are ignored

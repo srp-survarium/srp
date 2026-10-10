@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use super::{ANSWER_NAME, LOCAL_NAME};
 
 use std::io::{Read, Write};

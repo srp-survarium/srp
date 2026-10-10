@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # Client hit-report patch
 
 This patch injects a small DLL into the original 32-bit Survarium `0.100b`

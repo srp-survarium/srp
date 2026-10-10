@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # SRP agent guide
 
 SRP restores the server side of Survarium and currently works with the shipped
