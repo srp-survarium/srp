@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 //! Runtime configuration for the four mock servers.
 //!
 //! Historically every address was a hardcoded `127.0.0.1` constant, which meant

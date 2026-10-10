@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use std::io::Write;
 use std::panic;
 use std::sync::{LazyLock, Mutex};
