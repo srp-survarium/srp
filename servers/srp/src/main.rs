@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 //! Unified mock server: runs the login, browser and lobby servers in **one
 //! process** sharing a single [`SessionStore`], so a client signed in at the
 //! login server is recognised by the lobby (see PLAN Phase 2).

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
  void survarium::weapon_core::initialize_weapon_logic(
       survarium::weapon_core *this,
       const vostok::resources::resource_ptr *inactive_state, // 0 nullptr

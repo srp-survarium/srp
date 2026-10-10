@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 //! A `log` backend that fans records out to **one file per server** (plus
 //! stdout), so the unified process stays as inspectable as the old one-tab-per-
 //! server setup.
