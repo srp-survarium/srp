@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use pdb::PDB;
 
 use crate::addr2line::Formatter;

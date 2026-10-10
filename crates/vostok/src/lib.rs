@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 pub mod math;
 pub mod network_client;
 pub mod network_packet;
