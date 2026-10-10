@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use super::client::raw::faction_id;
 use super::{player_profile, server};
 

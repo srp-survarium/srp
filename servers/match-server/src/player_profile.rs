@@ -1,4 +1,5 @@
 #![expect(non_camel_case_types)]
+// SPDX-License-Identifier: GPL-3.0-or-later
 #![expect(dead_code)]
 
 use bytemuck::Zeroable;

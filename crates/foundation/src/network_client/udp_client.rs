@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use crate::network_client::{NetworkError, NetworkRequest, NetworkResponse};
 use crate::network_packet::UdpPacket;
 

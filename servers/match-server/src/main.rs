@@ -1,4 +1,5 @@
 #![expect(non_snake_case)]
+// SPDX-License-Identifier: GPL-3.0-or-later
 #![expect(dead_code)]
 #![expect(unused_imports)]
 #![feature(slice_split_once)]

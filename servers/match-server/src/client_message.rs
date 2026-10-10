@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use foundation::network_client::NetworkRequest;
 use foundation::serde::advance_buffer;
 use foundation::serde::{Deserialize, DeserializeError};

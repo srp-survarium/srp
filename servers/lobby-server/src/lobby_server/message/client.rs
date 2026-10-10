@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use crate::lobby_server::player_profile::raw::profile_slot_enum;
 use foundation::network_client::NetworkRequest;
 use foundation::serde::{advance_buffer, advance_by, advance_padding};

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use bytemuck::Zeroable;
 use foundation::network_client::NetworkResponse;
 use foundation::network_packet::Packet;
