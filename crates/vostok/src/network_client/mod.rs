@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 mod tcp_client;
 mod udp_client;
 

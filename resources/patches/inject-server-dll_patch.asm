@@ -1,3 +1,4 @@
+; SPDX-License-Identifier: GPL-3.0-or-later
 ; rip = 0x785d55
 
 %macro nops 1

@@ -1,4 +1,5 @@
 #![allow(non_camel_case_types)]
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #[repr(C)]
 #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
