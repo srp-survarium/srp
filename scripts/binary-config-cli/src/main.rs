@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 mod skills_tree;
 use skills_tree::Skills;
 
