@@ -211,6 +211,16 @@ impl MapProfile {
                 remote_spawn: [16.93, 5.93, 18.77],
                 orientation: 0.0,
             },
+            // Clear Sky multiplayer, converted through resource-porter's
+            // X-Ray path. These are authored team 1 and team 2 actor respawns
+            // from level.game; 0.5m standing clearance is added to their floor
+            // heights for the target capsule.
+            "cs-training-camp" => Self {
+                map_name: "cs_training_camp",
+                local_spawn: [32.927, -0.043, -32.941],
+                remote_spawn: [4.089, -0.694, 39.012],
+                orientation: 0.0,
+            },
             // F.E.A.R. multiplayer, from build-lilith-map. Spawns are authored
             // `GameStartPoint`s out of the world's own object list (see the
             // port manifest's `start_points`), at the authored height: F.E.A.R.
