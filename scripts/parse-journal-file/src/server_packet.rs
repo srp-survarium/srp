@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use vostok::serde::advance_buffer;
 use vostok::serde::{Deserialize, DeserializeError};
 
