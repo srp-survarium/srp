@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use survarium::player_profile::raw::profile_slot_enum;
 use vostok::network_client::NetworkRequest;
 use vostok::serde::{advance_buffer, advance_by, advance_padding};

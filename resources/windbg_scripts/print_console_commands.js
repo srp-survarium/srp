@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Script for WinDbg to print all console commands
 
 "use strict";

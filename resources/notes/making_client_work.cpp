@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 survarium::network_client {
   boost::array<survarium::player_desc,20> m_net_players;
 }
