@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use crate::{BinaryConfig, BinaryType, BinaryValue, IdCrc};
 
 use std::collections::{HashMap, VecDeque};

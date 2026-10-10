@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use survarium::player_input::{player_input, player_state};
 use vostok::network_client::NetworkRequest;
 use vostok::serde::advance_buffer;

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use pdb_addr2line::type_parser;
 use pdb_addr2line::type_parser::AttributeFlags;
 use pdb_addr2line::type_parser::ReturnType;

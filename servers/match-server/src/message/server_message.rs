@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use survarium::player_input::{player, player_input, player_state, weapon_state};
 use survarium::player_profile::raw::player_profile;
 use vostok::network_client::NetworkResponse;
