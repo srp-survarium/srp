@@ -1,4 +1,5 @@
 #![expect(clippy::unused_io_amount)]
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 use openssl::ssl::{Ssl, SslContext, SslFiletype, SslMethod};
 use std::io::{Read, Write};

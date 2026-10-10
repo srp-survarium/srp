@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use crate::lobby_server::message::client::raw::{
     faction_id, lobby_client_message_types_enum, query_info_types_enum,
 };
