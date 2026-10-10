@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #[rustfmt::skip]
 macro_rules! sequence_number {
     ($name:ident : $ty:ty => $mem:ty) => {
