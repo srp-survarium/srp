@@ -1,3 +1,4 @@
+:: SPDX-License-Identifier: GPL-3.0-or-later
 start "" "C:\Program Files\SysinternalsSuite\procexp64.exe"
 start "" "C:\Program Files\IDA Free 9.1\ida.exe"
 

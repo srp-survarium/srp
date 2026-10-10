@@ -1,4 +1,5 @@
 #![feature(str_as_str)]
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 //! Builds a project structure out of the provided PDB file.
 //!

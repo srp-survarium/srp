@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 12: "gameplay/weapons/toz_122.options" | fi: 51, 52
 13: "gameplay/weapons/ak_74u.options"  | fi: 7
 14: "gameplay/weapons/rem_700.options" | fi: 51, 52
