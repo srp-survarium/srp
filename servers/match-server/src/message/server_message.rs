@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use survarium::player_input::{
     player, player_input, player_inventory_slot, player_stamina, player_state, weapon_core,
     weapon_core_state, weapon_state,

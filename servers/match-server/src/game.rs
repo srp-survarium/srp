@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Canned game content for the relay.
 //
 // SRP is a mock (see the repo CLAUDE.md): the match server does NOT simulate the
