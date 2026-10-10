@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 use crate::lobby_server::client::raw::faction_id;
 use crate::lobby_server::server;
 use bytemuck::Zeroable;

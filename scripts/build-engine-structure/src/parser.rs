@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 pub fn parse_function_name(input: &str) -> String {
     let mut func_sig = "";
     for line in input.lines() {
