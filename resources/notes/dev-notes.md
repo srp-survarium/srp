@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 Survarium client 1: { w w w } -> server
 Survarium server  : <everything except for renderer> <identical to client logic>
 Survarium client 2: server -> { w w w }
