@@ -97,6 +97,13 @@ impl Transport {
             kind,
         } = packet;
 
+        // Reject an impossible ACK before advancing receive sequence state or
+        // dispatching its payload; otherwise the next valid packet can look stale.
+        if remote_sequence_id > self.server_sequence_id {
+            log::warn!("dropping packet acknowledging an unsent server sequence");
+            return vec![];
+        }
+
         // Packet already received. Ignore
         if local_sequence_id == self.client_sequence_id {
             return vec![];
@@ -355,6 +362,34 @@ mod tests {
         packet.push(message_type);
         packet.extend(order_id.to_le_bytes());
         packet
+    }
+
+    #[test]
+    fn impossible_ack_does_not_advance_sequence_or_dispatch_payload() {
+        let socket = UdpSocket::bind("127.0.0.1:0").unwrap();
+        let peer_socket = UdpSocket::bind("127.0.0.1:0").unwrap();
+        let addr = peer_socket.local_addr().unwrap();
+        let mut transport = Transport::new();
+        assert_eq!(
+            transport
+                .handle_datagram(&connection_packet(), &socket, addr)
+                .len(),
+            1
+        );
+        let mut invalid = game_packet(2, 0x41, 2);
+        invalid[2..4].copy_from_slice(&100u16.to_le_bytes());
+        assert!(
+            transport
+                .handle_datagram(&invalid, &socket, addr)
+                .is_empty()
+        );
+        assert_eq!(transport.client_sequence_id, SN16(0));
+        assert_eq!(
+            transport
+                .handle_datagram(&game_packet(1, 0x41, 1), &socket, addr)
+                .len(),
+            1
+        );
     }
 
     #[test]
