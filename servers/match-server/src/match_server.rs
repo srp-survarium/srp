@@ -173,6 +173,9 @@ impl MatchServer {
                 let Some(peer) = self.peers.get_mut(&from) else {
                     return;
                 };
+                if peer.joined {
+                    return;
+                }
                 peer.joined = true;
                 let player_id = peer.player_id;
 
@@ -220,6 +223,9 @@ impl MatchServer {
                 let Some(peer) = self.peers.get(&from) else {
                     return;
                 };
+                if !peer.joined {
+                    return;
+                }
                 let player_id = peer.player_id;
                 // Dumb relay: forward this player's movement to everyone else. The
                 // client message carries no weapon_state, so we send a default one.
@@ -388,6 +394,56 @@ mod tests {
         let mut packet = vec![0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x40, 0x00, 0x00];
         packet.extend(session_id.to_le_bytes());
         packet
+    }
+
+    #[test]
+    fn ignores_movement_before_join_and_duplicate_join() {
+        use survarium::player_input::{player_input, player_state};
+        use vostok::math::{float2, float3};
+        let mut server = MatchServer::bind("127.0.0.1:0", Arc::new(SessionStore::new())).unwrap();
+        let sender = UdpSocket::bind("127.0.0.1:0").unwrap();
+        let observer = UdpSocket::bind("127.0.0.1:0").unwrap();
+        observer.set_nonblocking(true).unwrap();
+        let from = sender.local_addr().unwrap();
+        let to = observer.local_addr().unwrap();
+        for (addr, session) in [(from, 1), (to, 2)] {
+            server.peers.insert(addr, Peer::new());
+            server.register_peer(addr, session);
+        }
+        server.peers.get_mut(&to).unwrap().joined = true;
+        server.handle_game_message(
+            from,
+            ClientGameMessageKind::ClientPlayerUpdate {
+                player_input: player_input {
+                    angular_velocity: float2 { x: 0., y: 0. },
+                    angualr_acceleration: float2 { x: 0., y: 0. },
+                    action_mask: 0,
+                },
+                player_state: player_state {
+                    translation_w: float3 {
+                        x: 0.,
+                        y: 0.,
+                        z: 0.,
+                    },
+                    euler_angle_y: 0.,
+                    look_pitch: 0.,
+                },
+                time_in_ms: 0,
+            },
+        );
+        let mut packet = [0; 2048];
+        assert_eq!(
+            observer.recv(&mut packet).unwrap_err().kind(),
+            io::ErrorKind::WouldBlock
+        );
+        server.handle_game_message(from, ClientGameMessageKind::JoinMatch);
+        assert!(observer.recv(&mut packet).unwrap() > 0);
+        while observer.recv(&mut packet).is_ok() {}
+        server.handle_game_message(from, ClientGameMessageKind::JoinMatch);
+        assert_eq!(
+            observer.recv(&mut packet).unwrap_err().kind(),
+            io::ErrorKind::WouldBlock
+        );
     }
 
     #[test]
