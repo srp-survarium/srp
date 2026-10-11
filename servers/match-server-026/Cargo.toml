@@ -1,0 +1,13 @@
+[package]
+name = "match-server-026"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+survarium.workspace = true
+vostok.workspace = true
+crc32fast.workspace = true
+
+[lints]
+workspace = true

@@ -15,6 +15,10 @@ cargo run -p login-server       # likewise lobby-server, match-server, browser-s
 
 On Windows without Nix, see [docs/windows-setup.md](docs/windows-setup.md).
 
+For retail **0.26g0 build 2777**, use the separate
+[development match server and client guide](servers/match-server-026/README.md).
+Its native lobby invitation and squad matchmaking flow is still unfinished.
+
 ## Layout
 
 - `servers/` - `login-server`, `lobby-server`, `match-server`, `browser-server`.

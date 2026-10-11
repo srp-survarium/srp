@@ -4,3 +4,4 @@
 
 pub mod player_input;
 pub mod player_profile;
+pub mod protocol_026;

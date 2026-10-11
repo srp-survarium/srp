@@ -8,6 +8,7 @@ edition.workspace = true
 workspace = true
 
 [dependencies]
+lzma-sys = "0.1.20"
 bytemuck = { workspace = true }
 
 vostok = { workspace = true }
