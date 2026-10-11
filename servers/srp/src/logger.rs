@@ -73,7 +73,8 @@ impl Log for FileLogger {
         let args = record.args();
 
         // stdout keeps a combined view (prefixed with the server) ...
-        println!("[{server}] [{level}] {args}");
+        // A closed output pipe must not panic inside the supervisor's logger.
+        let _ = writeln!(io::stdout().lock(), "[{server}] [{level}] {args}");
 
         // ... while each server's file holds only its own lines.
         if let Some(file) = self.files.get(server) {
