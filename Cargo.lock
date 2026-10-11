@@ -1029,6 +1029,7 @@ dependencies = [
  "bytemuck",
  "env_logger",
  "log",
+ "session",
  "survarium",
  "vostok",
 ]
@@ -1471,6 +1472,7 @@ dependencies = [
  "lobby-server",
  "log",
  "login-server",
+ "match-server",
  "session",
 ]
 
