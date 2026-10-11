@@ -92,3 +92,12 @@ srp_hit_report_loader.exe C:\path\to\survarium.exe [game arguments...]
 The loader starts the client suspended, injects the DLL, and resumes the client
 only after the patch installs successfully. Injection failure terminates the
 still-suspended client.
+
+The loader preserves Windows argument quoting, including embedded quotes and
+trailing backslashes, and rejects escaped output that exceeds its buffer. Its
+portable regression can run without Windows or the game:
+
+```sh
+c++ -std=c++11 tests/command_line.cpp -o /tmp/srp-argument-test
+/tmp/srp-argument-test
+```

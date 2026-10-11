@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "command_line.h"
 
 namespace {
 
@@ -10,29 +11,6 @@ enum {
 	max_path_length = 32768,
 	max_command_line_length = 32768
 };
-
-bool append_argument(char* const command_line, char const* const argument)
-{
-	size_t const used = strlen(command_line);
-	size_t const length = strlen(argument);
-	if (used + length + 4 >= max_command_line_length)
-		return false;
-
-	char* destination = command_line + used;
-	if (used)
-		*destination++ = ' ';
-	*destination++ = '"';
-
-	for (size_t i = 0; i != length; ++i) {
-		if (argument[i] == '"')
-			*destination++ = '\\';
-		*destination++ = argument[i];
-	}
-
-	*destination++ = '"';
-	*destination = 0;
-	return true;
-}
 
 bool containing_directory(char* const path)
 {
@@ -79,7 +57,8 @@ int main(int const argc, char** const argv)
 	}
 
 	char game_path[max_path_length] = {0};
-	if (!GetFullPathNameA(argv[1], max_path_length, game_path, NULL)) {
+	DWORD const game_path_length = GetFullPathNameA(argv[1], max_path_length, game_path, NULL);
+	if (!game_path_length || game_path_length >= max_path_length) {
 		fprintf(stderr, "could not resolve game path\n");
 		return 1;
 	}
@@ -99,7 +78,7 @@ int main(int const argc, char** const argv)
 
 	char command_line[max_command_line_length] = {0};
 	for (int i = 1; i != argc; ++i) {
-		if (!append_argument(command_line, argv[i])) {
+		if (!append_argument(command_line, sizeof(command_line), argv[i])) {
 			fprintf(stderr, "game command line is too long\n");
 			return 1;
 		}
