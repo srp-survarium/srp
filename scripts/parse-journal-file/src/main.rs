@@ -36,14 +36,16 @@ enum data_chunk_type_enum {
     data_chunk_types_count  = 0x9,
 }
 
-/// 0.19c
-const JOURNAL_FILE: &[u8] = include_bytes!("../Survarium-#763_140222-075828.journal");
-
 fn main() {
+    // A 0.19c-era `.journal` battle log, e.g. `Survarium-#763_140222-075828.journal`.
+    let path = std::env::args_os()
+        .nth(1)
+        .expect("usage: parse-journal-file <file.journal>");
+    let journal = std::fs::read(&path).expect("cannot read the journal file");
     let mut i = 0;
-    let bytes = JOURNAL_FILE;
+    let bytes = journal.as_slice();
 
-    while i != JOURNAL_FILE.len() {
+    while i != bytes.len() {
         let kind =
             bytemuck::checked::try_pod_read_unaligned::<data_chunk_type_enum>(&bytes[i..i + 1])
                 .unwrap();
