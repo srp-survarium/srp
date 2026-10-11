@@ -10,7 +10,6 @@ members = [
   "servers/match-server",
 
   "scripts/binary-config-cli",      # Parser for binary config files
-  "scripts/build-engine-structure", # IDA helper for buidling directory structure based on C++ namespaces
   "scripts/nasm-decompiler",        # Patcher for `survarium.exe`
   "scripts/parse-journal-file",     # Parser for .journal files available in ~0.20 versions
 ]
