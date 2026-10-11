@@ -137,9 +137,7 @@ fn handle_sign_in(mut stream: TcpStream) {
 
             let password_len = buffer[0] as usize;
             let password = buffer[1..1 + password_len].to_vec();
-            let password = String::from_utf8(password).unwrap();
-
-            log::debug!("User password: {password}");
+            let _password = String::from_utf8(password).unwrap();
 
             let mut buffer = vec![];
             buffer
@@ -200,7 +198,5 @@ fn handle_sign_out(mut stream: TcpStream) {
 
     let password_len = buffer[0] as usize;
     let password = buffer[1..1 + password_len].to_vec();
-    let password = String::from_utf8(password).unwrap();
-
-    log::debug!("User password: {password}");
+    let _password = String::from_utf8(password).unwrap();
 }
