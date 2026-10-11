@@ -11,4 +11,4 @@ match server relays between clients; it does not simulate the game.
 | 2. Sessions | unified `srp` process, in-memory session store, per-server logs, tmux bootstrap | done; two-client check needs the game |
 | 3. Matchmaking | lobby assigns a team-balanced match per session | done |
 | 4. Match relay | match server joins `srp`, honours the assignment, relays movement between peers | done; two-client check needs the game |
-| 5. Hardening | reap idle peers, drop malformed or stale packets, cap peer count | todo |
+| 5. Hardening | reap idle peers, drop malformed or stale packets, cap peer count | done |
