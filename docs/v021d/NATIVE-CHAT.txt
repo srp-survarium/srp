@@ -1,0 +1,80 @@
+v0.21d native Matches chat routing
+2026-10-12; feature/server-v021d
+
+FIX
+
+The included native menu service now routes match/team chat using the
+allocator's authenticated admission, native match order and per-room roster.
+It no longer depends on the community front door's redirected_slots or fixed
+wire group1. A user in one room cannot receive another room's match/team chat
+by subscribing to its group. Team assignment follows the match-roster slot,
+which may differ from the persistent account slot after arbitrary join order.
+
+This fixes the integration gap identified in SERVER-AUDIT.txt. The community
+chat path and the user's earlier accepted gameplay/chat test remain separate
+evidence. No game client or combat playtest was repeated for this change.
+
+CLIENT CONTRACT
+
+The 33 redirect's u32 after host/port is the match chat-channel identifier:
+network_client's lobby dispatcher at0x1a1e0e..0x1a1e34 copies it to
+lobby_client+0x1c8; the following team byte goes to+0x1d0. At0x1a1f9a..0x1a1fb1
+those values are passed to messaging_client::assign_match_channel_order
+(0x1a000d), which stores them at messaging_client+0x158/+0x15c and updates
+subscriptions when a new valid channel order is assigned.
+
+update_channel_subscriptions (0x1b3441) uses that channel ID for subscription5
+and the assigned team's subscription6 or7. on_message_typed (0x19b0ff) uses
+the same field for the c1 group of match/team messages. Therefore native chat
+uses the redirect's advancing order, NOT static match_options.match_id=1.
+The lobby's separate matchmaking request order at+0x1cc is a different field;
+the service's previously named native admission/order ID denotes its 33 value.
+
+SERVER ROUTING
+
+Messaging.match_memberships returns a routing snapshot keyed by authenticated
+account slot: (match identity, wire group, team). The community implementation
+uses its existing route identity, group1 and fixed-roster team. The native
+handler obtains room identity/order/roster team from MatchRegistry.routes and
+admitted. It excludes exited child processes before the periodic reaper runs.
+No-gameplay menu fixtures provide no match membership.
+
+Channels5/6/7 require the sender's current group and, for team chat, actual
+team. Recipients require the same match identity/group, matching subscription,
+and matching team where applicable. A subscription is a delivery preference,
+not permission to enter a room. The relay snapshots routing before taking its
+messaging lock, avoiding inverse lock acquisition against native admission.
+Socket sends happen after the routing/identity checks and outside those locks.
+
+Returning to the lobby removes admission immediately. Closing a room or
+losing its child removes chat eligibility; the next admission requires its
+fresh group and roster. General and private channels retain their existing
+semantics, including no sender echo and connection-identity cleanup guards.
+Chat is transient. There is still no durable history or slow-reader queue.
+
+VALIDATION
+
+All 42 Python tests pass together. Six new tests use real local messaging TCP
+sockets with the actual registry/handler adapter (mock child processes):
+  - two independent rooms, malicious cross-room subscriptions and group sends;
+  - match-roster teams deliberately different from account parity;
+  - return-to-lobby revocation while private messages remain available;
+  - child exit revokes permission before periodic cleanup;
+  - next admission changes group/team on an existing messaging connection;
+  - a menu fixture without gameplay cannot claim match membership.
+
+run_menu_lifecycle.py also passes against real TLS/login, HTTP/native lobby,
+messaging sockets and the integrated Rust child process. After service restart
+it admits Carol/Alice/Bob in that order, verifies the three native redirects,
+and checks match chat, Bob's team0 delivery to Carol (not Alice), and rejection
+of the previous native order. Private-message FIFO barriers prove preceding
+subscriptions/sends were processed; sending bytes is not treated as delivery.
+Existing shutdown, identity persistence and stale-result checks still pass.
+
+The Rust code was unchanged; the previous full workspace audit still records
+56 passing v0.21d tests and one reproduced pre-existing old-server failure.
+These new tests prove protocol routing, not a new GUI acceptance claim.
+
+evidence/native-chat contains the 42-test log, lifecycle output/service log and
+the four supporting disassemblies. Account stores/session grants and TLS
+private keys are excluded. See the package README.txt for launch commands.

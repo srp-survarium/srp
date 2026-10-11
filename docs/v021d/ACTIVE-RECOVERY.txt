@@ -1,0 +1,175 @@
+v0.21d active-client recovery under deliberate packet loss
+2026-10-11; feature/server-v021d
+
+FOLLOW-UP: DELAYED-RECOVERY.txt reproduces the delayed-transfer failure left
+open below and documents the tested fix. Its preload/parallel-replay sequence
+supersedes this report's historical snapshot-ACK-before-replay ordering.
+
+RESULT
+
+Dropping outgoing packets to one real client for three seconds caused a real
+simulation disagreement. Reliable retries eventually delivered the shooting
+inputs, but that client's engine rejected them as too old. The server detected
+sustained disagreement, restored it from the reference client's populated
+state, and the clients converged. The recovered client remained in the match
+and fired successfully. A later 250 ms interruption recovered without another
+full resync. This is direct evidence for the distinction between transient
+packet loss and an input arriving beyond the client's rollback capability.
+
+The stopped capture contains one automatic recovery. After it, 2,642 compared
+historical states match and none differ, across roughly 268 seconds of game
+time. This does not prove arbitrary loss patterns, recovery of the reference
+itself, a delayed snapshot plus a large replay backlog, or independent server
+physics validation. Results delivery and explicit remote death/respawn evidence
+remain separate unfinished requirements.
+
+RESTORE BEHAVIOR
+
+Active recovery shares late join's per-peer 52 -> 43 -> 53 -> ACK -> replay/ACK
+transaction. It first drains that peer's earlier reliable deliveries. The
+selected state must be fresh, corroborated by its donor's same-time CRC, contain
+the target slot, and be newer than the disagreement requiring recovery.
+The server preserves the player's original activation/membership and does NOT
+send another 56 or local 57. Local 57 would close the match, not resynchronize it.
+
+During transfer the server still accepts that active player's valid inputs and
+relays them to other playing peers. Replay includes accepted inputs from the
+restoring player's own slot. After the replay ACK barrier, it returns to normal
+live broadcasts. This is different from initial activation of a late joiner.
+
+game_world_core::deserialize restores each player's current m_input. Inspection
+of process_events at 0x1cc3f9..0x1cc446 shows retained input history being read
+when an input-change event is processed, not an unconditional replacement of
+restored input every frame. The live recovery supports using the restored
+persistent input plus subsequent accepted changes; no invented zero inputs or
+extra shooting events are injected. See LATE-JOIN.txt and REFERENCE-STATES.txt
+for full-sync cutoff and first-sync input-history seeding evidence.
+
+The coordinator records each peer's last full-sync timestamp and ignores its
+older CRC reports after recovery. Accepted late input that predates a running
+peer's full-sync boundary schedules a fresh restore; input that invalidates a
+snapshot currently transferring fails that peer independently. This is still
+explicit-reference policy: if the reference itself is wrong, there is no
+independently simulated authority to decide which physical outcome was right.
+
+DISAGREEMENT POLICY (NEW SRP POLICY)
+
+Every 100 ms, compare each playing non-reference peer with the explicit lowest
+playing reference. Use same-time, unrevised CRC reports and compatible
+historical membership. Duplicate notifications do not add evidence; missing
+or revised samples do not count as disagreements.
+
+Require at least three distinct mismatching times spanning 500..1000 ms, all
+at least one second old. The newest mature mismatch must be no more than two
+seconds old. Any newer matching comparison cancels the candidate run, including
+a matching sample that has not yet matured. The real fault selected slot1 using
+disagreement through time46550, then waited for a fresh eligible donor state.
+
+An active peer has a 15-second cooldown between restore starts. Three restore
+attempts without verified subsequent agreement exhaust its budget; a further
+required restore disconnects that peer rather than resetting indefinitely.
+Only a run of three or more mature matching samples spanning 500..1000 ms,
+later than baseline+1000 ms, clears the failed-attempt budget. That positive
+evidence check also rejects a newer mismatching sample. These thresholds are
+test policy, not recovered Skhid arbitration or a cryptographic trust scheme.
+
+LOCAL TEST CONTROL
+
+The executable accepts an optional fifth positional argument:
+
+  match-server-021d SESSIONS_FILE PORT START_PLAYERS MATCH_SECONDS TEST_CONTROL_SOCKET
+
+Omit it for normal operation. When supplied it binds a Unix datagram socket
+with mode0600; it is not a game-network command. It reads at most eight bounded
+commands per server iteration. Commands:
+  recover SLOT          Request the same restore path, respecting cooldown.
+  blackout SLOT MS       Drop outgoing datagrams for 1..5000 ms.
+
+Blackout runs Endpoint::poll and discards its output, preserving retry timers
+and normal ACK behavior; it does not freeze or pause the client. Server logs
+record the start, duration, and number of deliberately dropped datagrams.
+Inbound traffic continues. An overlapping blackout does not extend the first.
+The control socket path must not already exist when the server starts.
+
+Example sender (Python 3):
+  import socket
+  s = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+  s.sendto(b'blackout 1 3000', '/tmp/srp-021d-active-recovery/control.sock')
+
+REAL-CLIENT EVIDENCE
+
+Working directory /tmp/srp-021d-active-recovery. Two private client prefixes,
+same community-patched client and working NVIDIA/XWayland launch as earlier.
+Fresh front door with two slots; server invocation:
+
+  target/debug/match-server-021d /tmp/srp-021d-active-recovery/sessions 12023 2 600 /tmp/srp-021d-active-recovery/control.sock
+
+Both restored time50/mask0/672 bytes/CRC6fa8cb1c and activated at600. The smaller
+initial state relative to the three-player run is expected for this roster.
+before-fault.pcap shows 385 matching comparisons, zero mismatches.
+
+Long blackout: slot1, 3000 ms, 73 outgoing datagrams intentionally dropped.
+Reference slot0 fired at45900, stopped at46900, and sent neutral input at46950.
+The server recorded 41 unequal same-time pairs, first45950 and last50050.
+Client B logged these rejected late changes at 20:49:00 local time:
+  input46900 versus client time48944;
+  input45900 versus client time48944;
+  input46950 versus client time48977.
+
+The eligible reference upload was time50100, mask3, 2086 bytes, CRC0d31463f.
+Only slot1 received a new 52/53. Its log records FULL RESYNC at50.100,
+20:49:02.233 Europe/Warsaw. No extra enter/leave event was sent. The first
+post-recovery checkpoint had 172 matching pairs and zero mismatches.
+
+At96300/96800/96850 the recovered slot1 fired, stopped, and returned to neutral;
+all three input relays to slot0 are captured. recovered-fired-b.png shows
+26 rounds remaining versus35 before shooting. It remains in the original match.
+
+Short blackout: slot1, 250 ms, three datagrams intentionally dropped.
+Slot0 fired at159150 and stopped/returned neutral at159600/159650. No additional
+full resync or input-age rejection appears. Matching CRCs continue afterward.
+This supports successful retry/rollback in this case; it does not establish a
+universal maximum safe network delay.
+
+Stopped capture: 17,896 packets, zero kernel capture drops; inspector verifies
+17,896 match datagrams, 438,800 UDP payload bytes, two flows. Deliberate drops
+occur BEFORE socket send and are counted in server.log, not tcpdump's kernel
+drop count. comparison-final.txt compares only post-last-reset samples:
+  2,642 matches, zero mismatches, time50250..318550.
+All expected post-baseline inputs have captured relays. The three old slot0
+inputs are excluded because the replacement state already contains them.
+
+before-resync.pcap is a prefix of the stopped capture ending before
+20:49:02.000 Europe/Warsaw, independently retaining the pre-reset comparison:
+  446 matches; 39 mismatches at45950..49850; five excluded membership samples.
+The final two server-reported mismatches occur after this cutoff. Keep both
+pre- and post-resync results: clearing old reports must not hide the fault.
+
+INSPECTOR, VALIDATION, AND LIMITS
+
+inspect_match --single-match now permits multiple per-peer reset histories
+within the operator-asserted match generation. It compares each flow's retained
+post-last-reset CRCs and excludes inputs already represented by its latest
+baseline. Default comparison remains conservative. The flag must not be used
+to combine restarted matches or different static configurations.
+
+All 38 unit tests plus four UDP executable integration tests pass. New unit
+tests cover sustained/mature disagreement, missing/revised/equal reports,
+active input relay during restore, replay including local inputs, preserved
+membership/no re-enter, cooldown, retry exhaustion and positive convergence.
+The live executable predates the final three-attempt budget and positive
+agreement bookkeeping; those additions have unit/full-suite coverage but no
+separate repeated-failure live run. The successful single-restore path and
+15-second cooldown were present in the tested executable.
+
+Next validation: deliberate delay/loss DURING a populated-state transfer with
+a nonempty replay backlog and ongoing local input. The current post-state ACK
+barrier needs scrutiny under that timing: an engine may advance past the replay
+window while waiting. Client code retains event/input histories across clear,
+so preloading replay while world-state history is cleared is another ordering
+to investigate if the current barrier fails. Do not claim this case passed
+from the successful recovery whose shooting inputs predated its baseline.
+
+At checkpoint capture is stopped; both clients, front door, and match server
+remain running. Evidence on HDD excludes session tokens, configs, journals,
+private keys, and control socket. Revalidate handles before controlling them.

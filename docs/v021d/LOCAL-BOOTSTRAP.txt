@@ -1,0 +1,143 @@
+v0.21d local server: first real-client bootstrap
+2026-10-11; branch feature/server-v021d
+
+RESULT AND BOUNDARY
+
+This records the FIRST live run. See COORDINATOR.txt for the later shared
+coordinator, corrected live framing/messaging retest and current limits.
+
+At 18:40 local time, the patched v0.21d build 2010 client logged into our
+loopback service, followed its lobby redirect, accepted server-created static
+match options/profiles, loaded level_02/rain, and spawned with a weapon and
+35/165 ammunition. The server did not replay a captured populated match.
+The client itself supplied the initial empty-world state.
+
+This proves first-player startup. It does not yet prove movement/shooting,
+sustained stability, multiplayer input relay, late join, recovery, or results.
+At this first milestone the executable admitted only one active peer. Its two-slot static
+roster prepares the next coordinator step, but a second active peer would
+otherwise get an independent world and is deliberately not admitted yet.
+The full objective and two-client acceptance gates remain in SERVER-PLAN.txt.
+
+Observed server sequence:
+  client 40 -> server 50 (both ports 12023)
+  client 41 -> server 51 (fresh two-slot roster, match ID 1)
+  client 42 resources ready and 47 upload complete (arrival order can vary)
+  upload: time 50, 672 bytes, active mask zero, CRC 6fa8cb1c
+  server 52: reference 0, target game time 250
+  client 43: set-time response
+  server 53: time 50 + the same engine-created snapshot body
+  after reliable state data acknowledged: server 56, slot 0, time 550
+  first-person world, weapon and running match timer visible in screenshot
+
+The initial +200 ms clock lead and future activation time are provisional SRP
+bootstrap choices, not recovered deployed-server scheduling rules. The
+coordinator must replace the per-peer clock with one shared match clock before
+adding player two, and validate reset responses and state eligibility.
+
+LIVE TEST FOUND A CONTROL-FRAMING BUG
+
+The first spawn ran with an incorrect sender encoding for idle heartbeats.
+The client repeatedly logged "unknown message type : 0". Inspection of
+process_incoming_packet VA 0x28797d, specifically 0x287c7e..0x287ca4, establishes:
+
+  framed datagram with exactly one message -> low-level control dispatcher
+  unframed one-message datagram -> application dispatcher
+  framed datagram with two or more messages -> application messages
+
+Therefore heartbeat 02 must use bundle bit 1 and payload 01 02. Disconnect
+00 and confirmation 01 also require their own one-message framed datagrams.
+They cannot be mixed into an application bundle. A one-message application
+bundle is invalid for this receiver despite its lengths being parseable.
+
+The codec now rejects these invalid combinations. The scheduler isolates
+controls and encodes idle heartbeats correctly. Two regression tests cover
+this rule. All 59,743 original community-capture datagrams still decode and
+re-encode byte-for-byte. Twenty Rust tests pass.
+
+The corrected executable built successfully. Its subsequent live attempt
+stayed at login during unreliable desktop input/focus interaction, so removal
+of the warning is NOT yet confirmed in a second successful live match. The
+first gameplay client exited after roughly two minutes; its log ends in a
+stack dump without a diagnosed cause. Do not claim a stable solo match yet.
+Another independent 0.21d UI test used the same desktop. Its Wine prefix,
+client files, ports, and processes were not used as this server test.
+
+FRONT-DOOR CONTRACTS VERIFIED / RECOVERED
+
+Login request (VA 0x23e759): 01, u8 account length + bytes, char version[12]
+containing 0.21d and zero padding, u8 queue flag, u32 previous queue order ID.
+Server returns 0b then performs TLS. Password is u8 length + bytes in TLS.
+No account/password is logged by the local service.
+
+Login response (VA 0x23dce1): 08, u8 browser-host string, u8 query-prefix
+string, u32 session, IPv4 lobby address (network-order bytes), u16 lobby port,
+IPv4 messaging address, u16 messaging port. Scalars other than IPs are LE.
+The client queries HTTP type=2 for lobby and type=4 for messaging. Responses
+are plain host:port text. Both requests were seen in this live test.
+
+Lobby messages use u8 body length, or zero followed by u16 extended length.
+Client sign-in (VA 0x19d04f) is 11 bytes: 26, u32 session, bool, u32, bool.
+Server response (VA 0x19d2f2) is 30 plus u8 client state; 00 is lobby browsing.
+An idle client need not send a query after signing in. The next framed server
+message can be 33 + host string + u16 port + u32 match ID + u8 team
+(VA 0x1a1dec). This triggered the actual client's UDP connection and loading.
+The client closed its lobby socket after the redirect in the observed test.
+
+Messaging sign-in is c3 + session u32 + client type u8. The handler at
+0x1b32a0 expects ca + u8-length local player name, then installs its normal
+callback and requests subscriptions/friend lists. This handshake is now in
+the companion script, but was added after the live run and still needs a
+live check. Chat/friend-list persistence is not implemented.
+
+The patched client's resource certificate and the existing SRP login private
+key match. The embedded trust certificate differs in encoding/validity from
+the old repository certificate. Tests used the prepared client's certificate;
+no key or original game binary was copied into this package.
+
+RUNNING THIS DEVELOPMENT MILESTONE
+
+From the isolated branch checkout, with Python 3 and a working Rust toolchain:
+
+  python3 servers/match-server-021d/tools/front_door.py \
+    --cert /path/to/021d/resources/ssl/survarium_login_server.crt \
+    --key certs/survarium_login_server.key \
+    --sessions /tmp/srp-021d-sessions
+
+This creates a private file with random local-test session tokens. Use a
+fresh path for a fresh test, or --reuse-sessions only when deliberately
+restarting this same fixed-roster test. The companion accepts any nonempty
+test account/password, assigns slots by first login, and binds only loopback.
+It is a development front door, not a public account service.
+
+  cargo run --offline -p match-server-021d -- /tmp/srp-021d-sessions
+
+Default ports: login TCP 12021, lobby TCP 12022, match UDP 12023,
+messaging TCP 12024, browser HTTP 18021. Point the prepared 0.21d client at
+-client=127.0.0.1:12021 (the Linux play.sh accepts SERVER=127.0.0.1:12021).
+Use debug_hash_mismatches disabled so the community snapshot hook is active.
+The match executable optionally takes its UDP port after the session path.
+The companion has corresponding --match-port and other service-port flags.
+
+Current implementation limits to address next:
+  * Shared coordinator, accepted input history, membership, second-client join.
+  * Full validation of application inputs, snapshot boundaries/times and clock
+    responses; per-peer errors must not terminate the whole service.
+  * Reference selection, CRC disagreement and controlled state replacement.
+  * Graceful disconnect/reconnect/results, repeated real-client stability.
+  * Stable automation of the client UI while other desktop work is active.
+
+EVIDENCE
+
+Working test directory: /tmp/srp-021d-local-test
+HDD copy: 0.21d-network-investigation-2026-10-11/evidence/local-bootstrap/
+  startup.pcap: loopback ports only; 5,040 packets, zero kernel drops.
+  first-spawn.png: visible world, weapon/ammunition and running timer.
+  client-first-spawn.log: first successful load plus warnings/exit stack.
+  match-server.log: first successful handshake/state/activation sequence.
+  front-door*.log: login/browser/lobby observations, no credential bodies.
+
+The first capture includes the deliberately documented pre-fix control
+packets and failed/restarted attempts. The stricter codec should reject the
+old bare control packets; do not weaken it merely to make this capture pass.
+Do not commit this full capture or the generated session file into Git.

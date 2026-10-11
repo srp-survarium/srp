@@ -1,0 +1,16 @@
+{
+  "source": "resource porter: deps/vostok-resources-db",
+  "porter_revision": "4018438b609928c5f5d27980eae9fb4c02300dd8",
+  "upstream": "https://github.com/srp-survarium/vostok-resources-db",
+  "upstream_revision": "104ef7b46437aee95a4b85611fd424e3f73c6c32",
+  "license": "GPL-3.0-or-later",
+  "imported_sha256": {
+    "Cargo.toml": "7151d6cf5166d2e468a195a3c5d9a9a9d923fdb879d5eddad21496ad976573f8",
+    "README.md": "30494d073d9c9beb5e8ac54889c1f27e2d42e5d787b8cad0983e3fe2613c8e80",
+    "src/fat.rs": "5d16e28a435a8241bc904a1871272db8d799f408185f68e856203be9ca4ddd7b",
+    "src/lib.rs": "b91e478bbe33be8d466f779a47b86bb6c587bf7f9b1dc2c5c7f96c32e067bf33",
+    "src/main.rs": "8ed07603bf42657036b9c6727f6b36755d85023a413baf5d52205c6ee265fb76",
+    "src/overlay.rs": "685612fd87a2ce9b2d13343253428ef3c518c24592a7d13c576d339e907e9bd0",
+    "src/pack.rs": "d103e3dca03af5de393d369e3e8dc1371083ce3bdd010152209f50cf8ea77d24"
+  }
+}

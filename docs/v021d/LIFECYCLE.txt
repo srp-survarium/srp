@@ -1,0 +1,140 @@
+v0.21d lifecycle implementation and three-client test
+2026-10-11; feature/server-v021d
+
+IMPLEMENTED, WITH LIVE FINISH VALIDATION STILL PENDING
+
+The fixed-cohort server now ends a timed match by sending each client server
+0x57 for its OWN slot when the deadline is reached. It uses the same duration
+as static setup and includes the ten-second countdown. For the current fixed
+setup, wait_player_percent=0 and every player activates together. Deadline is
+activation + countdown_seconds*1000 + match_seconds*1000. This is not a general
+replacement for engine victory rules or arbitrary waiting/countdown options.
+
+The message is sent at the deadline, not earlier with a future timestamp:
+the local-slot handler closes immediately. Normal remote-player leave events
+retain the existing future simulation-time scheduling. Once finishing, reject
+new inputs, retain peers/transport until disconnect or timeout so reliable
+finish delivery can retry, and suppress redundant leave broadcasts. The last
+peer's removal clears lifecycle state and permits a new starting cohort.
+
+CLI now accepts an optional fourth argument:
+  match-server-021d SESSIONS_FILE [PORT] [START_PLAYERS] [MATCH_SECONDS]
+Duration defaults to 600 seconds and must be a nonzero u16. A short duration
+is intended to make lifecycle tests repeatable; countdown remains 10 seconds.
+This does not populate results, determine an early battery victory, persist
+scores/rewards, or provide the lobby's missing profile/statistics responses.
+
+BINARY EVIDENCE
+
+Retail build 2010 preferred-base VAs; process_player_left_match was also read
+from the previously archived patched disassembly.
+
+* timelimit_rule_core::logic_tick 0x1f5700:
+  while waiting, nonempty membership and the configured player threshold start
+  final countdown at current time. Countdown completion sets inprocess with
+  start time equal to countdown start plus configured countdown duration.
+* timelimit_rule_core::rule_completed 0x1f58e3:
+  inprocess completes when current time - state start >= match length.
+* network_client::process_player_left_match 0x1a301e:
+  after applying the leave event, compares its slot with local player ID;
+  at 0x1a3098..0x1a309e calls close_current_match(3) for the local slot.
+* disconnect_event_types_enum identifies 3 as disconnected_on_match_finished.
+* network_client::close_current_match 0x1a23b8:
+  reason 3 calls game_world::on_finish_match and lobby_menu::show_match_statistic.
+* game_world::on_finish_match 0x15bd44 unloads the world and switches to lobby.
+* lobby_client::read_match_stats 0x19e6b1 separately deserializes match_stats and
+  player_result_full, then fills the statistics UI. Ending and filling results
+  are different operations; a populated results screen is still unimplemented.
+* gather_victory_items_rule::rule_completed 0x1fbf1f checks its recorded victory
+  time; winner_team 0x1fbf3e compares team item counts. We have not decoded and
+  adopted that rule state on the server yet.
+
+POPULATED STATE BOUNDARIES
+
+New state.rs validates the serialized player mask against static roster size,
+each sized player block, the variable compressed-animation boundary, and four
+sized world blocks, rejecting truncation and trailing data. Any nonzero
+animation flag is true, matching the engine. It preserves every original byte.
+The animation bitstream is MSB first; its tree/time/float dictionary boundaries
+follow decode_data 0x25dc1d, decode_times_in_ms_impl 0x25d9ba and
+ decode_floats_impl 0x25db10 (see HDD PROTOCOL.txt).
+
+The original capture passes: 59,743 datagrams verified, all 17 world layouts
+(11 uploads and six downloads) consume exactly their complete bodies. All six
+uploads with a captured same-time CRC still match. Unit tests exercise direct
+and dictionary animation modes, all truncated prefixes, mask bounds, flag
+semantics and invalid sizes. This is boundary validation, not validation of
+physics, animation-tree contents or inventory semantics. Populated snapshot
+selection, membership/CRC eligibility and recovery replay remain to implement.
+
+Thirty tests pass: 27 unit and three executable/UDP integration tests. The new
+socket test starts two clients with a one-second match plus ten-second
+countdown, drops one finish packet and verifies the retry reaches both local
+slots with the correct deadline. This is not proof of the engine's UI result.
+
+CURRENT LIVE THREE-CLIENT TEST
+
+At the user's request, the previous expired solo window and our own services
+were stopped after preserving its log/journal. Three private prefixes now run
+against a new three-player cohort. All three use the matching NVIDIA 595 ICD
+through DISPLAY=:0; each log confirms RTX 3060 Ti device creation.
+
+Working evidence: /tmp/srp-021d-three-client
+A: prefix, documents, PID 3208534, Niri 5999, X11 20971523.
+B: prefix-peer2, documents-peer2, PID 3208844, Niri 6000, X11 39845891.
+C: prefix-peer3, documents-peer3, PID 3209386, Niri 6001, X11 58720259.
+IDs are checkpoint facts only; revalidate before any process/window control.
+The three test accounts have separate session tokens; sessions/user.cfg are
+not included in evidence or Git. Slots are assigned by login arrival order.
+Two same-team players spawn near each other; one player is on the other team.
+
+All three uploaded the same time-50 empty baseline: 752 bytes, CRC a3b73c29.
+Reset reference 1 targeted 250; all slots activated at 600. Client logs show
+match start at game time 10600, approximately 20:02:27 local. The new timed
+finish should occur at game time 610600, approximately 20:12:27 local. At this
+checkpoint that deadline has not yet been observed; capture and clients remain
+running for the user's shooting test.
+
+First immutable capture checkpoint:
+  checkpoint-1.pcap: 7,877 verified match datagrams, 148,216 UDP payload bytes.
+  compare slot 1/0: 772 equal CRCs, zero mismatches.
+  compare slot 1/2: 744 equal CRCs, zero mismatches.
+  compare slot 0/2: 696 equal CRCs, zero mismatches.
+  eligible common timestamps 650..82550; five pre-membership samples excluded.
+  no missing captured input relays for any pair; zero same-time CRC revisions.
+The continuing match.pcap is separate from the immutable checkpoint. These
+pair counts overlap; they are not 2,212 distinct simulation timestamps.
+
+User observations, kept distinct from decoded telemetry:
+* In the preceding GPU solo match, user could pick up AND deposit a battery.
+* User reported dying from a high jump (fall damage), not only firing/ammo use.
+* After starting the three clients for a shooting test, user reported "works".
+The first C screenshot shows another player with visible wounds nearby.
+These observations support client-side interaction/damage. Exact kill/respawn
+sequence, opposing-team combat and final results still need specific evidence;
+CRC agreement by itself does not identify a kill event.
+
+RESOURCE CHECK (NOT A CAPACITY BENCHMARK)
+
+During the live three-client match, debug server PID 3207723 had RSS/high-water
+2,884 KiB, one thread, four FDs, TracerPid zero, and consumed 0.8% of one CPU
+core over a five-second wall-clock sample. The first 95.66 seconds of captured
+match traffic averaged 2,027 outgoing and 1,828 incoming IPv4 bytes/second.
+This small match had limited input activity; it cannot directly predict ten
+full 20-player matches. Server does no rendering or engine simulation.
+
+Current executable owns one match/socket. Separate processes/UDP ports could
+host multiple matches, but the front door still routes every test account into
+one fixed cohort. Match assignment, session routing and process lifecycle need
+implementation for ten managed concurrent matches. Relay fan-out grows roughly
+as N*(N-1) within each match. A realistic concurrency/loss benchmark remains
+necessary; these observations are not a hardware sizing guarantee.
+
+SUBSEQUENT LIVE VERIFICATION
+
+REFERENCE-STATES.txt supersedes the pending live status above. All three clients
+finished the ten-minute match at its deadline. A front-door automatic-requeue
+bug was discovered and fixed. A short three-client retest then returned all
+clients to the lobby and left them there, displaying "Receiving match stats...".
+Results payloads remain missing. Periodic reference-state acquisition also
+returned five populated snapshots with matching same-time CRC reports.

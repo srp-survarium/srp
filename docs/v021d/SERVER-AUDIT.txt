@@ -1,0 +1,128 @@
+v0.21d server implementation audit
+2026-10-12; implementation checkpoint 3aa0f6afc
+
+FOLLOW-UP STATUS (server 88d4d54f4): NATIVE-CHAT.txt fixes the chat integration
+finding below, with 42 passing Python tests and a real-service protocol test.
+CLOCK-CORRECTION.txt implements bounded measured-latency slews with 65 distinct
+passing Rust tests. RESULTS-FALLBACK.txt verifies the separate SRP package-v4
+notice/Close path for absent statistics, without synthesizing a result. That
+UI fix does not apply to the older community client. Real engine drift
+validation and abrupt supervisor cleanup remain open. The sections below
+record the earlier audit checkpoint and are not a fresh completion claim.
+
+This is a remaining-work audit, not a claim of full completion. The target
+remains the playable local v0.21d server in SERVER-PLAN.txt. User-accepted
+combat stays accepted; missing duplicate telemetry does not reopen that gate.
+
+CURRENT EVIDENCE AGAINST THE PLAN
+
+M0/M1: RECOVERED-CONTRACTS.txt records transport/static layout evidence and
+59,743 captured datagrams decoded/re-encoded. The current Rust suite exercises
+bounded framing/reassembly, ack/retry, reordered/lost fragments and sequence
+wrap. No new shared message tables were substituted into the older servers.
+
+M2/M3: LOCAL-BOOTSTRAP.txt and TWO-CLIENTS.txt record fresh stock-map startup,
+movement/fire and sustained simulation. SRP1-INTEGRATION.txt adds the real
+native Matches -> game -> results -> browser cycle on the integrated binary.
+MENU-SERVICE.txt and the package README.txt now provide the included Python
+service, standalone launch commands and real-process restart evidence.
+
+M4: user-confirmed combat plus historical same-time CRC comparisons cover the
+two-client gameplay gate. Clock correction is still an implementation gap:
+main.rs accepts four-byte client 44 notifications without acting on them.
+The transport has no RTT estimate yet. Do not describe that as compensated
+clock synchronization merely because startup 52/43 works on loopback.
+
+M5/M6: LATE-JOIN.txt covers populated joins and reference departure.
+ACTIVE-RECOVERY.txt and DELAYED-RECOVERY.txt cover deliberate loss, detected
+disagreement and recovery, including the corrected replay-before-state order.
+ACTIVE-REJOIN.txt records account re-entry which initially diverged and then
+recovered. That is usable recovery evidence, not proof of seamless re-entry
+or arbitrary delay tolerance. The single donor remains a trust boundary.
+
+M7: RESULTS.txt and NEXT-MATCH.txt record real timed finish/results and two
+successive sessions. MENU-SERVICE.txt verifies normal service termination,
+child/grant cleanup, stable accounts and fresh order IDs after restart.
+The failure path without a final donor snapshot still lacks a usable native
+results response. Coordinator::tick finishes after a bounded ten-second wait,
+but that does not itself release the client's statistics-waiting interface.
+Abrupt supervisor death can also leave children/grants behind.
+
+NEW INTEGRATION FINDING: NATIVE MATCH CHAT
+
+The accepted chat test in CHAT-RECONNECT.txt used the community fixed-roster
+front door. It must not be silently generalized to the newly included native
+multi-match service. native_menu.py installs front.Messaging unchanged, while
+its redirect callback updates neither LocalState.redirected_slots nor the
+single-match front-door route. Messaging.relay currently requires group==1
+and membership in redirected_slots for channels 5/6/7. Consequently a fresh
+native menu store cannot relay match/team chat through that path.
+
+Simply setting redirected_slots would be insufficient: team assignment in a
+native room follows its match-roster index, not the persistent account slot,
+and concurrent rooms must not receive each other's match/team messages even
+if a client subscribes to another room's group. Fix this using allocator-owned
+membership and team identity. First trace the actual client group source:
+native admission orders advance, whereas static setup still uses match ID1.
+Add automated multi-room tests; the user's accepted community chat/gameplay
+test does not need repeating.
+
+OLDER WORKSPACE REGRESSION CHECK
+
+All workspace test targets compiled with the locally installed C compiler and
+OpenSSL development paths. cargo test --workspace --offline --no-fail-fast
+finished with 69 passed, one failed and two ignored doctests. The v0.21d
+package passed all 56 tests (48 unit, seven UDP, one process lifecycle).
+
+The sole failure is the OLD match-server test
+message::client_message::test::fails_to_parse_new_message_types at line282:
+it expects a decode error, but the packet now decodes successfully. A separate
+archive of base commit d9d209cc1 reproduced the exact same failure (four old
+match tests passed, one failed). The older source trees have zero diff from
+that base. Cargo.toml/Cargo.lock changes only register the new dependency-free
+match-server-021d package. No old test was disabled or changed to make this
+audit green. This establishes no new observed regression, not a fully green
+baseline and not a runtime test of every older game build.
+
+Reproduction needs a C compiler and OpenSSL headers/libraries on this host;
+the default shell lacked both compiler lookup and OpenSSL discovery. Those
+environment failures were resolved before the authoritative test runs.
+evidence/workspace-audit contains the complete run, baseline reproduction and
+the additive workspace manifest diff. Logs contain no account databases.
+
+NEXT WORK, IN ORDER
+
+1. Repair native multi-match chat membership/group/team routing; preserve
+   the already tested community service behavior and avoid cross-room relay.
+2. Implement measured-latency clock correction with bounded slew, stale-report
+   rejection and recovery/lifecycle guards. Binary evidence already shows that
+   server55 carries signed i16 milliseconds and adjusts rate over an interval;
+   server52 resets world history and must not be used as a periodic nudge.
+3. Give missing-final-results a bounded, accurate user-visible exit path.
+4. Close abrupt menu-supervisor child/grant cleanup, then reconcile the final
+   required gates with current evidence before claiming completion.
+
+Explicit limits, not silently added goals: original Play/profile UI is an
+alternative to the implemented Matches UI, not a prerequisite for local
+admission. Shop/economy, ranked matching and independent server physics were
+excluded in the plan. Persistence of live simulation/results was to be
+labelled when absent; it is not equivalent to the required clean restart.
+Actual five-battery victory has code/tests but no recorded full objective-win
+playtest; do not mislabel a single accepted battery deposit as that evidence.
+
+CLOCK EVIDENCE FOUND DURING THIS AUDIT
+
+try_send_all 0x1a310b floors the supplied simulation timestamp to a 50ms
+boundary for its send schedule. At 0x1a32be it checks last-send+1000ms, then
+requires a populated state history/event-horizon item. The emitted client44
+body comes from floating_timer::get_elapsed_msec (0x1a3309), not that rounded
+simulation timestamp. Lost/unordered 44 notifications have no reference ID.
+
+Dispatcher 0x1a160f..0x1a1626 reads the two-byte server55 offset and calls
+floating_timer::set_offset (0x150d70). The latter first rebases the running
+timer, chooses a signed floating factor and sets its duration from the offset.
+The referenced float constants are -1 at0x836f08, +1 at0x876f40 and1000 at
+0x836efc. Positive offsets speed up, negative offsets slow down; a new offset
+replaces the previous correction's remaining interval. The configured factor
+magnitude at timer+0x28 still needs tracing before choosing a cooldown.
+These are client facts, not a recovered policy of the community server.

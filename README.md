@@ -5,6 +5,13 @@ Replacement servers for Survarium (v0.100b): login, lobby, match and server
 browser, with the tools to inspect and patch the game. The engine itself is
 reconstructed in [vostok](https://github.com/srp-survarium/vostok).
 
+Experimental **v0.21d** support is available separately: a local match server
+and native client Matches menu. Start with the
+[current status and review guide](docs/v021d/PR-STATUS.txt), then the
+[server launch instructions](servers/match-server-021d/README.txt) and
+[client build/install instructions](client/021d/README.md).
+This server coordinates client simulations; it does not run game physics.
+
 ## Quickstart
 
 ```sh

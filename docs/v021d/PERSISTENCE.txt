@@ -1,0 +1,75 @@
+v0.21d local front-door restart persistence
+2026-10-11; feature/server-v021d
+
+WHAT SURVIVES
+
+The optional --state SQLite checkpoint preserves account-to-slot assignments,
+session tokens, previous match identities, explicit next-match reservations,
+one-shot redirect flags and remaining redirect leases. Returning accounts keep
+their original slots even when they log in in the opposite order after a
+front-door restart. Match routes remain tied to the exact server instance and
+generation; a restart does not grant admission to a different match.
+
+This is persistence for the loopback test login/lobby service. The match server
+still holds world snapshots, input history and completed results in memory.
+Restarting that process does not restore an active world or completed results.
+Passwords, chat messages and live socket registrations are not stored. The
+fixture still accepts any nonempty test password; this is not production
+account authentication. Account names and session tokens in the checkpoint
+are local private data and must not be included in evidence archives.
+
+USAGE
+
+For a new local run, add this option to the existing front_door.py command:
+  --state /tmp/srp-run/front-door.sqlite
+Keep the same --players and --sessions values on subsequent starts. The first
+start creates a mode-0600 database and session export. Later starts reuse the
+database tokens and verify that the export matches. A missing export can be
+recreated from the checkpoint; a different existing export is rejected rather
+than overwritten. Use this exported roster when starting the match server.
+
+Do not combine --state with --reuse-sessions. The older option preserves only
+tokens, not account identities or routes. There is no migration from an old
+in-memory service: its lost account mapping cannot be recovered from a token
+file. Start a fresh coordinated run to enable persistence. Existing callers
+that omit --state retain their in-memory behavior.
+
+The checkpoint's parent directory must already exist. Use a private run
+directory and retain the database plus its SQLite journal, if present. The
+adjacent .lock file provides a lifetime single-writer lock and stays on disk
+after exit; its presence alone does not mean the service is running. Do not
+delete that lock file while a service is alive. Abrupt exit can also leave the
+separate lobby-control socket path behind; existing operator cleanup rules
+still apply. Front-door restart drops TCP connections; clients must reconnect.
+
+COMMIT AND FAILURE RULES
+
+SQLite transactions with synchronous=FULL commit changes before login,
+redirect or queue success is returned. A failed write prevents acknowledgment
+and disables further account/routing operations until restart. Restart reads
+the last committed checkpoint. Corrupt data, incompatible roster/version,
+non-private database/session files and a second simultaneous writer fail
+startup instead of silently creating new identities.
+
+The 30-second redirect lease is stored as a wall-clock deadline and restored
+relative to the current monotonic clock. Downtime consumes the remaining
+lease. A backwards wall-clock adjustment cannot restore more than 30 seconds;
+a forwards jump can expire a lease early. Fresh occupied-slot checks still
+apply. Database durability depends on normal SQLite/filesystem guarantees;
+power-loss and filesystem corruption were not experimentally tested.
+
+VALIDATION
+
+All 18 Python front-door tests pass (seven persistence tests and one new TCP
+restart test in addition to the ten existing tests). Checks cover reverse
+login order, stable tokens/slots, one-shot admission, retained routes and queue
+reservations, remaining/capped leases, single-writer exclusion, incompatible
+and corrupt checkpoints, a failed database transaction, and session-export
+permissions/mismatch handling. The TCP test closes and recreates the lobby
+listener and LocalState, then retrieves the original match's result through
+the fake match-control service without an automatic next-match redirect.
+
+This is automated service-state validation, not a real-client restart test or
+a new combat test. The user's existing combat playtest remains accepted.
+Rust match-server code and client binaries are unchanged by this milestone.
+Test output: evidence/persistence/tests-python.txt in the HDD evidence archive.

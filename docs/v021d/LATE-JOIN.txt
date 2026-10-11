@@ -1,0 +1,139 @@
+v0.21d populated late join and reference departure
+2026-10-11; feature/server-v021d
+
+FOLLOW-UP: active recovery is now implemented (ACTIVE-RECOVERY.txt), and
+DELAYED-RECOVERY.txt supersedes the historical restore ordering below with
+preload before53 plus replay during fragmented state transfer. The real-client
+late-join results below were measured with the earlier ordering.
+
+RESULT
+
+A real client started a new match alone. Two more real clients joined later,
+restoring populated worlds at game times 90100 and 200150. They displayed the
+running match timer and active local player. All compared same-time world
+CRCs matched, including after the original reference client was closed and
+removed by transport timeout. The next reference supplied valid mask6 states.
+
+This implements late join, not automatic restoration of a diverged active
+client. It does not complete the server objective: controlled real-client
+loss/divergence recovery, explicit remote combat death/respawn evidence, clock
+correction, and results delivery remain open.
+
+CLIENT CONTRACTS AND SERVER POLICY
+
+game_world_core::change_input at 0x1cb147..0x1cb14d accepts only input timestamps
+strictly greater than last-full-sync time. deserialize(buffer_reader&) at
+0x1cab3b restores that cutoff and, on FIRST synchronization, seeds active
+players' input histories from their restored m_input. See REFERENCE-STATES.txt.
+The populated snapshot therefore already supplies persistent input at its own
+time; never invent zero inputs or replay inputs at/before the baseline.
+
+53 snapshot messages are reliable ordered, but 54 input and 56/57 membership
+messages are reliable UNORDERED. Sending them in one list is not a delivery
+barrier. The implemented per-peer sequence is:
+
+  resources loaded / empty initial upload
+  -> wait for recent eligible reference snapshot
+  -> 52 unique per-peer clock reference, current shared game time
+  -> matching 43 response
+  -> 53 immutable populated snapshot
+  -> wait for that peer's reliable queue to be ACKed
+  -> replay accepted input/membership events strictly after baseline
+  -> wait for that batch to be ACKed; collect any newly accepted events
+  -> repeat until no unacknowledged/unsent replay remains
+  -> schedule new player's 56 for all playing peers, at one shared 50 ms tick
+  -> atomically include this peer in normal live broadcasts
+
+The shared match clock is not restarted for a new player. Each player's own
+activation time gates its inputs. Stale 43 references are ignored rather than
+disconnecting a client for a delayed reliable response. Loading/restoring peers
+do not receive live input/membership broadcasts; the journal supplies them.
+
+The selected snapshot must be corroborated by the donor's same-time CRC, no
+more than 1000 ms old at selection, and must not already contain the joining
+slot. This fresh-state bound is SRP policy, not a measured universal engine
+history limit. A snapshot's CRC may arrive AFTER its upload: a log line saying
+corroborated_time=None at receipt does not mean it is permanently ineligible.
+The real run exercised this ordering before successful joins.
+
+replay.rs retains at most 17,408 events within the existing 10-second history.
+An arrival sequence cursor preserves updates accepted during each transfer.
+Each replay batch collapses same-slot/time input revisions to the last accepted
+value; a newer batch waits for acknowledgement of the older batch. Normal live
+unordered input revision arbitration remains experimental, as before.
+
+If an accepted input at/before the chosen baseline invalidates an in-progress
+join, that joining peer fails independently. A transfer exceeding five seconds
+or lacking complete journal history also fails independently. The initial
+cohort still has its separate all-peer bootstrap barrier. An unactivated
+joining peer's departure does not create a false world leave event.
+
+These barriers prevent sending replay ahead of a snapshot; they are not proof
+that every possible slow client will accept a replay within its engine history.
+They also do not repair inputs received after activation that are older than
+that client's restored baseline. Active-client recovery is the next boundary.
+
+REAL-CLIENT RUN
+
+Working evidence: /tmp/srp-021d-late-join
+Same prepared community-patched executable, three private prefixes, matching
+NVIDIA ICD/XWayland settings from LIFECYCLE.txt. Server command:
+
+  target/debug/match-server-021d /tmp/srp-021d-late-join/sessions 12023 1 600
+
+Front door has three slots; its one-shot per-account redirect policy remains.
+Log in client A, let it enter the match, then B, then C. The earlier shared
+cohort test required START_PLAYERS=3; this test deliberately uses 1.
+
+Slot0: initial time50 / mask0 / CRCa3b73c29; activation600.
+Slot1: reset reference2, target90656; snapshot90100 / mask1 / CRCd25b94ab;
+       activation90900. Screenshot join-b.png shows the running match.
+Slot2: reset reference3, target200756; snapshot200150 / mask3 / CRC23185395;
+       activation201000. Screenshot join-c.png shows the running match.
+
+Slot0 sent move-forward input at197950, before slot2's baseline, and later
+fire/release changes at204100/205100/205150. Slot2's snapshot includes that
+persistent earlier input; its three later relays are captured. This proves
+populated restore during movement plus subsequent live changes, but does not
+exercise a nonempty pre-activation replay batch in the real client. That path
+has coordinator tests; a deliberate real-client transfer-delay test is still
+needed. Automated W/S key sequences did not yield every requested transition;
+claims here use captured inputs, not automation intent.
+
+Closing slot0 stopped its traffic; removal occurred through transport timeout,
+not a captured graceful disconnect. Both surviving clients received leave at
+295950. The immediate new donor upload predates that event and correctly has
+mask7; time300250 and subsequent snapshots have mask6 with matching donor CRC.
+
+Stopped tcpdump: 20,900 captured packets, zero kernel drops. Inspector verifies
+all 20,900 match datagrams / 517,480 UDP payload bytes / three flows:
+  slots1/0: 1,912 matches, zero mismatches, last284050.
+  slots1/2: 1,779 matches, zero mismatches, last379250.
+  slots0/2:   827 matches, zero mismatches, last284050.
+Pair counts overlap. No expected captured input relay is missing; the single
+slot0 input at197950 is explicitly excluded for slot2 because its baseline
+already contains it. Client logs have one first synchronization each.
+
+INSPECTOR AND TESTS
+
+inspect_match now obtains membership masks from validated restored states as
+well as enter/leave events. Default comparison still requires identical reset
+and baseline histories. For this verified single-generation capture:
+
+  target/debug/examples/inspect_match match.pcap 12023 --single-match
+
+That flag explicitly asserts one match generation; the inspector cannot infer
+generation identity from differing per-peer clock references alone. Do not use
+it indiscriminately on captures containing restarted matches. Multiple resets
+per flow are still excluded from comparisons.
+
+Full suite: 34 unit tests plus four UDP executable integration tests passed.
+New tests cover delayed inputs/revisions while replay is pending, state/replay
+ACK barriers, departure replay, invalidated/stalled transfer isolation, journal
+pruning, and a real UDP late join with a deliberately lost populated-state
+fragment followed by activation/input relay. Synthetic snapshots in these tests
+validate protocol behavior, not game physics.
+
+At checkpoint the capture is stopped, client A is closed, clients B/C and the
+local server/front door remain running. Revalidate their handles before use.
+HDD evidence copies exclude sessions, user configs, journals, and private keys.

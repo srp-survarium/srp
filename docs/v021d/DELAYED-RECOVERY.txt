@@ -1,0 +1,129 @@
+v0.21d recovery replay ordering under delayed snapshot delivery
+2026-10-11; feature/server-v021d
+
+RESULT AND SCOPE
+
+The previous snapshot-ACK-before-replay sequence failed in a real two-client
+test. A 1.2-second outgoing blackout during 53 delivery let the engine advance
+before the server sent shooting inputs. Those inputs were rejected as too old.
+This was a server sequencing bug, not a new shooting-message requirement.
+
+The revised sequence preloads acknowledged replay before sending 53 and keeps
+new replay batches flowing while its fragments are pending. The repeated fault
+now delivers all three shooting inputs BEFORE snapshot completion. There are
+no input-age rejections, no subsequent automatic recovery, and 712 matching
+same-time CRC comparisons (zero different) after that restore. A separate test
+preloaded the restoring player's own accepted inputs and produced 453 matches,
+zero different. These are finite tests, not guarantees for arbitrary delay.
+
+WHY THE ORDER MATTERS
+
+Client process_set_time_request (0x1a2cf0) handles 52, replies with 43 and clears
+world-state history. game_world_core::clear (0x1ca788) resets current/max time
+to50 and full-sync cutoff to0, retaining input/event histories. change_input
+(0x1cb12c) bypasses the future-time bound while state history is empty.
+process_player_input_change (0x1a2f2a) still invokes it during this interval.
+deserialize(buffer_reader&) (0x1cab3b) clears/restores state while retaining
+those input/event histories. This permits input preload before full restore.
+
+The alternative clock-pause idea is not implemented: 55 reads a signed 16-bit
+offset and floating_timer::set_offset (0x150d70) adjusts the timer factor over
+an interval. It is not an immediate set-time/pause command. 52 also clears the
+world; repeatedly using it as a simple clock correction would be incorrect.
+
+CURRENT TRANSACTION (LATE JOIN AND ACTIVE RECOVERY)
+
+  Select a fresh, donor-CRC-corroborated populated snapshot.
+  Send 52 with a unique reference; await the matching 43.
+  Send accepted post-baseline input/membership events; await their ACKs.
+  Repeat preload batches until none remain, then send immutable 53.
+  Continue replay batches during 53 transfer, independently of state ACKs.
+  Await each replay batch's ACKs before sending its successor/revisions.
+  Complete only when state and replay are ACKed and no unsent events remain.
+
+Late join then activates the new slot. Active recovery keeps the existing
+membership and sends no extra enter/leave. Initial empty-cohort bootstrap is
+unchanged. Both active clients' own inputs and remote inputs can be replayed.
+Endpoint::has_pending distinguishes replay messages from fragmented state,
+including the wire's 0xff fragment marker. A missing 53 fragment no longer
+blocks replay, while the full queue barrier still gates completion.
+
+ORIGINAL FAILURE: /tmp/srp-021d-delayed-recovery
+
+Baseline35100; outgoing blackout1200 ms while sending the replacement state.
+Reference slot0 inputs:35700 shooting,36100 stop,36150 neutral.
+Capture elapsed times (milliseconds from first packet):
+  46574: slot1 receives complete 53, state35100.
+  46672: slot1 receives all three input relays.
+Client B logs FULL RESYNC35.100 at21:02:08.418 local, then rejects each input
+against current time37.256 at21:02:08.517. The preserved capture prefix ending
+before21:02:20 contains 113 mismatches, zero matches, at36750..48150.
+A later automatic state50100 repaired the disagreement; it does not make the
+first restore successful. The final capture's sparse 63 matching comparisons
+after that second reset must not hide the failed first attempt.
+Capture stopped:24,457 packets, zero kernel drops. Preserve both full capture
+and failed-first-restore.pcap plus their inspector results and client logs.
+
+RETEST: /tmp/srp-021d-replay-pipeline
+
+Two existing private prefixes; community-patched executable unchanged.
+Front door:two slots. Server:12023, START_PLAYERS=2, MATCH_SECONDS=600,
+optional Unix control socket. Slot0 in window6034/prefix-peer2 is the reference;
+slot1 in window6033/prefix is the restoring client. These IDs are historical,
+not stable identifiers for future sessions. Both start from state50/mask0,
+CRC6fa8cb1c and shared activation. Control commands are:
+  state-blackout 1 1200
+  recover 1
+
+state-blackout arms a one-shot blackout beginning when the next 53 is queued.
+It drops ALL outgoing datagrams for that slot during the interval, including
+replay/retries/ACKs; inbound traffic continues. It is not state-only loss.
+
+First restore:state25100, CRC8ae765e9;26 outgoing datagrams dropped.
+  31902:52;31903:43 and preloaded own inputs25300/25400.
+  33512:complete53, after those input deliveries.
+  first-preload.pcap ends before the next operator-requested reset:
+  453 matching comparisons, zero different, times26850..74150.
+The attempted automated shot for this first trial did not produce a shooting
+input during the blackout; do not count that intention as a successful test.
+
+Second restore:state75100;30 outgoing datagrams dropped. Reference client fires
+after the blackout-start log, giving inputs75700/76100/76150. Packet timeline:
+  81900:52 reference3, target75654;81903:43.
+  81949/82350/82401:server receives shoot/stop/neutral.
+  83160:target receives shooting relay75700.
+  83203:target receives stop/neutral relays76100/76150.
+  83405:target receives complete53 for state75100.
+Thus all replay is present 202 ms or more before snapshot completion. The
+client logs FULL RESYNC75.100 at21:14:44.328 and no rejected input. The server
+records post-restore agreement atgame78317, without another automatic reset.
+
+Stopped capture:8,726 packets,219,816 UDP payload bytes,zero kernel drops.
+After the second reset:712 matches,zero mismatches,times76750..149950; no
+expected post-baseline input lacks a captured relay. The inspector clears
+comparison history on52; first-preload.pcap separately retains the first test.
+Deliberate drops happen before socket send and are counted in server.log,
+not in tcpdump's kernel-drop count. Services/clients remain running at capture
+stop, allowing the user to continue playing; later actions are not captured.
+
+VALIDATION AND REMAINING WORK
+
+40 unit tests and four UDP/executable tests pass. New tests cover independent
+state/replay ACK status and replay delivery during missing state fragments,
+including an input revision that must wait for its predecessor's ACK. Existing
+late-join/membership tests now check preload before53 and final activation only
+after state completion. The inspector's optional --events output records
+reassembled application delivery timestamps without credentials or chat text.
+
+Commands (from repository root):
+  cargo test -p match-server-021d
+  cargo run -p match-server-021d --example inspect_match -- CAPTURE 12023 --single-match --events
+
+Different loss/reordering patterns can still leave inputs arriving outside the
+engine's history. Preloading does not freeze time after53 is applied. Large
+backlogs also face the client's fixed27-entry event/input histories; the
+server's10-second journal is not proof the client can retain every such event.
+Recovery has bounded transfer time/attempts, but these tests do not establish
+all high-latency cases, dense long-backlog safety, or a universal delay limit.
+Clock correction, explicit remote death/respawn evidence, results/early victory,
+and chat delivery remain unfinished at this checkpoint.

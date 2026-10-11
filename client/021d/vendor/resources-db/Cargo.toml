@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[package]
+name = "resources-db"
+version = "0.1.0"
+edition = "2021"
+description = "Packer/unpacker for the Survarium / Vostok engine resources.db VFS pack archive"
+license = "GPL-3.0-or-later"
+publish = false
+
+# Build independently of the server workspace and its in-progress lockfile.
+[workspace]
+
+[[bin]]
+name = "resources-db"
+path = "src/main.rs"
+
+[lib]
+name = "resources_db"
+path = "src/lib.rs"
+
+[dependencies]
+bytemuck = { version = "1", features = ["derive"] }
+bitflags = "2"
+clap = { version = "4", features = ["derive"] }
+
+[profile.release]
+opt-level = 3

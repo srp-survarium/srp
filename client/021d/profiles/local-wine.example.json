@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "game": "/path/to/installed/game",
+  "service_port": 19031,
+  "language": "english",
+  "hash_step_50ms": false,
+  "runtime": {
+    "kind": "wine",
+    "executable": "/path/to/wine",
+    "server": "/path/to/wineserver",
+    "prefix": "/path/to/dedicated/wine-prefix",
+    "desktop": {"name": "SRPMenu", "width": 1280, "height": 720},
+    "vram_floor": true
+  }
+}
