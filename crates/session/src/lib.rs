@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 //! In-memory session/account store shared between the mock servers.
 //!
 //! It is a **mock** (see the repo `CLAUDE.md`): there is no real authentication

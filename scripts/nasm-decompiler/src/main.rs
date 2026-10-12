@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 //! Helper script to build and apply patches to the game.
 //!
 //! ```no-run

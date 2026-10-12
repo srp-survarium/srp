@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 use std::sync::Arc;
 
 use actix_web::{
