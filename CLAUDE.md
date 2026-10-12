@@ -5,7 +5,7 @@ SRP mocks the Survarium v0.100b server side: it returns canned, wire-compatible
 responses so the unmodified client (`survarium.exe`) can sign in, use the lobby
 and enter a match. It is not a server rewrite; authoritative game logic belongs
 to the C++ engine in [vostok](https://github.com/srp-survarium/vostok), and many
-dummy values here are intentional mock data. Phase status: `docs/roadmap.md`.
+dummy values here are intentional mock data.
 
 ## Build and test
 
