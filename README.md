@@ -13,6 +13,8 @@ cargo build --workspace
 cargo run -p login-server       # likewise lobby-server, match-server, browser-server
 ```
 
+Point the game client at the login server: `survarium.exe -client=<host>:1234`.
+To host on another machine, see [docs/hosting.md](docs/hosting.md).
 On Windows without Nix, see [docs/windows-setup.md](docs/windows-setup.md).
 
 ## Layout
