@@ -1,0 +1,31 @@
+# Development scoring policy, based on the local 0.21d server's setup::SCORES.
+# These are server policy values, not recovered 0.26 retail configuration.
+# One weight per event, in native dictionary order; # starts a comment.
+100 # 0 kill
+50  # 1 assist
+0   # 2 death
+0   # 3 suicide
+0   # 4 team kill
+20  # 5 artefact
+100 # 6 bring victory item (native counter scale: 0.01)
+25  # 7 teammate cure
+25  # 8 teammate rescue
+25  # 9 revenge
+50  # 10 victory-item carrier kill
+0   # 11 participating
+0   # 12 won
+25  # 13 melee kill
+25  # 14 silent kill
+25  # 15 headshot kill
+0   # 16 winning-team victory-item bonus
+100 # 17 steal victory item (native counter scale: 0.01)
+100 # 18 recover victory item (native counter scale: 0.01)
+25  # 19 victory item found
+50  # 20 put victory item in container
+25  # 21 entrap enemy
+0   # 22 bullet fired
+0   # 23 bullet hit
+0   # 24 newer event: weight not established
+0   # 25 newer event: weight not established
+0   # 26 newer event: weight not established
+0   # 27 newer event: weight not established

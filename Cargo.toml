@@ -8,6 +8,7 @@ members = [
   "servers/lobby-server",
   "servers/login-server",
   "servers/match-server",
+  "servers/match-server-026",
 
   "scripts/binary-config-cli",      # Parser for binary config files
   "scripts/nasm-decompiler",        # Patcher for `survarium.exe`

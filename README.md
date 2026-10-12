@@ -17,6 +17,10 @@ Point the game client at the login server: `survarium.exe -client=<host>:1234`.
 To host on another machine, see [docs/hosting.md](docs/hosting.md).
 On Windows without Nix, see [docs/windows-setup.md](docs/windows-setup.md).
 
+For retail **0.26g0 build 2777**, use the separate
+[development match server and client guide](servers/match-server-026/README.md).
+Its native lobby invitation and squad matchmaking flow is still unfinished.
+
 ## Layout
 
 - `servers/` - `login-server`, `lobby-server`, `match-server`, `browser-server`.
