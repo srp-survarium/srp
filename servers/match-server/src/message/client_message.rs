@@ -264,7 +264,7 @@ mod test {
     }
 
     #[test]
-    fn fails_to_parse_new_message_types() {
+    fn parses_captured_movement_and_match_join() {
         #[rustfmt::skip]
         let buffer: &[u8] = &[
             186, 2,
@@ -279,7 +279,22 @@ mod test {
             3, 66, 53, 1
         ];
 
-        let message = ClientMessage::deserialize(&mut buffer.as_ref()).unwrap_err();
-        assert!(matches!(message, DeserializeError::UnknownMessageType(_)));
+        let message = ClientMessage::deserialize(&mut buffer.as_ref()).unwrap();
+        let ClientMessageKind::Messages(messages) = message.kind else {
+            panic!("expected game messages");
+        };
+        assert_eq!(messages.len(), 7);
+        assert!(messages[..5].iter().all(|message| matches!(
+            message.game_message,
+            ClientGameMessageKind::ClientPlayerUpdate { .. }
+        )));
+        assert!(matches!(
+            messages[5].game_message,
+            ClientGameMessageKind::TeamBasesInitializeInfo
+        ));
+        assert!(matches!(
+            messages[6].game_message,
+            ClientGameMessageKind::JoinMatch
+        ));
     }
 }
