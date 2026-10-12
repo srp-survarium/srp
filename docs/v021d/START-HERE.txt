@@ -1,0 +1,372 @@
+Survarium v0.21d: how the match works, and what to investigate next
+Discussion notes, 2026-10-11 (Europe/Warsaw)
+
+User acceptance: combat was already playtested by the user, who reaffirmed
+that it works and asked us not to repeat the test. Treat it as user-verified.
+Historical notes about missing recorded kill/respawn sequences describe an
+instrumentation gap, not a reason to redo accepted gameplay testing.
+SERVER-AUDIT.txt (2026-10-12) distinguishes current implementation gaps from
+historical notes below and records the older workspace regression check.
+NATIVE-CHAT.txt fixes the audit's native multi-match chat routing gap and
+records its protocol tests; the earlier accepted community chat still stands.
+CLOCK-CORRECTION.txt implements small-drift correction using ACK latency and
+the client's gradual timer adjustment, with explicit automated/live-test limits.
+RESULTS-FALLBACK.txt verifies the existing SRP native package's missing-results
+notice/Close path; it does not apply to the old community-patched client UI.
+
+LATEST SERVER MILESTONE: DELAYED-RECOVERY.txt records and fixes a failed delayed
+snapshot restore. Replay now arrives before snapshot completion in the real
+blackout retest:712 post-restore matches,zero mismatches. ACTIVE-RECOVERY.txt
+records a real three-second packet
+blackout, too-old input rejections, automatic full resync and 2,642 matching
+post-recovery states. A shorter blackout needed no full reset. LATE-JOIN.txt
+covers populated joins/reference departure. CHAT-RECONNECT.txt records working
+basic chat and the original blocked reconnect. ACTIVE-REJOIN.txt records the
+new lifecycle-aware lobby route: a returning account rejoins the same running
+match, but initial reactivation disagreement needs automatic recovery. Seamless
+re-entry, broader delay/backlog cases and clock
+correction remain open. RESULTS.txt records the subsequent statistics decoder
+and native lobby reply: both real clients now show results after timed finish.
+Economy, complete awards, missing-donor fallback and result persistence remain
+unfinished; see that report's exact limitations and capture evidence.
+The finish-timestamp retest removes the too-old departure warning. A native
+gather-all-batteries completion path is implemented and unit-tested; a real
+five-battery win still needs capture evidence.
+NEXT-MATCH.txt records explicit local admission and two consecutive completed
+matches without restarting either client or the server. Native Matches-menu
+integration is now included (MENU-SERVICE.txt); the original Play button is
+profile-dependent. PERSISTENCE.txt records optional front-door restart
+checkpoints for stable account/slot assignments, tokens and match routes, with
+automated restart tests. LOBBY-CONTRACT.txt records the corrected ping opcode
+and native menu admission audit; all 19 Python tests pass. Match-server
+world/results persistence remains open.
+SRP1-INTEGRATION.txt records the integrated server's explicit native-DLL
+protocol option, 56 passing Rust tests and the existing menu allocator's
+two-process launch smoke test. One real client has also completed the native
+menu-to-game-to-results-to-browser cycle against the integrated binary. The
+already accepted community combat test is unchanged.
+MENU-SERVICE.txt brings the native menu's Python service into the server package
+and adds saved account identities and monotonic admission IDs. Real-process
+restart validation passed; current startup commands are in the package README.txt.
+
+READING ORDER
+
+The files below live in:
+  /mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11
+The Git copy of this guide points to that evidence directory.
+
+1. This file: the explanation, caveats, and unanswered questions.
+2. REPORT.txt: measured traffic, binary call paths, comparisons, and rates.
+3. PROTOCOL.txt: message layouts and snapshot/transport framing.
+4. ../0.21d-patch-analysis-2026-10-11/REPORT.txt: retail versus patched EXE,
+   resources, certificate, launcher, and exact patch locations.
+5. logs/ and evidence/: original capture/log, decoded timeline, snapshots,
+   CRC comparisons, and disassembly supporting the reports.
+
+Treat observations, architectural explanations, and proposed server policies
+as different things. There is no source for the deployed community server.
+The user knows it was built on SRP. We have investigated the client binary
+and one client's traffic, not recovered that server's implementation.
+
+THE MAIN FINDING
+
+The v0.21d client contains the match simulation: movement, weapons, bullets,
+collisions, damage, death, statistics, and respawn rules. The inspected paths
+are already present in retail. The community patch did not add a shooting or
+hit-report message to make damage work.
+
+Normal play distributes timestamped player inputs through the server. Each
+client can use those inputs to advance its own copy of the world. Given an
+aligned initial state and compatible simulation, a shot can cause a death on
+both screens because both clients calculate it. This is the intended model;
+our evidence does not prove perfect determinism in every situation.
+
+The community patch additionally lets a client serialize and upload a past
+world state. That gives a coordinating server a way to obtain snapshots for
+startup and recovery without implementing bullet physics itself.
+
+The user confirmed that hits/kills/deaths worked in the captured test.
+
+HOW THE PIECES FIT TOGETHER
+
+Normal play:
+
+  Player A's controls -> A's client -> server -> participating clients
+                                           -> local simulation on each
+                                           -> movement, hits, death, respawn
+
+Alongside inputs:
+
+  client -> server: historical timestamp + world-state CRC32
+  client -> server: current game time
+  server -> client: clock synchronization and input-discard instructions
+
+Snapshot recovery (observed interfaces, selection policy UNKNOWN):
+
+  server requests state -> patched client uploads a historical snapshot
+  server sends a replacement world state -> receiving client restores it
+                                          and continues simulation/replay
+
+Our client talked to the server. We did not observe direct client-to-client
+snapshot exchange. A server could redistribute a peer's state, but we cannot
+identify the source of each replacement from this one-client capture.
+
+Three incoming replacement states started arriving before this client's
+corresponding snapshot upload began. They cannot have been made solely from
+that response. Another peer, cached state, or server-generated state could
+explain them. Do not claim an identified host, majority vote, or trusted peer.
+
+WHAT DOES THE SERVER KNOW ABOUT DEATH?
+
+No separate death-confirmation or hit-report RPC appeared in the decoded
+v0.21d match messages. Shooting is an input action; it does not contain the
+victim, damage amount, or resulting health. Death and respawn paths execute
+locally as part of simulation.
+
+A full snapshot includes player/damage-model state and match statistics,
+so snapshots can carry information about outcomes. We parsed the boundaries
+of these blocks, not every health/statistics field or a complete kill log.
+
+A CRC is only a fingerprint. It cannot tell a server who died or how much
+health somebody has. A server comparing CRCs alone cannot derive those facts.
+We do not yet know how this deployed server extracts final results, which
+clients it polls, or what it persists. Absence of uploads from our client
+late in the match does not establish absence of uploads from other clients.
+
+AUTHORITY DOES NOT NECESSARILY MEAN SERVER PHYSICS
+
+A server can control admission, time, accepted inputs, and which state clients
+must adopt while relying on clients to calculate the world. That is different
+from independently simulating and validating every bullet on a server engine.
+
+The client contains original server-mode branches. This does not prove the
+deployed community server runs that engine. Conversely, this investigation
+does not prove it cannot run any simulation. Its internal implementation is
+unknown. A relay/coordinator is a sufficient explanation for the interfaces
+we observed, and a practical direction for an SRP implementation.
+
+ROLLBACK: APPLYING INPUTS THAT ARRIVE LATE
+
+Verified v0.21d path:
+
+  network_client::process_player_input_change (VA 0x1a2f2a)
+    -> game_world_core::change_input (0x1cb12c)
+    -> input/event history updated and affected simulation invalidated
+  game_world_core::move (0x1ccca3)
+    -> restore an appropriate retained state and replay toward current time
+
+Illustrative example, not a measured event in the capture:
+  The client has simulated through game time 10.200 seconds.
+  A shot input arrives with timestamp 10.100 seconds.
+  If that time is retained, the client restores a suitable earlier state,
+  includes the shot in history, and simulates forward again to the present.
+
+This can change the resulting hits, health, positions, and death outcome.
+The whole visible game does not play backwards. Recalculation happens inside
+the simulation; the renderer subsequently presents the corrected present.
+
+Small corrections may be unnoticeable. Larger corrections can appear as
+position snapping, delayed damage, or sudden death. For example, a late shot
+could establish that the player was hit before reaching cover, even though
+their screen had already shown them reaching it. These are explanatory
+possibilities, not identified incidents from our capture. The exact camera,
+animation, audio, and effect-smoothing behavior still needs investigation.
+
+The 50 ms input/state grid is NOT the rollback window. The inspected client
+constructor uses 250 ms plus another client-side global interval. We have not
+measured that additional term at runtime. Do not publish a guessed total.
+
+INPUT TOO OLD: DOES IT FORCE A RESYNC?
+
+No automatic one-for-one relationship was established. The input handler can
+reject an input outside retained history or at/before an already-applied full
+resync boundary. The packet-processing path records the result; it does not
+itself request a full replacement state for each such rejection.
+
+Two different situations matter:
+  * An input predating an adopted snapshot may simply be obsolete: the
+    snapshot establishes the simulation baseline and old inputs must not be
+    replayed a second time across it.
+  * If a relevant input cannot be incorporated and clients diverge, a later
+    snapshot resync can replace their inconsistent state. We have not proved
+    the deployed server's detection thresholds or exact recovery trigger.
+
+Server message 0x58 asks a client to discard a particular local input time.
+This is distinct from a receiver locally rejecting another player's old input,
+and distinct from replacing the entire world with server message 0x53.
+
+The test log has late-input rejections around 17:02:46.472. It also has five
+full resyncs. Do not infer that every rejection caused one of those resyncs.
+
+ROLLBACK VERSUS FULL RESYNC
+
+Rollback: use this client's retained state and inputs to recompute its recent
+past. No full snapshot download is inherently required for that operation.
+
+Full resync: receive a replacement state through the server, establish a new
+baseline, and continue simulation with the applicable inputs/time handling.
+The captured resync sequences also contain set-time/reset exchanges.
+
+HOW OFTEN IS INFORMATION SENT?
+
+Observed/code-confirmed v0.21d behavior:
+  Inputs: 50 ms timestamp grid; not necessarily 20 packets every second.
+  Historical state hashes: approximately every 100 ms.
+  Current-time notification: approximately every 1,000 ms.
+  Full snapshots: at startup and in response to the community request hook;
+    not a continuous per-frame state stream.
+
+The capture contains eleven complete uploads and six complete downloads
+(one startup state plus five resync states). The last upload was followed by
+about 8 minutes 35 seconds without another upload from this client; normal
+input/hash/clock traffic continued. Early resync intervals were roughly 15
+seconds, with one longer interval. This is not evidence of a permanent
+15-second polling schedule across all players.
+
+Full uploaded state bodies totaled 74,468 bytes over the match. Average match
+UDP payload traffic was about 2,518 B/s incoming and 568 B/s outgoing. These
+figures exclude IP/UDP/link overhead. There is no demonstrated large continuous
+snapshot-upload cost to remove based on this test.
+
+WHAT THE COMMUNITY PATCH ACTUALLY CHANGED
+
+Retail versus community EXE: 554 changed bytes in seven regions.
+  * Allows multiple instances.
+  * Uploads historical snapshots at match-ready and on server 0x59 request.
+  * Changes battery/victory-item spawn scheduling.
+  * Cleans up future battery objects when restoring older state.
+The latter two appear intended to improve restoration consistency; intent is
+an inference, while the code changes are directly observed.
+
+The snapshot upload repurposes client 0x47, named leave_match_request in retail
+v0.21d. Server 0x59 originally belongs to debug serialization information.
+Protocol handling must match the patched client; these IDs are version-specific.
+The request hook requires debug_hash_mismatches to be disabled.
+
+Also present: two small lobby SWF edits, a renewed login certificate, and
+server-specific launch configuration. The Linux overlay adds a separate
+15-byte VRAM-check workaround, not a combat or networking change.
+
+WHAT ABOUT OUR v0.10b / '0.100b' WORK?
+
+The build catalog identifies build 802 as v0.10b; existing SRP branch/file
+names often use 0.100b/0100b. Do not confuse this naming with v0.21d.
+
+The existing SRP hit-report patch hooks an otherwise-empty hit callback,
+sends custom client 0x4b, and uses server hit_player 0x89 after server handling.
+That architecture and its IDs must not be copied blindly into v0.21d, which
+already computes combat locally and has a different server message table.
+A second damage-application path could apply damage twice.
+
+We have NOT verified equivalent whole-world rollback for v0.10b. The local
+catalog exposes client_player_history_item/client_player_state files, and
+existing SRP uses player-state updates; history alone does not prove replay
+of all other players' inputs. The examined symbol-map search did not establish
+a v0.21d-equivalent game_world_core path. A proper binary trace remains open.
+Do not turn that incomplete check into either a definitive yes or no.
+
+WHAT THIS MEANS FOR FUTURE WORK
+
+For a compatible v0.21d server, first implement the observed input/time/state
+coordination protocol. Retain snapshot recovery until there is a tested
+replacement. Eliminating requests alone removes a known recovery mechanism;
+there is no evidence yet that doing so improves combat latency.
+
+If server-side statistics need immediate death reports, an optional client
+telemetry hook could report simulation outcomes. It must not apply damage a
+second time. Rollback can invalidate or replay callbacks, so investigate
+stable event IDs, deduplication, corrections, and when an event becomes final.
+The function name commit_game_statistic_event_history_item does not prove
+rollback-safe finality. Even events beyond a local replay window may need a
+policy for later full-state replacement.
+
+The earlier possible client-patch target was v0.26, with discussion first.
+No v0.26 combat patch was applied. Exact sub-build/EXE, function equivalents,
+message IDs, serialization, and relocation constraints need verification.
+Resource-porter work for v0.21d is a separate completed branch, not a server
+implementation or proof that its exported maps have been runtime-tested.
+
+OPEN QUESTIONS AND NEXT EXPERIMENTS
+
+1. Startup: decode static match/map/roster/loadout state completely. Establish
+   where the very first valid world snapshot comes from in an empty match.
+   A joiner's mostly-empty startup upload cannot represent an existing match.
+2. Input distribution: determine self-echo, redundancy/retransmission, join
+   timing, accepted timestamp limits, and exact 0x58 discard policy.
+3. Clock: recover the synchronization reference calculation, offset sign,
+   scheduling, and reset ordering. Measure the real client rollback window.
+4. Transport: verify ordered delivery, acknowledgements, wraparound, bundled
+   messages, fragmentation, loss recovery, and disconnect behavior.
+5. State choice: design an explicit SRP policy for disagreement, missing
+   peers, ties, and recovery; do not present it as the recovered Skhid policy.
+6. Two-client test: capture both sides of one controlled shot/death/respawn,
+   then repeat with controlled latency/loss. Correlate input times, hashes,
+   snapshots, logs, and visible outcomes. Do not infer kills from CRC alone.
+7. Animation-only divergence: the 27,350 ms snapshot pair differs in just
+   21 animation bytes. Establish whether those bytes affect future simulation
+   before considering a different state comparison policy.
+8. Outcomes: decode damage/statistics blocks; trace match completion and
+   result persistence. Decide whether telemetry is needed at all.
+9. Presentation: trace visual smoothing and treatment of replayed sounds,
+   effects, hit indicators, and death notifications.
+10. v0.10b: independently trace history restoration, player-state correction,
+    local prediction, and remote updates before comparing architectures.
+
+EVIDENCE LIMITS
+
+One working match, one client's host-filtered packet capture, client logs,
+retail/patched binaries, and PDB-derived declarations/disassembly. Generated
+PDB .cpp files are stubs, not recovered original source. No deployed server
+source, no all-peer capture, no proven arbitration algorithm, no complete
+semantic snapshot decoder, and no universal determinism claim.
+
+The detailed reports remain the source for measurements and exact locations.
+This file records the discussion so it can be revisited without reconstructing
+the chat. The current follow-up objective is to implement a v0.21d SRP server;
+its plan and implementation should distinguish new policy from recovered facts.
+
+SERVER IMPLEMENTATION FOLLOW-UP
+
+SERVER-PLAN.txt records the staged implementation, missing contracts, and
+real-client acceptance criteria. SERVER-CONTRACTS.txt records the additional
+static-match and transport contracts recovered while planning, plus codec,
+retry and reassembly validation results. In the Git checkout this file is
+named RECOVERED-CONTRACTS.txt. Code and versioned notes live on SRP branch
+feature/server-v021d; the working checkout is /tmp/srp-server-021d.
+
+The transport milestone now has twenty passing tests and byte-identical
+decode/re-encode of all 59,743 captured match datagrams, plus reconstruction
+of all eleven client uploads and six downloaded states. Six uploads have
+matching captured CRC notifications. LOCAL-BOOTSTRAP.txt records the next
+live milestone: our local login/lobby/UDP service loaded a fresh stock-map
+match and spawned one player using that client's own initial state. The run
+also exposed a control-framing bug, now corrected. COORDINATOR.txt records the shared-clock/input-relay implementation and its
+26 passing tests, including two simulated UDP clients. A subsequent real
+solo run verified movement and corrected framing during roughly 167 seconds
+of gameplay. Shooting, two-real-client agreement, late join and recovery
+remain unverified/incomplete. No deployment
+or v0.26 patch occurred. Bots and unrelated-build local-match features are
+outside this work; 0.21d remains the target.
+
+TWO-CLIENTS.txt records the next live milestone: two real clients remained in
+the same match beyond ten minutes, movement/fire inputs were relayed, and all
+447 comparable historical CRCs agreed. Death/respawn, late join/recovery and
+match results are still open. The expired timer disappears without a results
+transition in this implementation; this is an observed lifecycle gap.
+
+TWO-CLIENTS.txt also records the renderer correction: the initial clients used
+llvmpipe CPU rendering without a debugger. A subsequent solo retest selected
+the matching NVIDIA 595 Vulkan driver through XWayland and confirmed RTX 3060
+Ti rendering. The initial run is not a meaningful GPU performance benchmark.
+
+LIFECYCLE.txt records the timed local-slot leave implementation, its recovered
+client finish path, and the first three-GPU-client shooting-test checkpoint.
+Thirty tests pass; all 17 original serialized states now pass a populated-world
+boundary validator. The first three-client CRC comparisons agree, while the
+live end transition and results payload remain separate outstanding checks.
+
+REFERENCE-STATES.txt records the completed timed world-exit/lobby-return test,
+the corrected front-door requeue behavior, and five validated populated donor
+snapshots. Results still wait on a missing payload. Reference acquisition and
+same-time CRC observations are implemented; automatic recovery and late join
+still require complete input/event replay and real-client fault validation.

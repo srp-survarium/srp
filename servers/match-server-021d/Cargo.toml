@@ -1,0 +1,8 @@
+[package]
+name = "match-server-021d"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true

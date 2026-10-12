@@ -1,0 +1,213 @@
+Additional contracts recovered while planning the v0.21d server
+2026-10-11; build 2010; preferred image base 0x10000
+
+This supplements the HDD network investigation. These are client/capture
+facts, not an implementation of the deployed community server's policies.
+
+TRANSPORT HEADER AND MESSAGE DELIVERY
+
+fill_packet_header VA 0x28b887 shifts the receive ack history left by one,
+then adds the bundle bit in bit zero. process_incoming_packet VA 0x28797d
+reverses that operation and restores an implicit one at bit 63.
+
+Wire header: u16 sequence, u16 ack_sequence, u64 ack_and_bundle.
+Decoded ack_mask = (ack_and_bundle >> 1) | (1 << 63).
+Bit 63 acknowledges ack_sequence, bit 62 acknowledges ack_sequence-1, and
+bit 0 acknowledges ack_sequence-63. Sequence arithmetic is modulo 65536.
+The latest acknowledgment is implicit; there is no absent-ack flag. The
+initial sequence sentinel and stale ack handling need care in the endpoint.
+
+Message metadata is obtained from the client's two switch tables:
+  sending: VA 0x1a144c, jump table 0x1a1494 (client 0x40..0x47)
+  received: VA 0x1a14b4, jump table 0x1a14f8 (server 0x50..0x59)
+The metadata struct is u16 resend_time_in_ms, u8 resend_deviation_in_ms,
+then a byte with channel in bits 0..5, reliable bit 6, ordered bit 7.
+
+Direction   Opcodes                 Flags Channel Reliable Ordered Resend Deviation
+client      40 41 42 43 47          0x7f  63      yes      no      500    200
+client      44 46                   0x3f  63      no       no      65535  255
+client      45                      0x7f  63      yes      no      200    0
+server      50                      0x7f  63      yes      no      500    200
+server      51 52 53 55 59          0xc0  0       yes      yes     500    200
+server      54 56 57 58             0x7f  63      yes      no      200    0
+
+Timing values above are metadata, not measured fixed resend intervals. The
+new endpoint uses the nominal interval without jitter as SRP policy. Exact
+stock retry jitter and timestamped-input supersession are not claimed known.
+
+channel constructor VA 0x28b268 initializes expected ordered ID to zero and
+last-received datagram sequence to 0xffff. The PDB udp_match_packet keeps a
+circular buffer of eight datagram IDs: a retry uses a fresh datagram sequence
+while retaining message order and fragment identity. Any retained attempt's
+acknowledgment retires that pending message. Unordered reliable messages have
+no independent wire message ID, so their application handlers must tolerate
+retries using timestamps and state; payload equality is not a universal ID.
+
+process_multipacket_message VA 0x288717 and
+call_predicate_and_destroy_packet VA 0x289bd8 establish per-order fragment
+collection and concatenation by fragment index. Part zero supplies total
+part count; it need not be the first fragment to arrive. Ordered messages
+after an incomplete message remain queued behind it.
+
+Ordered messages have u16 order IDs immediately after the opcode. Unordered
+messages do not, even when reliable. The ordered server messages share channel
+zero, so independently resetting their order counters would be incorrect.
+
+call_predicate VA 0x288154 recognizes the 0xff transport-fragment prefix
+inside a message. It is not restricted to the top-level single-message case.
+The existing Python capture analyzer only needed unbundled fragments for the
+observed trace; the new wire codec also handles fragments in bundles.
+
+Correction from the first live server test: "one-frame bundle" is not a
+general application encoding. At VA 0x287c7e..0x287ca4 exactly one framed
+message selects process_low_level_message. Controls 00/01/02 must therefore
+be isolated in single-message bundles. Application singles must be unframed;
+application bundles must contain at least two messages. Mixing controls into
+application bundles is invalid. Bare 02 heartbeats from the first prototype
+caused "unknown message type : 0" warnings. Codec and sender now enforce the
+actual dispatch rule; all original captured datagrams still pass unchanged.
+
+The PDB udp_match_packet raw-buffer member holds 520 bytes. The largest
+captured datagram was 508 bytes. The new codec uses 520 as an allocation bound;
+this does not establish the original sender's exact datagram-size threshold.
+The new sender conservatively caps datagrams at 508 bytes and splits large
+ordered bodies into 480-byte fragments; these are implementation choices.
+
+STATIC MATCH PAYLOAD (SERVER 0x51)
+
+Transport message order ID/fragment metadata are excluded below. All scalars
+are little-endian, strings use a u8 byte length without a wire NUL terminator.
+
+match_options::deserialize VA 0x1f59a4:
+  u8 map_id
+  string map_name                 (destination char[32]; choose <=31 bytes)
+  u8 mode                         (0..3 defined; ff invalid)
+  u8 players_count                (player_profiles capacity 20)
+  u8 victory_items_count
+  u8 respawn_time
+  u16 match_time
+  u32 match_id
+  f32 wait_player_percent
+  u8 wait1_time
+  u8 wait2_time
+  u8 countdown_time
+  u16 match_lvl
+  f32 events_scores[24]
+  u8 squads[players_count]
+
+Then process_static_match_info VA 0x1a2ddc reads players_count profiles using
+player_profile::deserialize_static VA 0x1f5c52:
+  u8 team                         (0 team1, 1 team2, 2 neutral, 3 undefined)
+  u8 is_local                     (bool; subsequently overwritten)
+  string profile_name             (destination char[64]; choose <=63 bytes)
+  u32 played_matches_count
+  u32 slot_mask                   (23 supported slots, ascending set bits)
+  for each set slot: inventory_item_descr (see below)
+  u32 modifier_mask               (20 supported modifier floats)
+  f32 modifier_value for each set bit, ascending
+
+After all profiles, one final u8 selects the local player slot. The code sets
+each profile's is_local flag by comparing its array index with this final
+byte. Consequently the payload is per-client even when the roster is shared.
+No account_id/profile_id fields are read by this static profile function.
+
+player_profile::deserialize_slots VA 0x1f5d08 reads slot modes from the table
+at VA 0x877168. Slots 0..7 and 10 have mode 0; 8,9,11..22 have mode 2.
+inventory_item_descr::deserialize VA 0x1f5b53 reads:
+  u16 dict_id
+  u32 item_instance_id
+  u16 condition_or_stack          (modes 0 and 2)
+  u32 amount_in_inventory         (modes 1 and 2; none of these slots is 1)
+  u8 modifications_count          (fixed-vector capacity 8)
+  u32 modifications[modifications_count]
+These compact wire fields are not the padded 60-byte C++ inventory structure.
+Validate masks, counts, values, and resource dictionary compatibility before
+serializing server-created profiles. Wire validity alone does not make a
+loadout usable by the engine.
+
+Capture verification: reassembled server 0x51 body is 1,065 bytes; the layout
+above consumes it exactly, including all eight profiles and the final slot.
+Map id 21, map name level_02/rain, mode 2, eight players, five victory items,
+respawn 10, match duration 600, wait percentage 0, wait1 5, wait2 0, countdown
+10, level 0. Profiles start at offset 138; their lengths are
+40,109,130,75,116,155,154,147. Final local player slot is zero.
+Profile names, item instance IDs, and full captured payload are kept outside
+Git with the local evidence, not embedded as a replacement startup template.
+
+STARTUP SEQUENCE: OBSERVED EXISTING-MATCH JOIN
+
+17:01:18.496 client 40 connection request (session + debug-hash flag)
+17:01:18.508 server 50 connection information (two ports)
+17:01:18.528 client 41 startup/punch request (session)
+17:01:18.548 server 51 static options/profiles/local slot, three fragments
+              client loads resources, transport heartbeats continue
+17:01:29.723 client 47 initial historical snapshot, game time 50, mask zero
+              normal client 42 resources-loaded follows the match-ready hook
+17:01:29.730 server 53 initial replacement, game time 9550, mask 0x7e
+              set-time exchange accompanies initial synchronization
+17:01:29.752 server 56 local player slot zero enters at game time 10700
+
+This demonstrates joining an already populated world. It does NOT establish
+the correct empty-match bootstrap sequence. The mask-zero upload is a useful
+candidate baseline to investigate, not proven to be sufficient by itself.
+Trace local world creation, initialization rules, time handling, and enter
+events, then validate a new single-client match before adding a second client.
+
+Set-time request VA 0x1a2cf0 reads two u32 values. The second sets the game
+timer; the first is echoed in client 43 alongside the current game time.
+The handler flushes the response, clears the match world, and resets hash/
+clock-send timers. It is not a harmless frequent clock-nudge operation.
+The original server's choice of reference value/latency correction is unknown.
+
+INPUT ECHO REMAINS AN OPEN CONTRACT
+
+The capture contains incoming player-input messages for the local slot zero,
+but far fewer than outgoing local inputs. Do not assume either unconditional
+sender echo or that the server never returns local inputs. Correlate their
+timestamps with recovery and discarded/revised inputs before choosing policy.
+
+IMPLEMENTATION STATUS / REPRODUCIBLE CHECKS
+
+New package servers/match-server-021d implements wire framing, per-peer
+ack/retry queues, receive-window deduplication, ordered delivery and fragment
+reassembly. Retries retain eight attempt IDs; absolute local send ordinals
+prevent accidental aliasing of local history at u16 sequence wrap.
+
+SRP transport policy: nominal retry interval without jitter, 508-byte sender
+datagrams, 480-byte ordered fragments, 32 KiB message limit, 256 KiB queued
+body bytes, 2,048 pending frames, 64-order receive lookahead, 10-second fatal
+queue/gap timeout, 100 ms idle heartbeat and 10 ms delayed ack. An endpoint
+error is terminal; do not silently discard already-acked ordered fragments.
+A loopback socket adapter and 15-second peer inactivity timeout now exist in
+the bootstrap executable. The shared match coordinator remains to do.
+
+Community 0x47 uploads use a separate per-peer/per-generation assembler:
+u32 time, u16 offset, u16 total, then 1..480 bytes. It bounds total size to
+32 KiB, accepts out-of-order/identical overlaps, rejects conflicting overlap
+or size, and emits complete snapshots once during retention. Four retained
+transfers and explicit 10-second expiry are SRP policy. Completed transfers
+remain immutable for that interval; the coordinator must reject stale times
+and choose state eligibility. CRC completion alone is not state validation.
+
+Twenty tests pass covering framing and transport failure/retry behavior,
+snapshot overlap/conflict/expiry and a standard CRC-32 check vector. The
+read-only inspect_capture example additionally decoded and re-encoded all
+59,743 match UDP datagrams byte-for-byte, delivered one reassembled 0x51 and
+six 0x53 states, and reconstructed all eleven client uploads (74,468 bytes).
+All six uploads with a corresponding captured 0x46 notification have matching
+computed CRCs. This validates transport and reconstruction, not gameplay.
+
+The first real-client spawn additionally validates the fixed stock-map static
+builder and initial empty-state exchange. See LOCAL-BOOTSTRAP.txt for the
+live framing correction, login/lobby contracts and exact unverified boundary.
+
+Commands from the branch worktree (ordinary Rust environment):
+  cargo test --offline -p match-server-021d
+  cargo run --offline -p match-server-021d --example inspect_capture -- \
+    '/mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11/logs/skhid-game.pcap'
+
+This machine needed an explicit x86_64 Nix linker and escalation to let the
+linker run (sandbox SIGSYS); the working linker was:
+  /nix/store/788mx070y81zjlg5ipcl0cra3afviw9k-gcc-wrapper-15.2.0/bin/cc
+Set CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER to that path here. It is not
+hardcoded in the project. No new third-party dependencies were added.

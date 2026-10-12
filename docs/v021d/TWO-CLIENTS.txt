@@ -1,0 +1,205 @@
+v0.21d first real two-client match
+2026-10-11; branch feature/server-v021d
+
+RESULT
+
+Two real community-patched v0.21d build 2010 clients entered our local server,
+received the same fresh engine-created baseline, and were activated together.
+Both remained connected throughout the configured ten-minute match and beyond.
+Movement and firing were exercised. The two clients reported equal historical
+world CRCs at all 447 comparable timestamps, spanning game time 2750..742900 ms.
+No compared timestamp disagreed. All distinct inputs submitted while both
+players remained members have a captured relay to the other client.
+
+This is evidence of shared simulation under the exercised inputs, not an
+independent server physics check or a complete multiplayer acceptance result.
+The players were not brought together for a visually observed gunfight; death,
+respawn, late join and deliberate-divergence recovery remain unverified.
+
+A later time-limit observation also exposed the next lifecycle gap: the timer
+disappeared at the configured end, but clients remained in the world with no
+results screen or return to lobby. The current server has no result/finalize
+path. Do not describe this as a completed end-to-end match lifecycle.
+
+ISOLATION AND REPRODUCTION
+
+Working directory: /tmp/srp-021d-two-client
+Client files: /tmp/srp-021d-playtest/Survarium-0.21d-srp
+Both used the same prepared executable, SHA-256:
+  e123781fb51cc8e2ab13330e3f24041719730c45e8645b044b24520d4dcd8442
+
+Client A used /tmp/srp-021d-playtest/prefix and documents/survarium.
+Client B used /tmp/srp-021d-playtest/prefix-peer2 and documents-peer2/survarium.
+The second prefix was copied from our own prepared prefix with Documents
+retargeted to its separate directory. These are not another worker's prefixes.
+Each had a different local test account name and received a distinct session.
+No captured community player profiles, session tokens or populated states were
+used to create this match. The loopback front door used fresh random sessions.
+
+Match command:
+  target/debug/match-server-021d /tmp/srp-021d-two-client/sessions 12023 2
+
+The front-door launch is the same as LOCAL-BOOTSTRAP.txt with that session
+path and default two-player roster. Both launch scripts used
+SERVER=127.0.0.1:12021, their respective SURVARIUM_WINEPREFIX, English language,
+and -minimum_resources_memory_size=768.
+
+Input automation: full keyboard capability range 1..247, targeted compositor
+window focus, key down/hold/up. Making the two windows floating and placing
+them side by side resolved the remaining login interaction in this run.
+Fire was temporarily bound to kF9 in each test copy's user.cfg. F9 succeeded
+where previous synthetic mouse clicks did not. An open chat field on A initially
+consumed input; closing it with Escape allowed gameplay input. Do not mistake
+an input-focus/automation failure for a network message failure.
+
+A connected second, so A owned slot 1 / UDP 60889. B connected first and owned
+slot 0 / UDP 52154. Niri window IDs were A=5976 and B=5977 for this run only.
+They must be re-queried before future input, not reused as permanent IDs.
+
+TIMELINE AND OBSERVATIONS
+
+Both initial uploads: time 50, 672 bytes, active mask zero, CRC 6fa8cb1c.
+One shared clock reset: reference 1, target 250. Both state downloads restored
+time 50 with identical body CRC 6fa8cb1c. Both received enter events for slots
+0 and 1 at time 600.
+
+Client B first synchronization: 19:15:28.023 local.
+Client A first synchronization: 19:15:28.027 local.
+Both logged match start at game time 10600; wall times 19:15:38.698 and .727.
+Only one initial synchronization/reset occurred per client in the capture.
+
+Movement produced timestamped input changes. Firing produced action 0x20;
+A's ammunition fell from 35 to 14, and B's from 35 to 13. A screenshot shows
+A's muzzle flash. Shot inputs were relayed unchanged with the source slot,
+and common historical CRCs still matched after shooting. Other captured
+inputs include forward/backward and jump combinations; the packet record is
+the source of truth, not an assumption that every action came from automation.
+
+The existing K suicide action produced 0x02000000 inputs and matching relays.
+A death/respawn was not observed, including after another held-key attempt.
+Binary inspection confirms process_quick_slots VA 0x1d46bc tests this bit and
+calls the existing hit path with the 'brain' body part. hit_impl VA 0x1d524b
+can reject damage for inactive/dead players or invulnerability >= 1, and
+get_invulnerability VA 0x1d861c derives protection from simulation timestamps.
+These identify places to inspect; they do NOT establish the runtime cause.
+No damage or death patch was introduced. The next test needs a populated-state
+snapshot or targeted runtime observation to distinguish game rules/protection
+from a setup or simulation issue, followed by an actual player-to-player hit.
+
+Near 19:25:38, the ten-minute timer disappeared. Both clients stayed in the
+world afterwards; CRC agreement extended past the time limit. No result UI or
+lobby transition was observed. This is the reason the remaining test instance
+has no timer: it has passed its configured match duration.
+
+At 19:27:51, A's window was deliberately closed; Wine exited 0. The server
+removed slot 1 after its 15-second inactivity interval and sent slot 1's
+leave event to B at game time 758700. B continued running and submitting
+inputs. This verifies the timeout/broadcast path without proving every aspect
+of reconnect, server restart, or final results. A's log has the familiar stack
+dump at intentional window closure; it is not evidence of a mid-match crash.
+
+Neither client log contained an input-rejection loop, CRC-mismatch warning or
+unknown-message warning during the captured two-client run. Existing stock
+material/texture/surface warnings remain. Absence of mismatch warnings alone
+is weak evidence because the debug mismatch hook is disabled; the independent
+same-timestamp CRC comparison is the relevant check.
+
+CAPTURE VERIFICATION
+
+tcpdump stopped at approximately 19:30:30: 42,729 packets captured, zero kernel
+drops; filter limited to loopback test ports 12021..12024 and 18021. No unrelated
+network interfaces were captured. The Rust inspector verified all 42,428 match
+UDP datagrams (624,474 payload bytes), including exact decode/re-encode, using
+independent transport receivers for the two flows.
+
+At capture stop, slot 0 had 1,781 historical CRC samples; slot 1 had 1,281.
+No same-time CRC revisions were reported. There were 447 common eligible
+samples, 447 matches, zero mismatches. Different sample timestamps are not
+counted as disagreements. Comparison requires the same single reset/baseline
+history and matching nonempty membership at the historical time.
+
+Slot 0 had 19 distinct input payloads, slot 1 had 7. Seventeen slot-0 payloads
+were relayed to slot 1; the other two occurred after slot 1's departure and
+were correctly excluded. All seven slot-1 payloads were relayed to slot 0.
+This counts payload identity, including revisions, not just timestamps.
+
+Reproduce the read-only inspection:
+  cargo run --offline -p match-server-021d --example inspect_match -- \
+    /path/to/match.pcap 12023
+
+The inspector supports classic LE microsecond Ethernet/SLL2 IPv4 UDP captures
+from connection start; it rejects unsupported/truncated formats and prints no
+session/profile contents. It also successfully reverified all 59,743 original
+community-capture match datagrams on port 1236. Multiple recovery generations
+are explicitly excluded from its cross-client comparison. The earlier Python
+exploratory comparison is not the final authoritative report: it lacked the
+later membership-aware relay exclusion.
+
+The package's 26 unit/integration tests still pass. New code in this milestone
+is the read-only capture inspector; the live server was the coordinator from
+commit 0b1dad6c6.
+
+WHAT REMAINS
+
+M3 startup/movement/fire and sustained basic traffic now have real evidence.
+M4 has real two-client input relay and historical state agreement, but still
+needs observed remote-player movement/combat, kill/death and respawn. M5/M6
+need populated-state validation, snapshot/backlog replay, late join, clock
+correction and controlled recovery. M7 needs actual time-limit finalization,
+results/lobby behavior and robust reconnect/restart. The overall server goal
+is not complete.
+
+Both original clients and the two-player match server were subsequently
+stopped. Both original input configurations were restored, including mouse1
+fire for B. The front door remains running; B and a fresh solo match server
+were restarted for the GPU retest below. Revalidate live processes before
+stopping/restarting or using IDs. Working server/front-door logs can continue
+growing; their HDD copies are immutable checkpoints.
+
+RENDERER FINDING AND GPU RETEST
+
+The user reported severe slowness relative to v0.26. The original two-client
+run used llvmpipe CPU rendering (LLVM 21.1.8), not the NVIDIA GPU. TracerPid
+was zero: no debugger was attached. This limits performance/timing conclusions
+from that run, but does not change the observed packet contents or CRC matches.
+
+The default /run/opengl-driver user-space NVIDIA version was 615.71.09,
+whereas the loaded kernel module was 595.71.05. Selecting the matching 595
+Vulkan ICD alone failed under native Wayland (DxvkInstance::createInstance).
+Selecting that ICD and XWayland DISPLAY=:0 successfully created an NVIDIA
+GeForce RTX 3060 Ti device with NVIDIA 595.71.5. The log's emulated D3D adapter
+description is not evidence of the actual Vulkan renderer.
+
+Successful local launch environment, followed by the existing play.sh command:
+  DISPLAY=:0
+  VK_DRIVER_FILES=/nix/store/jvw27qs9lrnmm2yxnvld8kdfg031jfx5-nvidia-x11-595.71.05/share/vulkan/icd.d/nvidia_icd.json
+  SERVER=127.0.0.1:12021
+  SURVARIUM_WINEPREFIX=/tmp/srp-021d-playtest/prefix-peer2
+  LANGUAGE=english LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+  PATH=/nix/store/kd22mbkmwsnvfyn1w14r6xcwpw9fnwzv-wine-wow64-staging-11.8/bin:$PATH
+  bash /tmp/srp-021d-playtest/Survarium-0.21d-srp/play.sh \
+    -minimum_resources_memory_size=768
+These exact store paths describe this machine's test, not a portable driver
+installation procedure. When switching display backends, stop only this
+private prefix's wineserver first. Do not change another worker's prefix.
+
+The fresh solo match started at approximately 19:44:32. The screenshot
+spawn.png shows timer 09:04 and ammunition 28/165, and server traffic records
+movement/fire. At the later process check PID 3185983 still had TracerPid 0.
+No controlled FPS comparison was performed. This does not yet establish
+whether v0.21d and v0.26 have equivalent performance on the same renderer.
+
+GPU retest capture stopped with 9,089 packets captured and zero kernel drops.
+The GPU client, solo server and front door were left running for the user.
+
+HDD EVIDENCE
+
+0.21d-network-investigation-2026-10-11/evidence/two-clients/
+  match.pcap, transport-comparison.txt, original-capture-verification.txt
+  client-a.log, client-b-checkpoint.log, client-b-final.log,
+  server.log, front-door.log, game-*.log
+  fire-a.png, fire-b.png, after-suicide-*.png, post-limit-*.png,
+  after-departure-b.png, key.py and relevant annotated disassembly
+The generated sessions and full local account configuration are not archived
+or committed. Versioned notes and the diagnostic tool belong in Git.
+The subsequent renderer test is checkpointed under evidence/gpu-retest/.

@@ -1,0 +1,157 @@
+v0.21d native-menu snapshot protocol integration
+2026-10-11; feature/server-v021d
+
+Current service entry point: MENU-SERVICE.txt integrates the menu's Python
+service into the server package, fixes its separate ping path and adds durable
+account identities/native order IDs. Use the package README.txt commands and
+pass the compiled binary directly. The older wrapper/external-source commands
+below describe the initial integration and its recorded native-client run.
+
+IMPLEMENTED SERVER INTERFACE
+
+The match executable now supports --protocol community|srp1. Community remains
+the default, retaining the already playtested patched-client path. Selection
+is explicit per process and remains fixed across match-generation resets.
+No incoming fragment or client-controlled capability selects the dialect.
+
+  community: client 0x47 uploads existing unprefixed snapshot fragments;
+             server 0x59 requests a snapshot with an empty body.
+  srp1:      client 0x48 uploads 'SRP1' + the same fragment body;
+             client 0x47 + four-byte game time requests explicit Leave;
+             server 0x59 requests a snapshot with body 'SRP1' + byte 01.
+
+SRP1 upload transport is reliable/unordered, channel 63, retry 500 ms with
+200 ms deviation. Its four-byte prefix is stripped before the existing bounded
+assembler; normal snapshot/time/membership/CRC validation remains applicable.
+Malformed or wrong-dialect uploads remove the offending peer, not the server.
+The wire codec recognizes 0x48 for framing, but community-mode application
+dispatch rejects it. A community upload is not accepted as SRP1 stock Leave.
+
+The common delivery boundary formats every 0x59 request, including recovery
+and final-statistics acquisition. The coordinator, snapshots, replay ordering,
+results decoder and static setup are shared; there is no copied coordinator
+or source-rewriting step. This replaces the need for a temporary server source
+adapter for the selected dialect, not the DLL's own native hooks.
+
+NATIVE MENU LAUNCH
+
+Build from this checkout:
+  cargo build -p match-server-021d
+
+The existing native menu's MatchProcess uses a positional executable API. Pass
+servers/match-server-021d/tools/srp1_server.sh as its --match-server executable.
+The launcher execs this checkout's target/debug/match-server-021d with
+--protocol srp1 and forwards all positional arguments. SRP021D_SERVER_BINARY
+can select an explicit alternative compiled server path. It does not modify
+or compile code at startup. The existing readiness-line prefix is preserved;
+protocol=srp1 is appended for diagnostics.
+
+Example using the separate client work currently in the original checkout:
+  python3 /home/sheep/Projects/survarium/srp/client/021d/tools/lobby_fixture.py \
+    --front-door /tmp/srp-server-021d/servers/match-server-021d/tools/front_door.py \
+    --cert /path/to/local-test-login.crt --key /path/to/local-test-login.key \
+    --match-server /tmp/srp-server-021d/servers/match-server-021d/tools/srp1_server.sh \
+    --match-work /path/to/private/matches --require-recovery --match-results
+
+The client needs the separate native DLL's SRP1-48-R1 implementation enabled
+with SRP_MATCH_PROTOCOL=1, plus its Matches UI and matching local certificate.
+An older SRP1-48-only DLL lacks the requested recovery command; use the
+--require-recovery guard. Do not connect the community-patched upload-on-0x47
+client to an SRP1 server, or a stock retail client without the DLL extension.
+
+The menu source is still separate untracked work in the original checkout;
+this branch does not silently import it. Its lobby overrides our Lobby and
+still carries the old 0x27-as-ping mistake described in LOBBY-CONTRACT.txt.
+Its own account registry currently constructs an in-memory LocalState, so
+front-door --state persistence is not automatically enabled by this example.
+These remain menu integration follow-ups. Its eight-process limit is menu
+policy, not a measured resource or scaling limit of the UDP server.
+
+VALIDATION AND LIMITS
+
+All 56 Rust tests pass: 48 unit tests, seven executable UDP cohort tests and
+one lifecycle test. Added coverage includes explicit/default/invalid CLI
+selection, upload/Leave separation, wrong-protocol rejection, SRP1 populated
+late join with a dropped state fragment, input relay, stock Leave, and final
+snapshot requests/timed finish with a dropped departure packet. Request bodies
+are checked against literal SRP1 command bytes on the receiving endpoint.
+Existing community cases pass alongside them. Synthetic clients validate
+transport/coordinator behavior; they are not an engine gameplay test.
+
+A smoke test imported the existing native-menu MatchProcess read-only and
+started two independent server children via the committed launcher. Both
+reported protocol=srp1, distinct ports/instance IDs, fresh waiting status and
+missing results. Session grants were mode 0600. Stop terminated both children
+and removed their grant/control files. No GUI or combat test was repeated.
+
+The separate client worker's earlier real-menu/adapter run was supporting
+compatibility evidence. The integrated binary now also has the single-client
+native admission/results evidence below. The menu's own ping fix and
+restart/account integration remain outstanding. There is no mixed-dialect
+cohort or automatic negotiation. Match-server world/results remain in memory.
+
+Reference implementation inspected read-only:
+  client/021d/tools/prepare_server_probe.py
+  client/021d/tools/match_registry.py
+  client/021d/dll/native_recovery.c
+  client/021d/docs/running-match-research.md
+Evidence archive: evidence/srp1-integration, containing Rust test output and
+the menu allocator smoke script/output. Private grants and databases omitted.
+
+REAL NATIVE-MENU VALIDATION
+
+The integrated binary at commit 4c1b972a7 completed one full native-menu cycle
+using a private copied client, Wine prefix, documents directory and X display.
+Login/menu ports were 19121/19125. The visible demo and other workers' client
+files/processes were left alone. The menu fixture source was imported read-only.
+
+The UI issued capabilities/list, Create, Ready and Start. The fixture allocated
+one integrated server on UDP port 43952, roster=1, starting=1, duration=20,
+protocol=srp1. The client loaded School. Its initial 50 ms upload contained
+592 bytes, empty membership and CRC 1487c0c8; the coordinator sent clock,
+baseline and activation. Subsequent versioned requests were five bytes and
+the DLL supplied populated snapshots on 0x48. Final results used the validated
+35,050 ms snapshot, mask 1, CRC a6315326 and team points [0,0]. The extra time
+includes the ten-second countdown and waiting for the next donor snapshot.
+
+On lobby return, the fixture delivered the native 97-byte results packet.
+The actual screen displayed Local 1 and its zero statistics (results.png),
+rather than staying at Receiving match stats. Closing it and opening Matches
+showed zero available rooms and a usable Create button (returned-browser.png).
+The allocator removed the session grant and control socket, retaining only
+the server log. Normal Quit returned the client launch handle with status 0.
+The private fixture and display were stopped; no test game, fixture or match
+process remained. This was an idle single-client lifecycle check, not a new
+combat, multi-client, recovery or objective-win test. No packet capture was
+made for this run; the evidence is UI screenshots plus client/DLL/server logs.
+
+The initial attempt exposed test-environment problems before game admission:
+the repository certificate expired in 2014, and the copied client rejected it;
+the Wine renderer was slow and input delivery unreliable on the private display.
+A fresh local certificate restored verified TLS login. Explicit DXVK 2.7.1
+and the NVIDIA Vulkan ICD selected the RTX 3060 Ti and made the final menu run
+usable. The earlier client and fixture both exited before Ready/Start; their
+exit cause was not established. They were confirmed stopped before restarting.
+Do not present those failed attempts as successful integrated match evidence.
+
+Fresh local certificate setup, before starting either fixture or private client:
+  umask 077
+  openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+    -subj '/CN=SRP isolated integrated test' \
+    -keyout /path/to/private/run/login.key -out /path/to/private/run/login.crt
+Pass those paths to --key/--cert. Install the matching public certificate into
+the private test client's resources/ssl/survarium_login_server.crt. Restart
+the client after changing it: it can retain the earlier trust material.
+Do not use the expired repository fixture certificate with a verifying retail
+client, disable verification, or archive the private key.
+
+Runtime inputs:
+  loader EXE SHA256 30c43d5878c6e89a061891ab069f771dffe33c2c0e7d6e868a25296de1690f01
+  DLL SHA256 3a13fc6479d0aaa85feec87bc35dda6fde393d4257256e8446ecd65b539c1d16
+  resources.db SHA256 a99986107eb345be3cee32a35ea9ddc0f8200adb4c66de8e3e00f839936b8de5
+The client enabled SRP_MATCH_PROTOCOL=1, used no hash-step diagnostic or
+debugger, and launched with -minimum_resources_memory_size=768 -mt_allocator=512.
+Runtime paths and the public certificate fingerprint are recorded separately
+in evidence/srp1-native-menu/verification.json. Source/binary fingerprints
+identify the tested inputs; no EXE, resource archive, session grant, private key,
+password input script or login screenshot is included in the evidence archive.

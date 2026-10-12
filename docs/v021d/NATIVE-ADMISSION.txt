@@ -1,0 +1,88 @@
+Native SRP1 admission, reconnect and loss acceptance
+2026-10-12
+
+IMPLEMENTATION
+
+The local native service has sixteen persistent fixture accounts and fixed
+loadouts. Each match loads descriptors for its initial members first, then
+reserves the other exact identities with zero session grants. This solves the
+static-descriptor requirement without pretending that arbitrary new equipment
+can be loaded by a membership event. Room capacity limits concurrent admissions,
+including loading and unconfirmed ones, rather than descriptor count.
+
+Authenticated running-room Join sends a private Unix-datagram admission bound
+to process instance, generation, immutable slot/account, session and revision.
+The server confirms the grant before the menu sends its native redirect. Retries
+reuse the same revision; an uncertain response retains capacity. Revocation
+removes the old transport before re-entry. Old revisions cannot evict a newer
+grant. Initial and late admissions have bounded loading leases, and observed
+UDP departures release their reservations. A supervised finished generation
+cannot silently bootstrap a new world using its old grants.
+
+Participation is accumulated across the generation, independently of statistics
+or current occupancy. Final results include departed actual participants and
+exclude unused reserved descriptors. The stock in-game scoreboard still shows
+reserved identities as grey inactive rows. Those rows are a UI limitation,
+not additional connected players or final-result participants.
+
+PROTOCOL AND SERVICE CHECKS
+
+The admission implementation passed 74 Rust tests (65 unit, eight UDP, one
+process lifecycle) and 60 Python tests. Its executable UDP test loses an
+admission confirmation and a populated-state fragment, then revokes/regrants a
+new token, restores a fresh socket, resumes input relay and rejects a delayed
+old revocation. These snapshots are synthetic. Same-token regrant has unit
+coverage and was subsequently exercised by the real native test below.
+
+The real menu-service lifecycle also verifies allocation/handoff, persistent
+account identities, room/team chat, graceful cleanup, supervisor SIGKILL and
+restart cleanup of marked stale grants. Independent review found initial-member
+capacity leakage and unused result participants; both were fixed and covered.
+The final admission/results review found no remaining substantive blocker.
+
+REAL NATIVE CLIENT ACCEPTANCE
+
+Two isolated Wine prefixes ran clean-retail build 2010 plus verified SRP
+package-v5, with NVIDIA RTX 3060 Ti rendering and no attached debugger. The
+package was rebuilt from the PR source and both installed copies remained
+byte-identical after testing. No stock combat/chat/deposit test was repeated.
+
+1. A started through the native Matches UI. B later used the running-room Join
+   button and restored A's populated state at simulation time 165150 ms. Both
+   received B's activation and continued the same match.
+2. A private state-transfer blackout dropped 33 packets over 1500 ms during
+   B's active recovery. Replay was acknowledged and subsequent state agreement
+   was verified at 223389 ms. A supplied movement input during this interval.
+3. B's actual game process was killed with SIGKILL. After timeout removed its
+   old transport, B was relaunched, authenticated to the same account/token,
+   and used Matches Join again. It restored baseline 450300 ms and resumed
+   movement; A's process and world were never restarted. One historical CRC
+   disagreement appeared at 451100 ms near re-entry, with no sustained mismatch
+   observed afterward. This does not claim every network failure is recoverable.
+4. At normal timed finish, both clients received 118-byte native result packets.
+   B's result screen displayed only Local 2 and Local 1 in their correct teams.
+   A subsequent two-client clock test reversed the account order (2,1); the
+   scoreboard still identified account 1 as Local 1 in simulation slot 1.
+
+Clock drift acceptance is recorded separately in CLOCK-CORRECTION.txt. The
+user explicitly instructed the agent not to attempt a full five-battery
+playtest. That objective remains unverified; a timed finish is not a substitute.
+
+EVIDENCE AND CLEANUP
+
+Local evidence: /tmp/srp-v021d-native-acceptance. The first match log is under
+matches/c108ab092e2622f9-c025804e-1/server.log. The clock match is under
+matches/c108ab092e2622f9-49a116a0-2/server.log. Screenshots include late-join-b,
+rejoin-after-kill-b, reconnected-scoreboard-b, clear-scoreboard-b (results), and
+reordered-names-a. Logs and control counters establish packet loss; no new
+packet capture was collected for this acceptance run.
+
+Both private game clients, Wine servers, menu service and X display were
+stopped. Session grants/control sockets disappeared, TCP 19221..19225 closed,
+and UDP 57538/59350 were released. Other workers' services were left untouched.
+The evidence archive excludes prefixes, retail payloads, account stores,
+session grants and private keys. Local paths are evidence locations, not
+portable source dependencies.
+
+Durable evidence copy (with its own SHA256SUMS):
+/mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11/evidence/native-admission-and-clock-2026-10-12

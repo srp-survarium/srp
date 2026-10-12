@@ -1,0 +1,133 @@
+v0.21d reference-state acquisition and completed finish test
+2026-10-11; feature/server-v021d
+
+RESULT AND LIMIT
+
+The server now collects periodic populated snapshots from an explicit reference
+client and records historical CRC reports. The actual three-client short test
+returned five populated snapshots, all with matching same-time client CRCs.
+The timed finish also returned every client to the lobby. Their UI waits at
+"Receiving match stats..." because results delivery is still unimplemented.
+
+No automatic recovery/reset is issued yet. A corroborated snapshot is not by
+itself a complete recovery transaction: the server must retain and deliver its
+subsequent input/membership backlog, handle transfer barriers and fresh inputs,
+and validate the resumed simulation. Late join is still gated.
+
+NEW SRP ACQUISITION POLICY
+
+recovery.rs is recreated with each coordinator/match generation. It retains a
+10-second history, folded membership mask plus at most 1,024 pending membership
+events, timestamped CRCs, one outstanding request and at most one full candidate.
+With 20 slots and 50 ms sample grid, CRC retention is at most 4,020 slot/time
+entries. These limits and donor policy are implementation choices, not recovered
+community-server arbitration.
+
+Choose the lowest connected playing slot as reference. After activation, send
+bodyless ordered/reliable 0x59 at most once per five seconds. An unanswered
+request expires after five seconds; donor departure selects the next playing
+slot and discards the old candidate/request. A live but nonresponsive reference
+is retried, not silently replaced. Match finish stops acquisition.
+
+0x59 has no request token or requested timestamp. Therefore uploaded state must
+be checked on its own merits. Accept only from the requested donor, with a
+nonzero 50 ms-aligned time inside retained history and no later than server
+time; require parsed mask equal to historical membership, including the donor.
+Check populated state boundaries against the static roster. Keep its body
+immutable and reject changed bodies for an already cached timestamp. Ignore
+unsolicited, stale, future or membership-incompatible replies. Malformed bodies
+fail that peer, using the existing server error-isolation path.
+
+A cached candidate is corroborated only if the donor's same-time 0x46 exists,
+matches its computed CRC, and has not been revised during retention. Missing
+samples are not mismatches. Different reports for one slot/time make that sample
+ambiguous, even if the old CRC later reappears. Exact duplicate reports do not
+inflate comparison counts. Input accepted at or before a candidate time discards
+that candidate and invalidates affected hash evidence, requiring fresh reports.
+
+Same-time CRC reports from slots present in the historical mask are compared;
+disagreements are logged. This does not establish an honest majority, prove
+physics, or trigger immediate resync. Sustained-disagreement policy, recovery
+rate limits and complete replay remain future work.
+
+CLIENT RESTORE CONTRACT NEEDED FOR NEXT STEP
+
+Existing patched disassembly game_world_core::deserialize(buffer_reader&),
+VA 0x1cab3b, restores player state then, on first synchronization, seeds input
+history for each restored active player at the snapshot timestamp from that
+player's m_input (0x1cae1a..0x1cae3b). This is evidence against inventing zero
+inputs for populated players. Later accepted changes still need replay.
+
+game_world_core::clear 0x1ca788 clears state history/deactivates players but does
+not indiscriminately delete the separate input/event histories. State restore
+also updates last-full-sync time at 0x1cad6d..0x1cad79. A correct replay design
+must account for this preserved history and the client's age checks; do not
+assume 52/53 produces a blank input history in an already running client.
+
+THREE-CLIENT TEN-MINUTE RUN: FINAL CHECKPOINT
+
+Working evidence /tmp/srp-021d-three-client. tcpdump stopped after 60,913 packets,
+zero kernel drops. Inspector verified 60,431 match datagrams, 1,053,561 UDP
+payload bytes, six flows: the intended full match plus an unintended restarted
+match exposed by the front-door bug below. Different reset references separate
+these two generations in the comparator.
+
+The complete first match had zero mismatches:
+  slots 1/0: 6,047 matching timestamps, last 610050.
+  slots 1/2: 5,806 matching timestamps, last 610050.
+  slots 0/2: 5,758 matching timestamps, last 610050.
+No expected captured input relay was missing. Pair counts overlap.
+
+At approximately 20:12:27 the server sent each local slot 57, all clients
+initiated disconnect and reconnected to the lobby. The old front door redirected
+on EVERY lobby sign-in, immediately launching another match. That was observed
+in both client logs and server traffic, not a client time-limit failure.
+
+The front door now automatically redirects a slot only once per service
+lifetime; later sign-ins stay in lobby and still handle ping. A real TCP test
+verifies first redirect, same-slot reconnect without a redirect, ping response,
+and another slot's independent initial redirect. This is local-test lifecycle
+policy. Explicit matchmaking/requeue, startup retries and production session
+recovery are not implemented by this one-shot bootstrap front door.
+
+SHORT REAL-CLIENT FINISH/REFERENCE TEST
+
+Working evidence /tmp/srp-021d-finish-test; same three private prefixes and
+NVIDIA GPU launch settings, fresh tokens, roster=3, starting=3, match_seconds=20.
+All clients restored baseline time50/mask0/752 bytes/CRC a3b73c29, activated at
+600, began playing at game10600 (about 20:18:15), and received local finish at
+30600 (about 20:18:35). Screenshots result-a/b/c show all three in the lobby's
+statistics panel. Front-door logs show all three retained after match, with no
+new match redirect. This verifies world exit and lobby return, not results.
+
+Reference slot0 supplied:
+  time5050:  2849 bytes, mask7, CRC40eda51f
+  time10050: 2849 bytes, mask7, CRC7104216a
+  time15050: 2858 bytes, mask7, CRC894d749e
+  time20050: 2858 bytes, mask7, CRC439bf85e
+  time25050: 2858 bytes, mask7, CRCcbd9dcbd
+All five parse exactly to end and match that donor's same-time CRC notifications.
+The initial request near activation yields no new populated candidate; the
+initial time50 upload is already retained/deduplicated by its assembler.
+
+The stopped capture has 6,435 packets, zero kernel drops; 6,145 verified match
+UDP datagrams and 113,171 payload bytes. Pair 1/0 has 291 matching samples, pair
+2/0 has four, pair1/2 has no identical sample timestamps. Zero compared samples
+mismatch; absence of common timestamps is explicitly not agreement evidence.
+No reset beyond the initial baseline was sent. No user combat was injected in
+this short follow-up; the preceding run holds the shooting observations.
+
+VALIDATION AND SAVED STATE
+
+Rust suite passed with 30 unit + three UDP tests; the subsequently added
+rejection test passed together with all four recovery tests (31 unit tests now).
+One Python real-TCP reconnect test passed. Enhanced inspect_match validates
+uploads and reports same-time CRC correspondence without printing credentials;
+it also reverified the original 59,743-datagram community capture.
+
+Live checkpoint: three client windows 6014/6015/6016 remain in the statistics
+panel, local front door and match server remain alive, capture is stopped.
+Revalidate IDs/handles before controlling any process; other workers have
+survarium-srp-session.exe windows that are unrelated to these tests.
+HDD copies under evidence/three-clients and evidence/finish-reference are
+immutable checkpoints, excluding session files, configs, and private keys.

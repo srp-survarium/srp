@@ -1,0 +1,113 @@
+Follow-up implementation and validation
+2026-10-12
+
+The follow-up originally covered all five items below. The user subsequently
+withdrew authorization for the agent to attempt the full five-battery playtest;
+item 5 remains unverified and is no longer agent work. Earlier PR status describes
+the initial draft; this file tracks follow-up implementation and validation.
+
+1. Supervisor crash cleanup - implemented and process-tested.
+   Native children use --supervised and watch stdin for supervisor EOF. Their
+   grants/control sockets are removed on exit. Match-work has an exclusive
+   flock inherited by every allocated child; neither service restart nor
+   another allocator can claim it while an old child owns it. After all owners
+   disappear, startup clears grants/sockets only in marked allocation dirs.
+   Logs and unknown directories survive. Old unmarked allocations are not
+   silently treated as ours. Standalone community-server lifetime is unchanged.
+
+   Validation: 52 Python tests pass, including new workspace restart cleanup,
+   inherited ownership and symlink preservation tests. Extended real-service
+   lifecycle passes ordinary admission/chat/graceful restart plus killing the
+   menu supervisor with SIGKILL, observing child grant/socket cleanup, then
+   starting the service over marked stale crash files and retained accounts.
+   Simultaneous/power loss is represented by stale on-disk files, not a claim
+   that this host was power-cycled. No graphical game was launched for this.
+   Logs: /tmp/srp-v021d-supervision-tests.log and
+   /tmp/srp-v021d-crash-lifecycle.log (not required runtime dependencies).
+
+2. Consistent persistent player names in game/results/chat - implemented.
+   Versioned local grants carry immutable slot/account identity separately from
+   the session token. Setup names, results brief IDs/names and the local result
+   recipient ID use that mapping. Simulation slots and teams keep their existing
+   order. Legacy two-column grants remain compatible. Zero-token reserved rows
+   grant no admission until an explicit private admission is confirmed.
+   Rust tests parse actual setup/results fields for reordered identities, reject
+   duplicate identities/grants and exercise SRP1 setup over UDP. The real menu
+   lifecycle verifies Carol/Alice/Bob allocate persistent IDs 3/1/2, while chat
+   and assigned teams remain correct across restart.
+   Validation: all 69 Rust and 52 Python tests pass; extended real-service
+   lifecycle passes. Independent agent review found no blocking issue in
+   cleanup/identity changes. Subsequent real-client acceptance verified names
+   with reversed account order and final results containing only actual players.
+   Logs: /tmp/srp-v021d-identities-{rust,python,lifecycle}.log.
+3. Native SRP1 reconnect and late join - implemented and real-client tested.
+   The local service preloads its sixteen immutable account/loadout descriptors,
+   with initial members first and zero grants for unused identities. Running-room
+   Join reserves capacity, binds a grant through the private control socket, then
+   redirects the authenticated native client. Existing team/slot identity remains
+   fixed for the whole generation. Arbitrary new descriptors are not supported.
+
+   Mutations bind child instance, generation, slot, persistent account, token and
+   monotonic revision. A lost response retries the same request; uncertain grants
+   retain capacity. Revocation removes the old transport before same-account
+   re-entry. Delayed old mutations cannot evict a newer grant. Initial and late
+   admissions have bounded loading leases; observed departures free capacity.
+   Finished supervised generations do not silently start another world.
+
+   Results retain all actual participants, including departed zero-score players,
+   and exclude unused descriptors. Independent review found and helped resolve
+   initial-member lease leakage and phantom result participants. The final
+   participation-mask implementation was reviewed with no additional findings.
+
+   Validation: 74 Rust tests and 60 Python tests pass. The executable UDP test
+   loses an admission confirmation and a populated-state fragment, then revokes,
+   regrants with a new token, completes a fresh-socket handshake/restore, exchanges
+   inputs again, and rejects stale grant/revoke retries. This uses synthetic
+   snapshots, not an engine gameplay simulation. Real native-service lifecycle
+   also passes persistent identity, admission, chat and supervisor crash cleanup.
+   Real native acceptance: clean-retail SRP package-v5, two private Wine prefixes,
+   NVIDIA RTX 3060 Ti rendering, no attached debugger. Client B used Matches Join
+   after A reached time 165150 ms; populated restore and activation succeeded.
+   A 1500 ms state-transfer blackout dropped 33 packets; active replay completed
+   and post-restore state agreement was verified at 223389 ms. B was then killed
+   with SIGKILL, timed out server-side, relaunched, logged into the same persistent
+   account/token and joined A's continuing world using baseline 450300 ms.
+   Movement was accepted after reconnect. One historical CRC disagreement at
+   451100 ms was logged near re-entry; no sustained mismatch was observed in
+   the following interval. A was not restarted or reset during these actions.
+   The in-game scoreboard shows Local 1/2 consistently; its sixteen preloaded
+   descriptors remain visible as grey inactive rows. This is a known native UI
+   limitation, distinct from filtered final result participants.
+
+   Logs: /tmp/srp-v021d-admission-{rust,python}.log,
+   /tmp/srp-v021d-regrant-udp.log and /tmp/srp-v021d-late-lifecycle.log.
+
+4. Real-client clock drift correction validation - passed.
+   Native +300/-300 ms slew probes produced measured peak errors -302/+300 ms.
+   The normal server policy applied three -100/+100 ms corrections respectively;
+   both remained within +/-10 ms after 23.754/25.760 seconds, with final samples
+   within 3.5 ms. No world reset, extra membership event or CRC disagreement
+   occurred in the fixed 45-second observation window. See CLOCK-CORRECTION.txt
+   for method, baseline outlier, scope and reproducible evidence.
+5. Complete five-battery objective victory playtest - unverified; user explicitly
+   instructed the agent not to attempt it. No full objective playtest performed.
+
+User authorizes isolated clients and simulated packet loss for these gates.
+Previously accepted baseline combat/chat/deposit/fall-death tests remain
+accepted; repeat only what a changed behavior or new validation gate requires.
+
+FINAL STATE
+
+Native results displayed only Local 1/2 in their correct teams, with 118-byte
+packets delivered to both recipients. Items 1..4 are implemented and validated.
+The user's later instruction excludes item 5 from agent work; it remains
+explicitly unverified. Both private clients/services/displays were stopped,
+with grants/control sockets removed and all test ports released.
+
+The updated native menu was rebuilt as a verified local package at
+/tmp/srp-v021d-native-package-v5. This contains retail assets and is not part of
+the source PR. Isolated native acceptance evidence is under
+/tmp/srp-v021d-native-acceptance; NATIVE-ADMISSION.txt records observed outcomes.
+
+Durable evidence copy (with its own SHA256SUMS):
+/mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11/evidence/native-admission-and-clock-2026-10-12

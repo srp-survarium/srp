@@ -1,0 +1,356 @@
+v0.21d SRP server implementation plan
+2026-10-11; branch feature/server-v021d
+
+USER ACCEPTANCE UPDATE: the user has already playtested combat and reaffirmed
+that it works. Treat combat as user-verified; do not repeat that playtest just
+to obtain additional telemetry. The attempted repeat was stopped on request.
+Earlier notes distinguish missing recorded kill/respawn telemetry from the
+user's acceptance; that instrumentation gap is not an outstanding gameplay
+acceptance gate. SERVER-AUDIT.txt records the current remaining-work audit,
+including native multi-match chat integration and the old workspace baseline.
+NATIVE-CHAT.txt subsequently fixes that chat integration with 42 passing Python
+tests and a real-service admission/messaging test; clock correction is next.
+CLOCK-CORRECTION.txt now implements bounded clock slews with measured ACK RTT;
+65 distinct Rust tests pass. Real engine drift validation remains unverified.
+RESULTS-FALLBACK.txt verifies the existing SRP native package-v4 notice/Close
+path for absent statistics. The legacy community UI limitation remains.
+
+LATEST STATUS (2026-10-11): real populated late joins, reference departure,
+and automatic recovery after a deliberate three-second packet blackout now
+have evidence. DELAYED-RECOVERY.txt records a failed delayed restore and the
+revised replay ordering passing the real blackout/shooting retest. Fifty-one
+Rust tests passed before SRP1 integration; the current suite has 56 passing
+Rust tests; MENU-SERVICE.txt records 36 distinct passing Python tests.
+SRP1-INTEGRATION.txt records
+an explicit native-DLL protocol option and the existing menu allocator
+launching two integrated server instances, followed by one real native client
+completing Create/Ready/Start, School, timed results and return to an empty
+browser against the integrated binary. MENU-SERVICE.txt now integrates the
+menu service into this package with durable account/token and native-order
+identities; a real-process shutdown/restart test passes. Waiting rooms/results
+and active simulations remain ephemeral; abrupt child supervision remains open.
+LOBBY-CONTRACT.txt fixes
+the ping opcode (0x28, not cancellation 0x27) and records the original Play
+profile dependency and separate Matches-menu protocol boundary. PERSISTENCE.txt records
+optional durable account/slot, session and route state across front-door
+restarts, including automated TCP restart validation. Basic chat works between
+real clients. ACTIVE-REJOIN.txt records same-match account rejoin through the
+lobby; an initial reactivation disagreement needed automatic recovery.
+Seamless re-entry and broader delay/backlog cases,
+clock correction and match-server world/results persistence remain open. NEXT-MATCH.txt records
+two consecutive real matches with the same clients/server, explicitly queued
+through a mode-0600 local operator socket. Native Matches admission is now
+integrated; the original profile-dependent Play button remains separate.
+RESULTS.txt records both clients now displaying post-match statistics from
+a retained final donor snapshot. Complete awards, missing-donor error handling,
+other-player detail queries and persistent results remain open. The stale
+finish timestamp is corrected and verified with both real clients. Native
+gather-all-batteries completion now has a donor-snapshot path and tests;
+an actual five-battery win against it remains unverified. The full
+objective is not yet complete. Earlier sections below record
+historical milestones.
+
+OBJECTIVE AND COMPLETION CRITERIA
+
+Implement a local server for the patched v0.21d build 2010 client. It must
+coordinate multiple clients using their existing input-driven simulation.
+The first target is one controlled stock-map match with a fixed roster and
+loadouts, followed by join/leave and recovery. A working UDP listener or a
+replay of captured packets does not count as a playable server.
+
+Completion requires two real clients entering our match without the deployed
+community service, seeing each other's movement/shots/death/respawn, and
+remaining usable through a deliberate synchronization fault and disconnect.
+Record captures/logs, identify residual mismatches, and provide launch steps.
+If real-client validation cannot be completed, report the exact unverified
+boundary; do not label codec tests as successful multiplayer gameplay.
+
+SCOPE AND BASELINE
+
+Branch from d9d209cc1 (feature/akmn-content) in /tmp/srp-server-021d. The
+original checkout contains ongoing uncommitted v0.26 transport work; it must
+not be modified or silently imported. Existing v0.10b/0.100b functionality
+must remain available. Use versioned modules/a new server package rather than
+changing global message IDs or player layouts.
+
+Target the community snapshot extension initially, with debug_hash_mismatches
+disabled. The stock retail client cannot provide that custom upload interface.
+No game-engine simulation on the server is required for this initial design.
+No new client damage patch, v0.26 port, shop economy, ranked matchmaking, or
+independent server physics validation is part of this first target.
+Bots and local-match features from the unrelated TRINITY package are outside
+scope. Reference material from another build must not set the 0.21d protocol.
+
+EVIDENCE TO REUSE
+
+HDD root:
+  /mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11
+  START-HERE.txt: conceptual explanation and open questions.
+  REPORT.txt / PROTOCOL.txt: measured behavior and decoded layouts.
+  logs/skhid-game.pcap / logs/Survarium_sheep.log: original evidence.
+  evidence/: snapshots, comparison results, disassembly, runtime fingerprints.
+
+Prior patch report:
+  ../0.21d-patch-analysis-2026-10-11/REPORT.txt
+
+Development-only binary evidence:
+  /tmp/srp-021d-investigation/retail.sqlite
+  /tmp/srp-021d-investigation/{retail,patched}-survarium.exe
+  /tmp/srp-021d-investigation/pdb-headers/headers/
+
+Use actual instructions plus PDB types; generated .cpp stubs are not source.
+Commit tools, semantic test vectors, and documentation. Do not commit original
+EXEs/PDBs, full captured personal/session traffic, or captured player profiles.
+Each recovered rule should cite its function VA or capture evidence.
+
+WHAT EXISTS, AND WHAT DOES NOT
+
+Existing code can supply Rust workspace conventions, primitive serialization,
+and examples of login/browser/lobby services. It is not protocol compatible
+by assumption. Its match server currently connects one UDP socket to one peer,
+uses a different header/ack window and different message tables, and leaves
+retry/fragmentation work incomplete. Its fixed 256-byte packet storage does
+not fit this protocol's full transport requirements.
+
+Known v0.21d interfaces: 12-byte UDP envelope; input 0x45 -> 0x54; clock
+0x43/44/52/55; world CRC 0x46; custom snapshot 0x47; state download 0x53;
+snapshot request 0x59; enter/leave 0x56/57; input discard 0x58.
+
+Recovered during implementation (see RECOVERED-CONTRACTS.txt):
+  * Reliable/ordered delivery metadata, retry identity, 64-bit ack rules,
+    initial ordered ID, and transport fragmentation.
+  * Static match options, roster/equipment/profile serialization and final
+    local-player slot, verified against the complete captured payload.
+
+Remaining contracts and runtime validation:
+  * A usable server-created static setup with verified stock asset IDs.
+  * Empty-match bootstrap and first player activation order.
+  * Login/browser/lobby/messaging compatibility and direct-connect options.
+  * Clock reference interpretation, offset sign, and reset/enter ordering.
+  * Replay backlog requirements for late join and state replacement.
+  * Exact client rollback horizon at runtime and accepted input age policy.
+  * Match-end rules/results and what must be done outside local simulation.
+
+The deployed server's arbitration is unknown. We must explicitly implement
+our own recovery policy and test it, not call a guessed policy recovered.
+
+DESIGN BOUNDARIES
+
+Transport: a peer-specific endpoint holds send/receive sequence histories,
+pending reliable data, ordered delivery, fragmented-message assembly, RTT,
+last activity, and bounded queues. Sequence arithmetic must handle wraparound.
+
+Wire codec: version-specific enums and bounded readers/writers. Separate
+datagrams, transport messages, and application-level snapshot fragments.
+Do not conflate an application's timestamp with transport ordering.
+
+Match coordinator: owns session-to-slot mapping, static configuration,
+monotonic match clock, accepted input history, player membership timeline,
+hash observations, completed snapshots, and recovery generation. No physics.
+
+Front door: authenticates/assigns unique local-test sessions and routes the
+client to the correct match. Initially fixed profiles/stock map are acceptable;
+using one hardcoded session for every player is not.
+
+Storage/observability: event logs include peer/slot, game time, message type,
+snapshot origin/time/hash, decisions and reasons. Session credentials are not
+printed. Store protocol diagnostics separately from persistent match results.
+
+ORDERED MILESTONES AND ACCEPTANCE GATES
+
+M0. Recover the missing contracts before depending on them.
+  Inspect transport metadata and packet parser/writer; annotate ack and retry
+  semantics. Trace static match deserialization, connection bootstrap, and
+  time synchronization. Extract representative capture messages locally.
+  Produce a startup sequence diagram and field-level static payload layout.
+  Gate: explain how a fresh client reaches a loaded, active player without
+  copying a stale eight-player world snapshot from the captured match.
+
+M1. Implement a standalone v0.21d codec and transport.
+  Encode/decode single/bundled messages, extended lengths, ordered IDs,
+  transport fragments, and snapshot fragments. Implement ack/retry/dedup,
+  out-of-order delivery and bounded reassembly with expiry. Invalid/truncated
+  packets must return errors without crashing or allocating unbounded memory.
+  Gate: decode every captured match datagram; compare captured bytes and
+  binary-derived vectors; simulate loss/reordering/duplication and u16 wrap.
+
+M2. Reach the new local service with a real client.
+  Prefer a recovered direct-connect path if it supports proper initialization;
+  otherwise implement the minimum v0.21d login/browser/lobby path. Reuse older
+  serializers only after proving their field layout matches. Use configurable
+  loopback ports and certificates compatible with this client. Stock assets
+  and deterministic test profiles reduce unrelated failures.
+  Gate: the client connects to our UDP endpoint and accepts static setup.
+
+M3. Bootstrap one fresh match, one player.
+  Supply matching static seed/map/roster/options and obtain a valid empty
+  snapshot from the loading client's existing patch where supported. Confirm
+  snapshot/clock/activation ordering in the actual client. Activate the slot
+  at an agreed 50 ms game-time boundary. Never invent health/statistics bytes
+  just to get past deserialization.
+  Gate: real client loads, spawns, moves, shoots, and survives normal idle
+  traffic against our server; logs show no repeated reset/rejection loop.
+
+M4. Coordinate two players.
+  Unique sessions and player slots; relay timestamped inputs with the verified
+  sender-echo policy. Maintain a bounded accepted-input history and membership
+  events. Authenticate slot ownership from the connection, not input content.
+  Clock corrections use measured latency and avoid arbitrary time jumps.
+  Gate: two clients see matching movement, shots, kill/death and respawn;
+  correlate hashes for identical historical timestamps and record divergence.
+
+M5. Joining, leaving, and restoring state.
+  Bootstrap policy proposal: first eligible ready client supplies the initial
+  baseline; later clients receive a recent complete reference snapshot plus
+  subsequent accepted input/membership history. Validate this against M0/M3.
+  A snapshot is eligible only for the same match generation/static roster,
+  with complete fragments and consistent timestamp/mask/size/hash evidence.
+  Snapshot transfer and replay must not lose inputs arriving during loading.
+  Gate: second client can join an active match; leave removes the slot on all
+  clients; reference-peer exit has an explicit, tested fallback.
+
+M6. Detect disagreement and recover without resync storms.
+  Initial local-test policy: explicit reference peer, selected deterministically
+  from eligible ready clients. This is new SRP policy, not a known Skhid rule.
+  Compare states only at identical sufficiently old timestamps with compatible
+  active membership; distinguish missing samples from actual mismatches.
+  Require sustained disagreement and rate-limit requests/resets. Keep timeout
+  and retry limits; never resync in response to every single old input.
+  Request fresh snapshots, validate them, choose a documented baseline, and
+  resync affected peers with the necessary history. A two-client disagreement
+  cannot establish an honest majority. Reference trust is a test limitation.
+  Gate: deliberate loss/lag or controlled divergence recovers; no endless
+  reset loop, partial state adoption, or duplicated damage application.
+
+M7. Lifecycle and usability.
+  Handle disconnect, idle timeout, reconnect/session reuse, match completion,
+  server restart and a clean new match generation. Determine whether result
+  extraction is required for returning to the lobby; label missing persistence.
+  Provide configuration, client launch steps, packet-capture instructions,
+  tests and known limitations. Preserve the old server's build/tests.
+  Gate: repeatable full local session and exit, plus the two-client completion
+  criteria above. Commit the implementation and evidence notes on this branch.
+
+CROSS-CUTTING CORRECTNESS REQUIREMENTS
+
+Do not compare CRCs from different game times, rosters or match generations.
+Do not treat CRC as physics validation or a decoded death report.
+Do not assume one request produces a snapshot at exactly the requested time:
+the community 0x59 request has no body and returns an event-horizon item.
+Record actual returned time; retain matching hashes/history as needed.
+
+Do not assume all inputs arrive once or in order. Same-time revisions exist.
+Accept/reject policy, duplicate policy and relay order must be deterministic
+and recorded. Enforce finite rotations, valid slots, bounded timestamp lead/
+lag, and explicit handling of time/sequence wrap and stale match traffic.
+
+Distinguish loss/retry at the transport level from replay at simulation level.
+Keep full recovery snapshots immutable once selected. Abort incomplete or
+conflicting reassembly; cap per-peer and total memory. Test malformed lengths,
+offset overflow, duplicate/conflicting fragments, timeout, and recycled IDs.
+
+No new kill callback is needed for basic combat. If later adding telemetry,
+deduplicate/correct rollback-sensitive events; do not inject a second hit.
+Do not remove animation from hashing based only on one animation-only diff.
+
+VALIDATION LADDER
+
+1. Byte-level vectors and malformed-input tests.
+2. Full capture decode and application-message counts/state reconstruction.
+3. In-memory two-peer transport under loss, reorder, duplicate and wraparound.
+4. Real client startup and solo match on loopback.
+5. Two real clients with controlled actions and simultaneous logs/captures.
+6. Controlled latency/loss, reference departure, join and recovery.
+7. Existing-server regression checks and documented repeatable launch.
+
+Tests must validate observable contracts and failure behavior, not merely
+round-trip a codec against itself. Captured vectors/binary evidence provide
+independent oracles. A capture replay alone cannot prove interactive gameplay.
+
+STATUS AT PLAN CREATION
+
+Discussion notes saved on HDD; all 123 evidence-manifest entries verified.
+Isolated branch/worktree created. Existing-server/protocol compatibility audit
+started. No v0.21d server implementation or playable-server claim yet.
+
+PROGRESS AFTER THE INITIAL CONTRACT PASS
+
+Recovered and verified the 0x51 static payload layout against all 1,065
+captured bytes; recovered the per-opcode reliability/ordering/channel table
+and the 64-bit acknowledgment encoding. See RECOVERED-CONTRACTS.txt.
+
+Implemented M1's wire codec, per-peer ack/retry queues, ordered delivery,
+transport reassembly, and the separate community snapshot-upload assembler.
+Eighteen tests pass, including loss, reordering, duplicates, earlier-attempt
+acks, sequence/order wrap, conflicting fragments, bounded queues and expiry.
+All 59,743 captured datagrams decode/re-encode byte-for-byte and pass through
+the receiver. The 0x51 fragments produce one static message; 0x53 produces six
+world states. All eleven client uploads (74,468 bytes) reassemble; all six
+with a captured same-time CRC notification match.
+
+This remains a library, not a listening or playable server. Retry jitter,
+timeouts and queue limits are documented SRP policy, not recovered deployed
+server behavior. Next: server-created static payload, front-door connection,
+empty-match bootstrap and real-client clock/activation validation (M2/M3).
+
+FIRST LIVE BOOTSTRAP PASS
+
+The next implementation now includes a loopback UDP executable, fresh static
+test roster/loadout serializer, and Python login/browser/lobby companion.
+M2's real-client gate passed: the client signed in, followed the match
+redirect, accepted static data and loaded the stock map. The first M3 spawn
+also succeeded using its own empty-world upload, followed by clock reset,
+state restore and activation. Screenshot, capture and logs are saved.
+
+The live run exposed a missed low-level framing rule, now corrected and
+covered by two additional tests (20 passing total). Corrected framing still
+passes the entire original capture. The clean live retest, movement/shooting
+and stability remain unverified; M3 is not complete. The executable admits
+only one active peer until the shared coordinator exists. See
+LOCAL-BOOTSTRAP.txt for evidence, reproducible launch commands and limits.
+
+SHARED COORDINATOR AND CORRECTED SOLO RETEST
+
+The executable now uses one shared clock and baseline with an all-peer state
+ACK barrier, fixed-cohort activation, authenticated input relay/history and
+leave broadcasts. Two UDP/executable integration tests cover two simulated
+clients, deliberate fragment loss and malformed-input isolation; 26 tests
+pass in total. A fresh real solo run proved the corrected heartbeat framing
+and messaging handshake, plus movement and about 167 seconds of gameplay
+before intentional window close. Fire automation, two-real-client simulation,
+CRC arbitration, late join and recovery remain unverified or unimplemented.
+See COORDINATOR.txt for exact policy, evidence and two-client launch command.
+M3 is still incomplete because shooting has not been exercised successfully;
+M4 has implementation/test progress but no two-real-client acceptance result.
+
+FIRST REAL TWO-CLIENT RUN
+
+The shared coordinator has now run two real clients through the configured
+ten-minute match and beyond. Both moved/fired; 447 common historical world
+CRCs matched, none disagreed. All inputs while both players remained members
+had captured relays. Timeout removal sent a leave event to the surviving
+client. M3 now has startup/movement/fire/stability evidence; M4 remains partial
+until remote-player combat/death/respawn is observed. At the time limit the
+timer disappeared but no results/lobby transition occurred: M7 is still open.
+TWO-CLIENTS.txt records commands, evidence and outstanding gates. A new read-only
+inspector verifies multi-flow captures with the implemented codec/transport.
+
+TIMED FINISH AND THREE-CLIENT CHECKPOINT
+
+LIFECYCLE.txt records user-observed battery deposit/fall death, the three-client
+shooting test, and its first agreement capture. Populated snapshot boundaries
+now validate against all 17 original states. The coordinator sends each local
+slot its finish/leave at the configured time limit, including countdown; 30
+tests pass, including finish retry under packet loss. Real-client deadline/UI
+behavior is pending in the ongoing three-client run; results population,
+early victory, late join/recovery and full combat/respawn gates remain open.
+
+REFERENCE ACQUISITION AND LIVE FINISH
+
+The full three-client run finished at the deadline with zero compared CRC
+mismatches. A short retest after fixing automatic lobby requeue left all three
+clients in lobby, waiting for match stats (still unimplemented). The server
+requested and validated five populated snapshots with matching donor CRCs.
+Reference acquisition/retention and CRC observation are bounded; no automatic
+resets or late joins are enabled yet. See REFERENCE-STATES.txt for policy,
+restore/input-history evidence and exact validation limits.

@@ -1,0 +1,123 @@
+v0.21d explicit admission to the next local match
+2026-10-11; feature/server-v021d
+
+Follow-up: PERSISTENCE.txt adds optional front-door checkpoints. References to
+ephemeral account/route state below describe this earlier milestone or the
+default mode without --state. Native Play integration remains separate work.
+
+PURPOSE AND INTERFACE
+
+The match executable already empties its cohort, clears simulation/recovery
+history and advances generation when its last peer leaves. The lobby kept
+returning accounts attached to their original match identity, deliberately
+preventing the automatic requeue that previously interrupted results.
+
+The front door now has an optional mode-0600 Unix datagram socket. An operator
+can explicitly admit selected static-roster slots to the current empty match.
+This permits repeated local sessions without restarting clients or services.
+Native Play/menu integration, persistent accounts and a multi-match allocator
+remain separate work; this command is the local operator interface.
+
+Add these arguments to the established front_door.py launch:
+  --match-control /tmp/srp-run/control.sock
+  --lobby-control /tmp/srp-run/lobby.sock
+Use the same control.sock as the match-server-021d executable's final argument.
+After everyone finishes and returns to the lobby, run from the checkout:
+  python3 servers/match-server-021d/tools/queue_match.py \
+    --control /tmp/srp-run/lobby.sock --slots 0 1
+Slot numbers are assigned by the local fixture's first login order. Queue all
+required starting participants; the fixed roster, stock map and match duration
+are unchanged. No account password or session token appears in this command.
+
+CONTROL CONTRACT AND GUARDS
+
+  status NONCE
+    -> v1 NONCE INSTANCE GENERATION PHASE OCCUPIED_MASK
+  queue NONCE INSTANCE GENERATION SLOT[,SLOT...]
+    -> v1 NONCE queued INSTANCE GENERATION
+    -> v1 NONCE error REASON
+
+NONCE is u64. Datagrams over 256 bytes are ignored; the client validates the
+response nonce and queued instance/generation. The status comes from a fresh
+query to the match server, not a cached process/file observation. Queueing
+checks that the requested instance/generation still matches, the phase is
+waiting, and the occupied mask is zero. All slots are checked before any
+reservation changes: nonempty, unique, in the configured static roster.
+
+Reservations are keyed to the exact instance and generation. They cannot
+follow an unexpected reset, restart or later match. Admission consumes the
+normal lobby redirect path, including occupied-slot checks and the existing
+30-second redirect lease. Repeating a request for the same reservation does
+not clear that lease or cause a duplicate redirect. If connection setup has
+not succeeded, the same reserved generation can retry after the lease.
+
+An idle results/lobby connection polls routing and gets the native 0x33
+redirect after explicit admission; no extra login is required. The original
+completed identity is captured separately for results on that connection.
+No new generation is admitted merely because results arrived or the previous
+match ended. Existing same-match reconnect behavior remains available.
+
+The socket fails to bind over an existing path. Failed bind does not unlink
+another service's socket. Normal shutdown removes its own path. Existing
+abrupt-kill stale socket cleanup is still an operator responsibility; this
+change does not silently delete or take over an unknown socket.
+
+TEST COVERAGE
+
+Ten Python tests pass, including real lobby TCP and local datagram exchanges.
+The new tests cover idle-connection redirect after results, duplicate lease,
+generation-specific permission, atomic invalid batches, busy/stale targets,
+mode-0600 permissions, failed bind ownership and successful socket cleanup.
+One test found that an account reserved but not yet routed could fall back to
+first-login admission on another instance. Routing now rejects that stale
+reservation instead of treating it as an unassigned first login.
+
+The Rust executable is unchanged by this milestone; the previous full suite
+of 51 Rust tests passed. The native executable and its fixed test profiles
+are unchanged. The front door remains loopback-only and ephemeral: restarting
+it loses account/route/reservation state. Reusing its session-token file alone
+does not restore those maps or constitute persistent account support.
+
+The local control is not a new authorization field in legacy UDP handshakes.
+The executable still uses its startup fixed session-to-slot file; generation
+checks here guard lobby routing. Match-scoped credential grants/rotation and
+robust exclusion of old handshakes across server restarts remain open.
+
+REAL CONSECUTIVE-MATCH EVIDENCE
+
+evidence/next-match contains two separate packet captures, decoded reports,
+combined client/server/front-door logs, first and second results screenshots,
+operator command output, status queries and Python test output.
+
+Two existing Wine test prefixes, a 15-second match plus ten-second countdown,
+-minimum_resources_memory_size=768 and -mt_allocator=512. Both clients and
+both service processes stayed running between matches; no login, client
+restart, process replacement or state-file edits occurred between them.
+The same Niri windows (6072/6073 for this run) showed both results screens.
+
+Server instance 18dd94b34791f451:
+  generation 1: first match, results delivered to slots 0 and 1;
+  generation 2 / waiting / occupied=0: recorded after first finish;
+  explicit queue command: slots [0,1], generation 2;
+  generation 2: fresh static setup, empty baseline, clock reference 2,
+                both activated at 600, second match and new results;
+  generation 3 / waiting / occupied=0: recorded after second finish.
+No third-match redirect was emitted without another explicit command.
+
+Both rounds restored time 50, CRC 6fa8cb1c, then played with mask 3. Both
+retained final donor snapshot 30100, CRC 69186abb, team scores [0,0].
+World input/history did not carry over: these were quiet lifecycle tests,
+not combat tests. Client logs show a second initial synchronization at
+22:52:22.052/.053 local and a second result parse at 22:52:52.541 (A) and
+22:52:58.028 (B). That result-display delay is observed; its cause has not
+been isolated. Neither log contains a REJECTED message. Screenshots named
+second-results were taken after completion, not during active gameplay.
+
+Capture 1: 2,189 packets, zero kernel drops; 2,125 decoded match datagrams.
+292 matching common historical CRCs, zero mismatches, 600..30100, five
+membership-boundary exclusions. Both flows have clock reset reference 1.
+Capture 2: 2,029 packets, zero kernel drops; 2,001 decoded match datagrams.
+Only five comparable times, all matching, 5150..30150; both flows use reset
+reference 2. No captured inputs in either round. The small second comparison
+does not establish continuous agreement or combat behavior. Distinct pcap
+files avoid comparing identical numerical timestamps across generations.

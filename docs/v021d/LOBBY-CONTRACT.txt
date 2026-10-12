@@ -1,0 +1,79 @@
+v0.21d lobby admission and keepalive contract audit
+2026-10-11; feature/server-v021d
+
+Follow-up: SRP1-INTEGRATION.txt implements the explicit server dialect choice
+proposed below. Real-client/menu integration still needs validation.
+
+CORRECTED MESSAGE CLASSIFICATION
+
+The front door previously treated client 0x27 + four bytes as a ping and
+echoed those bytes in server 0x37. This was wrong. The generated PDB enum
+vostok/lobby/enums/client__messages_enum.h identifies 0x27 as
+discard_playing_order and 0x28 as ping_server. Actual retail instructions in
+lobby_client::discard_playing_order at VA 0x19e562 confirm that 0x27 carries
+the client's current matchmaking order ID (lobby_client+0x1cc), not a clock.
+The function only sends when the assigned match ID (+0x1c8) is ffffffff.
+
+Server 0x37 dispatches to read_ping_server_answer at VA 0x19e5ca from
+network_client::on_lobby_packet_received at VA 0x1a19ab. It reads one u32,
+subtracts it from the local game clock and displays half the elapsed time.
+The front door now echoes only a five-byte 0x28 request as 0x37 + its u32.
+The request opcode is supported by the PDB enum; this audit did not locate
+the inlined native ping writer or measure a real client's ping cadence.
+
+The operator fixture issues generation-specific queue reservations, not native
+matchmaking order IDs. It therefore leaves native 0x27 requests unsupported;
+they neither produce a ping reply nor cancel an operator reservation. Native
+matchmaking must implement its own order identity and cancellation rules.
+Do not map an arbitrary client-provided order ID to all slot reservations.
+
+The earlier synthetic TCP tests used 0x27 as a ping, repeating the same wrong
+assumption as the implementation. Those vectors now use 0x28. A regression
+test sends a cancellation immediately followed by a different ping and checks
+that only the ping is echoed and the operator reservation stays intact. All
+19 front-door tests pass. This corrects a protocol test oracle; it is not
+evidence that earlier gameplay failed or a reason to repeat accepted combat.
+
+ORIGINAL PLAY PATH
+
+lobby_menu::play_button_clicked at 0x17158b first checks the profile count at
+lobby_client+0x9b8. With no profiles it returns without sending a request.
+Otherwise it reads the selected profile ID and calls set_status_ready_for_match
+at 0x19d4d6, which sends exactly 0x20 + u32 profile ID. Handling 0x20 alone
+would not make the original Play button usable in our profile-less lobby.
+
+Read-status at 0x19d7dd consumes a state byte, then state-specific fields:
+  state 0: no mandatory extra fields; clears order/match/team and queue data;
+  state 1: five u32 values (order ID, two fields at +0x1c0/+0x1c4,
+           two fields at +0x1b8/+0x1bc), then optional string;
+  state 2: u32 order ID, u32 match ID, u8 team, then optional string.
+The enclosing reply is 0x36, query kind 0x00. Detailed queue-field semantics
+and full profile/menu initialization still need recovery for stock Play.
+
+The function bodies at 0x17158b, 0x19d4d6, 0x19e562, 0x19e5ca and 0x1a1930
+were compared between the local retail and community-patched binaries and
+are byte-identical. This is a scoped check, not a whole-binary equivalence.
+PDB-generated declarations are reference metadata, not original source.
+
+EXISTING CLIENT MENU WORK
+
+The separate, currently untracked client/021d work in the original checkout
+has a Matches/Create/Join/Ready/Start UI and authenticated lobby allocation.
+Its lobby_fixture.py imports this front door but overrides Lobby. Therefore
+our ping fix does not automatically correct that separate override. That
+worker's files were inspected read-only, not silently copied or modified.
+
+Its prepare_server_probe.py currently makes a temporary server source copy:
+  stock 0x47 with a four-byte body means explicit Leave;
+  snapshot uploads use 0x48 + 'SRP1' + the existing fragment format;
+  snapshot requests use 0x59 + 'SRP1' + byte 01.
+This differs from the community client's upload-on-0x47 and empty-body 0x59.
+The next integration should expose an explicit protocol choice in our server,
+preserve the community default and test admission/recovery/results against
+the selected dialect. Do not autodetect a dialect from arbitrary fragments
+or require another accepted combat playtest just to integrate the menu.
+
+Evidence archive: evidence/lobby-contract contains the scoped disassembly,
+PDB enum and automated test output. Full temporary broad disassembly is not
+needed in the archive. This audit fixes ping handling; neither original Play
+nor the separate Matches integration is claimed complete by this milestone.

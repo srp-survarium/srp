@@ -1,0 +1,213 @@
+v0.21d match results: simulation statistics and lobby handoff
+2026-10-11; feature/server-v021d
+
+WHY THE CLIENT WAITED
+
+Local player-left (0x57, reason 3 through close_current_match) ends the world
+and opens the results screen. Returning to the lobby alone does not populate
+it. The native client needs server packet 0x36, query type 0x13, containing
+match_stats followed by player_result_full for the authenticated account.
+
+The previous real test returned to the lobby but remained on "Receiving match
+stats" because the test front door did not send that packet. Its post-match
+sign-in set discard_playing_order; requested_match_stats remained ffffffff.
+There was no explicit 0x21/0x13 query. Earlier speculation that sign-in carried
+match ID 1 was incorrect. We use the authenticated account's recorded route
+(server instance, generation) to identify its completed local test match.
+
+RECOVERED BINARY CONTRACTS
+
+Retail client VAs, checked against instructions and PDB types:
+  shared_statistics::serialize/deserialize: 0x1de11c / 0x1de1e0
+  player_shared_statistics::serialize: 0x20569f
+  intermediate_shared_statistics::deserialize: 0x20550e
+  curing_event_manager::deserialize: 0x204b44
+  victory_item_event_manager::deserialize: 0x2050e9
+  base_game_statistics_handler::recalculate_scores: 0x19c410
+  shared_statistics::finish_match: 0x1ddb6f
+  gather_victory_items_rule::winner_team: 0x1fbf3e
+  match_stats::deserialize: 0x19c790
+  player_result_brief/full::deserialize: 0x19c69c / 0x19c939
+  lobby_client::read_match_stats: 0x19e6b1
+  lobby_client::query_match_stats: 0x19d6f0
+  lobby_client::on_connected: 0x19d04f
+  network_client::on_lobby_packet_received: 0x1a1930
+  network_client::close_current_match: 0x1a23b8
+
+OBJECTIVE COMPLETION (SUBSEQUENT CHANGE)
+
+gather_victory_items_rule::on_event (0x1fb8a9) increments/decrements the
+container's count on deposit/theft. It sets a completion timestamp when
+either count equals the number of spawned items, otherwise clears it to ff.
+rule_completed (0x1fbf1f) checks that timestamp is set and not in the future.
+shared_statistics::on_victory_item_event (0x1dded5) mirrors those container
+counts into the two serialized team-point bytes. This establishes an early
+objective independent of the time-limit rule: a lead alone is insufficient.
+
+The fixed stock-map setup requests five items. The server now also finalizes
+when a donor-CRC-checked, decodable post-countdown snapshot shows exactly
+five for one team and zero for the other. This is an inference from those
+native event paths, under the same single-donor trust as recovery. It is not
+a recovered community-server policy, an independent physics check, or a
+general rule for other modes/maps with a different actual item count.
+
+Zero-item configurations and impossible totals (including u8 overflow and
+both teams claiming all items) do not establish objective completion. An
+upload without its matching CRC cannot finish; a late accepted input that
+invalidates the snapshot prevents using that snapshot as a winning state.
+After completion the coordinator blocks inputs/admission and emits one
+local finish per connected player, retaining that snapshot for results.
+Detection follows the existing five-second donor acquisition cadence; the
+server does not learn the exact winning event time from the score bytes.
+
+Two new coordinator tests exercise both winners, a partial score, impossible
+totals, pre-countdown state, missing CRC, late-input invalidation, routing,
+post-finish input rejection and one-shot departure. The complete 51-test
+Rust suite passes. A real five-battery win has not yet been captured against
+this change; this automated coverage is not a claim of that gameplay test.
+
+The world snapshot's second top-level block contains shared statistics.
+It has one record per STATIC roster slot, including inactive slots:
+  24 little-endian u16 event counters;
+  sparse received-damage array: u8 count, then (u8 slot, f32 damage);
+  sparse last-hit array: u8 count, then (u8 slot, u32 relative time);
+  u32 last-killed relative time, u8 last-hit enemy (ff means absent);
+  u16 CURRENT kill streak, f32 action coefficient, seven faction bytes.
+Then seven curing-manager bytes per roster slot, victory-item manager data
+per static item (contributor mask, contribution floats, two distance floats,
+team and in-container byte), and two u8 team scores. No trailing bytes.
+
+The decoder checks roster/item bounds, sparse duplicate and invalid slots,
+finite floats, contribution masks and complete consumption. Snapshot layout
+validation and donor CRC checks happen separately. A donor matching its own
+reported CRC is not independent anti-cheat validation or majority consensus.
+
+Event indices, recovered from PDB match_stats_events_dict_enum:
+  0 kill, 1 assist, 2 death, 3 suicide, 4 teamkill, 5 artefact,
+  6 bring victory item, 7 cure teammate, 8 rescue, 9 revenge,
+  10 kill item carrier, 11 participation, 12 victory, 13 melee,
+  14 silent kill, 15 headshot, 16 winning-team item bonus,
+  17 steal item, 18 recover item, 19 find item, 20 deposit item,
+  21 entrap enemy, 22 bullet fired, 23 bullet hit; 24 is the count.
+Scores use the static setup's coefficients. Native accumulation is f32 with
+a 0.01 factor for distance counters 6/17/18, rounded by floor(total+0.5),
+then represented as u16. Team score comparison yields winner 0 or 1; tie=2.
+
+RESULTS DELIVERY IN THIS SERVER
+
+At the fixed match deadline, stop new admissions and wait up to ten seconds
+for a donor-CRC-checked snapshot at/after the deadline with valid statistics.
+Retain results before sending local 0x57. Each account gets the common roster
+and its own detailed record. Keep this completed generation in memory after
+the last UDP peer leaves; require matching instance and generation at the
+front door. New-match routing is not triggered by the results reply.
+
+The mode-0600 Unix control socket accepts:
+  results NONCE GENERATION SLOT
+Reply:
+  v1 NONCE INSTANCE_HEX GENERATION SNAPSHOT_TIME HEX_NATIVE_PACKET
+or a five-field reply ending in "missing". The front door checks nonce,
+instance, generation, timestamp bounds, packet size and message prefix.
+TCP framing is the existing u8 length, or zero plus u16 length.
+
+Native results packet:
+  36 13, u32 match ID, u8 winner, two u8 team scores;
+  best-player, gunslinger, support and researcher banners;
+  u8 roster count, player_result_brief records;
+  player_result_full for this account.
+Brief records contain name, account ID, score, kills, deaths, team and Elo.
+Account IDs, names, teams and equipment come from our fixed local roster.
+Do not treat snapshot data as an authority for account identity or rewards.
+
+VALIDATION
+
+All 11 uploaded snapshots in the original community capture decode exactly,
+including nonzero kills, deaths, assists, shots and hits. For example, its
+last decoded snapshot (96500) has slot 5 with two kills, four shots, two hits
+and a current streak of two. The previous rejoin capture's final donor state
+(305250) has 15 shots for slot 1. These are decoded simulation counters;
+neither observation proves the community server's reward policy.
+
+Unit tests use an independent explicit wire fixture, every truncated prefix,
+wrong counts, trailing bytes, invalid slots and nonfinite floats.
+A coordinator test requires a final upload AND its donor CRC before local
+finish. TCP tests verify delivery only for the routed instance/generation,
+once per sign-in/request, without automatic requeue. Forty-nine Rust tests
+(44 unit, four cohort UDP, one lifecycle) and eight Python TCP tests pass.
+
+REAL TWO-CLIENT RESULTS TEST
+
+evidence/results-live contains the packet capture, client/server logs,
+decoded comparison, two results screenshots and test output. Launch used
+the established two Wine prefixes, a 60-second match and ten-second countdown,
+with -minimum_resources_memory_size=768 -mt_allocator=512. The latter raises
+the arena from 264MiB to 512MiB to avoid the previously observed allocation
+failure; it does not explain that failure's root cause.
+
+Final snapshot 75100, membership mask 3, CRC 860fdb82, team scores [0,0].
+Slot 1 fired seven shots with no hits. The decoded donor statistics preserve
+that nonzero count. Both clients received their native results packet and
+displayed the roster, local details and PPSh-41 instead of the waiting screen.
+No kills happened in this short test; nonzero kill/death UI validation remains
+open. The native UI labels the 0:0 tie "Defeat" on both clients; we sent native
+winner value 2. Do not claim a verified victory/tie presentation policy.
+
+Capture: 4,829 packets, zero kernel drops; 4,765 decoded UDP datagrams.
+686 matching common CRC samples, zero mismatches, from 650 through 70550;
+49 samples excluded across membership boundaries. Every captured input has
+its expected relay. Donor CRC checking at 75100 is separate from these
+cross-client comparisons: do not extend their measured range to the final
+snapshot or claim that both clients independently agreed on its contents.
+
+The initial live run sent departure with the old 70600 deadline, and both
+clients logged a too-old leave request before closing and showing results.
+The subsequent change timestamps departure at current game time on the 50ms
+grid, leaving the scoring/input deadline unchanged. Updated unit and UDP
+tests pass; the subsequent real-client retest is recorded below. Logs also
+contain "Unknown Client status received. type = 19" after
+successful result parsing. The native query-info handler calls the generic
+status callback after parsing; the screenshots, not that warning alone,
+establish successful results rendering.
+
+FINISH-TIMESTAMP RETEST
+
+evidence/finish-retest contains a second two-client run with a 15-second match
+and ten-second countdown, using the rebuilt server including objective-end
+support. No inputs or objective completion were exercised in this short run.
+Final donor snapshot: time 30100, mask 3, CRC 69186abb, team scores [0,0].
+Both local 0x57 departures carry 30700 rather than the old 25600 deadline.
+Both clients show populated results, and neither client log contains any
+REJECTED message, including the earlier too-old leave warning.
+
+Capture: 2,212 packets, zero kernel drops; 2,148 decoded UDP datagrams.
+Only five historical times coincide between the clients in this run, all
+matching (5050..25150). Different sample timestamps are not mismatches, but
+these five samples do not support a broad claim about combat or continuous
+agreement. The preceding results-live test provides the larger comparison.
+
+The second client launch initially hit an automatic approval-review timeout;
+the explicitly permitted single retry succeeded. It was not a game crash or
+an observed server startup failure. The capture started before either login.
+
+LIMITS AND FOLLOW-UP
+
+Current follow-up: RESULTS-FALLBACK.txt verifies the separate SRP native
+package-v4's missing-results notice and usable Close path. The older community
+client retains the UI limitation described below. Missing statistics are never
+fabricated, and the server's bounded final-donor wait is unchanged.
+
+This is a fixed-roster local test, with no persistent economy. XP, money,
+reputation, Elo, quests and drops are zero; award banners are unassigned.
+Shared snapshots contain current streak, not historical maximum: maximum
+streak remains the default, never a mislabeled current streak. Distance
+counter presentation and finish-only event bonuses need further validation.
+The native finish_match adds participation/victory/item bonuses; do not
+invent or double-apply those without checking the final snapshot timing.
+
+Only the latest completed generation is retained, in memory. Restart
+persistence, historical results, and clicking other players for detailed
+statistics (query 0x0e) are not implemented. If no valid final donor snapshot
+arrives within ten seconds, the match still closes; a native results-error
+UI/fallback is unresolved and can still leave that failure case waiting.
+Operation-denied handling 0x16f29f has no general query-info branch, so merely
+sending a guessed denial packet is not an established fix.

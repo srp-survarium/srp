@@ -1,0 +1,136 @@
+v0.21d shared coordinator and corrected solo retest
+2026-10-11; branch feature/server-v021d
+
+RESULT
+
+This records the coordinator/solo milestone. TWO-CLIENTS.txt supersedes its
+real-client validation status with the subsequent two-client match.
+
+The executable now has one match coordinator shared by its admitted peers.
+It can start a fixed cohort together, restore one common empty baseline,
+activate every member at the same timestamp, relay timestamped inputs, and
+broadcast departure. These paths pass two actual UDP/executable integration
+tests with simulated clients, including a lost state fragment and malformed
+input isolation. There are 26 passing Rust tests (24 unit, 2 integration).
+This is not yet verified two-client game simulation.
+
+A real patched v0.21d client also completed the updated solo path. It loaded,
+spawned, accepted movement, and remained active from approximately 19:05:51
+until its test window was deliberately closed at 19:08:38 local. There was
+one initial synchronization, no repeated "unknown message type : 0" warning,
+and no automatic repeated reset. Messaging signed in and issued its normal
+subscription/list queries. The client still logs stock asset/surface warnings
+and one 0.501-second large-move warning during input/focus interaction.
+
+Automated mouse input did not produce a fire action or reduce ammunition;
+shooting remains unverified. A stack dump was written exactly when we closed
+the window; the Wine process exited 0. This is not evidence of an unsolicited
+mid-match crash, and it does not establish the cause of the earlier run's
+exit. No two-real-client movement/combat/recovery claim is made.
+
+CAPTURE AND BASELINE EVIDENCE
+
+coordinator-solo.pcap: 4,595 packets, zero kernel drops. Capture limited to
+loopback test service ports 12021..12024 and 18021. The UDP span is 186.303
+seconds, including server traffic after the window closed and before peer
+inactivity removal. The observed in-game interval is about 167 seconds.
+
+The client uploaded time 50, 672 bytes, active mask zero, CRC 6fa8cb1c.
+Its four length-prefixed empty-world blocks contain 16, 222, 142 and 280 bytes;
+their boundaries consume the whole snapshot exactly. This independently
+checks the new initial-state boundary validator against real engine output.
+Server 52 reference=1, target=250; state 53 restored time 50; enter 56 slot=0,
+time=600. The capture contains seven input messages, timestamps 22800..26350,
+all on the 50 ms grid, actions 0 and 1 (forward movement). There are 167 client
+clock notifications and 464 historical CRC notifications. These are observed
+counts, not a claim about configured notification frequencies.
+
+All 1,394 client and 2,468 server heartbeat frames used the corrected control
+framing. The analyzer found zero invalid control/application framing cases.
+The server did not compare the historical CRCs in this milestone.
+
+NEW SRP POLICIES, NOT RECOVERED COMMUNITY-SERVER BEHAVIOR
+
+Admission: START_PLAYERS defaults to 1. For a two-client starting cohort run:
+
+  cargo run --offline -p match-server-021d -- /tmp/srp-021d-sessions 12023 2
+
+The front door must create at least two slots (its default --players is 2).
+Sign in with two different test account names. Both clients must load before
+the match starts. Roster size and starting cohort size are distinct: a static
+two-slot roster may still run one active test player. Once bootstrap starts,
+new peers are not admitted; late join/reconnect to an active match is gated.
+
+Bootstrap: wait for all starting members' ready notifications and complete,
+structurally valid empty snapshots. Choose the lowest admitted slot's baseline
+and send that same body/time to everybody, even if other candidates differ.
+Initial snapshot timestamps must be 50 ms aligned, nonzero, at most 1,000 ms;
+mask must be zero; all four blocks must fit and consume the payload exactly;
+body plus the download timestamp must fit the transport message limit.
+Opaque block semantics are not validated by the server.
+
+One clock is anchored as a (wall time, game time) pair, avoiding early-start
+underflow. Reset target is baseline time + 200 ms. Clock replies must echo the
+outstanding reference. All baseline deliveries must be acknowledged before
+enter events are broadcast to every member at a shared future 50 ms boundary,
+at least 200 ms ahead. This is an initial scheduling policy, not measured
+latency compensation. A bootstrap member loss or a 15-second bootstrap timeout
+aborts the cohort, rather than starting inconsistent subsets.
+
+Inputs: authenticated peer owns the source slot. Require 16 bytes, finite
+rotations and a 50 ms timestamp grid. Only admitted playing peers can submit.
+Accept times no earlier than activation and within [server time - 10 seconds,
+server time + 500 ms]. Retain up to 16,384 accepted payloads, at most 32 distinct
+revisions for one slot/timestamp. Prune by timestamp, not arrival order.
+Exact already-seen revisions are suppressed, including old retries after a
+new revision. Distinct revisions are accepted in arrival order. The protocol
+has no revision serial number: unseen older revisions can still arrive after
+newer ones, and server-to-client unordered retries can reorder them too. This
+policy cannot claim to recover the sender's intended latest revision.
+
+Relay 54 contains the authenticated slot followed by the unchanged 45 body.
+This experiment does not echo normal inputs to their sender. The deployed
+server's echo/recovery behavior remains unresolved and must be tested against
+the real engine. Ten seconds of server history does NOT establish a ten-second
+client rollback window. Accepted old input may still be too old for clients;
+no automatic resync is triggered by every input rejection.
+
+Departure: broadcast 57 at a future grid time to remaining members. After the
+last member leaves, clear state/history and allow another initial cohort.
+Application or queue errors remove the responsible peer; they do not unwind
+main and terminate the listening service. UDP liveness timeout is 15 seconds.
+During shared bootstrap a member failure explicitly closes the whole cohort.
+No production-grade reconnect generation or late-state replay is implemented.
+
+TEST BOUNDARIES AND NEXT WORK
+
+The socket tests launch the real executable and two loopback peers. They
+exercise setup, separate application snapshot fragments, ordered state
+transfer with deliberate loss, common reset/baseline, the all-peer ACK barrier,
+shared membership, bidirectional input relay and graceful departure. A second
+test sends NaN rotation and verifies peer removal/leave while the server stays
+alive. Their synthetic state bodies are structural fixtures only, never sent
+to a real engine.
+
+Next: reliable fire-input automation; two isolated real clients starting as a
+cohort; compare same-time CRCs and visible movement/shots/death/respawn. Then
+implement populated-state eligibility, input/membership backlog replay, late
+join, clock correction, reference selection, divergence recovery and results.
+Current 44/46 notifications are accepted but do not drive correction/recovery.
+The shared coordinator has not satisfied the M4 real-client acceptance gate.
+
+For desktop automation, the successful login/movement helper advertised the
+full Linux keyboard key range 1..247 before sending Enter/W. Earlier minimal
+keyboard and mouse helpers were unreliable; a root cause is not established.
+The helper targeted only our survarium-wine.exe window and private prefix.
+No other worker's game processes were controlled. All our test services,
+capture and client processes were stopped after this run.
+
+EVIDENCE LOCATION
+
+Working files: /tmp/srp-021d-local-test
+HDD: 0.21d-network-investigation-2026-10-11/evidence/shared-coordinator/
+  coordinator-solo.pcap, coordinator-solo-analysis.json, analyzer script
+  client-coordinator-solo.log, match-server-4.log, front-door-4.log, game-4.log
+  coordinator-spawn.png, coordinator-movement.png, coordinator-stability.png
+Only versioned code and notes belong in Git; capture/session files do not.

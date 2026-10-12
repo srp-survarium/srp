@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "game": "C:/Games/Survarium-SRP/game",
+  "service_port": 19031,
+  "language": "english",
+  "hash_step_50ms": false,
+  "runtime": {"kind": "native"}
+}

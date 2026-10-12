@@ -1,0 +1,153 @@
+v0.21d local server and native client: PR status
+2026-10-12
+
+SCOPE AND ENTRY POINTS
+
+This change adds a separate local development stack to SRP: a Rust match
+coordinator, Python login/lobby/menu/chat services, and source transformations
+for retail build 2010's executable and Scaleform menu. The native Matches UI
+supports Create/Join/Ready/Start, gameplay, results and return to the browser.
+The game clients run the simulation. The coordinator routes inputs, compares
+reported states and requests recovery from a trusted client; it has no
+independent physics simulation or anti-cheat authority.
+
+The PR is based directly on SRP's v0.10b branch at f175e8266. It imports only
+v0.21d work from server checkpoint 15fa8bd27 and the client source snapshot.
+The older server implementations are unchanged. Other map/content branches,
+v0.26 experiments and the separate resource porter are not part of this change.
+No retail executables, DLL builds, resource archives, private account stores,
+session grants or private TLS keys are included. Build outputs remain local.
+
+Read in this order:
+  servers/match-server-021d/README.txt - local service setup and test commands
+  client/021d/README.md - build a package, install/restore, launch profiles
+  client/021d/NOTICE.md - source provenance and external build dependencies
+  docs/v021d/NATIVE-ADMISSION.txt - current native join/reconnect/loss acceptance
+  docs/v021d/SRP1-INTEGRATION.txt - protocol boundary and earlier native lifecycle
+  docs/v021d/RECOVERED-CONTRACTS.txt - transport and simulation contracts
+
+The server's native_menu.py is the integrated service. The similarly named
+client-side fixture modules remain development harnesses. Use the integrated
+service commands in the two READMEs for the current end-to-end setup.
+
+WHAT HAS BEEN DEMONSTRATED
+
+The user accepted multiplayer movement, shooting, damage/death, fall death,
+battery pickup/deposit and chat. Those playtests are accepted evidence and do
+not need repeating merely to prepare this PR.
+
+Historical community-client runs demonstrated same-time CRC agreement,
+populated late join, reference departure, recovery following a deliberate
+three-second blackout, delayed state transfer, same-account rejoin through
+recovery, timed results and consecutive sessions. These finite tests do not
+establish arbitrary loss tolerance or seamless reconnect.
+
+Native SRP1 runs demonstrated two-client menu admission and simulation,
+populated active recovery, a real Matches -> game -> results -> browser cycle,
+and normal departure. The newer SrpResults helper was separately tested with
+dropped and delayed result replies: after 15 seconds the screen explains the
+wait and retains a usable Close button; late real statistics still display.
+The server never fabricates statistics. RESULTS-FALLBACK.txt records the exact
+package-v4 fingerprints and evidence; older community clients lack this fix.
+
+Account identities and native order IDs survive service restart. Real-service
+protocol tests cover reverse-order login after restart, native room/team chat,
+match allocation and graceful child/grant cleanup. These are protocol tests,
+not additional graphical playtests. Native chat fixes must not be confused
+with the earlier user-accepted community chat test.
+
+VALIDATION AND REVIEW
+
+On the clean PR base, cargo test --locked --offline -p match-server-021d passed
+all 65 tests in one run (56 unit, eight UDP and one process lifecycle).
+After the allocation fix, all 49 server Python tests passed. The real-service
+lifecycle script also passed allocation/handoff, room/team chat, graceful
+cleanup, durable accounts and increasing order IDs across restart. A targeted
+CLI check verified explicit errors for missing custom front-door status/results
+capabilities. No graphical gameplay tests were repeated during initial PR preparation;
+the subsequent native acceptance run is recorded below.
+The vendored resource archive tool passed four Rust tests with its own lockfile.
+Client Python tests passed 42 tests, with one retail-file integration test
+skipped because SRP_RETAIL_EXE was unset. These source tests do not rebuild or
+reinstall the previously verified retail package.
+The client DLL was rebuilt from this PR tree with the recorded MinGW toolchain
+and is byte-identical to the tested package-v4 DLL (SHA256
+5e842f8cc5d0a6aa2bc40c621346811696cf89a9a29f8860bb75999a8ad4de9e).
+The subsequent native-admission follow-up rebuilt and verified the complete
+EXE/DLL/movie/archive package locally. Generated retail assets remain outside Git.
+
+Two independent agents reviewed the server and client with explicit context:
+local development scope, accepted playtests, protocol differences, existing
+test results and known gaps. The client review found no blocking code issue;
+it requested reconciliation of outdated README milestone/preview wording.
+The server review identified allocation leakage when all players depart or
+fail to connect without returning to the lobby. The native allocator now
+reclaims changed child generations and expires an incomplete initial cohort
+after 120 seconds, preserving available results before stopping the child.
+Running matches are unaffected by the startup deadline. Seven regression tests
+cover expiry, active-match protection, unavailable status, cleanup and retained
+results. An isolated real-child UDP reproduction verified cleanup for final
+departure, zero connected players and a partially connected initial roster.
+The review also requested an explicit custom front-door capability error;
+that argument guard is fixed. The subsequent persistent-identity change also
+resolves the roster/account display-alias observation.
+
+The earlier full workspace audit at the original content-branch base had one
+failing old match-server parser expectation. It reproduced at d9d209cc1 without
+the v0.21d changes. SERVER-AUDIT.txt records that older baseline, not a fresh
+full-workspace result on this PR's different v0.10b base. No older test is
+changed or disabled here.
+
+KNOWN LIMITS
+
+- Local loopback only, School/Battery hunt and fixed loadouts. Development
+  login accepts any nonempty test password. It is not public authentication.
+- Real native-client signed-drift validation passes for the bounded local
+  scenario: approximately +/-300 ms induced error corrected to a few milliseconds
+  without world reset or state mismatch. Arbitrary latency/stall behavior remains
+  outside that evidence; see CLOCK-CORRECTION.txt.
+- Supervisor crash cleanup is implemented after the initial PR review: native
+  children watch the parent's pipe, and an inherited workspace lease protects
+  restart cleanup. Actual SIGKILL and subsequent service restart passed. See
+  IMPLEMENTATION-PROGRESS.txt for the continuing work and evidence.
+- Rooms, active worlds and completed statistics are not persistent across
+  service restart. Durable account identities/order IDs are a separate claim.
+- Native menu late join/re-entry is implemented with private admission grants
+  and reserved immutable descriptors. Real native-client late join, abrupt
+  process death/reconnect with the same account, and recovery after 33 dropped
+  packets passed. The scoreboard retains grey inactive reserved rows; final
+  results contain only actual participants. See NATIVE-ADMISSION.txt.
+- Five-battery victory has implementation/unit coverage but no recorded full
+  objective-win playtest. The user explicitly told the agent not to attempt
+  that full test. The accepted single deposit is narrower evidence.
+- Windows runtime/install behavior remains unvalidated. Linux/Wine is the
+  exercised path. Retail files and external build tools must be supplied.
+- Native allocation caps concurrent matches at eight. No ten-match load test
+  or capacity guarantee exists. Economy/rewards/profile flows are fixtures;
+  the native Matches UI is the supported local admission path.
+- Persistent names/result identities now follow the same accounts as chat,
+  independent of roster join order. The admission follow-up has 74 passing Rust
+  tests, 60 passing server Python tests and the extended real-service lifecycle.
+  Independent follow-up review found initial-member capacity leakage and unused
+  descriptors in results; both are fixed with regressions. Final review found
+  no remaining substantive blocker in the admission/results diff.
+
+HISTORICAL DOCUMENTS AND EVIDENCE
+
+START-HERE.txt, SERVER-PLAN.txt and SERVER-AUDIT.txt retain dated checkpoints.
+Later sections and follow-up notes supersede earlier implementation gaps;
+this file is the current PR overview. NATIVE-CHAT.txt, CLOCK-CORRECTION.txt and
+RESULTS-FALLBACK.txt describe the latest changes and their evidence boundaries.
+Detailed packet/log/screenshot evidence is stored outside Git on the local
+HDD at /mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11.
+Its latest pre-PR archive verification covered 560 SHA256-listed files. The
+source reports preserve observations and commands, but historical /tmp paths
+and that archive are not portable dependencies needed to run this source.
+
+FOLLOW-UP ACCEPTANCE
+
+The follow-up real-client run verified native admission/reconnect/loss recovery,
+persistent scoreboard/result identities, and signed clock correction. Both test
+clients, private Wine servers, the menu service and private X display were then
+stopped, with grants/sockets removed and ports released. No five-battery attempt
+was made. NATIVE-ADMISSION.txt and CLOCK-CORRECTION.txt record the current evidence.

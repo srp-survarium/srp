@@ -1,0 +1,151 @@
+v0.21d measured-latency clock correction
+2026-10-12; feature/server-v021d
+
+IMPLEMENTED
+
+The server now uses periodic client44 reports to correct small persistent
+clock drift with server55. It does not clear or replace world history for a
+clock correction. Server52 remains the startup/full-state recovery operation.
+This is an explicit SRP policy, not a recovered community-server algorithm.
+
+Transport endpoints keep bounded send-time records for the last 256 datagrams.
+An ACK yields a sample for the newest newly acknowledged send in that packet.
+Each retry has a different datagram sequence, so its own send time is used.
+Duplicate ACKs cannot refresh old samples; unsent/future acknowledgments are
+ignored. The nearest absolute sequence mapping handles 16-bit wrap. Store at
+most 64 RTT samples and use the minimum sample no older than five seconds.
+RTT includes client ACK scheduling delay. RTT/2 estimates a symmetric path;
+the server has no independent one-way delay measurement.
+
+The coordinator accepts clock reports only for playing peers. Initial reset,
+late join and active recovery clear that peer's slew state. Finished/loading
+peers cannot receive a slew. A pending52/53/55 suppresses new correction and
+extends cooldown, allowing a late-delivered correction time to finish.
+
+Policy for an eligible observation:
+  estimated error = shared server time - reported client time - RTT/2;
+  require fresh RTT <=1000ms;
+  ignore duplicate/decreasing timestamps and reports spaced under500ms;
+  drop accumulated evidence after a report gap over2500ms;
+  reject absolute error above2000ms without poisoning the timestamp high-water;
+  ignore errors within75ms;
+  require three distinct reports, with error range no wider than50ms;
+  use their median, clamped to +/-100ms, encoded as signed little-endian i16;
+  wait at least five seconds after reset/correction or a blocked observation.
+
+Positive offsets speed up the client; negative offsets slow it down. At the
+default client factor 0.05, a 100ms correction takes two seconds at 1.05x/0.95x.
+The server neither jumps the client clock nor emits an extra player event.
+Logs record slot, signed offset and sampled RTT when a correction is queued.
+
+CLIENT EVIDENCE
+
+Client44 scheduling/field source is recorded in SERVER-AUDIT.txt:
+try_send_all0x1a310b sends approximately every1000 simulation milliseconds,
+with a populated history/event horizon, but serializes the floating timer's
+current milliseconds rather than the rounded simulation timestamp.
+
+Server55 dispatch0x1a160f..0x1a1626 reads two bytes and invokes
+floating_timer::set_offset0x150d70. That rebases the current timer, selects
+the signed floating factor and calculates an interval ending after the offset
+has accrued. get_elapsed_ticks_impl0x150e87 adds the temporary factor until
+that endpoint, then continues at the normal factor. A new offset replaces
+the previous remaining interval; it is not an additive instant time jump.
+
+game::game0x15149c..0x1514cc reads float0.05 from0x8806ec and stores it at
+timer+0x28. The time_floating_factor console command initializer0x68c219
+references the same value, with bounds0.001..0.5. The inspected test configs
+contain no explicit override. Binary comparison confirms identical constants
+and bytes for set_offset, get_elapsed_ticks_impl, set_time_factor_impl and
+try_send_all in the inspected retail and community-patched EXEs. Full-file
+hashes and the scoped comparison hashes are in binary-contract.json.
+
+AUTOMATED VALIDATION
+
+A complete Rust package run passed 64 tests: 55 unit, eight real UDP/executable
+tests, one process lifecycle. A subsequently added delayed-correction guard
+test also passed (65 distinct passing tests). The production code is unchanged
+between those two runs.
+
+Clock tests check signed correction, transit compensation, deadband, variable
+latency, missing RTT, stale/duplicate/extreme reports, reset/gap evidence,
+cooldown after delayed delivery, and convergence in an independent client
+rate model for clocks both 400ms ahead and 400ms behind. The model spends each
+offset at the binary-derived default rate and checks that its remaining
+interval finishes before a replacement correction.
+
+Transport tests exercise a lost first attempt and ACK of its retry, duplicate
+ACK expiry, future ACK rejection, sequence wrap and bounded timestamp history.
+Coordinator tests verify stage guards and that a55 leaves the common baseline,
+activation and playing state intact.
+
+The new UDP test starts the real SRP1 executable and two protocol clients with
+opposite 300ms report offsets. It receives +100 and -100, deliberately loses the
+first correction for one client, and verifies reliable delivery without a
+second52/world reset. Existing lost-state/replay, input, departure and timed
+finish tests still pass. These protocol clients do not run game physics.
+
+VALIDATION BOUNDARY AND LIMITS
+
+No real graphical game was launched for this change; prior accepted combat
+and chat were not repeated. Actual engine behavior under deliberately injected
+clock drift is not yet a new observed acceptance result. Binary evidence,
+rate-model tests and real server/UDP tests prove narrower, explicit claims.
+
+The cooldown is designed for the stock0.05 factor, not every console override.
+Long client stalls, errors above2s, RTT above1s, strongly asymmetric paths and
+arbitrary jitter are outside this small-drift correction policy. Existing
+state disagreement/recovery remains separate; ignoring an extreme clock report
+is not proof that recovery will repair every such case. No client time report
+or ACK authenticates game physics or prevents a malicious client from lying.
+
+evidence/clock-correction contains the complete test log, delayed-guard log,
+binary comparison and the game constructor/console-command disassemblies.
+Earlier timer/send/dispatch disassemblies remain in evidence/clock-contract.
+
+REAL-ENGINE FOLLOW-UP (2026-10-12; supersedes the pending gate above)
+
+Two real native SRP1 clients in a fresh match were tested after native admission,
+loss recovery and reconnect acceptance. The authenticated menu API created the
+clock-test room and delivered ordinary native redirects; synthetic clients or
+fabricated clock reports were not used. Account order was 2,1. Both used the
+verified package-v5, default floating factor and NVIDIA rendering, no debugger.
+
+The private control socket now accepts clock-offset SLOT SIGNED_MS, nonzero
+within -1000..1000. It queues the stock55 only for Playing, unfinished peers
+without pending52/53/55. Enqueue failure is logged locally, never propagated
+out of the server loop. This test command enables observation tracing; the
+optional SRP_TEST_TRACE_CLOCK environment variable enables it from startup.
+Tracing records report arrival wall time, shared time, real client44 time and
+sampled RTT. It does not change those values. Ordinary runs do not trace them.
+The playing/loading/recovery/finished guard is covered by the focused clock
+lifecycle regression. Independent review verified the guard and error handling.
+
+A +1 ms probe enabled tracing, followed six seconds later by +300 ms for slot0
+and -300 ms for slot1. These commands induce native gradual slews, not instant
+clock jumps. The observed error is shared_time - reported_time - RTT/2.
+A fixed 45-second observation window after the main injections gave:
+
+  slot0/account2: peak error -302 ms (client ahead); three automatic -100 ms
+    corrections; all subsequent samples within +/-10 ms after 23.754 seconds; final five
+    errors +0.5,-0.5,-0.5,-1.5,-2.5 ms.
+  slot1/account1: peak error +300 ms (client behind); three automatic +100 ms
+    corrections; all subsequent samples within +/-10 ms after 25.760 seconds; final five
+    errors +0.5,-1.0,-3.5,-3.5,-1.0 ms.
+
+Correction RTT samples were 6..17 ms. One pre-injection slot1 observation had
+175.5 ms estimated error; it did not lead to an automatic correction before the
+main probe. There were no52 world resets, extra56/57 membership events, or
+historical CRC disagreements in the measured correction window. Both clients
+continued rendering their match. This validates this bounded local scenario,
+not arbitrary asymmetric latency, stalls, factor overrides or malicious reports.
+The intentional dropped-packet recovery test is separate and described in
+NATIVE-ADMISSION.txt; the clock test did not claim a lost real-client55.
+
+Evidence in /tmp/srp-v021d-native-acceptance: clock-measurement.log is the bounded
+server log; clock-observations.csv contains the actual reports; clock-analysis.json
+and analyze_clock.py record/reproduce the calculations; clock-probe-requests.json
+records the injected commands. The complete run logs also retain later cleanup.
+
+Durable evidence copy (with its own SHA256SUMS):
+/mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11/evidence/native-admission-and-clock-2026-10-12

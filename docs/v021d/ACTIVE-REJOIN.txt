@@ -1,0 +1,146 @@
+v0.21d active-match account rejoin and lifecycle routing
+2026-10-11; feature/server-v021d
+
+RESULT AND LIMITS
+
+The same account can now reconnect through the lobby to its original running
+match once its old UDP peer is removed. The real-client test restored slot1
+from the surviving slot0 client, retained the match clock/identity and accepted
+movement and shooting afterward. This is removal plus native re-entry of the
+same roster slot, not restoration of a suspended character with guaranteed
+position, ammunition, statistics or inventory continuity.
+
+The first re-entry was NOT immediately consistent. Both clients agreed on the
+mask1 baseline, then disagreed after slot1 activation. Automatic disagreement
+recovery restored the returning client again and established agreement. The
+cause of that initial discrepancy is not yet isolated. It must not be hidden
+by reporting only the inspector's final post-reset comparison. Captured
+before-active-recovery.pcap preserves the initial comparison separately.
+
+LOBBY ROUTING
+
+Previously, one automatic redirect per account prevented finished matches
+from starting again but also prevented reconnect into an ongoing match.
+With --match-control PATH, the front door asks the match server for fresh
+lifecycle state over its optional local Unix datagram control socket.
+
+Request: status NONCE
+Reply: v1 NONCE INSTANCE_HEX GENERATION PHASE OCCUPIED_MASK_DECIMAL
+
+The socket remains mode0600. Requests have a random u64 nonce and a temporary
+bound reply address. The connected reply socket checks nonce, version,
+field count/ranges and phase, with a250ms timeout. Missing, malformed or stale
+replies never authorize a redirect. The server handles at most eight control
+requests per iteration; an expired reply recipient does not fail the match.
+
+Instance identifies this server process (startup UNIX nanoseconds). Generation
+starts at1 and advances when the last admitted peer is removed or a failed
+cohort is reset. An ordinary departure with another peer still playing leaves
+the generation unchanged. All admitted peers, including loading/restoring
+ones, occupy their slot. Phase is waiting, starting, running or finished;
+the configured end deadline counts as finished even before the timer tick.
+
+The first redirect can use a free slot in waiting/running. Later redirects
+for that account require the same instance AND generation, phase running,
+and a free slot. A30-second lease suppresses concurrent redirects while a
+client establishes its UDP connection. An idle lobby polls so it can redirect
+after the old peer times out without requiring another client lobby message.
+Each TCP lobby connection sends at most one redirect. Without --match-control,
+the previous one-redirect-per-account behavior remains.
+
+This is a fixed-roster local-test policy. Route identity/leases are in memory;
+front-door restart does not persist them. It is not production matchmaking,
+instant takeover of an occupied slot, restoration after server restart, or an
+explicit user-requested new-match flow. Match order remains the fixture's1.
+Chat subscriptions and account/session limitations remain in CHAT-RECONNECT.txt.
+
+REAL RUNS
+
+1. /tmp/srp-021d-active-rejoin (240-second match):
+Initial two clients worked. After slot1 restart, lobby correctly redirected
+it, but the engine failed before loading with "not enough memory for arena
+[global mt allocator]". No completed rejoin can be claimed. Slot0 finished and
+returned to the lobby with "Receiving match stats.."; it was not requeued.
+Capture:11,533 packets,zero kernel drops. Initial cohort:662 common matching
+CRCs,zero mismatches. Preserve the client allocation-error log and capture.
+
+2. /tmp/srp-021d-active-rejoin-retest (300-second match):
+Both fresh first joins hit the same allocation failure. This establishes
+that the failure is not specific to reconnect. Capture:1,768 packets,zero
+kernel drops; no playable cohort. Host memory was available; the engine's
+configured global multithreaded arena was264MiB. Root cause is not established.
+
+3. /tmp/srp-021d-active-rejoin-allocator (300-second match):
+Retested both clients with -minimum_resources_memory_size=768 -mt_allocator=512.
+The retail binary describes mt_allocator as maximum global mt allocator MB;
+startup logs confirm536,870,912bytes. Both clients loaded and the returning
+client loaded with the same option. This is a launch workaround, not a binary
+or gameplay patch and not a proven root-cause fix.
+
+Client B (prefix-peer2/window6060) authenticated first as slot0/reference.
+Client A (prefix/window6059) was slot1; it was closed and restarted as6061.
+Initial activation time600. Captured pre-close shooting at35300, stop35650,
+neutral35700. Old slot1 leaves at65200. Returning connection receives baseline
+120150(mask1), then shared slot1 activation121100. Status before and after:
+  ('18dd918faec41723', 1, 'running', 3)
+No new match was created. The old and returning transports have distinct UDP
+ports39207 and34981; surviving reference uses51367.
+
+Before activation:8 matching common CRCs at120350..121050. After activation:
+41 mismatches at121150..125150. The server detects sustained disagreement and
+sends a second reset/state at125150(mask3); client log records FULL RESYNC.
+The server subsequently records post-restore agreement verified. No extra
+activation is sent for this second, active recovery. Movement input159000,
+shoot159650, stop160150 and neutral160200 are relayed to the survivor.
+after-rejoin-fire-a.png shows26/165 rounds and the continuing match timer.
+
+The full inspector clears comparison history at reset. Use the separate
+comparison-before-recovery.txt for the initial failure. Its pcap is an exact
+prefix of network.pcap ending before elapsed150037ms, the recovery reset.
+The inspector's same-slot old/new-flow relay comparison has no simultaneous
+membership and must not be treated as a missing-relay failure: a client is not
+supposed to receive echoes of its own slot's inputs from a previous transport.
+
+Final capture:16,379 packets,zero kernel drops;16,293 match UDP datagrams.
+After automatic recovery:1,815 matching common CRCs,zero mismatches,
+times125350..310050. Original cohort before departure:481 matches,zero
+mismatches. All cross-player inputs have captured relays while both were
+participating. These counts do not erase the41 initial re-entry mismatches.
+
+Both clients receive their local finish at310600 and return to the lobby.
+finished-a.png and finished-b.png show "Receiving match stats..", because
+results delivery is still missing. The user also reports being stuck on that
+screen. Only the intended three redirects appear (slot0 once,slot1 twice).
+After both leave, status is('18dd918faec41723',2,'waiting',0), and neither account
+is automatically requeued. Capture continues roughly25seconds beyond finish.
+Results response handling is the next usability issue to resolve.
+
+REPRODUCTION AND TESTS
+
+Build the match-server-021d package, then use LOCAL-BOOTSTRAP.txt's login/TLS
+fixture and client prefixes. Add this front-door option:
+  --match-control /tmp/RUN/control.sock
+Run the server with the identical path as its optional fifth argument:
+  target/debug/match-server-021d /tmp/RUN/sessions 12023 2 300 /tmp/RUN/control.sock
+Run both clients with the launch options above. Let both become active,
+restart the non-reference client's process with its original prefix/account,
+then let the original match deadline expire. Capture loopback UDP12023 and
+TCP12022/12024; login/password traffic is excluded. Session files, private
+TLS keys, configs and login screenshots are excluded from the evidence bundle.
+
+46 Rust tests passed:41 unit,4 cohort UDP/executable and1 lifecycle executable.
+Seven Python TCP/lobby tests passed. New checks cover occupied-slot waiting,
+same-live-generation rejoin, concurrent redirect suppression, finished/new
+instance/new generation rejection, absent/stale replies and an idle lobby
+observing a released slot. The real executable test checks status before
+admission, occupied status and generation advancement after the last leave.
+Coordinator unit coverage includes the deadline before its normal timer tick.
+
+NEXT INVESTIGATION
+
+Isolate why reactivating a previously used slot differs across clients despite
+an agreed mask1 snapshot: compare retained per-player state/input and activation
+initialization on the survivor versus the newly loaded client. Do not assert
+that the old character or statistics are preserved. Test reconnect during
+loading, a rapid reconnect while the old peer is still occupied, and explicit
+new-match/restart persistence separately from this tested case.

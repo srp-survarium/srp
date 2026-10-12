@@ -1,0 +1,112 @@
+v0.21d chat delivery and active-match reconnect test
+2026-10-11; feature/server-v021d
+
+LATER UPDATE: ACTIVE-REJOIN.txt records lifecycle-aware routing and the next
+real reconnect test, including an initial disagreement repaired by recovery.
+The failure below is retained as historical evidence.
+
+RESULT
+
+Basic chat now relays between real clients. The user confirmed match chat
+works, the receiver screenshot shows the other player's text, and service logs
+record channel5 messages delivered to one recipient. Team-channel messages
+correctly had zero recipients with one player on each opposing team.
+
+Game reconnect remains incomplete. After closing slot1 and allowing transport
+removal, restarting the same client/account restored login and messaging, but
+left it in the lobby. Slot0 continued the original thirty-minute match and
+supplied mask1 snapshots around game300250..305250. This was NOT match end.
+The one-automatic-redirect-per-account policy blocks rejoin. Its old log label
+"lobby retained after match" was misleading and is now changed to describe the
+actual reason: the automatic redirect was already used.
+
+Removing that policy unconditionally would reintroduce automatic requeue after
+timed finish. Next work must connect lobby routing to actual match lifecycle
+and slot availability, then verify both active rejoin and post-finish retention.
+This test does not yet exercise restoration of a returning player's old state
+or preservation of its earlier statistics. New-slot late join evidence is a
+different case; it does not establish account reconnect semantics.
+
+CHAT CONTROLS
+
+Both test user.cfg files bind chat=kT, send_message=kRETURN, send_to=kTAB.
+With chat focused, Tab selects the next channel and Shift+Tab the previous
+channel. Select the match channel to reach both teams, then Enter to send.
+The client remembers the selected tab; our first automated message used Team
+and therefore correctly did not reach the opposing player.
+
+Binary chat_handler::on_keyboard_action at0x1631f2 uses action0x45 for this
+switch and calls root.next_tab or root.previous_tab depending on Left Shift.
+Action0x44 sends/finishes typing. Key bindings, not an assumption from another
+game/build, establish the actual keys in these test prefixes.
+
+WIRE CONTRACT AND IMPLEMENTATION
+
+The messaging connection is framed TCP on12024, separate from match UDP12023.
+Existing c3 sign-in is u32 session plus client type5 (account). The server
+resolves the session to a fixed-roster slot and replies ca + u8-string name.
+
+on_message_typed at0x19b0ff writes:
+  c1,u32 channel-group,u8-string recipient,u8 channel,u8-string message.
+process_incoming_text_message at0x19b858 reads:
+  c9,u8 sender type,u32 sender ID,u8-string name,u8 channel,u8-string message.
+update_channel_subscriptions at0x1b3441 writes:
+  c5,nine LE u32 group IDs indexed by channel.
+Strings are byte-length-prefixed; text bytes are forwarded without recoding.
+
+Supported routes: general1 by matching subscription group, private4 to a
+case-insensitive Local N name, match5 for this test's match-order1, and team6/7
+for alternating fixed-roster teams. Match/team sending requires the slot to
+have received the match redirect. Team identity is derived from the signed-in
+slot; a client cannot choose the opponent's team by changing its channel byte.
+Recipients must have the matching channel subscription. No sender echo:
+on_message_typed already adds the local display message before transmitting.
+Server names/IDs come from the authenticated slot, not client-supplied text.
+
+Messages validate string boundaries, exact payload length, recipient length
+and embedded NULs. Existing TCP framing supports partial stream reads and
+long frames. Per-recipient write locks prevent interleaved outgoing frames.
+No account/password/chat text is printed by the relay; logs contain slot,
+channel, payload length and recipient count. Clan/squad/friends/history are
+not implemented. This is still the local fixed-roster companion, with blocking
+socket writes, not a production messaging service with slow-reader isolation.
+
+Messaging reconnect replaces any old socket for the same slot, shuts down the
+old connection and guards cleanup by connection identity so it cannot remove
+the new registration. This is separate from redirecting a client back into an
+ongoing UDP match, which remains the failed boundary described above.
+
+EVIDENCE AND VALIDATION
+
+Working directory:/tmp/srp-021d-chat-reconnect.
+Server command:
+  target/debug/match-server-021d /tmp/srp-021d-chat-reconnect/sessions 12023 2 1800 /tmp/srp-021d-chat-reconnect/control.sock
+Front door uses the existing local TLS fixture and --players2. Client build,
+prefixes, stock map and graphics launch settings remain unchanged.
+
+Historical window IDs:6038 (slot0/prefix),6039 (slot1/prefix-peer2).
+Slot1 was closed and restarted as window6040. It authenticated as slot1 again,
+connected to messaging and showed the lobby (reconnect-lobby-b.png), while
+slot0 remained active. No second slot1 match redirect appears in front-door.log.
+chat-channel-a.png shows a received Local2 message. The earlier
+chat-received-b.png is an intentionally unsuccessful team-to-opponent attempt,
+not proof of match-chat reception. User interaction supplied the successful
+match-channel messages recorded as channel5/recipients1.
+
+Capture network.pcap includes only local UDP12023 and TCP12022/12024, excluding
+the login/password exchange. Stopped at15,357 packets,zero kernel capture drops.
+The UDP inspector verifies2,040 equal common state CRCs,zero mismatches,
+times650..210150 before departure. Slot0 continues alone afterward. Captured
+chat/reconnect traffic is retained separately from the earlier recovery runs.
+
+Four Python tests pass over real loopback TCP: existing post-finish lobby
+retention/ping, match/team/private/general routing without sender echo,
+malformed-chat peer isolation, and same-slot messaging socket replacement with
+bidirectional delivery afterward. The Rust recovery suite remains44 passing.
+Run:
+  PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s servers/match-server-021d/tests -p test_front_door.py -v
+
+At checkpoint the capture is stopped; services and both clients remain live,
+one in the running match and the returning client in the lobby. Revalidate IDs
+and process handles before further control. Private sessions/configs/journals
+and TLS keys are not copied into the evidence bundle.

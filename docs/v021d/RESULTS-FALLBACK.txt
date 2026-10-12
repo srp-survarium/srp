@@ -1,0 +1,75 @@
+v0.21d missing-results fallback: verified client integration
+2026-10-12; server checkpoint 88d4d54f4
+
+RESULT
+
+The separate SRP native client package-v4 already implements a usable
+missing-results fallback. Its SrpResults helper watches the stock results
+screen; after 15 seconds waiting it explains that statistics have not arrived
+and the player can close the screen to return to Matches. The existing Close
+handler remains usable. Late native statistics replace the notice normally.
+There are no fabricated scores, rewards or guessed server error packets.
+
+This resolves the results-waiting UX gap for the SRP1 client when paired with
+that package. It does NOT change the older community-patched client's UI or
+make an absent final donor snapshot available. That older client retains the
+documented missing-results limitation. Normal results remain user-accepted.
+
+WHY NO NEW SERVER DENIAL PACKET
+
+The server already waits at most 10 seconds after the match deadline for a
+valid final donor state, then closes the match. An absent result remains
+absent when queried; it is not silently replaced with empty statistics.
+The client's 15-second notice begins when its results screen starts waiting,
+not at the match deadline, so these two bounds must not be conflated.
+
+Retail on_operation_denied_received0x16f29f has no query-info error branch.
+Lobby disconnect is also not an established results-error escape: the traced
+on_disconnected_from_lobby0x1a2079 calls show_disconnected_message(true), and
+that function0x176709 invokes root.show_sync. Merely closing the connection
+would introduce another synchronization overlay, not an accurate missing-
+statistics notice. Reuse the tested client UI instead of inventing a denial.
+
+AUTHORITATIVE CLIENT WORK
+
+Source checkout (read only during this reconciliation):
+  /home/sheep/Projects/survarium/srp/client/021d/ui/SrpResults.as
+  /home/sheep/Projects/survarium/srp/client/021d/docs/native-menu-integration.md
+
+Built package:
+  /home/sheep/Projects/survarium/srp/target/client-021d/package-v4
+The existing client install/launch tools and instructions own this deliverable;
+it is not imported into the server source tree or silently installed elsewhere.
+
+All three current payload files were streamed and SHA256-checked against
+package.json, including the large resource archive:
+  loader EXE:30c43d5878c6e89a061891ab069f771dffe33c2c0e7d6e868a25296de1690f01
+  DLL:5e842f8cc5d0a6aa2bc40c621346811696cf89a9a29f8860bb75999a8ad4de9e
+  resources.db:f3ea03d7831697c33c3310f2c76405f5be40cf6e082b7d92122d30aec2c30f9d
+The package manifest identifies the same SRP1-48-R1 protocol required by the
+integrated service. Fingerprints also distinguish this package from the older
+private client used in SRP1-INTEGRATION.txt; they must not be called identical.
+
+REUSED RUNTIME EVIDENCE
+
+The existing /tmp/srp-021d-results-fallback-v4 run injected faults only in
+results delivery. Its service log records withholding order1 and delaying
+order2 by25 seconds. The log's generic 'native results delivered' line is
+printed by the surrounding handler even when the injected send drops bytes;
+that line alone is NOT delivery evidence.
+
+The reviewed missing.png shows the readable explanatory notice and Close.
+second-arrived.png shows the subsequent native result instead of the notice.
+Additional waiting/delayed screenshots, the source helper, service fault log
+and verification.json corroborate the recorded two-match sequence, timer
+reset, successful Close paths and normal process/lock/grant cleanup. Coverage
+is1280x720, English, Wine; other resolutions/languages are not newly verified.
+
+The absent-reply UI condition is the same whether the reply was deliberately
+withheld or the server has no final state. Applying this UI evidence to the
+server's donor-failure case is a control-flow inference, not a newly run
+end-to-end missing-donor gameplay test. No accepted gameplay was repeated.
+
+evidence/results-fallback-client archives the allowed screenshots, service
+log, original verification, current package fingerprints/manifest and helper
+source. EXE/DLL/resources archives, credentials and account stores are excluded.

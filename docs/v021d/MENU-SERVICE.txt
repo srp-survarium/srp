@@ -1,0 +1,82 @@
+v0.21d integrated native-menu service and restart identities
+2026-10-11; feature/server-v021d
+
+INTEGRATION
+
+The server package now contains native_menu.py, match_registry.py and
+menu_fixture.py, plus their room/allocation tests and run_menu_lifecycle.py.
+They were copied from the existing client/021d work into this isolated branch;
+the original untracked checkout was not modified. The source fingerprints at
+import are archived in evidence/menu-service/source-import.json. GPL headers
+are retained. native_menu.py defaults to this package's own front_door.py,
+so running the server no longer imports code from an unrelated checkout.
+
+The source worker had already corrected the native 0x28 ping and updated
+MatchProcess to pass --protocol srp1 directly before this import. Both changes
+are included. The allocator verifies protocol=srp1 in readiness output and
+refuses to redirect to an incompatible server. Use the compiled server binary
+directly, not the older srp1_server.sh wrapper (which would duplicate the flag).
+README.txt in the server package gives a complete current launch sequence.
+
+PERSISTENT IDENTITIES AND ORDERS
+
+native_menu.py --state PATH uses the existing mode-0600, single-writer SQLite
+store for its sixteen account slots and tokens. Reversed login order after
+restart preserves each account's original public local-N identity and token.
+New room IDs include a fresh service generation, and old rooms are unavailable.
+Live connections and protocol capability claims must be re-established.
+
+The same database now has a menu_order table holding the last reserved native
+u32 match-order ID. Existing version-1 account checkpoints remain readable;
+the account payload format is unchanged. An absent counter starts at zero.
+Each Start reserves the next ID transactionally before any child launch or
+redirect. The allocator uses that ID for native redirects and remapped results.
+Native IDs 0 and ffffffff are never issued. Exhaustion or failed reservation
+rejects admission; failed writes disable further identity/routing operations
+until restart. Failed child allocation consumes an ID instead of reusing it.
+
+This closes an identity collision that account-only persistence would create:
+reusing tokens but restarting the allocator's counter at 1 could associate an
+old explicit match-order query with a new match numbered 1. Fresh IDs now
+survive restart. This does not persist result payloads or active simulations.
+
+SHUTDOWN BOUNDARY
+
+SIGTERM/Ctrl-C shuts down child matches, deletes grants and control sockets,
+closes listeners and releases the account-store lock. Partial listener startup
+also closes every listener that was successfully created. Waiting rooms,
+readiness and completed result bytes remain ephemeral. Reconnecting after a
+service restart requires new room admission, not automatic active-match resume.
+Abrupt supervisor death/SIGKILL and stale child/grant cleanup remain a separate
+gap; this milestone validates graceful shutdown and restart only.
+
+VALIDATION
+
+Thirty-five Python tests passed together, followed by all ten allocation tests
+after adding the failed-order-reservation case: 36 distinct passing tests.
+Coverage includes room capacity races, ownership/readiness, idempotent Start,
+independent allocations, stale result orders, failed child launch/redirect,
+account persistence, counter restart/exhaustion and failed database writes.
+A failed reservation test checks that no child or redirect is produced.
+
+The executable run_menu_lifecycle.py passed against real disposable login/TLS,
+HTTP, lobby TCP, local-control sockets and the integrated Rust match process:
+  - 0x27 cancellation is not echoed; 0x28 receives the native 0x37 reply;
+  - member EOF frees a waiting slot and clears Ready;
+  - superseded socket EOF cannot evict a replacement;
+  - creator EOF closes only its own waiting room;
+  - normal loading-related lobby EOF retains the allocated match;
+  - SIGTERM stops the child and removes grants;
+  - restart with reverse login order keeps account tokens and local-N IDs;
+  - old rooms are unavailable and new match-order IDs advance;
+  - a stale explicit results request is not answered with another match;
+  - final shutdown removes all new grants/control sockets.
+
+The Rust code is unchanged; its previous 56-test result still applies. No GUI
+or accepted combat test was repeated for this service-state change. The earlier
+real native-client test used the predecessor allocator plus the same integrated
+match protocol; its exact scope remains recorded in SRP1-INTEGRATION.txt.
+
+Evidence: evidence/menu-service contains Python test logs, lifecycle output,
+its service log and import fingerprints. Private account stores, keys and
+session grants are excluded from the HDD archive.
