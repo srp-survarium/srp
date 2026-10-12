@@ -11,20 +11,64 @@ import subprocess
 import struct
 import threading
 import time
+import fcntl
 
 from menu_fixture import Registry, RoomUnavailable
+
+
+class MatchWorkspace:
+    """Exclusive allocation ownership, inherited by children until they exit.
+
+    The persistent lock file is never unlinked. After power loss or simultaneous
+    parent/child death, the next exclusive owner removes only marked grants and
+    sockets. Logs and unknown directories are preserved.
+    """
+    MARKER = "SRP native allocation v1\n"
+
+    def __init__(self, directory):
+        self.directory = Path(directory).resolve()
+        self.directory.mkdir(parents=True, exist_ok=True)
+        self.fd = os.open(self.directory / ".owner.lock", os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
+        try:
+            fcntl.flock(self.fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            for child in self.directory.iterdir():
+                if child.is_symlink() or not child.is_dir():
+                    continue
+                marker = child / ".srp-allocation"
+                if marker.is_symlink() or not marker.is_file() or marker.read_text() != self.MARKER:
+                    continue
+                (child / "sessions").unlink(missing_ok=True)
+                (child / "control.sock").unlink(missing_ok=True)
+        except BaseException:
+            self.close()
+            raise
+
+    def close(self):
+        if self.fd is not None:
+            # No LOCK_UN: an inherited descriptor must keep the lease alive.
+            os.close(self.fd)
+            self.fd = None
 
 
 class MatchProcess:
     ADMISSION_TIMEOUT_SECONDS = 120
 
     def __init__(self, executable, directory, sessions, match_seconds=None,
-                 query_status=None, query_results=None):
+                 query_status=None, query_results=None, workspace=None, accounts=None):
+        if accounts is not None and (len(accounts) != len(sessions) or len(set(accounts)) != len(accounts)
+                                     or any(type(account) is not int or not 0 < account < 2**32 for account in accounts)):
+            raise ValueError("Invalid persistent account roster")
         directory.mkdir(parents=True, exist_ok=False)
+        if workspace is not None:
+            if directory.resolve().parent != workspace.directory:
+                raise ValueError("Allocation is outside the owned match workspace")
+            (directory / ".srp-allocation").write_text(MatchWorkspace.MARKER)
         self.sessions_file = directory / "sessions"
         with os.fdopen(os.open(self.sessions_file, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "w") as out:
+            if accounts is not None:
+                out.write("SRP-SESSIONS-2\n")
             for slot, session in enumerate(sessions):
-                out.write(f"{session} {slot}\n")
+                out.write(f"{slot} {accounts[slot]} {session}\n" if accounts is not None else f"{session} {slot}\n")
         # The child currently accepts a port, not an inherited socket. If
         # another process wins this bind race, readiness fails before redirects.
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as reservation:
@@ -40,7 +84,7 @@ class MatchProcess:
         self.query_status = query_status
         self.started = time.monotonic()
         try:
-            command = [str(executable), "--protocol", "srp1",
+            command = [str(executable), "--supervised", "--protocol", "srp1",
                        str(self.sessions_file), str(self.port), str(len(sessions))]
             if match_seconds is not None or query_status is not None:
                 command.append(str(match_seconds if match_seconds is not None else 600))
@@ -48,7 +92,8 @@ class MatchProcess:
                 command.append(str(self.control))
             self.process = subprocess.Popen(
                 command,
-                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                pass_fds=() if workspace is None else (workspace.fd,),
                 text=True, errors="replace", bufsize=1)
             self.reader = threading.Thread(target=self._read, args=(directory / "server.log",), daemon=True)
             self.reader.start()
@@ -102,8 +147,9 @@ class MatchProcess:
 
     def stop(self):
         if self.process is not None:
+            if self.process.stdin is not None:
+                self.process.stdin.close()
             if self.process.poll() is None:
-                self.process.terminate()
                 try:
                     self.process.wait(2)
                 except subprocess.TimeoutExpired:
@@ -124,7 +170,7 @@ class MatchRegistry(Registry):
     native lobby, and redirect sends its stock match-admission notification.
     These callbacks never derive authorization from HTTP form fields.
     """
-    def __init__(self, sessions, connected, compatible, redirect, executable, work, launcher=MatchProcess, next_order=None):
+    def __init__(self, sessions, connected, compatible, redirect, executable, work, launcher=MatchProcess, next_order=None, identity=None):
         super().__init__()
         self.lock = threading.RLock()
         self.maps = ["school"]
@@ -136,6 +182,7 @@ class MatchRegistry(Registry):
         self.work = Path(work).resolve()
         self.launcher = launcher
         self.next_order = next_order
+        self.identity = identity
         self.processes = {}
         self.admitted = {}
         self.routes = {}
@@ -175,8 +222,9 @@ class MatchRegistry(Registry):
                 except OSError:
                     raise ValueError("Could not save match admission. Restart the local service.") from None
             try:
+                identities = {} if self.identity is None else {"accounts": [self.identity(p) for p in room["players"]]}
                 process = self.launcher(self.executable,
-                    self.work / f"{room['id']}-{self.attempt}", grants)
+                    self.work / f"{room['id']}-{self.attempt}", grants, **identities)
             except (OSError, ValueError) as error:
                 raise ValueError("The match server could not start. Try again.") from error
             self.processes[room["id"]] = process

@@ -122,7 +122,15 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
             .unwrap()
             .as_nanos()
     ));
-    fs::write(&sessions, "101 0\n202 1\n").unwrap();
+    fs::write(
+        &sessions,
+        if srp1 {
+            "SRP-SESSIONS-2\n0 3 101\n1 16 202\n"
+        } else {
+            "101 0\n202 1\n"
+        },
+    )
+    .unwrap();
     drop(reservation);
     let child = Command::new(env!("CARGO_BIN_EXE_match-server-021d"))
         .args([
@@ -246,6 +254,10 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
                                 .unwrap();
                         }
                         0x51 if !client.loaded => {
+                            if srp1 {
+                                assert!(b.windows(7).any(|name| name == b"Local 3"));
+                                assert!(b.windows(8).any(|name| name == b"Local 16"));
+                            }
                             client.loaded = true;
                             client.endpoint.send(0x42, &[], now).unwrap();
                             let body = snapshot(slot as u8);

@@ -22,7 +22,7 @@ from types import SimpleNamespace
 from urllib.parse import parse_qs
 
 from menu_fixture import Registry
-from match_registry import MatchProcess, MatchRegistry
+from match_registry import MatchProcess, MatchRegistry, MatchWorkspace
 
 
 def messaging_handler(front, registry):
@@ -67,6 +67,7 @@ def main():
         parser.error("this front door does not support generation-bound match results")
     front.ARGS = SimpleNamespace(login_port=args.base_port, lobby_port=args.base_port+1,
                                 messaging_port=args.base_port+2, browser_port=args.base_port+3)
+    workspace = MatchWorkspace(args.match_work) if args.match_server else None
     front.STATE = front.LocalState(16, args.state)
     front.TLS = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     front.TLS.set_ciphers("ALL:@SECLEVEL=0")
@@ -94,9 +95,11 @@ def main():
                                  lambda p: protocols.get(session_for(p)) in supported,
                                  redirect, args.match_server, args.match_work,
                                  launcher=partial(MatchProcess, match_seconds=args.match_seconds,
+                                     workspace=workspace,
                                      query_status=front.match_status,
                                      query_results=front.match_results if args.match_results else None),
-                                 next_order=front.STATE.next_match_order)
+                                 next_order=front.STATE.next_match_order,
+                                 identity=lambda p: int(p.removeprefix("local-")))
         lock = registry.lock
 
     class Lobby(front.Handler):
@@ -224,6 +227,8 @@ def main():
         for server in servers:
             server.server_close()
         front.STATE.close()
+        if workspace is not None:
+            workspace.close()
         signal.signal(signal.SIGTERM, previous_term)
 
 

@@ -231,6 +231,8 @@ def run(args, work):
             redirect = read_frame(c)
             second_order = struct.unpack_from("<I", redirect, 4 + redirect[1])[0]
             assert second_order > first_order
+            grants = next(p for p in matches.glob("*/sessions"))
+            assert grants.read_text() == f"SRP-SESSIONS-2\n0 3 {carol}\n1 1 {alice}\n2 2 {bob}\n"
             assert redirect[-1] == 0
             for sock, team in [(a, 1), (b, 0)]:
                 redirect = read_frame(sock)
@@ -282,11 +284,35 @@ def run(args, work):
             c.sendall(b"\x06\x21\x13" + struct.pack("<I", first_order))
             c.sendall(b"\x05\x28\x04\x03\x02\x01")
             assert read_frame(c) == b"\x37\x04\x03\x02\x01"
+            print("PASS: restart retains accounts/tokens, clears transient rooms, advances native order IDs and rejects stale results", flush=True)
+
+            # SIGKILL cannot execute the supervisor's finally block. Its sole
+            # pipe writer vanishes; children must clean themselves up.
+            service.kill()
+            assert service.wait(timeout=5) == -signal.SIGKILL
+            until(lambda: not list(matches.glob("*/sessions")), "orphan child grant removal")
+            until(lambda: not list(matches.glob("*/control.sock")), "orphan control removal")
+            print("PASS: SIGKILL supervisor death stops children and removes grants/control sockets", flush=True)
+
+            # Model simultaneous child/parent death or power loss: no live
+            # descriptor owns the workspace, but marked files remain on disk.
+            stale = matches / "crashed-allocation"
+            stale.mkdir()
+            (stale / ".srp-allocation").write_text("SRP native allocation v1\n")
+            (stale / "sessions").write_text("do not reuse\n")
+            (stale / "control.sock").touch()
+            (stale / "server.log").write_text("retained crash evidence\n")
+            restart_marker = log_path.read_text().count("Native lobby fixture:")
+            service = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
+            until(lambda: service.poll() is None and log_path.read_text().count("Native lobby fixture:") > restart_marker,
+                  "restart after abrupt death")
+            assert not (stale / "sessions").exists()
+            assert not (stale / "control.sock").exists()
+            assert (stale / "server.log").read_text() == "retained crash evidence\n"
+            assert login(base, b"lifecycle-carol") == carol
             service.send_signal(signal.SIGTERM)
             assert service.wait(timeout=10) == 0
-            assert not list(matches.glob("*/sessions"))
-            assert not list(matches.glob("*/control.sock"))
-            print("PASS: restart retains accounts/tokens, clears transient rooms, advances native order IDs and rejects stale results", flush=True)
+            print("PASS: crash restart preserves account identity and logs but removes marked stale grants", flush=True)
         finally:
             for sock in sockets:
                 sock.close()

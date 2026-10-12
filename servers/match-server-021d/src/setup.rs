@@ -21,6 +21,17 @@ pub fn local_test_with_duration(
     local_slot: u8,
     seconds: u16,
 ) -> Result<Vec<u8>, &'static str> {
+    let accounts: Vec<_> = (1..=u32::from(players)).collect();
+    with_accounts(&accounts, local_slot, seconds)
+}
+
+pub fn with_accounts(
+    accounts: &[u32],
+    local_slot: u8,
+    seconds: u16,
+) -> Result<Vec<u8>, &'static str> {
+    crate::sessions::validate_accounts(accounts)?;
+    let players = accounts.len() as u8;
     if seconds == 0 {
         return Err("match duration must be positive");
     }
@@ -42,7 +53,7 @@ pub fn local_test_with_duration(
     b.extend(std::iter::repeat_n(0, usize::from(players)));
     for slot in 0..players {
         b.extend([slot % 2, u8::from(slot == local_slot)]);
-        string(&mut b, &format!("Local {}", slot + 1));
+        string(&mut b, &format!("Local {}", accounts[usize::from(slot)]));
         b.extend(10u32.to_le_bytes());
         b.extend(((1u32 << 7) | (1 << 8)).to_le_bytes());
         // Weapon slot 7: dict 106, fresh instance, condition, no modifications.
@@ -64,4 +75,28 @@ pub fn local_test_with_duration(
 fn string(b: &mut Vec<u8>, s: &str) {
     b.push(s.len() as u8);
     b.extend(s.as_bytes());
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn setup_has_persistent_names_without_changing_teams_or_local_slot() {
+        let packet = with_accounts(&[3, 16], 1, 600).unwrap();
+        // Skip the native level string and fixed match options/scores/mask.
+        let mut offset = 2 + packet[1] as usize + 4 + 2 + 4 + 4 + 3 + 2 + 24 * 4 + 2;
+        for (team, local, name) in [(0, 0, "Local 3"), (1, 1, "Local 16")] {
+            assert_eq!(&packet[offset..offset + 2], &[team, local]);
+            let length = packet[offset + 2] as usize;
+            offset += 3;
+            assert_eq!(&packet[offset..offset + length], name.as_bytes());
+            offset += length + 34; // Native level, equipment and modifier data.
+        }
+        assert_eq!(&packet[offset..], &[1]);
+        assert_eq!(
+            local_test(2, 1).unwrap(),
+            with_accounts(&[1, 2], 1, 600).unwrap()
+        );
+    }
 }

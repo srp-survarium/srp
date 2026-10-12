@@ -1,0 +1,68 @@
+Follow-up implementation and validation
+2026-10-12
+
+The active objective is all five items below. Earlier PR status describes the
+initial draft; this file tracks follow-up work. Do not call the full goal done
+until each item's implementation and appropriate evidence are present.
+
+1. Supervisor crash cleanup - implemented and process-tested.
+   Native children use --supervised and watch stdin for supervisor EOF. Their
+   grants/control sockets are removed on exit. Match-work has an exclusive
+   flock inherited by every allocated child; neither service restart nor
+   another allocator can claim it while an old child owns it. After all owners
+   disappear, startup clears grants/sockets only in marked allocation dirs.
+   Logs and unknown directories survive. Old unmarked allocations are not
+   silently treated as ours. Standalone community-server lifetime is unchanged.
+
+   Validation: 52 Python tests pass, including new workspace restart cleanup,
+   inherited ownership and symlink preservation tests. Extended real-service
+   lifecycle passes ordinary admission/chat/graceful restart plus killing the
+   menu supervisor with SIGKILL, observing child grant/socket cleanup, then
+   starting the service over marked stale crash files and retained accounts.
+   Simultaneous/power loss is represented by stale on-disk files, not a claim
+   that this host was power-cycled. No graphical game was launched for this.
+   Logs: /tmp/srp-v021d-supervision-tests.log and
+   /tmp/srp-v021d-crash-lifecycle.log (not required runtime dependencies).
+
+2. Consistent persistent player names in game/results/chat - implemented.
+   Versioned local grants carry immutable slot/account identity separately from
+   the session token. Setup names, results brief IDs/names and the local result
+   recipient ID use that mapping. Simulation slots and teams keep their existing
+   order. Legacy two-column grants remain compatible. Zero-token reserved rows
+   grant no admission; they are preparation for late join, not enabled joins.
+   Rust tests parse actual setup/results fields for reordered identities, reject
+   duplicate identities/grants and exercise SRP1 setup over UDP. The real menu
+   lifecycle verifies Carol/Alice/Bob allocate persistent IDs 3/1/2, while chat
+   and assigned teams remain correct across restart.
+   Validation: all 69 Rust and 52 Python tests pass; extended real-service
+   lifecycle passes. Independent agent review found no blocking issue in
+   cleanup/identity changes. No graphical name/result screen was retested yet;
+   that will be observed alongside the native join/reconnect gameplay gate.
+   Logs: /tmp/srp-v021d-identities-{rust,python,lifecycle}.log.
+3. Native SRP1 reconnect and late join, including packet loss - pending.
+4. Real-client clock drift correction validation - pending.
+5. Complete five-battery objective victory playtest - pending.
+
+User authorizes isolated clients and simulated packet loss for these gates.
+Previously accepted baseline combat/chat/deposit/fall-death tests remain
+accepted; repeat only what a changed behavior or new validation gate requires.
+
+NEXT IMPLEMENTATION CONTRACT (not implemented yet)
+
+Native descriptors are loaded only with static setup; a later membership bit
+does not load an unknown player. The local service has sixteen persistent
+account identities and fixed equipment. Preload those exact descriptors with
+the initial roster first, reserving inactive slots for the remaining accounts.
+Reserved slots must not have valid match grants until explicit authenticated
+admission. Room capacity still limits simultaneous admissions.
+
+Add a private control admission/revocation exchange bound to child instance,
+generation, slot, account/session and retry nonce. Bind a grant before redirect;
+reject occupied/unavailable/finished slots and revoke the old transport before
+same-account re-entry. Do not treat a lost reply as a new allocation. Preserve
+order/team identity, protect independent rooms, and expire failed late loads.
+Expose running-room Join/Rejoin in the native menu only with that contract.
+Run synthetic protocol loss/retry tests, then two real SRP1 clients: start one,
+join the other after the world advances, leave/rejoin without restarting the
+remaining client, and exercise a network interruption with state comparison.
+Finally perform real timer drift injection and a full five-battery victory.

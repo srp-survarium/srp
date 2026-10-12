@@ -80,8 +80,9 @@ tested default bindings, T opens chat, Tab changes channel, and Enter sends.
 Match reaches both teams; Team reaches your assigned team. Returning to the
 lobby ends match-chat eligibility; a new admission supplies a fresh group.
 See docs/v021d/NATIVE-CHAT.txt for routing and protocol-test evidence.
-In-game names/results still use fixed roster-local aliases, which can differ
-from the persistent account name shown in chat when room join order changes.
+In-game names and result account IDs use the persistent account identity shown
+in chat. Roster order still controls the simulation slot and assigned team;
+joining first does not rename Local 3 to Local 1.
 
 RESTART AND SHUTDOWN
 
@@ -99,9 +100,15 @@ failed allocation can leave a harmless gap. A failed database write prevents
 admission and requires restarting after resolving the storage problem.
 
 The service does not resume active simulations or preserve completed results
-across its restart. Abrupt SIGKILL/power loss is not a graceful shutdown:
-child supervision and stale grant cleanup for that case remain incomplete.
-Do not delete a live store's adjacent lock file or reuse old grant files.
+across its restart. Allocated children watch a pipe held by the menu service:
+even SIGKILL closes it, so children exit and delete their grants/control socket.
+The service and its children share an exclusive .owner.lock in --match-work.
+Restart refuses to touch a workspace still owned by surviving children. Once
+all owners are gone, it removes grants/control sockets from marked allocations,
+including files left by simultaneous parent/child death or power loss. Logs
+are retained. Unmarked directories from older versions are left untouched.
+Do not delete live lock files or reuse old grant files. The standalone community
+server remains independent; --supervised is selected by the native allocator.
 
 COMMUNITY CLIENT SERVICE
 

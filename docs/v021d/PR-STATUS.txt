@@ -101,8 +101,10 @@ KNOWN LIMITS
   login accepts any nonempty test password. It is not public authentication.
 - Native clock slews and ACK latency have automated coverage; actual game
   engine behavior under deliberately injected clock drift is not verified.
-- Abrupt supervisor death (SIGKILL/power loss) can leave child processes and
-  grants behind. Graceful termination is tested; it is not crash supervision.
+- Supervisor crash cleanup is implemented after the initial PR review: native
+  children watch the parent's pipe, and an inherited workspace lease protects
+  restart cleanup. Actual SIGKILL and subsequent service restart passed. See
+  IMPLEMENTATION-PROGRESS.txt for the continuing work and evidence.
 - Rooms, active worlds and completed statistics are not persistent across
   service restart. Durable account identities/order IDs are a separate claim.
 - Native menu late join is disabled. Community late-join/rejoin evidence must
@@ -114,8 +116,9 @@ KNOWN LIMITS
 - Native allocation caps concurrent matches at eight. No ten-match load test
   or capacity guarantee exists. Economy/rewards/profile flows are fixtures;
   the native Matches UI is the supported local admission path.
-- In-game names/results use fixed roster-local aliases; chat uses persistent
-  account names. These can differ when accounts join a room in another order.
+- Persistent names/result identities now follow the same accounts as chat,
+  independent of roster join order. The follow-up has 69 passing Rust tests,
+  52 passing server Python tests and the extended real-service lifecycle.
 
 HISTORICAL DOCUMENTS AND EVIDENCE
 

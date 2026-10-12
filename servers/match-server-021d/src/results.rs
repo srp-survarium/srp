@@ -151,6 +151,20 @@ impl Stats {
 /// This limitation is explicit in RESULTS.txt.
 impl Stats {
     pub fn lobby_packet(&self, match_id: u32, slot: u8) -> Result<Vec<u8>, &'static str> {
+        let accounts: Vec<_> = (1..=self.players.len() as u32).collect();
+        self.lobby_packet_with_accounts(match_id, slot, &accounts)
+    }
+
+    pub fn lobby_packet_with_accounts(
+        &self,
+        match_id: u32,
+        slot: u8,
+        accounts: &[u32],
+    ) -> Result<Vec<u8>, &'static str> {
+        crate::sessions::validate_accounts(accounts)?;
+        if accounts.len() != self.players.len() {
+            return Err("results identities differ from simulation roster");
+        }
         let player = self
             .players
             .get(usize::from(slot))
@@ -170,17 +184,17 @@ impl Stats {
         b.extend([0; 5]); // researcher empty name, u16 artefacts, u16 items
         b.push(self.players.len() as u8);
         for (index, p) in self.players.iter().enumerate() {
-            let name = format!("Local {}", index + 1);
+            let name = format!("Local {}", accounts[index]);
             b.push(name.len() as u8);
             b.extend(name.as_bytes());
-            b.extend((index as u32 + 1).to_le_bytes());
+            b.extend(accounts[index].to_le_bytes());
             b.extend(p.score().to_le_bytes());
             b.extend(p.events[0].to_le_bytes());
             b.extend(p.events[2].to_le_bytes());
             b.push((index % 2) as u8);
             b.extend(0u16.to_le_bytes()); // no Elo system
         }
-        b.extend((u32::from(slot) + 1).to_le_bytes());
+        b.extend(accounts[usize::from(slot)].to_le_bytes());
         for event in [1, 7, 8, 15, 14, 13, 6, 18, 5] {
             b.extend(player.events[event].to_le_bytes());
         }
@@ -227,6 +241,36 @@ impl PlayerStats {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn results_preserve_account_ids_names_and_local_recipient_for_reordered_roster() {
+        let stats = Stats {
+            players: vec![
+                PlayerStats {
+                    events: [0; 24],
+                    current_killstreak: 0
+                };
+                2
+            ],
+            team_points: [5, 0],
+        };
+        let packet = stats.lobby_packet_with_accounts(77, 1, &[3, 16]).unwrap();
+        assert_eq!(&packet[..6], &[0x36, 0x13, 77, 0, 0, 0]);
+        assert_eq!(packet[26], 2);
+        let mut offset = 27;
+        for (id, team, name) in [(3u32, 0, "Local 3"), (16, 1, "Local 16")] {
+            let length = packet[offset] as usize;
+            offset += 1;
+            assert_eq!(&packet[offset..offset + length], name.as_bytes());
+            offset += length;
+            assert_eq!(&packet[offset..offset + 4], &id.to_le_bytes());
+            assert_eq!(packet[offset + 10], team);
+            offset += 13;
+        }
+        assert_eq!(&packet[offset..offset + 4], &16u32.to_le_bytes());
+        assert!(stats.lobby_packet_with_accounts(77, 1, &[3]).is_err());
+        assert!(stats.lobby_packet_with_accounts(77, 1, &[3, 3]).is_err());
+    }
     fn fixture() -> Vec<u8> {
         // Explicit wire layout, independent field values exercise boundaries.
         let mut b = Vec::new();

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! Loopback v0.21d test server. See docs/v021d/SERVER-PLAN.txt for gates.
+mod supervision;
 mod test_control;
 use match_server_021d::{
     coordinator::{Coordinator, Delivery, InputDecision},
@@ -33,6 +34,7 @@ struct Server {
     peers: HashMap<SocketAddr, Peer>,
     coordinator: Coordinator,
     roster: u8,
+    accounts: Vec<u32>,
     starting: u8,
     port: u16,
     match_seconds: u16,
@@ -74,11 +76,7 @@ impl Server {
                 if !peer.prepared {
                     peer.endpoint.send(
                         0x51,
-                        &setup::local_test_with_duration(
-                            self.roster,
-                            peer.slot,
-                            self.match_seconds,
-                        )?,
+                        &setup::with_accounts(&self.accounts, peer.slot, self.match_seconds)?,
                         now,
                     )?;
                     self.coordinator.prepared(peer.slot)?;
@@ -303,7 +301,9 @@ impl Server {
                             setup::VICTORY_ITEMS,
                         ) {
                             let packets: Result<Vec<_>, _> = (0..self.roster)
-                                .map(|slot| stats.lobby_packet(1, slot))
+                                .map(|slot| {
+                                    stats.lobby_packet_with_accounts(1, slot, &self.accounts)
+                                })
                                 .collect();
                             if let Ok(packets) = packets {
                                 println!(
@@ -357,11 +357,22 @@ impl Server {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let (protocol, positional) = protocol::arguments(std::env::args().skip(1))?;
+    let mut raw: Vec<_> = std::env::args().skip(1).collect();
+    let supervised = raw.iter().filter(|a| *a == "--supervised").count();
+    if supervised > 1 {
+        return Err("duplicate --supervised".into());
+    }
+    raw.retain(|a| a != "--supervised");
+    let (protocol, positional) = protocol::arguments(raw)?;
     let mut args = positional.into_iter();
     let sessions_file = args
         .next()
         .ok_or("usage: match-server-021d SESSIONS_FILE [PORT] [START_PLAYERS] [MATCH_SECONDS] [TEST_CONTROL_SOCKET] [--protocol community|srp1]")?;
+    let supervisor = if supervised == 1 {
+        Some(supervision::Supervisor::watch((&sessions_file).into())?)
+    } else {
+        None
+    };
     let port: u16 = args.next().map_or(Ok(12023), |s| s.parse())?;
     let starting: u8 = args.next().map_or(Ok(1), |s| s.parse())?;
     let match_seconds: u16 = args
@@ -374,29 +385,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     if args.next().is_some() {
         return Err("unexpected argument".into());
     }
-    let mut sessions = HashMap::new();
-    for line in std::fs::read_to_string(sessions_file)?.lines() {
-        let fields: Vec<_> = line.split_whitespace().collect();
-        if fields.len() != 2 {
-            return Err("invalid session file".into());
-        }
-        let session: u32 = fields[0].parse()?;
-        let slot: u8 = fields[1].parse()?;
-        if session == 0 || sessions.insert(session, slot).is_some() {
-            return Err("duplicate or zero session".into());
-        }
-    }
-    let count = u8::try_from(sessions.len())?;
-    if !(1..=20).contains(&count)
-        || (0..count).any(|s| sessions.values().filter(|v| **v == s).count() != 1)
-    {
-        return Err("slots must be unique and contiguous from zero".into());
-    }
+    let grants =
+        match_server_021d::sessions::Grants::parse(&std::fs::read_to_string(&sessions_file)?)?;
+    let count = grants.accounts.len() as u8;
+    let sessions = grants.sessions;
     let mut server = Server {
         protocol,
         peers: HashMap::new(),
         coordinator: Coordinator::with_duration(count, starting, match_seconds)?,
         roster: count,
+        accounts: grants.accounts,
         starting,
         port,
         match_seconds,
@@ -413,6 +411,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         protocol.name()
     );
     loop {
+        if supervisor.as_ref().is_some_and(|parent| parent.gone()) {
+            return Ok(());
+        }
         match socket.recv_from(&mut buffer) {
             Ok((size, addr)) => {
                 let now = start.elapsed().as_millis() as u64;

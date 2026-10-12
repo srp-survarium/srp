@@ -8,6 +8,7 @@ pub mod protocol;
 pub mod recovery;
 pub mod replay;
 pub mod results;
+pub mod sessions;
 pub mod setup;
 pub mod snapshot;
 pub mod state;
