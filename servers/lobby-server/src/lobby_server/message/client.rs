@@ -442,7 +442,7 @@ mod test {
             3, 33, 6, 4,
             5, 33, 0, 0, 0, 0,
         ];
-        let buffer = &mut buffer.as_ref();
+        let buffer: &mut &[u8] = &mut buffer.as_ref();
 
         let msg_num_dejure = 8;
         let mut msg_num_defacto = 0;

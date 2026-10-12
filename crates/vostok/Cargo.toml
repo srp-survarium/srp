@@ -6,7 +6,9 @@ edition.workspace = true
 
 [dependencies]
 bytemuck = { workspace = true }
+serde = { workspace = true }
 thiserror = { workspace = true }
+toml = { workspace = true }
 
 [lints]
 workspace = true
