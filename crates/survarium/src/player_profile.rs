@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 use bytemuck::Zeroable;
 use raw::*;
 use vostok::network_packet::Packet;

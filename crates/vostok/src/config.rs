@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 //! Server addresses, read once from `SRP_*` environment variables by [`get`].
 //!
 //! Bind hosts select local interfaces; public hosts are advertised to clients.
