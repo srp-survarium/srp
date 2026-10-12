@@ -65,8 +65,14 @@ let the creator choose Start. The service starts one SRP1 process per room,
 up to eight concurrent processes. Capacity limits the waiting room; Start uses
 the present roster. Each process gets private per-match session grants and
 its own UDP port. Results are retained for each returning account in memory.
-Late join through this menu is currently disabled, even though the community
-coordinator has independently tested late-join/recovery support.
+Running-room Join supports native late entry and same-account re-entry using
+reserved immutable descriptors for the sixteen local accounts. Each admission
+must receive a private grant confirmation before redirect; room capacity also
+counts unconfirmed/loading admissions. Returning to the lobby revokes the old
+transport. A failed load expires after 120 seconds. Names and teams retain the
+original account/slot assignment. Only actual participants appear in results.
+Protocol/retry/restore tests pass; real native-client acceptance is still pending
+(see docs/v021d/IMPLEMENTATION-PROGRESS.txt).
 
 The starting roster has 120 seconds to reach the shared bootstrap. An empty
 or incomplete initial cohort then expires, releasing its process and grants.

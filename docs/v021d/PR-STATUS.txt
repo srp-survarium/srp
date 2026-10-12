@@ -71,7 +71,8 @@ reinstall the previously verified retail package.
 The client DLL was rebuilt from this PR tree with the recorded MinGW toolchain
 and is byte-identical to the tested package-v4 DLL (SHA256
 5e842f8cc5d0a6aa2bc40c621346811696cf89a9a29f8860bb75999a8ad4de9e).
-The complete EXE/movie/archive package was not rebuilt during PR preparation.
+The subsequent native-admission follow-up rebuilt and verified the complete
+EXE/DLL/movie/archive package locally. Generated retail assets remain outside Git.
 
 Two independent agents reviewed the server and client with explicit context:
 local development scope, accepted playtests, protocol differences, existing
@@ -86,8 +87,8 @@ cover expiry, active-match protection, unavailable status, cleanup and retained
 results. An isolated real-child UDP reproduction verified cleanup for final
 departure, zero connected players and a partially connected initial roster.
 The review also requested an explicit custom front-door capability error;
-that argument guard is fixed. Its roster/account display-alias observation is
-documented below as an existing fixture limitation.
+that argument guard is fixed. The subsequent persistent-identity change also
+resolves the roster/account display-alias observation.
 
 The earlier full workspace audit at the original content-branch base had one
 failing old match-server parser expectation. It reproduced at d9d209cc1 without
@@ -107,8 +108,10 @@ KNOWN LIMITS
   IMPLEMENTATION-PROGRESS.txt for the continuing work and evidence.
 - Rooms, active worlds and completed statistics are not persistent across
   service restart. Durable account identities/order IDs are a separate claim.
-- Native menu late join is disabled. Community late-join/rejoin evidence must
-  not be generalized to native SRP1 reconnect or late join.
+- Native menu late join/re-entry is implemented with private admission grants
+  and reserved immutable descriptors. Protocol loss/retry/restore tests pass;
+  real native-client acceptance remains pending. Community gameplay evidence
+  must not be generalized to this newly connected native admission path.
 - Five-battery victory has implementation/unit coverage but no recorded full
   objective-win playtest. The accepted single deposit is narrower evidence.
 - Windows runtime/install behavior remains unvalidated. Linux/Wine is the
@@ -117,8 +120,11 @@ KNOWN LIMITS
   or capacity guarantee exists. Economy/rewards/profile flows are fixtures;
   the native Matches UI is the supported local admission path.
 - Persistent names/result identities now follow the same accounts as chat,
-  independent of roster join order. The follow-up has 69 passing Rust tests,
-  52 passing server Python tests and the extended real-service lifecycle.
+  independent of roster join order. The admission follow-up has 74 passing Rust
+  tests, 60 passing server Python tests and the extended real-service lifecycle.
+  Independent follow-up review found initial-member capacity leakage and unused
+  descriptors in results; both are fixed with regressions. Final review found
+  no remaining substantive blocker in the admission/results diff.
 
 HISTORICAL DOCUMENTS AND EVIDENCE
 

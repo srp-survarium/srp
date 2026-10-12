@@ -232,7 +232,9 @@ def run(args, work):
             second_order = struct.unpack_from("<I", redirect, 4 + redirect[1])[0]
             assert second_order > first_order
             grants = next(p for p in matches.glob("*/sessions"))
-            assert grants.read_text() == f"SRP-SESSIONS-2\n0 3 {carol}\n1 1 {alice}\n2 2 {bob}\n"
+            expected = f"SRP-SESSIONS-2\n0 3 {carol}\n1 1 {alice}\n2 2 {bob}\n"
+            expected += ''.join(f"{account-1} {account} 0\n" for account in range(4, 17))
+            assert grants.read_text() == expected
             assert redirect[-1] == 0
             for sock, team in [(a, 1), (b, 0)]:
                 redirect = read_frame(sock)

@@ -8,6 +8,7 @@ use std::{
     collections::BTreeMap,
     fs,
     net::UdpSocket,
+    os::unix::net::UnixDatagram,
     path::PathBuf,
     process::{Child, Command, Stdio},
     thread,
@@ -23,10 +24,13 @@ impl Drop for Process {
         let _ = self.child.kill();
         let _ = self.child.wait();
         let _ = fs::remove_file(&self.sessions);
+        let _ = fs::remove_file(self.sessions.with_extension("control"));
+        let _ = fs::remove_file(self.sessions.with_extension("reply"));
     }
 }
 struct Client {
     socket: UdpSocket,
+    session: u32,
     endpoint: Endpoint,
     requested: bool,
     loaded: bool,
@@ -124,7 +128,9 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
     ));
     fs::write(
         &sessions,
-        if srp1 {
+        if srp1 && late {
+            "SRP-SESSIONS-2\n0 3 101\n1 16 0\n"
+        } else if srp1 {
             "SRP-SESSIONS-2\n0 3 101\n1 16 202\n"
         } else {
             "101 0\n202 1\n"
@@ -138,6 +144,7 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
             &addr.port().to_string(),
             if late { "1" } else { "2" },
             if finish { "1" } else { "600" },
+            sessions.with_extension("control").to_str().unwrap(),
             "--protocol",
             if srp1 { "srp1" } else { "community" },
         ])
@@ -146,6 +153,10 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
         .spawn()
         .unwrap();
     let mut process = Process { child, sessions };
+    let control = UnixDatagram::bind(process.sessions.with_extension("reply")).unwrap();
+    control
+        .set_read_timeout(Some(Duration::from_secs(1)))
+        .unwrap();
     let mut clients: Vec<_> = (0..2)
         .map(|slot| {
             let socket = UdpSocket::bind("127.0.0.1:0").unwrap();
@@ -157,6 +168,7 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
                 .unwrap();
             Client {
                 socket,
+                session,
                 endpoint,
                 requested: false,
                 loaded: false,
@@ -178,6 +190,11 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
     let mut dropped_finish = false;
     let mut dropped_slew = false;
     let mut snapshot_requests = 0;
+    let mut admitted = false;
+    let mut reconnecting = false;
+    let mut old_activation = 0;
+    let mut reconnect_departure = false;
+    let mut control_identity = String::new();
     let mut buffer = [0; 1024];
     loop {
         assert!(
@@ -187,7 +204,7 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
                 } else if drift {
                     15
                 } else {
-                    8
+                    15
                 }),
             "cohort test timed out"
         );
@@ -196,6 +213,34 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
             "server terminated"
         );
         let now = start.elapsed().as_millis() as u64;
+        if late && srp1 && now >= 1500 && !admitted {
+            control
+                .connect(process.sessions.with_extension("control"))
+                .unwrap();
+            control.send(b"status 771").unwrap();
+            let mut reply = [0; 256];
+            let count = control.recv(&mut reply).unwrap();
+            let fields: Vec<_> = std::str::from_utf8(&reply[..count])
+                .unwrap()
+                .split_whitespace()
+                .collect();
+            assert_eq!(&fields[3..], &["1", "running", "1"]);
+            control_identity = fields[2].to_string();
+            let request = format!("admit 1 {} 1 1 16 202", control_identity);
+            control.send(request.as_bytes()).unwrap();
+            let first_size = control.recv(&mut reply).unwrap();
+            let discarded_reply = reply[..first_size].to_vec();
+            // Deliberately lose the confirmation and resend the exact grant.
+            control.send(request.as_bytes()).unwrap();
+            let count = control.recv(&mut reply).unwrap();
+            assert_eq!(&reply[..count], discarded_reply);
+            assert!(
+                std::str::from_utf8(&reply[..count])
+                    .unwrap()
+                    .ends_with(" 1 ok")
+            );
+            admitted = true;
+        }
         for (slot, client) in clients.iter_mut().enumerate() {
             if late && slot == 1 && now < 1500 {
                 continue;
@@ -246,11 +291,7 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
                             client.requested = true;
                             client
                                 .endpoint
-                                .send(
-                                    0x41,
-                                    &if slot == 0 { 101u32 } else { 202 }.to_le_bytes(),
-                                    now,
-                                )
+                                .send(0x41, &client.session.to_le_bytes(), now)
                                 .unwrap();
                         }
                         0x51 if !client.loaded => {
@@ -293,11 +334,20 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
                             client.restored = true;
                         }
                         0x56 => {
+                            if reconnecting && slot == 1 && !client.restored {
+                                // Historical membership is preloaded before the
+                                // state; it is not the new transport's activation.
+                                assert!(time(&b[1..]) <= old_activation);
+                                continue;
+                            }
                             assert!(client.restored, "activation before baseline");
                             assert!(time(&b[1..]) % 50 == 0);
                             client.activations.insert(b[0], time(&b[1..]));
                         }
                         0x54 => {
+                            if reconnecting && slot == 1 && !client.restored {
+                                continue; // Historical inputs, including the old session's own.
+                            }
                             assert_ne!(b[0], slot as u8, "unexpected sender echo");
                             client.inputs.push(b.clone());
                         }
@@ -306,6 +356,14 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
                             let offset = i16::from_le_bytes(b[..2].try_into().unwrap());
                             assert_eq!(offset, if slot == 0 { 100 } else { -100 });
                             client.slews.push(offset);
+                        }
+                        0x57 if late && srp1 && reconnecting && b[0] == 1 => {
+                            if slot == 0 {
+                                assert!(!reconnect_departure);
+                                reconnect_departure = true;
+                            } else {
+                                assert!(!client.restored); // Preloaded historical departure.
+                            }
                         }
                         0x57 => {
                             assert_eq!(b[0], if finish { slot as u8 } else { 0 });
@@ -417,6 +475,70 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
                 assert_eq!(client.inputs[0][0], 1 - slot as u8);
                 assert_eq!(time(&client.inputs[0][9..13]), 2 - slot as u32);
             }
+            if late && srp1 && !reconnecting {
+                old_activation = clients[1].activations[&1];
+                let mut reply = [0; 256];
+                for (request, status) in [
+                    (format!("revoke 2 {} 1 1 16 202", control_identity), "ok"),
+                    (format!("admit 1 {} 1 1 16 202", control_identity), "stale"),
+                    (format!("admit 3 {} 1 1 16 303", control_identity), "ok"),
+                ] {
+                    control.send(request.as_bytes()).unwrap();
+                    let count = control.recv(&mut reply).unwrap();
+                    assert!(
+                        std::str::from_utf8(&reply[..count])
+                            .unwrap()
+                            .ends_with(&format!(" 1 {status}"))
+                    );
+                }
+                // Start a complete handshake with no old transport state.
+                let socket = UdpSocket::bind("127.0.0.1:0").unwrap();
+                socket.set_nonblocking(true).unwrap();
+                let mut endpoint = Endpoint::new(Direction::ClientToServer);
+                endpoint
+                    .send(
+                        0x40,
+                        &[303u32.to_le_bytes().to_vec(), vec![0]].concat(),
+                        now,
+                    )
+                    .unwrap();
+                clients[1] = Client {
+                    socket,
+                    session: 303,
+                    endpoint,
+                    requested: false,
+                    loaded: false,
+                    restored: false,
+                    activations: BTreeMap::new(),
+                    clock: None,
+                    clock_wall: 0,
+                    last_clock_report: 0,
+                    slews: vec![],
+                    inputs: vec![],
+                    left: false,
+                };
+                clients[0].inputs.clear();
+                clients[0].activations.remove(&1);
+                sent_inputs = false;
+                reconnecting = true;
+                continue;
+            }
+            if late && srp1 {
+                assert!(reconnect_departure);
+                assert!(clients[1].restored);
+                assert!(clients[1].activations[&1] > old_activation);
+                // A delayed old revocation cannot evict the reconnected session.
+                control
+                    .send(format!("revoke 2 {} 1 1 16 202", control_identity).as_bytes())
+                    .unwrap();
+                let mut reply = [0; 256];
+                let count = control.recv(&mut reply).unwrap();
+                assert!(
+                    std::str::from_utf8(&reply[..count])
+                        .unwrap()
+                        .ends_with(" 1 stale")
+                );
+            }
             if malformed && srp1 {
                 // Community upload opcode/body is invalid for this server.
                 clients[0]
@@ -443,6 +565,9 @@ fn run_cohort_options(malformed: bool, finish: bool, late: bool, srp1: bool, dri
         if !finish && clients[1].left {
             if late {
                 assert!(snapshot_requests > 0);
+            }
+            if late && srp1 {
+                assert!(admitted && reconnecting && reconnect_departure);
             }
             break;
         }

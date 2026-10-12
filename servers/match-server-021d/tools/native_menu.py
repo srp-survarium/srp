@@ -63,6 +63,8 @@ def main():
     spec.loader.exec_module(front)
     if args.match_server and not callable(getattr(front, "match_status", None)):
         parser.error("this front door does not support generation-bound match status")
+    if args.match_server and not callable(getattr(front, "match_admission", None)):
+        parser.error("this front door does not support generation-bound admission")
     if args.match_results and not callable(getattr(front, "match_results", None)):
         parser.error("this front door does not support generation-bound match results")
     front.ARGS = SimpleNamespace(login_port=args.base_port, lobby_port=args.base_port+1,
@@ -97,9 +99,11 @@ def main():
                                  launcher=partial(MatchProcess, match_seconds=args.match_seconds,
                                      workspace=workspace,
                                      query_status=front.match_status,
+                                     query_admission=front.match_admission,
                                      query_results=front.match_results if args.match_results else None),
                                  next_order=front.STATE.next_match_order,
-                                 identity=lambda p: int(p.removeprefix("local-")))
+                                 identity=lambda p: int(p.removeprefix("local-")),
+                                 all_accounts=list(range(1, 17)))
         lock = registry.lock
 
     class Lobby(front.Handler):

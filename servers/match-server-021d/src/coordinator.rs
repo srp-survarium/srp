@@ -176,6 +176,22 @@ impl Coordinator {
         Ok(())
     }
 
+    pub fn entered(&self, slot: u8) -> bool {
+        self.players
+            .get(&slot)
+            .is_some_and(|p| p.active_since.is_some())
+    }
+
+    pub fn participant_mask(&self) -> u32 {
+        self.players.iter().fold(0, |mask, (&slot, player)| {
+            mask | if player.active_since.is_some() {
+                1 << slot
+            } else {
+                0
+            }
+        })
+    }
+
     pub fn ready(&mut self, slot: u8) -> Result<(), &'static str> {
         let player = self.players.get_mut(&slot).ok_or("unknown slot")?;
         if !player.prepared {

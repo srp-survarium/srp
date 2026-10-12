@@ -339,7 +339,9 @@ package
                label(content,String(r.name),36,y,335,32,19);
                label(content,String(r.map),386,y,150,32,19);
                label(content,r.players.length+" / "+r.capacity,551,y,100,32,19);
-               if(r.state=="waiting") button(content,"Join",663,y-3,joinRoom,String(r.id),112);
+               if(r.state=="waiting" || (capabilities && capabilities.late_join &&
+                  (r.players.length<r.capacity || r.players.indexOf(player)>=0)))
+                  button(content,"Join",663,y-3,joinRoom,String(r.id),112);
                else label(content,"In progress",663,y,115,32,18);
                divider(y+38);
             }

@@ -54,10 +54,22 @@ class MatchProcess:
     ADMISSION_TIMEOUT_SECONDS = 120
 
     def __init__(self, executable, directory, sessions, match_seconds=None,
-                 query_status=None, query_results=None, workspace=None, accounts=None):
+                 query_status=None, query_results=None, workspace=None, accounts=None,
+                 all_accounts=None, query_admission=None):
         if accounts is not None and (len(accounts) != len(sessions) or len(set(accounts)) != len(accounts)
                                      or any(type(account) is not int or not 0 < account < 2**32 for account in accounts)):
             raise ValueError("Invalid persistent account roster")
+        starting = len(sessions)
+        sessions = list(sessions)
+        if all_accounts is not None:
+            if accounts is None or not set(accounts) <= set(all_accounts) or len(set(all_accounts)) != len(all_accounts):
+                raise ValueError("Invalid reserved account descriptors")
+            accounts = list(accounts) + [a for a in all_accounts if a not in accounts]
+            sessions += [0] * (len(accounts) - starting)
+        self.accounts = list(accounts) if accounts is not None else list(range(1, starting + 1))
+        self.query_admission = query_admission
+        self.revision = 0
+        self.pending = {}
         directory.mkdir(parents=True, exist_ok=False)
         if workspace is not None:
             if directory.resolve().parent != workspace.directory:
@@ -85,7 +97,7 @@ class MatchProcess:
         self.started = time.monotonic()
         try:
             command = [str(executable), "--supervised", "--protocol", "srp1",
-                       str(self.sessions_file), str(self.port), str(len(sessions))]
+                       str(self.sessions_file), str(self.port), str(starting)]
             if match_seconds is not None or query_status is not None:
                 command.append(str(match_seconds if match_seconds is not None else 600))
             if query_status is not None:
@@ -145,6 +157,23 @@ class MatchProcess:
             return self.query_results(self.control, self.identity, slot)
         return None
 
+    def change_admission(self, operation, slot, session):
+        if self.identity is None or self.query_admission is None:
+            return "unavailable"
+        request = (operation, self.accounts[slot], session)
+        previous = self.pending.get(slot)
+        if previous is not None and previous[0] == request:
+            revision = previous[1]
+        else:
+            self.revision += 1
+            revision = self.revision
+            self.pending[slot] = (request, revision)
+        result = self.query_admission(self.control, self.identity, operation, revision,
+                                      slot, self.accounts[slot], session)
+        if result is not None:
+            self.pending.pop(slot, None)
+        return result
+
     def stop(self):
         if self.process is not None:
             if self.process.stdin is not None:
@@ -170,7 +199,7 @@ class MatchRegistry(Registry):
     native lobby, and redirect sends its stock match-admission notification.
     These callbacks never derive authorization from HTTP form fields.
     """
-    def __init__(self, sessions, connected, compatible, redirect, executable, work, launcher=MatchProcess, next_order=None, identity=None):
+    def __init__(self, sessions, connected, compatible, redirect, executable, work, launcher=MatchProcess, next_order=None, identity=None, all_accounts=None):
         super().__init__()
         self.lock = threading.RLock()
         self.maps = ["school"]
@@ -183,6 +212,11 @@ class MatchRegistry(Registry):
         self.launcher = launcher
         self.next_order = next_order
         self.identity = identity
+        self.all_accounts = all_accounts
+        self.orders = {}
+        self.loading = {}
+        self.departing = set()
+        self.seen_players = set()
         self.processes = {}
         self.admitted = {}
         self.routes = {}
@@ -196,8 +230,10 @@ class MatchRegistry(Registry):
             return {"version": 1, "fixture": False, "local_test": True,
                     "player": player, "maps": self.maps, "modes": ["battery_hunt"],
                     "mode_label": "Battery hunt", "max_players": 16,
-                    "late_join": False}
+                    "late_join": self.all_accounts is not None}
         room = self.rooms.get(form.get("match", ""))
+        if op == "join" and room and room["state"] == "playing":
+            return self.join_running(room, player)
         if op == "start":
             if room is None:
                 raise RoomUnavailable("This room has closed. Refresh the browser.")
@@ -223,21 +259,80 @@ class MatchRegistry(Registry):
                     raise ValueError("Could not save match admission. Restart the local service.") from None
             try:
                 identities = {} if self.identity is None else {"accounts": [self.identity(p) for p in room["players"]]}
+                if self.all_accounts is not None:
+                    identities["all_accounts"] = self.all_accounts
                 process = self.launcher(self.executable,
                     self.work / f"{room['id']}-{self.attempt}", grants, **identities)
             except (OSError, ValueError) as error:
                 raise ValueError("The match server could not start. Try again.") from error
             self.processes[room["id"]] = process
+            self.orders[room["id"]] = self.attempt
             room["state"] = "playing"
             for slot, member in enumerate(room["players"]):
                 self.admitted[member] = room["id"]
                 self.routes[member] = (room["id"], slot, self.attempt)
+                if self.all_accounts is not None:
+                    self.loading[member] = time.monotonic()
                 self.completed.pop(member, None)
                 self.pending_redirects.append((member, room["id"], process.port, slot % 2, self.attempt))
             return {"room": room}
         if op == "leave" and room and room["state"] != "waiting":
             raise ValueError("Use Leave match in the game's options menu.")
         return super().operate(op, player, form)
+
+    def join_running(self, room, player):
+        if self.all_accounts is None or self.identity is None:
+            raise ValueError("Late admission is not enabled for this service.")
+        if player in self.departing:
+            raise ValueError("Your previous connection is closing. Retry Join shortly.")
+        if not self.connected(player) or not self.compatible(player):
+            raise ValueError("Sign in with the current SRP recovery client before joining.")
+        if any(player in other["players"] for other in self.rooms.values() if other is not room):
+            raise ValueError("Leave your current room first.")
+        was_member = player in room["players"]
+        if not was_member and len(room["players"]) >= room["capacity"]:
+            raise ValueError("This room is full.")
+        process = self.processes[room["id"]]
+        try:
+            slot = process.accounts.index(self.identity(player))
+        except ValueError:
+            raise ValueError("This account's descriptor is unavailable in the match.") from None
+        # Reserve capacity before sending a mutation: an unobserved ACK may
+        # already have granted the slot. A retry uses the same pending revision.
+        if player not in room["players"]:
+            room["players"].append(player)
+        self.admitted[player] = room["id"]
+        self.routes[player] = (room["id"], slot, self.orders[room["id"]])
+        self.loading.setdefault(player, time.monotonic())
+        result = process.change_admission("admit", slot, self.sessions(player))
+        if result is None:
+            raise ValueError("Admission has not been confirmed. Retry Join shortly.")
+        if result != "ok":
+            if not was_member:
+                self.release_member(player)
+            raise ValueError("Match admission is unavailable (" + result + "). Refresh and retry.")
+        self.completed.pop(player, None)
+        self.pending_redirects.append((player, room["id"], process.port, slot % 2, self.orders[room["id"]]))
+        return {"room": room}
+
+    def release_member(self, player):
+        room_id = self.admitted.pop(player, None)
+        self.routes.pop(player, None)
+        self.loading.pop(player, None)
+        self.departing.discard(player)
+        self.seen_players.discard(player)
+        self.pending_redirects = [r for r in self.pending_redirects if r[0] != player]
+        room = self.rooms.get(room_id)
+        if room is None:
+            return
+        if player in room["players"]:
+            room["players"].remove(player)
+        if player in room["ready"]:
+            room["ready"].remove(player)
+        if not room["players"]:
+            self.close_room(room_id)
+        elif room["owner"] == player:
+            room["owner"] = room["players"][0]
 
     def flush_redirects(self):
         with self.lock:
@@ -250,24 +345,25 @@ class MatchRegistry(Registry):
                 except (OSError, ValueError):
                     # Some earlier players may already be loading. Closing this
                     # allocation lets them reconnect; never relabel it waiting.
-                    self.close_room(room_id)
+                    if self.all_accounts is None:
+                        self.close_room(room_id)
+                    else:
+                        self.lobby_connected(player)
 
     def lobby_connected(self, player):
         with self.lock:
-            room_id = self.admitted.pop(player, None)
+            room_id = self.admitted.get(player)
             room = self.rooms.get(room_id)
             if room is None:
                 return
-            route = self.routes.pop(player, None)
+            route = self.routes.get(player)
             process = self.processes.get(room_id)
             self.retain_results(player, route, process)
-            room["players"].remove(player)
-            if player in room["ready"]:
-                room["ready"].remove(player)
-            if not room["players"]:
-                self.close_room(room_id)
-            elif room["owner"] == player:
-                room["owner"] = room["players"][0]
+            if self.all_accounts is not None and route and process:
+                self.departing.add(player)
+                if process.change_admission("revoke", route[1], self.sessions(player)) is None:
+                    return
+            self.release_member(player)
 
     def retain_results(self, player, route, process):
         if route and process and callable(getattr(process, "results", None)):
@@ -292,7 +388,7 @@ class MatchRegistry(Registry):
                     if process.poll() is None}
             return {player: (room, order, slot % 2)
                     for player, (room, slot, order) in self.routes.items()
-                    if room in live and self.admitted.get(player) == room}
+                    if room in live and self.admitted.get(player) == room and player not in self.departing}
 
     def close_room(self, room_id):
         self.rooms.pop(room_id, None)
@@ -301,10 +397,35 @@ class MatchRegistry(Registry):
             process.stop()
         self.admitted = {p: r for p, r in self.admitted.items() if r != room_id}
         self.routes = {p: r for p, r in self.routes.items() if r[0] != room_id}
+        self.orders.pop(room_id, None)
+        self.loading = {p: t for p, t in self.loading.items() if p in self.admitted}
+        self.departing.intersection_update(self.admitted)
+        self.seen_players.intersection_update(self.admitted)
         self.pending_redirects = [r for r in self.pending_redirects if r[1] != room_id]
 
     def reap(self):
         with self.lock:
+            for player in list(self.departing):
+                route = self.routes.get(player)
+                process = self.processes.get(route[0]) if route else None
+                if not process or process.change_admission("revoke", route[1], self.sessions(player)) is not None:
+                    self.release_member(player)
+            if self.all_accounts is not None:
+                for room_id, process in list(self.processes.items()):
+                    status = process.query_status(process.control)
+                    if status is None or status[:2] != process.identity:
+                        continue
+                    for player, route in list(self.routes.items()):
+                        if route[0] != room_id or player in self.departing:
+                            continue
+                        if status[3] & (1 << route[1]):
+                            self.seen_players.add(player)
+                            self.loading.pop(player, None)
+                        elif player in self.seen_players:
+                            self.lobby_connected(player)
+            for player, started in list(self.loading.items()):
+                if time.monotonic() - started >= MatchProcess.ADMISSION_TIMEOUT_SECONDS:
+                    self.lobby_connected(player)
             for room_id, process in list(self.processes.items()):
                 if process.poll() is not None:
                     self.close_room(room_id)

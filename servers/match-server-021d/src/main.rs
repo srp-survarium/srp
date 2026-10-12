@@ -24,6 +24,7 @@ struct Peer {
     uploads: Assembler,
     prepared: bool,
     last_seen: u64,
+    connected_at: u64,
     last_actions: Option<u32>,
     blackout_until: u64,
     dropped_packets: usize,
@@ -40,7 +41,8 @@ struct Server {
     match_seconds: u16,
     instance: u128,
     generation: u64,
-    completed: Option<(u64, u32, Vec<Vec<u8>>)>,
+    participants: u32,
+    completed: Option<(u64, u32, Vec<Option<Vec<u8>>>)>,
 }
 fn u32_at(bytes: &[u8], offset: usize) -> Option<u32> {
     Some(u32::from_le_bytes(
@@ -219,6 +221,7 @@ impl Server {
     fn reset(&mut self, reason: &str) {
         eprintln!("closing test cohort: {reason}");
         self.peers.clear();
+        self.participants = 0;
         self.generation = self
             .generation
             .checked_add(1)
@@ -235,6 +238,7 @@ impl Server {
         match self.coordinator.remove(peer.slot, now) {
             Ok(deliveries) => {
                 if self.peers.is_empty() {
+                    self.participants = 0;
                     self.generation = self
                         .generation
                         .checked_add(1)
@@ -289,6 +293,8 @@ impl Server {
             .tick_with_replay_idle(now, &idle, &replay_idle)
         {
             Ok(deliveries) => {
+                // Preserve departed participants, excluding unused reserved identities.
+                self.participants |= self.coordinator.participant_mask();
                 if self
                     .completed
                     .as_ref()
@@ -302,7 +308,18 @@ impl Server {
                         ) {
                             let packets: Result<Vec<_>, _> = (0..self.roster)
                                 .map(|slot| {
-                                    stats.lobby_packet_with_accounts(1, slot, &self.accounts)
+                                    if self.participants & (1 << slot) == 0 {
+                                        Ok(None)
+                                    } else {
+                                        stats
+                                            .lobby_packet_for_participants(
+                                                1,
+                                                slot,
+                                                &self.accounts,
+                                                self.participants,
+                                            )
+                                            .map(Some)
+                                    }
                                 })
                                 .collect();
                             if let Ok(packets) = packets {
@@ -344,7 +361,10 @@ impl Server {
             for time in peer.uploads.expire(now) {
                 eprintln!("expired upload: slot={}, time={time}", peer.slot);
             }
-            if now.saturating_sub(peer.last_seen) > 15_000 {
+            if now.saturating_sub(peer.last_seen) > 15_000
+                || (now.saturating_sub(peer.connected_at) >= 120_000
+                    && !self.coordinator.entered(peer.slot))
+            {
                 self.remove(addr, now);
                 continue;
             }
@@ -388,7 +408,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let grants =
         match_server_021d::sessions::Grants::parse(&std::fs::read_to_string(&sessions_file)?)?;
     let count = grants.accounts.len() as u8;
-    let sessions = grants.sessions;
+    let mut admissions = match_server_021d::admission::Admissions::new(grants.sessions);
     let mut server = Server {
         protocol,
         peers: HashMap::new(),
@@ -400,6 +420,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         match_seconds,
         instance: SystemTime::now().duration_since(UNIX_EPOCH)?.as_nanos(),
         generation: 1,
+        participants: 0,
         completed: None,
     };
     let socket = UdpSocket::bind((std::net::Ipv4Addr::LOCALHOST, port))?;
@@ -419,6 +440,12 @@ fn main() -> Result<(), Box<dyn Error>> {
                 let now = start.elapsed().as_millis() as u64;
                 let data = &buffer[..size];
                 if !server.peers.contains_key(&addr) {
+                    // A native allocation owns one generation. Retain control
+                    // results for its supervisor, but never accept stale grants
+                    // into an implicitly restarted world.
+                    if supervised == 1 && protocol == Protocol::Srp1 && server.generation != 1 {
+                        continue;
+                    }
                     let Ok((_, frames)) = wire::decode(Direction::ClientToServer, data) else {
                         continue;
                     };
@@ -432,7 +459,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                         continue;
                     }
                     let session = u32_at(body, 0).unwrap();
-                    let Some(&slot) = sessions.get(&session) else {
+                    let Some(&slot) = admissions.sessions.get(&session) else {
                         continue;
                     };
                     if matches!(server.coordinator.routing_status(now), Ok(("finished", _)))
@@ -449,6 +476,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                             uploads: Assembler::default(),
                             prepared: false,
                             last_seen: now,
+                            connected_at: now,
                             last_actions: None,
                             blackout_until: 0,
                             dropped_packets: 0,
@@ -498,6 +526,31 @@ fn main() -> Result<(), Box<dyn Error>> {
         if let Some(control) = &control {
             for command in control.poll() {
                 match command {
+                    test_control::Command::Admission(change, source) => {
+                        let (phase, occupied) = server.coordinator.routing_status(now)?;
+                        let (status, disconnect) = admissions.change(
+                            change,
+                            server.instance,
+                            server.generation,
+                            &server.accounts,
+                            phase,
+                            occupied,
+                        );
+                        if disconnect {
+                            if let Some(addr) = server.peers.iter().find_map(|(&addr, peer)| {
+                                (peer.slot == change.slot).then_some(addr)
+                            }) {
+                                server.remove(addr, now);
+                            }
+                        }
+                        let _ = control.reply(
+                            &source,
+                            &format!(
+                                "v1 {} {:x} {} {} {status}",
+                                change.revision, server.instance, change.generation, change.slot
+                            ),
+                        );
+                    }
                     test_control::Command::Status(nonce, source) => {
                         let (phase, occupied) = server.coordinator.routing_status(now)?;
                         let reply = format!(
@@ -510,7 +563,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                     test_control::Command::Results(nonce, generation, slot, source) => {
                         if let Some((saved_generation, time, packets)) = &server.completed {
                             if *saved_generation == generation {
-                                if let Some(packet) = packets.get(usize::from(slot)) {
+                                if let Some(packet) =
+                                    packets.get(usize::from(slot)).and_then(Option::as_ref)
+                                {
                                     use std::fmt::Write;
                                     let mut reply = format!(
                                         "v1 {nonce} {:x} {generation} {time} ",

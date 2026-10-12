@@ -83,6 +83,32 @@ def match_status(path):
         return None
 
 
+def match_admission(path, identity, operation, revision, slot, account, session):
+    """Retry one immutable mutation; a lost reply must not create a new grant."""
+    if operation not in ('admit', 'revoke'):
+        raise ValueError('invalid admission operation')
+    instance, generation = identity
+    request = f'{operation} {revision} {instance} {generation} {slot} {account} {session}'.encode('ascii')
+    try:
+        with tempfile.TemporaryDirectory(prefix='srp-021d-admit-') as directory:
+            with socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM) as sock:
+                sock.bind(str(Path(directory) / 'reply'))
+                sock.settimeout(.25)
+                sock.connect(str(path))
+                for _ in range(3):
+                    sock.send(request)
+                    try:
+                        fields = sock.recv(256).decode('ascii').split()
+                    except socket.timeout:
+                        continue
+                    if (len(fields) == 6 and fields[:5] == ['v1', str(revision), instance, str(generation), str(slot)]
+                            and fields[5] in ('ok', 'invalid', 'stale', 'conflict', 'unavailable', 'occupied')):
+                        return fields[5]
+    except (OSError, ValueError):
+        pass
+    return None
+
+
 def match_results(path, identity, slot):
     """Only accept the routed match's retained native reply for this account."""
     instance, generation = identity

@@ -19,6 +19,7 @@ pub enum Command {
     StateBlackout(u8, u64),
     Status(u64, SocketAddr),
     Results(u64, u64, u8, SocketAddr),
+    Admission(match_server_021d::admission::Change, SocketAddr),
 }
 impl Control {
     pub fn bind(path: PathBuf) -> io::Result<Self> {
@@ -29,7 +30,7 @@ impl Control {
     }
     pub fn poll(&self) -> Vec<Command> {
         let mut out = vec![];
-        let mut buffer = [0; 65];
+        let mut buffer = [0; 193];
         for _ in 0..8 {
             let (size, source) = match self.socket.recv_from(&mut buffer) {
                 Ok(received) => received,
@@ -40,7 +41,7 @@ impl Control {
                 }
             };
             let command = (|| {
-                if size > 64 {
+                if size > 192 {
                     return None;
                 }
                 let fields: Vec<_> = std::str::from_utf8(&buffer[..size])
@@ -48,6 +49,26 @@ impl Control {
                     .split_whitespace()
                     .collect();
                 match fields.as_slice() {
+                    [
+                        kind @ ("admit" | "revoke"),
+                        revision,
+                        instance,
+                        generation,
+                        slot,
+                        account,
+                        session,
+                    ] => Some(Command::Admission(
+                        match_server_021d::admission::Change {
+                            grant: *kind == "admit",
+                            revision: revision.parse().ok()?,
+                            instance: u128::from_str_radix(instance, 16).ok()?,
+                            generation: generation.parse().ok()?,
+                            slot: slot.parse().ok()?,
+                            account: account.parse().ok()?,
+                            session: session.parse().ok()?,
+                        },
+                        source,
+                    )),
                     ["status", nonce] => Some(Command::Status(nonce.parse().ok()?, source)),
                     ["results", nonce, generation, slot] => Some(Command::Results(
                         nonce.parse().ok()?,

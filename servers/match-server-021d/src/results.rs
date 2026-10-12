@@ -162,8 +162,25 @@ impl Stats {
         accounts: &[u32],
     ) -> Result<Vec<u8>, &'static str> {
         crate::sessions::validate_accounts(accounts)?;
+        self.lobby_packet_for_participants(match_id, slot, accounts, (1 << accounts.len()) - 1)
+    }
+
+    pub fn lobby_packet_for_participants(
+        &self,
+        match_id: u32,
+        slot: u8,
+        accounts: &[u32],
+        participants: u32,
+    ) -> Result<Vec<u8>, &'static str> {
+        crate::sessions::validate_accounts(accounts)?;
         if accounts.len() != self.players.len() {
             return Err("results identities differ from simulation roster");
+        }
+        if participants >> accounts.len() != 0
+            || usize::from(slot) >= accounts.len()
+            || participants & (1 << slot) == 0
+        {
+            return Err("invalid results participants or recipient");
         }
         let player = self
             .players
@@ -182,8 +199,11 @@ impl Stats {
         b.extend([0; 4]); // gunslinger empty name, u8 accuracy, u16 shots
         b.extend([0; 5]); // support empty name, u16 healed, u16 saved
         b.extend([0; 5]); // researcher empty name, u16 artefacts, u16 items
-        b.push(self.players.len() as u8);
+        b.push(participants.count_ones() as u8);
         for (index, p) in self.players.iter().enumerate() {
+            if participants & (1 << index) == 0 {
+                continue;
+            }
             let name = format!("Local {}", accounts[index]);
             b.push(name.len() as u8);
             b.extend(name.as_bytes());
@@ -241,6 +261,52 @@ impl PlayerStats {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn reserved_accounts_are_excluded_but_zero_score_participants_remain() {
+        let mut stats = Stats {
+            players: vec![
+                PlayerStats {
+                    events: [0; 24],
+                    current_killstreak: 0
+                };
+                16
+            ],
+            team_points: [5, 0],
+        };
+        // A nonparticipant's counters must not qualify them for the table.
+        stats.players[7].events[0] = 12;
+        let accounts: Vec<_> = (1..=16).rev().collect();
+        // Slot 0 may have departed; both actual participants still have zero score.
+        let packet = stats
+            .lobby_packet_for_participants(77, 3, &accounts, 0b1001)
+            .unwrap();
+        assert_eq!(packet[26], 2);
+        let mut offset = 27;
+        for (id, team) in [(16u32, 0), (13u32, 1)] {
+            let length = packet[offset] as usize;
+            offset += 1;
+            assert_eq!(
+                &packet[offset..offset + length],
+                format!("Local {id}").as_bytes()
+            );
+            offset += length;
+            assert_eq!(&packet[offset..offset + 4], &id.to_le_bytes());
+            assert_eq!(packet[offset + 10], team);
+            offset += 13;
+        }
+        assert_eq!(&packet[offset..offset + 4], &13u32.to_le_bytes());
+        assert!(
+            stats
+                .lobby_packet_for_participants(77, 7, &accounts, 0b1001)
+                .is_err()
+        );
+        assert!(
+            stats
+                .lobby_packet_for_participants(77, 0, &accounts, 1 << 16 | 1)
+                .is_err()
+        );
+    }
 
     #[test]
     fn results_preserve_account_ids_names_and_local_recipient_for_reordered_roster() {
