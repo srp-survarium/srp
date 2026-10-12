@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "srp-packet-guard"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[workspace]
+members = ["capi"]
+resolver = "3"
+
+[workspace.package]
+license = "GPL-3.0-or-later"
+
+[features]
+default = ["lzma"]
+lzma = ["dep:lzma-rust2"]
+
+[dependencies]
+lzma-rust2 = { version = "=0.22.0", default-features = false, optional = true }
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+overflow-checks = true
+lto = true
+codegen-units = 1
