@@ -14,8 +14,6 @@ default = []
 bytemuck = { workspace = true }
 openssl = { workspace = true }
 thiserror = { workspace = true }
-env_logger = { workspace = true }
-log = { workspace = true }
 
 vostok = { workspace = true }
 survarium = { workspace = true }

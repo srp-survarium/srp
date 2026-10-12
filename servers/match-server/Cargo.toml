@@ -12,8 +12,6 @@ default = []
 
 [dependencies]
 bytemuck = { workspace = true }
-env_logger = { workspace = true }
-log = { workspace = true }
 
 survarium = { workspace = true }
 vostok = { workspace = true }

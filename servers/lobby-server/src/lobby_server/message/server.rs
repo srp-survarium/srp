@@ -228,9 +228,8 @@ impl Serialize for Message {
             Self::InvalidSessionId | Self::InvalidPassword => todo!(),
 
             Self::ConnectToMatchServer { match_id, team_id } => {
-                let match_server = &config::get().match_server;
-                packet.write_str(&match_server.public_host);
-                packet.write(match_server.port);
+                packet.write_str(config::match_server::ADDRESS);
+                packet.write(config::match_server::PORT);
                 packet.write(match_id);
                 packet.write(team_id);
             }

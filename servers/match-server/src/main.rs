@@ -17,13 +17,9 @@ use crate::match_connection::MatchConnection;
 use vostok::config;
 
 fn main() {
-    env_logger::init();
-
     loop {
-        log::info!("Starting a match server");
-        if std::panic::catch_unwind(run_match_server).is_err() {
-            log::error!("Match server panicked; restarting");
-        }
+        println!("\n\nStarting a match server");
+        _ = std::panic::catch_unwind(run_match_server);
     }
 }
 
@@ -33,10 +29,9 @@ fn run_match_server() {
     let (server_game_message_tx, server_game_message_rx) =
         mpsc::channel::<message::ServerGameMessageKind>();
 
-    let match_server = &config::get().match_server;
     let mut connection: MatchConnection = MatchConnection::wait_for_game_start(
-        &match_server.bind_host,
-        match_server.port,
+        config::match_server::ADDRESS,
+        config::match_server::PORT,
         client_game_message_tx,
         server_game_message_rx,
     );

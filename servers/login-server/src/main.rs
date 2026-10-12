@@ -58,23 +58,19 @@ enum login_client_message_types_enum {
 /// * Have a database for different users and their session ids
 /// * ...many more things
 fn main() -> std::io::Result<()> {
-    env_logger::init();
-
-    let listener = TcpListener::bind(config::get().login_server.bind_addr())?;
+    let addr = format!(
+        "{}:{}",
+        config::login_server::ADDRESS,
+        config::login_server::PORT
+    );
+    let listener = TcpListener::bind(&addr)?;
 
     for stream in listener.incoming() {
-        let stream = match stream {
-            Ok(stream) => stream,
-            // A failed `accept` shouldn't take down the whole server.
-            Err(error) => {
-                log::error!("Failed to accept connection: {error}");
-                continue;
-            }
-        };
+        let stream = stream?;
         std::thread::spawn(move || {
-            if std::panic::catch_unwind(|| handle_client(stream)).is_err() {
-                log::error!("Connection handler panicked; dropped the connection");
-            }
+            _ = std::panic::catch_unwind(|| {
+                handle_client(stream);
+            });
         });
     }
     Ok(())
@@ -85,7 +81,7 @@ fn handle_client(mut stream: TcpStream) {
     stream.read(&mut request_type).unwrap();
 
     let request_type = request_type[0];
-    log::debug!("Received message of type: {request_type}");
+    println!("Received message of type: {request_type}");
 
     match () {
         _ if request_type == login_client_message_types_enum::sign_in_message_type as u8 => {
@@ -102,7 +98,7 @@ fn handle_sign_in(mut stream: TcpStream) {
     let mut buffer = [0; 1024];
 
     let bytes_read = stream.read(&mut buffer).unwrap();
-    log::debug!("bytes_read = {bytes_read}");
+    println!("bytes_read = {bytes_read}");
 
     let email_len = buffer[0] as usize;
     let email = buffer[1..1 + email_len].to_vec();
@@ -111,8 +107,8 @@ fn handle_sign_in(mut stream: TcpStream) {
     let email = String::from_utf8(email).unwrap();
     let game_version = String::from_utf8(game_version).unwrap();
 
-    log::info!("User email: {email}");
-    log::info!("Client version: {game_version}");
+    println!("User email: {email}");
+    println!("Client version: {game_version}");
 
     let message_type = login_server_message_types_enum::valid_user_name_message_type as u8;
     stream.write(&[message_type]).unwrap();
@@ -121,7 +117,7 @@ fn handle_sign_in(mut stream: TcpStream) {
         _ if message_type
             == login_server_message_types_enum::valid_user_name_message_type as u8 =>
         {
-            log::debug!("    ****valid_user_name_message_type****    ");
+            println!("    ****valid_user_name_message_type****    ");
             let mut builder = SslContext::builder(SslMethod::tls()).unwrap();
             builder.set_security_level(0);
             builder
@@ -137,17 +133,16 @@ fn handle_sign_in(mut stream: TcpStream) {
 
             let password_len = buffer[0] as usize;
             let password = buffer[1..1 + password_len].to_vec();
-            let _password = String::from_utf8(password).unwrap();
+            let password = String::from_utf8(password).unwrap();
+
+            println!("User password: {password}");
 
             let mut buffer = vec![];
             buffer
                 .push(login_server_message_types_enum::servers_connection_info_message_type as u8);
 
-            // Host only: the client talks HTTP to the browser server on the
-            // implicit port 80 and appends `URL_PREFIX` itself.
-            let browser_host = &config::get().browser_server.public_host;
-            buffer.push(browser_host.len() as u8);
-            buffer.extend(browser_host.as_bytes());
+            buffer.push(config::browser_server::ADDRESS.len() as u8);
+            buffer.extend(config::browser_server::ADDRESS.as_bytes());
             buffer.push(URL_PREFIX.len() as u8);
             buffer.extend(URL_PREFIX);
             buffer.extend(SESSION_ID.to_le_bytes());
@@ -169,15 +164,15 @@ fn handle_sign_out(mut stream: TcpStream) {
     let mut buffer = [0; 256];
     let bytes_read = stream.read(&mut buffer).unwrap();
 
-    log::debug!("bytes_read = {bytes_read}");
-    log::debug!("{buffer:?}");
+    println!("bytes_read = {bytes_read}");
+    println!("{buffer:?}");
 
     let buffer: [u8; 4] = buffer[0..4].try_into().unwrap();
     let session_id = u32::from_le_bytes(buffer);
-    log::debug!("session_id = {session_id}");
+    println!("session_id = {session_id}");
     let string = buffer[4..].to_vec();
     let string = String::from_utf8_lossy(&string);
-    log::debug!("string = {string}");
+    println!("string = {string}");
 
     //
     //
@@ -198,5 +193,7 @@ fn handle_sign_out(mut stream: TcpStream) {
 
     let password_len = buffer[0] as usize;
     let password = buffer[1..1 + password_len].to_vec();
-    let _password = String::from_utf8(password).unwrap();
+    let password = String::from_utf8(password).unwrap();
+
+    println!("User password: {password}");
 }

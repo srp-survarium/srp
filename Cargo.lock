@@ -968,8 +968,6 @@ name = "lobby-server"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
- "env_logger",
- "log",
  "openssl",
  "survarium",
  "thiserror",
@@ -1013,8 +1011,6 @@ checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 name = "login-server"
 version = "0.1.0"
 dependencies = [
- "env_logger",
- "log",
  "openssl",
  "vostok",
 ]
@@ -1024,8 +1020,6 @@ name = "match-server"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
- "env_logger",
- "log",
  "survarium",
  "vostok",
 ]

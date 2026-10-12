@@ -21,7 +21,11 @@ async fn handle_request_lobby_server(
 ) -> impl Responder {
     log::error!("Received: {query:#?}");
 
-    HttpResponse::Ok().body(config::get().lobby_server.public_addr())
+    HttpResponse::Ok().body(format!(
+        "{}:{}",
+        config::lobby_server::ADDRESS,
+        config::lobby_server::PORT
+    ))
 }
 
 #[actix_web::main]
@@ -33,7 +37,11 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::default())
             .service(handle_request_lobby_server)
     })
-    .bind(config::get().browser_server.bind_addr())?
+    .bind(format!(
+        "{}:{}",
+        config::browser_server::ADDRESS,
+        config::browser_server::PORT
+    ))?
     .run()
     .await
 }

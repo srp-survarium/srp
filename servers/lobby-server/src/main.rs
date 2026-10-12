@@ -22,25 +22,23 @@ const _: () = {
 };
 
 fn main() -> std::io::Result<()> {
-    env_logger::init();
-
     let state = Arc::new(lobby_server::ServerState::new_dummy());
 
-    let listener = TcpListener::bind(config::get().lobby_server.bind_addr())?;
+    let addr = format!(
+        "{}:{}",
+        config::lobby_server::ADDRESS,
+        config::lobby_server::PORT
+    );
+    let listener = TcpListener::bind(&addr)?;
 
     for stream in listener.incoming() {
-        let stream = match stream {
-            Ok(stream) => stream,
-            // A failed `accept` shouldn't take down the whole server.
-            Err(error) => {
-                log::error!("Failed to accept connection: {error}");
-                continue;
-            }
-        };
-        let state = state.clone();
-        std::thread::spawn(move || {
-            if std::panic::catch_unwind(|| handle_connection(state, stream)).is_err() {
-                log::error!("Connection handler panicked; dropped the connection");
+        std::thread::spawn({
+            let stream = stream?;
+            let state = state.clone();
+            move || {
+                _ = std::panic::catch_unwind(|| {
+                    handle_connection(state, stream);
+                });
             }
         });
     }

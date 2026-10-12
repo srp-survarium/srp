@@ -12,7 +12,5 @@ default = []
 
 [dependencies]
 openssl = { workspace = true }
-env_logger = { workspace = true }
-log = { workspace = true }
 
 vostok = { workspace = true }
