@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 #[cfg(feature = "lzma")]
 use srp_packet_guard as guard;
 use srp_packet_guard::{

@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 /* C linkage test only. All parsing and decompression lives in Rust. */
 #define _GNU_SOURCE
 #include "guard.h"

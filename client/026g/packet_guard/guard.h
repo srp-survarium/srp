@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 #ifndef SRP_026_PACKET_GUARD_H
 #define SRP_026_PACKET_GUARD_H
 #include <stddef.h>

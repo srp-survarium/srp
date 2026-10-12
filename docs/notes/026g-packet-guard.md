@@ -1,5 +1,3 @@
-<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
-
 # 0.26g client packet validation
 
 The [Rust packet guard](../../client/026g/packet_guard/README.md) is a standalone

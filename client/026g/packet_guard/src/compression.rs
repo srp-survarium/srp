@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 use crate::{Error, MAX_MESSAGE, MAX_OPTIONS, Result};
 use lzma_rust2::{Action, Lzma2Stream, Status};
 

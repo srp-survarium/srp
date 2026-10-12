@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 """Read-only identification of the researched Skhid binary; does not install hooks."""
 import argparse
 import hashlib

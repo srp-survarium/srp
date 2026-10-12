@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 use crate::{
     Error, FRAGMENT_TIMEOUT_MS, MAX_DATAGRAM, MAX_FRAMES, MAX_MESSAGE, MAX_PARTS, Players, Result,
     reader::Reader,

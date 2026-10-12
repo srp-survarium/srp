@@ -1,5 +1,3 @@
-<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
-
 # 0.26g packet guard: Rust integration draft
 
 Incoming login, lobby and match validation, written in **`no_std` Rust** and

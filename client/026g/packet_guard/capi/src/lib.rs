@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 #![no_std]
 #![deny(unsafe_op_in_unsafe_fn)]
 

@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 use crate::{Error, Result, reader::Reader};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

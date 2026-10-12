@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 # Raw LZMA2 verified by retail decoder 0x3ee810; SHA256 ac33d9937015c2299bf62cc6b127cb308b48a3475b30fff2ddd65479ae3bf153
 # seed	repeat	compressed
 48656c6c6f20776f726c64	100	e0044b00175e00241949986f1019c60534349eb60244c511240068a0900000

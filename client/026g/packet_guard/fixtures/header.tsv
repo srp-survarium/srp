@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 # Retail 0.26g0 parser 0x3fa0a0; SHA256 ac33d9937015c2299bf62cc6b127cb308b48a3475b30fff2ddd65479ae3bf153
 # packet	sequence	ack_sequence	ack_bits	single	ack_mask
 172900fe	23	41	7	1	80000000000000000000000000000000

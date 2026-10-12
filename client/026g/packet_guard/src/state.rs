@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 use crate::{
     Error, MAX_STATE, Players, Result,
     reader::{Bits, Reader},

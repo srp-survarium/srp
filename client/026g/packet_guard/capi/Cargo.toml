@@ -1,10 +1,7 @@
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 [package]
 name = "srp-packet-guard-capi"
 version = "0.1.0"
 edition = "2024"
-license.workspace = true
 publish = false
 
 [lib]
