@@ -1,0 +1,14 @@
+{
+  "request_id": "example-catalog-v1",
+  "action": "import_catalog",
+  "entries": [
+    {"key": "example.rifle", "kind": "item", "name": "Example rifle", "properties": {"category": "weapon"}},
+    {"key": "example.silver", "kind": "currency", "name": "Example credits"},
+    {"key": "example.school", "kind": "map", "name": "Example School map"},
+    {"key": "example.battery", "kind": "mode", "name": "Example battery mode"},
+    {"key": "example.season", "kind": "season", "name": "Example season"}
+  ],
+  "tracks": [{"key": "example", "name": "Example progression, not retail values", "levels": [
+    {"level": 1, "min_xp": 0}, {"level": 2, "min_xp": 100}, {"level": 3, "min_xp": 300}
+  ]}]
+}

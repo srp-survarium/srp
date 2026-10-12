@@ -1,0 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-or-later
+-- The executable schema is database/migrations/001_initial.sql.
+-- Initialize or upgrade using:
+--   python3 servers/account-server/server.py init --db target/accounts.sqlite3
+-- This file replaces an unused, incomplete PostgreSQL sketch. Never execute
+-- migrations manually on a live database; the server records schema versions.
