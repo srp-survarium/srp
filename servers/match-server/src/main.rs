@@ -1,5 +1,6 @@
 #![feature(iter_intersperse)]
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 #![feature(generic_atomic)]
 
 mod game;

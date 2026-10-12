@@ -1,5 +1,6 @@
 #![expect(dead_code)]
 // SPDX-License-Identifier: GPL-3.0-or-later
+
 #![expect(non_camel_case_types)]
 
 mod server_packet;
