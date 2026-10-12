@@ -1,9 +1,10 @@
 Follow-up implementation and validation
 2026-10-12
 
-The active objective is all five items below. Earlier PR status describes the
-initial draft; this file tracks follow-up work. Do not call the full goal done
-until each item's implementation and appropriate evidence are present.
+The follow-up originally covered all five items below. The user subsequently
+withdrew authorization for the agent to attempt the full five-battery playtest;
+item 5 remains unverified and is no longer agent work. Earlier PR status describes
+the initial draft; this file tracks follow-up implementation and validation.
 
 1. Supervisor crash cleanup - implemented and process-tested.
    Native children use --supervised and watch stdin for supervisor EOF. Their
@@ -36,10 +37,10 @@ until each item's implementation and appropriate evidence are present.
    and assigned teams remain correct across restart.
    Validation: all 69 Rust and 52 Python tests pass; extended real-service
    lifecycle passes. Independent agent review found no blocking issue in
-   cleanup/identity changes. No graphical name/result screen was retested yet;
-   that will be observed alongside the native join/reconnect gameplay gate.
+   cleanup/identity changes. Subsequent real-client acceptance verified names
+   with reversed account order and final results containing only actual players.
    Logs: /tmp/srp-v021d-identities-{rust,python,lifecycle}.log.
-3. Native SRP1 reconnect and late join - implemented; real-client acceptance pending.
+3. Native SRP1 reconnect and late join - implemented and real-client tested.
    The local service preloads its sixteen immutable account/loadout descriptors,
    with initial members first and zero grants for unused identities. Running-room
    Join reserves capacity, binds a grant through the private control socket, then
@@ -64,25 +65,49 @@ until each item's implementation and appropriate evidence are present.
    inputs again, and rejects stale grant/revoke retries. This uses synthetic
    snapshots, not an engine gameplay simulation. Real native-service lifecycle
    also passes persistent identity, admission, chat and supervisor crash cleanup.
+   Real native acceptance: clean-retail SRP package-v5, two private Wine prefixes,
+   NVIDIA RTX 3060 Ti rendering, no attached debugger. Client B used Matches Join
+   after A reached time 165150 ms; populated restore and activation succeeded.
+   A 1500 ms state-transfer blackout dropped 33 packets; active replay completed
+   and post-restore state agreement was verified at 223389 ms. B was then killed
+   with SIGKILL, timed out server-side, relaunched, logged into the same persistent
+   account/token and joined A's continuing world using baseline 450300 ms.
+   Movement was accepted after reconnect. One historical CRC disagreement at
+   451100 ms was logged near re-entry; no sustained mismatch was observed in
+   the following interval. A was not restarted or reset during these actions.
+   The in-game scoreboard shows Local 1/2 consistently; its sixteen preloaded
+   descriptors remain visible as grey inactive rows. This is a known native UI
+   limitation, distinct from filtered final result participants.
+
    Logs: /tmp/srp-v021d-admission-{rust,python}.log,
    /tmp/srp-v021d-regrant-udp.log and /tmp/srp-v021d-late-lifecycle.log.
 
-4. Real-client clock drift correction validation - pending.
-5. Complete five-battery objective victory playtest - pending.
+4. Real-client clock drift correction validation - passed.
+   Native +300/-300 ms slew probes produced measured peak errors -302/+300 ms.
+   The normal server policy applied three -100/+100 ms corrections respectively;
+   both remained within +/-10 ms after 23.754/25.760 seconds, with final samples
+   within 3.5 ms. No world reset, extra membership event or CRC disagreement
+   occurred in the fixed 45-second observation window. See CLOCK-CORRECTION.txt
+   for method, baseline outlier, scope and reproducible evidence.
+5. Complete five-battery objective victory playtest - unverified; user explicitly
+   instructed the agent not to attempt it. No full objective playtest performed.
 
 User authorizes isolated clients and simulated packet loss for these gates.
 Previously accepted baseline combat/chat/deposit/fall-death tests remain
 accepted; repeat only what a changed behavior or new validation gate requires.
 
-REMAINING ACCEPTANCE
+FINAL STATE
 
-Two real SRP1 clients: start one, join the other after the world advances,
-leave/rejoin without restarting the remaining client, and exercise a network
-interruption with state comparison. Observe persistent names/results alongside
-these gates. Then perform real timer drift injection and a full five-battery
-victory. These gates cannot be replaced by the protocol tests above.
+Native results displayed only Local 1/2 in their correct teams, with 118-byte
+packets delivered to both recipients. Items 1..4 are implemented and validated.
+The user's later instruction excludes item 5 from agent work; it remains
+explicitly unverified. Both private clients/services/displays were stopped,
+with grants/control sockets removed and all test ports released.
 
 The updated native menu was rebuilt as a verified local package at
 /tmp/srp-v021d-native-package-v5. This contains retail assets and is not part of
-the source PR. Isolated native acceptance evidence is being collected under
-/tmp/srp-v021d-native-acceptance; no acceptance claim is made merely by launching.
+the source PR. Isolated native acceptance evidence is under
+/tmp/srp-v021d-native-acceptance; NATIVE-ADMISSION.txt records observed outcomes.
+
+Durable evidence copy (with its own SHA256SUMS):
+/mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11/evidence/native-admission-and-clock-2026-10-12

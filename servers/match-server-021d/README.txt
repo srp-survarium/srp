@@ -7,8 +7,8 @@ passwords are accepted. This is a development server, not public authentication.
 
 Small persistent clock drift uses bounded native timer slews and measured ACK
 latency. This assumes the client's default time_floating_factor=0.05. See
-docs/v021d/CLOCK-CORRECTION.txt for policy and the pending real-engine drift
-validation boundary; automated protocol/model tests pass.
+docs/v021d/CLOCK-CORRECTION.txt for policy, passing real-client signed-drift
+validation, and its limits; automated protocol/model tests also pass.
 
 Two client protocols are supported, selected explicitly per match process:
   community (default): the previously tested community-patched 0.21d client;
@@ -54,7 +54,7 @@ Its DLL/movie/assets are separate client deliverables, not server dependencies.
 The native menu service's Python modules are all included in this package.
 
 Use the client package with the SrpResults waiting-screen helper (verified
-package-v4, resource archive SHA256 f3ea03d7831697c33c3310f2c76405f5be40cf6e082b7d92122d30aec2c30f9d).
+package-v5, resource archive SHA256 1c442d3ade2e5d7551ef0f584cbb6af5db9bbe24b404c3152ea86bcf0cd25cc7).
 If statistics never arrive, it shows an explanation after 15 seconds and the
 native Close button returns to Matches. Late statistics still display normally.
 This UI fallback is a client-package feature; the server does not fabricate
@@ -71,8 +71,9 @@ must receive a private grant confirmation before redirect; room capacity also
 counts unconfirmed/loading admissions. Returning to the lobby revokes the old
 transport. A failed load expires after 120 seconds. Names and teams retain the
 original account/slot assignment. Only actual participants appear in results.
-Protocol/retry/restore tests pass; real native-client acceptance is still pending
-(see docs/v021d/IMPLEMENTATION-PROGRESS.txt).
+Protocol/retry/restore tests and two-real-client native late join, abrupt-process
+reconnect and dropped-state-packet recovery pass. See NATIVE-ADMISSION.txt under
+docs/v021d for exact evidence and the grey inactive-scoreboard-row limitation.
 
 The starting roster has 120 seconds to reach the shared bootstrap. An empty
 or incomplete initial cohort then expires, releasing its process and grants.

@@ -102,3 +102,50 @@ or ACK authenticates game physics or prevents a malicious client from lying.
 evidence/clock-correction contains the complete test log, delayed-guard log,
 binary comparison and the game constructor/console-command disassemblies.
 Earlier timer/send/dispatch disassemblies remain in evidence/clock-contract.
+
+REAL-ENGINE FOLLOW-UP (2026-10-12; supersedes the pending gate above)
+
+Two real native SRP1 clients in a fresh match were tested after native admission,
+loss recovery and reconnect acceptance. The authenticated menu API created the
+clock-test room and delivered ordinary native redirects; synthetic clients or
+fabricated clock reports were not used. Account order was 2,1. Both used the
+verified package-v5, default floating factor and NVIDIA rendering, no debugger.
+
+The private control socket now accepts clock-offset SLOT SIGNED_MS, nonzero
+within -1000..1000. It queues the stock55 only for Playing, unfinished peers
+without pending52/53/55. Enqueue failure is logged locally, never propagated
+out of the server loop. This test command enables observation tracing; the
+optional SRP_TEST_TRACE_CLOCK environment variable enables it from startup.
+Tracing records report arrival wall time, shared time, real client44 time and
+sampled RTT. It does not change those values. Ordinary runs do not trace them.
+The playing/loading/recovery/finished guard is covered by the focused clock
+lifecycle regression. Independent review verified the guard and error handling.
+
+A +1 ms probe enabled tracing, followed six seconds later by +300 ms for slot0
+and -300 ms for slot1. These commands induce native gradual slews, not instant
+clock jumps. The observed error is shared_time - reported_time - RTT/2.
+A fixed 45-second observation window after the main injections gave:
+
+  slot0/account2: peak error -302 ms (client ahead); three automatic -100 ms
+    corrections; all subsequent samples within +/-10 ms after 23.754 seconds; final five
+    errors +0.5,-0.5,-0.5,-1.5,-2.5 ms.
+  slot1/account1: peak error +300 ms (client behind); three automatic +100 ms
+    corrections; all subsequent samples within +/-10 ms after 25.760 seconds; final five
+    errors +0.5,-1.0,-3.5,-3.5,-1.0 ms.
+
+Correction RTT samples were 6..17 ms. One pre-injection slot1 observation had
+175.5 ms estimated error; it did not lead to an automatic correction before the
+main probe. There were no52 world resets, extra56/57 membership events, or
+historical CRC disagreements in the measured correction window. Both clients
+continued rendering their match. This validates this bounded local scenario,
+not arbitrary asymmetric latency, stalls, factor overrides or malicious reports.
+The intentional dropped-packet recovery test is separate and described in
+NATIVE-ADMISSION.txt; the clock test did not claim a lost real-client55.
+
+Evidence in /tmp/srp-v021d-native-acceptance: clock-measurement.log is the bounded
+server log; clock-observations.csv contains the actual reports; clock-analysis.json
+and analyze_clock.py record/reproduce the calculations; clock-probe-requests.json
+records the injected commands. The complete run logs also retain later cleanup.
+
+Durable evidence copy (with its own SHA256SUMS):
+/mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11/evidence/native-admission-and-clock-2026-10-12

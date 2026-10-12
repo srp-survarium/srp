@@ -22,7 +22,8 @@ Read in this order:
   servers/match-server-021d/README.txt - local service setup and test commands
   client/021d/README.md - build a package, install/restore, launch profiles
   client/021d/NOTICE.md - source provenance and external build dependencies
-  docs/v021d/SRP1-INTEGRATION.txt - protocol boundary and native lifecycle
+  docs/v021d/NATIVE-ADMISSION.txt - current native join/reconnect/loss acceptance
+  docs/v021d/SRP1-INTEGRATION.txt - protocol boundary and earlier native lifecycle
   docs/v021d/RECOVERED-CONTRACTS.txt - transport and simulation contracts
 
 The server's native_menu.py is the integrated service. The similarly named
@@ -63,7 +64,8 @@ After the allocation fix, all 49 server Python tests passed. The real-service
 lifecycle script also passed allocation/handoff, room/team chat, graceful
 cleanup, durable accounts and increasing order IDs across restart. A targeted
 CLI check verified explicit errors for missing custom front-door status/results
-capabilities. No graphical gameplay tests were repeated during PR preparation.
+capabilities. No graphical gameplay tests were repeated during initial PR preparation;
+the subsequent native acceptance run is recorded below.
 The vendored resource archive tool passed four Rust tests with its own lockfile.
 Client Python tests passed 42 tests, with one retail-file integration test
 skipped because SRP_RETAIL_EXE was unset. These source tests do not rebuild or
@@ -100,8 +102,10 @@ KNOWN LIMITS
 
 - Local loopback only, School/Battery hunt and fixed loadouts. Development
   login accepts any nonempty test password. It is not public authentication.
-- Native clock slews and ACK latency have automated coverage; actual game
-  engine behavior under deliberately injected clock drift is not verified.
+- Real native-client signed-drift validation passes for the bounded local
+  scenario: approximately +/-300 ms induced error corrected to a few milliseconds
+  without world reset or state mismatch. Arbitrary latency/stall behavior remains
+  outside that evidence; see CLOCK-CORRECTION.txt.
 - Supervisor crash cleanup is implemented after the initial PR review: native
   children watch the parent's pipe, and an inherited workspace lease protects
   restart cleanup. Actual SIGKILL and subsequent service restart passed. See
@@ -109,11 +113,13 @@ KNOWN LIMITS
 - Rooms, active worlds and completed statistics are not persistent across
   service restart. Durable account identities/order IDs are a separate claim.
 - Native menu late join/re-entry is implemented with private admission grants
-  and reserved immutable descriptors. Protocol loss/retry/restore tests pass;
-  real native-client acceptance remains pending. Community gameplay evidence
-  must not be generalized to this newly connected native admission path.
+  and reserved immutable descriptors. Real native-client late join, abrupt
+  process death/reconnect with the same account, and recovery after 33 dropped
+  packets passed. The scoreboard retains grey inactive reserved rows; final
+  results contain only actual participants. See NATIVE-ADMISSION.txt.
 - Five-battery victory has implementation/unit coverage but no recorded full
-  objective-win playtest. The accepted single deposit is narrower evidence.
+  objective-win playtest. The user explicitly told the agent not to attempt
+  that full test. The accepted single deposit is narrower evidence.
 - Windows runtime/install behavior remains unvalidated. Linux/Wine is the
   exercised path. Retail files and external build tools must be supplied.
 - Native allocation caps concurrent matches at eight. No ten-match load test
@@ -137,3 +143,11 @@ HDD at /mnt/hdd/Projects/Survarium Builds/0.21d-network-investigation-2026-10-11
 Its latest pre-PR archive verification covered 560 SHA256-listed files. The
 source reports preserve observations and commands, but historical /tmp paths
 and that archive are not portable dependencies needed to run this source.
+
+FOLLOW-UP ACCEPTANCE
+
+The follow-up real-client run verified native admission/reconnect/loss recovery,
+persistent scoreboard/result identities, and signed clock correction. Both test
+clients, private Wine servers, the menu service and private X display were then
+stopped, with grants/sockets removed and ports released. No five-battery attempt
+was made. NATIVE-ADMISSION.txt and CLOCK-CORRECTION.txt record the current evidence.

@@ -17,6 +17,7 @@ pub enum Command {
     Recover(u8),
     Blackout(u8, u64),
     StateBlackout(u8, u64),
+    ClockOffset(u8, i16),
     Status(u64, SocketAddr),
     Results(u64, u64, u8, SocketAddr),
     Admission(match_server_021d::admission::Change, SocketAddr),
@@ -77,6 +78,11 @@ impl Control {
                         source,
                     )),
                     ["recover", slot] => Some(Command::Recover(slot.parse().ok()?)),
+                    ["clock-offset", slot, ms] => {
+                        let ms: i16 = ms.parse().ok()?;
+                        (ms != 0 && (-1000..=1000).contains(&ms))
+                            .then_some(Command::ClockOffset(slot.parse().ok()?, ms))
+                    }
                     [kind @ ("blackout" | "state-blackout"), slot, ms] => {
                         let ms: u64 = ms.parse().ok()?;
                         let slot = slot.parse().ok()?;

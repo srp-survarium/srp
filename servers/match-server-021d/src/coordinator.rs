@@ -182,6 +182,14 @@ impl Coordinator {
             .is_some_and(|p| p.active_since.is_some())
     }
 
+    pub fn clock_probe_allowed(&self, slot: u8) -> bool {
+        !self.finished
+            && self
+                .players
+                .get(&slot)
+                .is_some_and(|p| p.stage == Stage::Playing)
+    }
+
     pub fn participant_mask(&self) -> u32 {
         self.players.iter().fold(0, |mask, (&slot, player)| {
             mask | if player.active_since.is_some() {
@@ -985,6 +993,8 @@ mod tests {
     fn clock_slews_only_the_playing_peer_without_replacing_state() {
         let mut c = Coordinator::new(2, 2).unwrap();
         c.admit(0).unwrap();
+        assert!(!c.clock_probe_allowed(0));
+        assert!(!c.clock_probe_allowed(1));
         assert!(
             c.clock_observation(0, &1u32.to_le_bytes(), 1000, Some(10))
                 .unwrap()
@@ -992,6 +1002,7 @@ mod tests {
         );
         assert!(c.clock_observation(0, &[], 1000, Some(10)).is_err());
         let mut c = running();
+        assert!(c.clock_probe_allowed(1));
         let baseline = c.baseline.as_ref().unwrap().clone();
         let activation = c.activation;
         for now in [5000, 6000] {
@@ -1016,6 +1027,7 @@ mod tests {
         assert_eq!(c.baseline.as_ref().unwrap().body, baseline.body);
         assert_eq!(c.players[&1].stage, Stage::Playing);
         c.players.get_mut(&1).unwrap().stage = Stage::AwaitClock;
+        assert!(!c.clock_probe_allowed(1));
         assert!(
             c.clock_observation(1, &reported.to_le_bytes(), 8000, Some(40))
                 .unwrap()
@@ -1023,6 +1035,7 @@ mod tests {
         );
         c.players.get_mut(&1).unwrap().stage = Stage::Playing;
         c.finished = true;
+        assert!(!c.clock_probe_allowed(1));
         assert!(
             c.clock_observation(1, &reported.to_le_bytes(), 9000, Some(40))
                 .unwrap()

@@ -42,6 +42,7 @@ struct Server {
     instance: u128,
     generation: u64,
     participants: u32,
+    trace_clock: bool,
     completed: Option<(u64, u32, Vec<Option<Vec<u8>>>)>,
 }
 fn u32_at(bytes: &[u8], offset: usize) -> Option<u32> {
@@ -97,6 +98,14 @@ impl Server {
                 } else {
                     peer.endpoint.round_trip_ms(now)
                 };
+                if self.trace_clock {
+                    println!(
+                        "clock observation: slot={}, wall_ms={now}, shared_ms={:?}, reported_ms={:?}, rtt_ms={rtt:?}",
+                        peer.slot,
+                        self.coordinator.game_time(now).ok(),
+                        u32_at(b, 0)
+                    );
+                }
                 deliveries = self.coordinator.clock_observation(peer.slot, b, now, rtt)?;
                 if let Some(slew) = deliveries.first() {
                     println!(
@@ -421,6 +430,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         instance: SystemTime::now().duration_since(UNIX_EPOCH)?.as_nanos(),
         generation: 1,
         participants: 0,
+        trace_clock: std::env::var_os("SRP_TEST_TRACE_CLOCK").is_some(),
         completed: None,
     };
     let socket = UdpSocket::bind((std::net::Ipv4Addr::LOCALHOST, port))?;
@@ -587,6 +597,23 @@ fn main() -> Result<(), Box<dyn Error>> {
                     test_control::Command::Recover(slot) => {
                         if let Err(e) = server.coordinator.request_recovery(slot, now) {
                             eprintln!("test recovery rejected: slot={slot}, reason={e}");
+                        }
+                    }
+                    test_control::Command::ClockOffset(slot, ms) => {
+                        if server.coordinator.clock_probe_allowed(slot) {
+                            if let Some(peer) = server.peers.values_mut().find(|p| p.slot == slot) {
+                                if !peer.endpoint.has_pending(&[0x52, 0x53, 0x55]) {
+                                    server.trace_clock = true;
+                                    match peer.endpoint.send(0x55, &ms.to_le_bytes(), now) {
+                                        Ok(_) => println!(
+                                            "test clock offset queued: slot={slot}, offset_ms={ms}, wall_ms={now}"
+                                        ),
+                                        Err(error) => eprintln!(
+                                            "test clock offset not queued: slot={slot}, error={error}"
+                                        ),
+                                    }
+                                }
+                            }
                         }
                     }
                     test_control::Command::Blackout(slot, ms) => {
