@@ -25,6 +25,20 @@ On Windows without Nix, see [docs/windows-setup.md](docs/windows-setup.md).
   patches in `resources/patches/`), `binary-config-cli`, `parse-journal-file`.
 - `docs/notes/` - reverse-engineering notes.
 
+## Account database and website
+
+The [account service](servers/account-server/README.md) provides a version-neutral
+SQLite database, a private server API, and a static dark server guide with the
+community Discord link. It runs independently of the Rust game services:
+
+```sh
+python3 servers/account-server/server.py serve
+# http://127.0.0.1:8080
+```
+
+Python 3.11+ and SQLite 3.38+ are sufficient; no packages or frontend build are
+needed. Game-version adapters and verified retail catalogs can be added later.
+
 ## License
 
 The project's own work is [GPL-3.0-or-later](LICENSE). Survarium and the Vostok
