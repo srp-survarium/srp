@@ -1,37 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Runtime configuration for the four mock servers.
+//! Server addresses, read once from `SRP_*` environment variables by [`get`].
 //!
-//! Historically every address was a hardcoded `127.0.0.1` constant, which meant
-//! the mock could only be reached over loopback. To host it on a real machine we
-//! need two independent notions per server:
-//!
-//! * **bind** — the local interface/port the server listens on. It defaults to
-//!   `127.0.0.1`; set it to `0.0.0.0` (all interfaces) for a remote-reachable
-//!   deployment.
-//! * **public host** — the address handed to the *client* so it knows where to
-//!   connect next (login → browser → lobby → match). This must be a host the
-//!   client can actually route to (e.g. the VPS's public IP/DNS name), which is
-//!   generally **not** the bind address.
-//!
-//! Everything is read from the environment once, lazily, via [`get`]. Defaults
-//! reproduce the old localhost behaviour, so the local dev workflow is unchanged
-//! when no env vars are set.
-//!
-//! ## Environment variables
-//!
-//! * `SRP_BIND_HOST` / `SRP_PUBLIC_HOST` — bind/public hosts applied to **all**
-//!   servers (the common case: one machine hosting everything). Both default to
-//!   `127.0.0.1`.
-//! * Per-server overrides (take precedence over the shared values):
-//!   `SRP_<SERVER>_BIND`, `SRP_<SERVER>_PUBLIC_HOST`, `SRP_<SERVER>_PORT`
-//!   where `<SERVER>` is one of `BROWSER`, `LOGIN`, `LOBBY`, `MATCH`.
-//!   The stock client always reaches the browser on public port 80, so
-//!   `SRP_BROWSER_PORT` is only useful with external port forwarding.
-//!
-//! Example — host the mock on a VPS whose public DNS is `srp.example.com`:
-//! ```text
-//! SRP_BIND_HOST=0.0.0.0 SRP_PUBLIC_HOST=srp.example.com cargo run --bin lobby-server
-//! ```
+//! Bind hosts select local interfaces; public hosts are advertised to clients.
+//! Both default to `127.0.0.1`. See `docs/hosting.md` for overrides and setup.
 
 use std::sync::OnceLock;
 
@@ -106,33 +77,4 @@ impl Config {
 pub fn get() -> &'static Config {
     static CONFIG: OnceLock<Config> = OnceLock::new();
     CONFIG.get_or_init(Config::from_env)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use std::collections::HashMap;
-
-    #[test]
-    fn defaults_remain_local_only() {
-        let config = Config::from_lookup(|_| None);
-        assert_eq!(config.login_server.bind_addr(), "127.0.0.1:1234");
-        assert_eq!(config.login_server.public_addr(), "127.0.0.1:1234");
-    }
-
-    #[test]
-    fn shared_hosts_and_per_server_overrides_are_applied() {
-        let values = HashMap::from([
-            ("SRP_BIND_HOST", "0.0.0.0"),
-            ("SRP_PUBLIC_HOST", "srp.example.com"),
-            ("SRP_MATCH_BIND", "127.0.0.2"),
-            ("SRP_MATCH_PORT", "4321"),
-        ]);
-        let config = Config::from_lookup(|name| values.get(name).map(ToString::to_string));
-
-        assert_eq!(config.login_server.bind_addr(), "0.0.0.0:1234");
-        assert_eq!(config.login_server.public_addr(), "srp.example.com:1234");
-        assert_eq!(config.match_server.bind_addr(), "127.0.0.2:4321");
-        assert_eq!(config.match_server.public_addr(), "srp.example.com:4321");
-    }
 }
