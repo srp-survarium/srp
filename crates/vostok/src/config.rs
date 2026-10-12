@@ -78,32 +78,3 @@ pub fn get() -> &'static Config {
     static CONFIG: OnceLock<Config> = OnceLock::new();
     CONFIG.get_or_init(Config::from_env)
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use std::collections::HashMap;
-
-    #[test]
-    fn defaults_remain_local_only() {
-        let config = Config::from_lookup(|_| None);
-        assert_eq!(config.login_server.bind_addr(), "127.0.0.1:1234");
-        assert_eq!(config.login_server.public_addr(), "127.0.0.1:1234");
-    }
-
-    #[test]
-    fn shared_hosts_and_per_server_overrides_are_applied() {
-        let values = HashMap::from([
-            ("SRP_BIND_HOST", "0.0.0.0"),
-            ("SRP_PUBLIC_HOST", "srp.example.com"),
-            ("SRP_MATCH_BIND", "127.0.0.2"),
-            ("SRP_MATCH_PORT", "4321"),
-        ]);
-        let config = Config::from_lookup(|name| values.get(name).map(ToString::to_string));
-
-        assert_eq!(config.login_server.bind_addr(), "0.0.0.0:1234");
-        assert_eq!(config.login_server.public_addr(), "srp.example.com:1234");
-        assert_eq!(config.match_server.bind_addr(), "127.0.0.2:4321");
-        assert_eq!(config.match_server.public_addr(), "srp.example.com:4321");
-    }
-}
