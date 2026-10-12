@@ -13,5 +13,5 @@ See `README.md` for setup and `docs/hosting.md` for server configuration.
   and bytemuck `CheckedBitPattern` / `NoUninit`. Preserve game discriminants.
 - Report client-visible protocol changes; the real client is the test oracle.
 - Record reverse-engineering findings in `docs/notes/`.
-- Add `SPDX-License-Identifier: GPL-3.0-or-later` to new files and
-  `license.workspace = true` to new crates.
+- Start new files with `SPDX-License-Identifier: GPL-3.0-or-later`, followed by
+  a blank line. Set `license.workspace = true` in new crates.
