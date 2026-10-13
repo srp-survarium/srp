@@ -1,0 +1,11 @@
+[package]
+license.workspace = true
+name = "session"
+version.workspace = true
+edition.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+survarium = { workspace = true }

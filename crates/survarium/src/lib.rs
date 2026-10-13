@@ -3,5 +3,6 @@
 
 #![feature(slice_split_once)]
 
+pub mod account;
 pub mod player_input;
 pub mod player_profile;
